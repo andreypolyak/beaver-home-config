@@ -127,7 +127,7 @@ I'm building the mobile-only dashboard with the idea to have as low click and sc
 
 </details>
 
-I don't like how the header bar looks on the mobile, so it's hidden with CSS and instead the row of [button cards](https://github.com/custom-cards/button-card) is used for navigation (see [lovelace/elements/navigation.yaml](/blob/master/lovelace/elements/navigation.yaml)).
+I don't like how the header bar looks on the mobile, so it's hidden with CSS and instead the row of [button cards](https://github.com/custom-cards/button-card) is used for navigation (see [lovelace/elements/navigation.yaml](lovelace/elements/navigation.yaml)).
 
 There are 7 main pages on the dashboard:
 - home — scene selection, light controls, climate details all over the place
@@ -153,7 +153,7 @@ And 13 additional pages are available from the settings page:
 - consumption — daily and monthly electricity and water consumption (don't like the current state, need to redo)
 - logging — Telegram logging controls, incl. entity logging UI which is used to send Telegram updates on each entity state change
 
-As you can see the [button cards](https://github.com/custom-cards/button-card) are used a lot in the Lovelace UI and instead of having options specified for each button card [templates](https://github.com/custom-cards/button-card/blob/master/README.md#configuration-templates) are used (see [lovelace/templates/buttons.yaml](/blob/master/lovelace/templates/buttons.yaml)). Templates are also used for [ApexCharts cards](https://github.com/RomRider/apexcharts-card) (see [lovelace/templates/buttons.yaml](/blob/master/lovelace/templates/charts.yaml)).
+As you can see the [button cards](https://github.com/custom-cards/button-card) are used a lot in the Lovelace UI and instead of having options specified for each button card [templates](https://github.com/custom-cards/button-card/blob/master/README.md#configuration-templates) are used (see [lovelace/templates/buttons.yaml](lovelace/templates/buttons.yaml)). Templates are also used for [ApexCharts cards](https://github.com/RomRider/apexcharts-card) (see [lovelace/templates/charts.yaml](lovelace/templates/charts.yaml)).
 
 I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/google_dark_theme).
 
@@ -161,4 +161,4 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 
 [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) is used for automations. I find it much more powerful and easier to develop and support than YAML automations and Node-RED.
 
-I'll try to list and describe all of my AppDaemon automations (or apps as they are called in AD world) here but before it happens you can find them in [appdaemon/apps](/tree/master/appdaemon/apps) directory.
+I'll try to list and describe all of my AppDaemon automations (or apps as they are called in AD world) here but before it happens you can find them in [appdaemon/apps](../../tree/master/appdaemon/apps) directory.
