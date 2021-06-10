@@ -138,7 +138,7 @@ There are 7 main pages on the dashboard:
 - outside — balcony light control, person tracking and outside climate
 - settings — open specific settings pages, check updates and other critical information, restart everything
 
-And 13 additional pages are available from the settings page:
+And 13 additional pages are accessible from the settings page:
 - entities — new and unavailable entities
 - batteries — all battery levels
 - sensors — all sensors
