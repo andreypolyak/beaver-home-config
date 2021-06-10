@@ -114,15 +114,15 @@ I'm building the mobile-only dashboard with the idea to have as low click and sc
 <summary><b>Screenshots</b></summary>
 
 | Home page. No one is home so lights are off and scenes are not selected | Home page. Light cinema scene is selected, light in the living zone is on. It's evening so the card with alarms is displayed as well | Bathroom and Entrance page | Living Room page |
-|—-|—-|—-|—-|
+|---|---|---|---|
 | ![Home](screenshots/home-away.PNG?raw=true) | ![Home](screenshots/home.PNG?raw=true) | ![Bathroom and Entrance](screenshots/bathroom-entrance.PNG?raw=true) | ![Living Room](screenshots/living-room.PNG?raw=true) |
 
 | Living Room page. Additional light details are shown (brightness, color, auto turn on/off) | Kitchen page | Bedroom page | Bedroom page. Additional controls for bedroom window and cover are shown |
-|—-|—-|—-|—-|
+|---|---|---|---|
 | ![Living Room](screenshots/living-room-lights.PNG?raw=true) | ![Kitchen](screenshots/kitchen.PNG?raw=true) | ![Bedroom](screenshots/bedroom.PNG?raw=true) | ![Bedroom](screenshots/bedroom-devices.PNG?raw=true) |
 
 | Outside page. Control balcony lights and show people location | Outside page. Continued. Weather and climate | Settings page. 1 HACS update is available, 3 entities are unavailable. Notice also exclamation mark in the top right corner — attention needed indicator |
-|—-|—-|—-|
+|---|---|---|
 | ![Outside](screenshots/outside.PNG?raw=true) | ![Outside](screenshots/outside-more.PNG?raw=true) | ![Settings](screenshots/settings.PNG?raw=true) |
 
 </details>
