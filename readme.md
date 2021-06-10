@@ -2,9 +2,10 @@
 
 <img align="left" src="screenshots/beaver.PNG?raw=true">
 
+- Home Assistant setup
 - 18+ months of development
 - 4 ZigBee networks with 100+ devices
-- Smart light bulbs everywhere
+- Smart light bulbs everywhere for circadian lighting
 - 70+ AppDaemon automations
 - Highly customized mobile-only dashboard
 
