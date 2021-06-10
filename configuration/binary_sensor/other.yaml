@@ -1,0 +1,103 @@
+- platform: template
+  sensors:
+    living_room_tv:
+      friendly_name: Living Room TV
+      value_template: >
+        {% if states("sensor.living_room_tv_plug_power") != "unavailable" %}
+          {{ states("sensor.living_room_tv_plug_power")|float > 25 }}
+        {% else %}
+          {{ states("binary_sensor.living_room_tv") }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    show_alarm:
+      friendly_name: Show Alarm Card
+      value_template: >
+        {{
+          states("input_select.sleeping_scene") == "night"
+          or states("input_select.living_scene") == "night"
+          or states("input_boolean.alarm_andrey") == "on"
+          or states("input_boolean.alarm_katya") == "on"
+          or now().hour >= 22
+          or now().hour <= 5
+        }}
+
+- platform: template
+  sensors:
+    balcony_dark:
+      friendly_name: Balcony Dark
+      value_template: >
+        {{ states("sensor.balcony_illuminance")|float < 100 }}
+
+- platform: template
+  sensors:
+    night_scene_in_living_zone_turned_on_long_enough:
+      friendly_name: Night Scene in Living Zone Turned on Long Enough
+      value_template: >
+        {{ states("sensor.night_scene_in_living_zone")|float >= 6 }}
+
+- platform: template
+  sensors:
+    kitchen_vent:
+      friendly_name: Kitchen Vent
+      value_template: >
+        {{ states("sensor.kitchen_vent_plug_power")|float > 60 }}
+
+- platform: template
+  sensors:
+    vacuum_active:
+      friendly_name: Vacuum Active
+      value_template: >
+        {{
+          states("vacuum.rockrobo") != "docked"
+          or states("input_select.vacuum_autoclean_state") != "idle"
+        }}
+
+- platform: template
+  sensors:
+    living_room_yandex_station_active:
+      friendly_name: Living Room Yandex Station Is Active
+      value_template: >
+        {{
+          state_attr("media_player.living_room_yandex_station", "alice_state") != "IDLE"
+          or states("input_text.active_dialog") != ""
+        }}
+
+- platform: template
+  sensors:
+    bedroom_yandex_station_active:
+      friendly_name: Bedroom Yandex Station Is Active
+      value_template: >
+        {{
+          state_attr("media_player.bedroom_yandex_station", "alice_state") != "IDLE"
+          or states("input_text.active_dialog") != ""
+        }}
+
+- platform: template
+  sensors:
+    system_healthy:
+      friendly_name: System Healthy
+      value_template: >
+        {{
+          states("input_number.unavailable_entities")|int == 0
+          and states("input_number.low_battery_devices")|int == 0
+          and states("binary_sensor.zigbee2mqtt_state") == "on"
+          and states("binary_sensor.zigbee2mqtt_entrance_state") == "on"
+          and states("binary_sensor.zigbee2mqtt_switches_state") == "on"
+          and states("sensor.rpi_temp_rpi_living_room") != "unknown"
+          and states("sensor.rpi_temp_rpi_entrance") != "unknown"
+          and states("sensor.rpi_temp_rpi_kitchen") != "unknown"
+        }}
+
+- platform: template
+  sensors:
+    system_up_to_date:
+      friendly_name: System Up-To-Date
+      value_template: >
+        {{
+          states("input_number.ha_core_updates")|int == 0
+          and states("sensor.addons_supervisor_os_updates")|int == 0
+          and states("sensor.hacs_updates")|int == 0
+          and states("input_number.zigbee_ota_updates")|int == 0
+        }}

@@ -1,0 +1,35 @@
+- platform: mqtt
+  name: MQTT Bedroom Bed LED State RGB
+  state_topic: zigbee2mqtt/Bedroom Bed LED
+  availability_topic: zigbee2mqtt/bridge/state
+  value_template: "{{ value_json.state_rgb }}"
+
+- platform: mqtt
+  name: MQTT Living Room Sofa LED State RGB
+  state_topic: zigbee2mqtt/Living Room Sofa LED
+  availability_topic: zigbee2mqtt/bridge/state
+  value_template: "{{ value_json.state_rgb }}"
+
+- platform: mqtt
+  name: Zigbee2mqtt State
+  state_topic: zigbee2mqtt/bridge/state
+  payload_on: online
+  payload_off: offline
+
+- platform: mqtt
+  name: Zigbee2mqtt Entrance State
+  state_topic: zigbee2mqtt_entrance/bridge/state
+  payload_on: online
+  payload_off: offline
+
+- platform: mqtt
+  name: Zigbee2mqtt Bedroom State
+  state_topic: zigbee2mqtt_bedroom/bridge/state
+  payload_on: online
+  payload_off: offline
+
+- platform: mqtt
+  name: Zigbee2mqtt Switches State
+  state_topic: zigbee2mqtt_switches/bridge/state
+  payload_on: online
+  payload_off: offline

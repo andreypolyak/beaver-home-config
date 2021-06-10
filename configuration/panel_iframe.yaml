@@ -1,0 +1,12 @@
+roborock_panel:
+  title: Roborock
+  icon: mdi:robot-vacuum
+  url: !secret panel_iframe_roborock_url
+bedroom_drivent_panel:
+  title: Bedroom Drivent
+  icon: mdi:window-open-variant
+  url: !secret panel_iframe_bedroom_drivent_url
+kitchen_drivent_panel:
+  title: Kitchen Drivent
+  icon: mdi:window-open-variant
+  url: !secret panel_iframe_kitchen_drivent_url

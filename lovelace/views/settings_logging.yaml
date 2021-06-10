@@ -1,0 +1,81 @@
+path: settings_logging
+title: Logging Settings
+icon: mdi:math-log
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - !include /config/lovelace/elements/settings_navigation.yaml
+      - type: custom:button-card
+        template: header
+        name: Logging
+      - type: entities
+        entities:
+          - input_boolean.log_ad
+          - input_boolean.log_ha
+          - input_boolean.log_entities
+          - input_boolean.log_z2m
+      - type: custom:button-card
+        template: header
+        name: Log New Entity
+      - type: entities
+        entities:
+          - input_select.all_entities
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: base_label
+            label: Add
+            tap_action:
+              action: call-service
+              service: script.fire_custom_event
+              service_data:
+                custom_event_data: logged_entity_add
+                custom_event_data2: entities
+          - type: custom:button-card
+            template: base_label
+            label: Add with Attributes
+            tap_action:
+              action: call-service
+              service: script.fire_custom_event
+              service_data:
+                custom_event_data: logged_entity_add
+                custom_event_data2: entities_with_attr
+      - type: custom:button-card
+        template: header
+        name: Logged Entities
+      - type: entities
+        entities:
+          - input_select.logged_entities
+      - type: custom:button-card
+        template: base_label
+        label: Remove
+        tap_action:
+          action: call-service
+          service: script.fire_custom_event
+          service_data:
+            custom_event_data: logged_entity_remove
+            custom_event_data2: entities
+      - type: custom:button-card
+        template: header
+        name: Logged Entities with Attributes
+      - type: entities
+        entities:
+          - input_select.logged_entities_with_attr
+      - type: custom:button-card
+        template: base_label
+        label: Remove
+        tap_action:
+          action: call-service
+          service: script.fire_custom_event
+          service_data:
+            custom_event_data: logged_entity_remove
+            custom_event_data2: entities_with_attr
+      - type: custom:button-card
+        template: header
+        name: Notifications
+      - type: logbook
+        entities:
+          - input_text.last_notification
+        hours_to_show: 24
+      - !include /config/lovelace/elements/footer.yaml

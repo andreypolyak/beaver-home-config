@@ -1,0 +1,14 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: light.ha_template_individual_balcony_window
+    template: individual_virtual_switch
+    icon: mdi:lightbulb
+    variables:
+      light_name: balcony_window
+  - type: custom:button-card
+    entity: light.ha_template_individual_balcony_led
+    template: individual_virtual_switch
+    icon: mdi:led-strip-variant
+    variables:
+      light_name: balcony_led

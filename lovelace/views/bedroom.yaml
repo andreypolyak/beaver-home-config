@@ -1,0 +1,41 @@
+path: bedroom
+title: Bedroom
+icon: mdi:bed
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_lights_details
+        states:
+          hide_lights_details:
+            type: custom:button-card
+            template: header_show_lights
+          show_lights_details:
+            type: custom:button-card
+            template: header_hide_lights
+      - !include /config/lovelace/elements/bedroom_lights.yaml
+      - !include /config/lovelace/elements/bedroom_lights_details.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_devices_details
+        states:
+          hide_devices_details:
+            type: custom:button-card
+            template: header_show_devices
+          show_devices_details:
+            type: custom:button-card
+            template: header_hide_devices
+      - !include /config/lovelace/elements/bedroom_devices.yaml
+      - !include /config/lovelace/elements/bedroom_devices_details.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/bedroom_sonos.yaml
+      - !include /config/lovelace/elements/alarm.yaml
+      - type: custom:button-card
+        template: header
+        name: Climate
+      - !include /config/lovelace/elements/bedroom_climate.yaml
+      - !include /config/lovelace/elements/footer.yaml

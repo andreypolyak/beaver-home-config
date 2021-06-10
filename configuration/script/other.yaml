@@ -1,0 +1,139 @@
+reload_all:
+  sequence:
+    - service: script.fire_custom_event
+      data:
+        custom_event_data: update_lovelace
+    - service: input_boolean.reload
+    - service: input_datetime.reload
+    - service: input_number.reload
+    - service: input_select.reload
+    - service: input_text.reload
+    - service: automation.reload
+    - service: person.reload
+    - service: scene.reload
+    - service: timer.reload
+    - service: zone.reload
+    - service: frontend.reload_themes
+    - service: homeassistant.reload_core_config
+    - service: lovelace.reload_resources
+    - service: template.reload
+    # - service: script.reload
+
+find_iphone_andrey:
+  sequence:
+    - service: icloud.play_sound
+      data:
+        account: !secret script_icloud_account
+        device_name: Andrey iPhone 11 Pro Max
+
+find_iphone_katya:
+  sequence:
+    - service: icloud.play_sound
+      data:
+        account: !secret script_icloud_account
+        device_name: Katya iPhone 12 Pro Max
+
+fire_custom_event:
+  fields:
+    custom_event_data:
+      description: custom_event_data
+      example: custom_event_data
+    custom_event_data2:
+      description: custom_event_data2
+      example: custom_event_data2
+  sequence:
+    - event: custom_event
+      event_data_template:
+        custom_event_data: "{{ custom_event_data }}"
+        custom_event_data2: "{{ custom_event_data2|default(none) }}"
+
+update_location:
+  sequence:
+    - service: notify.mobile_app_andrey_iphone_11_pro_max
+      data:
+        message: request_location_update
+    - service: notify.mobile_app_katya_iphone_12_pro_max
+      data:
+        message: request_location_update
+
+snapshot_send:
+  sequence:
+    - service: camera.snapshot
+      data:
+        entity_id: camera.living_room_camera
+        filename: www/snapshot.jpg
+    - service: notify.beaver_stream
+      data:
+        message: ""
+        data:
+          photo:
+            - file: /config/www/snapshot.jpg
+    - service: script.fire_custom_event
+      data:
+        custom_event_data: delete_snapshot
+
+backup:
+  sequence:
+    - service: hassio.snapshot_partial
+      data_template:
+        name: "{{ now().strftime('%Y_%m_%d') }}_hassio"
+        password: !secret script_backup_password
+        addons: 
+          - a0d7b954_appdaemon
+          - core_duckdns
+          - 7ad98f9c_zigbee2mqtt
+          - 7ad98f9c_zigbee2mqtt_edge
+          - cebe7a76_hassio_google_drive_backup
+          - a0d7b954_portainer
+          - core_nginx_proxy
+          - a0d7b954_grafana
+        folders:
+          - homeassistant
+          - share
+          - ssl
+          - addons/local
+
+restart_appdaemon:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.appdaemon_running
+    - service: hassio.addon_restart
+      data:
+        addon: a0d7b954_appdaemon
+
+turn_off_all_lights_night:
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id: light.group_bedroom_all_night
+    - service: light.turn_off
+      data:
+        entity_id: light.group_main_all
+    - service: light.turn_off
+      data:
+        entity_id: light.group_bathroom_entrance_all
+    - service: light.turn_off
+      data:
+        entity_id: light.living_room_sofa_led_rgb
+    - service: light.turn_off
+      data:
+        entity_id: light.bedroom_bed_led_rgb
+
+turn_off_all_lights:
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id: light.group_bedroom_all
+    - service: light.turn_off
+      data:
+        entity_id: light.group_main_all
+    - service: light.turn_off
+      data:
+        entity_id: light.group_bathroom_entrance_all
+    - service: light.turn_off
+      data:
+        entity_id: light.living_room_sofa_led_rgb
+    - service: light.turn_off
+      data:
+        entity_id: light.bedroom_bed_led_rgb

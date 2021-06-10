@@ -1,0 +1,9 @@
+default: warning
+logs:
+  homeassistant.components.shell_command: fatal
+  custom_components.yandex_dialogs: debug
+  aiohttp.server: debug
+  homeassistant.components.mobile_app.notify: debug
+filters:
+  homeassistant.components.mqtt.light.schema_json:
+    - Invalid color mode received

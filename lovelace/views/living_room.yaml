@@ -1,0 +1,57 @@
+path: living_room
+title: Living Room
+icon: mdi:television-classic
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_lights_details
+        states:
+          hide_lights_details:
+            type: custom:button-card
+            template: header_show_lights
+          show_lights_details:
+            type: custom:button-card
+            template: header_hide_lights
+      - !include /config/lovelace/elements/living_room_lights.yaml
+      - !include /config/lovelace/elements/living_room_lights_details.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_devices_details
+        states:
+          hide_devices_details:
+            type: custom:button-card
+            template: header_show_devices
+          show_devices_details:
+            type: custom:button-card
+            template: header_hide_devices
+      - !include /config/lovelace/elements/living_room_devices.yaml
+      - !include /config/lovelace/elements/living_room_devices_details.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_tv_details
+        states:
+          hide_tv_details:
+            type: custom:button-card
+            template: header_show_tv
+          show_tv_details:
+            type: custom:button-card
+            template: header_hide_tv
+      - !include /config/lovelace/elements/living_room_tv.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/living_room_sonos.yaml
+      - type: custom:button-card
+        template: header
+        name: Climate
+      - !include /config/lovelace/elements/living_room_climate.yaml
+      - type: custom:button-card
+        template: header
+        name: Camera
+      - type: custom:webrtc-camera
+        entity: camera.living_room_camera
+        ui: true
+      - !include /config/lovelace/elements/footer.yaml

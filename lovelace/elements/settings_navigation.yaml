@@ -1,0 +1,82 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: header
+    name: Settings
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: navigation_equal
+        state:
+        icon: mdi:home
+        variables:
+          name: settings
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:hexagon-multiple-outline
+        variables:
+          name: settings_entities
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:battery-outline
+        variables:
+          name: settings_batteries
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:motion-sensor
+        variables:
+          name: settings_sensors
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:lightbulb
+        variables:
+          name: settings_lights
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:form-textbox
+        variables:
+          name: settings_inputs
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:timer-outline
+        variables:
+          name: settings_timers
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:crosshairs-gps
+        variables:
+          name: settings_trackers
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:washing-machine
+        variables:
+          name: settings_appliances
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:robot-vacuum
+        variables:
+          name: settings_vacuum
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:thermometer
+        variables:
+          name: settings_climate
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:music-circle-outline
+        variables:
+          name: settings_media
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:gauge
+        variables:
+          name: settings_consumption
+      - type: custom:button-card
+        template: navigation
+        icon: mdi:math-log
+        variables:
+          name: settings_logging
+    # - type: custom:button-card
+    #   color_type: blank-card

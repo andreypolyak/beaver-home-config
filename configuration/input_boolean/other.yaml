@@ -1,0 +1,49 @@
+living_room_cover_active:
+  name: Living Room Cover Active
+kitchen_cover_active:
+  name: Kitchen Cover Active
+bedroom_cover_active:
+  name: Bedroom Cover Active
+auto_window_kitchen:
+  name: Automatic Kitchen Window
+auto_window_bedroom:
+  name: Automatic Bedroom Window
+
+person_inside_bedroom:
+  name: Person Inside Bedroom
+person_inside_bathroom_entrance:
+  name: Person Inside Bathroom
+person_inside_living_room:
+  name: Person Inside Living Room
+
+log_entities:
+  name: Log Entities
+log_ha:
+  name: Log Home Assistant
+log_ad:
+  name: Log AppDaemon
+log_z2m:
+  name: Log Zigbee2mqtt
+
+party_smooth:
+  name: Smooth Party Lights
+party_lights:
+  name: Party Lights
+party_tv:
+  name: Party TV
+
+vacuum_auto_clean:
+  name: Auto Clean Enabled
+christmas_season:
+  name: Christmas Season
+  icon: mdi:pine-tree
+cinema_session:
+  name: Cinema Session
+coffee_prepared:
+  name: Coffee Prepared
+guest_mode:
+  name: Guest Mode
+
+appdaemon_running:
+  name: AppDaemon Running
+  initial: false

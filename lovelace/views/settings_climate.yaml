@@ -1,0 +1,117 @@
+path: settings_climate
+title: Climate Settings
+icon: mdi:thermometer
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - !include /config/lovelace/elements/settings_navigation.yaml
+      - type: custom:button-card
+        template: header
+        name: Plants Moisture
+      - type: entities
+        entities:
+          - type: custom:bar-card
+            entity: sensor.kitchen_palm_moisture
+            name: Kitchen Palm
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.living_room_ficus_moisture
+            name: Living Room Ficus
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+      - type: custom:apexcharts-card
+        config_templates: base
+        graph_span: 72hours
+        series:
+          - entity: sensor.kitchen_palm_moisture
+            name: Kitchen Palm
+          - entity: sensor.living_room_ficus_moisture
+            name: Living Room Ficus
+      - type: custom:button-card
+        template: header
+        name: CO2
+      - type: custom:apexcharts-card
+        config_templates: base
+        series:
+          - entity: sensor.living_room_co2
+            name: Living Room
+          - entity: sensor.bedroom_co2
+            name: Bedroom
+      - type: custom:button-card
+        template: header
+        name: Windows
+      - type: custom:apexcharts-card
+        config_templates: base
+        series:
+          - entity: sensor.kitchen_window_target_position
+            name: Kitchen
+          - entity: sensor.bedroom_window_target_position
+            name: Bedroom
+      - type: custom:button-card
+        template: header
+        name: Temperature
+      - type: custom:apexcharts-card
+        config_templates: base_big
+        series:
+          - entity: sensor.bathroom_temperature
+            name: Bathroom
+          - entity: sensor.kitchen_temperature
+            name: Kitchen
+          - entity: sensor.living_room_temperature
+            name: Living Room
+          - entity: sensor.bedroom_temperature
+            name: Bedroom
+          - entity: sensor.balcony_temperature
+            name: Balcony
+      - type: custom:button-card
+        template: header
+        name: Weather
+      - type: weather-forecast
+        entity: weather.home_hourly
+      - type: custom:button-card
+        template: header
+        name: AC
+      - type: entities
+        entities:
+          - switch.ac
+          - script.ac_turn_on
+          - script.ac_turn_off
+          - timer.ac_no_auto_on
+          - timer.ac_no_auto_off
+          - binary_sensor.living_room_ac_door
+      - type: custom:button-card
+        template: header
+        name: Humidity
+      - type: custom:apexcharts-card
+        config_templates: base_big
+        series:
+          - entity: sensor.bathroom_humidity
+            name: Bathroom
+          - entity: sensor.kitchen_humidity
+            name: Kitchen
+          - entity: sensor.living_room_humidity
+            name: Living Room
+          - entity: sensor.bedroom_humidity
+            name: Bedroom
+          - entity: sensor.balcony_humidity
+            name: Balcony
+      - type: custom:button-card
+        template: header
+        name: Window Settings
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: window_settings
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            template: window_settings
+            variables:
+              room: bedroom
+      - !include /config/lovelace/elements/footer.yaml

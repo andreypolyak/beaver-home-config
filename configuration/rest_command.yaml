@@ -1,0 +1,14 @@
+party_tv_start:
+  url: !secret rest_command_party_tv_start
+  timeout: 3
+party_tv_stop:
+  url: !secret rest_command_party_tv_stop
+  timeout: 3
+bedroom_window_25:
+  url: !secret rest_command_bedroom_window_25
+bedroom_window_100:
+  url: !secret rest_command_bedroom_window_100
+kitchen_window_25:
+  url: !secret rest_command_kitchen_window_25
+kitchen_window_100:
+  url: !secret rest_command_kitchen_window_100

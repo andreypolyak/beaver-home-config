@@ -1,0 +1,208 @@
+filter:
+  include_entities:
+    - light.ha_template_room_balcony
+    - light.ha_template_room_bathroom
+    - light.ha_template_room_entrance
+    - light.ha_template_room_kitchen
+    - light.ha_template_room_bedroom
+    - light.ha_template_room_living_room
+    - switch.ac
+    - switch.kitchen_coffee_plug
+    - media_player.universal_apple_tv
+    - switch.bathroom_fan
+    - media_player.living_room_sonos
+    - media_player.bathroom_sonos
+    - media_player.kitchen_sonos
+    - media_player.bedroom_sonos
+    - script.snapshot_send
+    - input_boolean.scene_sleeping_day
+    - input_boolean.scene_sleeping_night
+    - input_boolean.scene_sleeping_dumb
+    - input_boolean.scene_living_day
+    - input_boolean.scene_living_night
+    - input_boolean.scene_living_dumb
+    - input_boolean.scene_living_dark_cinema
+    - input_boolean.scene_living_party
+    - cover.living_room_cover
+    - script.find_iphone_andrey
+    - script.find_iphone_katya
+    - lock.entrance_lock
+    - script.apple_tv_repeat
+    - script.vacuum_clean_bathroom
+    - script.vacuum_clean_entrance
+    - script.vacuum_clean_living_room
+    - script.vacuum_clean_kitchen
+    - script.vacuum_clean_bedroom
+    - script.vacuum_start
+    - script.vacuum_stop
+    - cover.bedroom_window
+    - cover.kitchen_window
+    - cover.bedroom_cover
+    - sensor.bathroom_temperature
+    - sensor.living_room_temperature
+    - sensor.kitchen_temperature
+    - sensor.bedroom_temperature
+    - sensor.balcony_temperature
+    - cover.kitchen_cover
+    - switch.bathroom_freshener
+
+entity_config:
+  light.ha_template_room_balcony:
+    room: Балкон
+    name: Свет
+  light.ha_template_room_bathroom:
+    room: Ванная
+    name: Свет
+  light.ha_template_room_entrance:
+    room: Прихожая
+    name: Свет
+  light.ha_template_room_kitchen:
+    room: Кухня
+    name: Свет
+  light.ha_template_room_bedroom:
+    room: Спальня
+    name: Свет
+  light.ha_template_room_living_room:
+    room: Гостинная
+    name: Свет
+  switch.ac:
+    room: Гостинная
+    name: Кондиционер
+  switch.kitchen_coffee_plug:
+    room: Кухня
+    name: Кофеварка
+  input_boolean.scene_living_day:
+    room: Гостинная
+    name: Дневной режим
+  input_boolean.scene_living_night:
+    room: Гостинная
+    name: Ночной режим
+  input_boolean.scene_living_dumb:
+    room: Гостинная
+    name: Глупый режим
+  input_boolean.scene_living_dark_cinema:
+    room: Гостинная
+    name: Режим кино
+  input_boolean.scene_living_party:
+    room: Гостинная
+    name: Режим вечеринки
+  input_boolean.scene_sleeping_day:
+    room: Спальня
+    name: Дневной режим
+  input_boolean.scene_sleeping_night:
+    room: Спальня
+    name: Ночной режим
+  input_boolean.scene_sleeping_dumb:
+    room: Спальня
+    name: Глупый режим
+  media_player.universal_apple_tv:
+    room: Гостинная
+    name: Телевизор
+  media_player.living_room_sonos:
+    room: Гостинная
+    name: Колонки
+  media_player.bathroom_sonos:
+    room: Ванная
+    name: Колонки
+  media_player.kitchen_sonos:
+    room: Кухня
+    name: Колонки
+  media_player.bedroom_sonos:
+    room: Спальня
+    name: Колонки
+  switch.bathroom_fan:
+    room: Ванная
+    name: Вентилятор
+  script.snapshot_send:
+    room: Гостинная
+    name: Сделай фоточку
+  cover.living_room_cover:
+    room: Гостинная
+    name: Шторы
+  script.find_iphone_andrey:
+    room: Гостинная
+    name: Поиск телефона Андрея
+  script.find_iphone_katya:
+    room: Гостинная
+    name: Поиск телефона Кати
+  lock.entrance_lock:
+    room: Прихожая
+    name: Замок
+  script.apple_tv_repeat:
+    room: Гостинная
+    name: Перемотай
+  script.vacuum_clean_bathroom:
+    room: Ванная
+    name: Уборка
+  script.vacuum_clean_entrance:
+    room: Прихожая
+    name: Уборка
+  script.vacuum_clean_living_room:
+    room: Гостинная
+    name: Уборка
+  script.vacuum_clean_kitchen:
+    room: Кухня
+    name: Уборка
+  script.vacuum_clean_bedroom:
+    room: Спальня
+    name: Уборка
+  script.vacuum_start:
+    room: Везде
+    name: Уборка
+  script.vacuum_stop:
+    room: Везде
+    name: Останови уборку
+  cover.bedroom_window:
+    room: Спальня
+    name: Окно
+  cover.kitchen_window:
+    room: Кухня
+    name: Окно
+  cover.bedroom_cover:
+    room: Спальня
+    name: Шторы
+  sensor.bathroom_temperature:
+    room: Ванная
+    name: Климат
+    properties:
+      - type: temperature
+      - type: humidity
+        entity: sensor.bathroom_humidity
+  sensor.living_room_temperature:
+    room: Гостинная
+    name: Климат
+    properties:
+      - type: temperature
+      - type: humidity
+        entity: sensor.living_room_humidity
+      - type: co2_level
+        entity: sensor.living_room_co2
+  sensor.kitchen_temperature:
+    room: Кухня
+    name: Климат
+    properties:
+      - type: temperature
+      - type: humidity
+        entity: sensor.kitchen_humidity
+  sensor.bedroom_temperature:
+    room: Спальня
+    name: Климат
+    properties:
+      - type: temperature
+      - type: humidity
+        entity: sensor.bedroom_humidity
+      - type: co2_level
+        entity: sensor.bedroom_co2
+  sensor.balcony_temperature:
+    room: Балкон
+    name: Климат
+    properties:
+      - type: temperature
+      - type: humidity
+        entity: sensor.balcony_humidity
+  cover.kitchen_cover:
+    room: Кухня
+    name: Шторы
+  switch.bathroom_freshener:
+    room: Ванная
+    name: Ароматизатор

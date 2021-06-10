@@ -1,0 +1,95 @@
+party_source:
+  name: Party Audio Source
+  options:
+    - ""
+
+washing_machine_status:
+  name: Washing Machine Status
+  options:
+    - washing
+    - full
+    - empty
+  icon: mdi:washing-machine
+
+sleeping_scene:
+  name: Scene in Sleeping Zone
+  options:
+    - day
+    - night
+    - dumb
+    - away
+
+living_scene:
+  name: Scene in Living Zone
+  options:
+    - day
+    - night
+    - dumb
+    - light_cinema
+    - party
+    - dark_cinema
+    - away
+
+vacuum_room_cleaning:
+  name: Vacuum Cleaning Room
+  options:
+    - none
+    - all
+    - bathroom_entrance
+    - living_room
+    - kitchen
+    - bedroom
+
+current_universal_tv_source:
+  name: TV Source
+  options:
+    - apple_tv
+    - playstation_4
+
+vacuum_autoclean_state:
+  name: Vacuum Clean State
+  options:
+    - idle
+    - error
+    - cleaning
+    - done_charging
+    - done_waiting
+
+logged_entities:
+  name: Logged Entities
+  options:
+    - ""
+
+logged_entities_with_attr:
+  name: Logged Entities With All Attributes
+  options:
+    - ""
+
+all_entities:
+  name: All Entities
+  options:
+    - ""
+
+andrey_location:
+  name: Andrey Location
+  options:
+    - not_home
+    - district
+    - yard
+    - downstairs
+    - home
+
+katya_location:
+  name: Katya Location
+  options:
+    - not_home
+    - district
+    - yard
+    - downstairs
+    - home
+
+last_active_yandex_station:
+  name: Last Active Yandex Station
+  options:
+    - bedroom
+    - living_room

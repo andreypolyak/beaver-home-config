@@ -1,0 +1,54 @@
+customize:
+  person.andrey:
+    entity_picture: /local/andrey-round.png
+  person.katya:
+    entity_picture: /local/katya-round.png
+  sensor.water_cold_monthly:
+    friendly_name: Cold
+    unit_of_measurement: m³
+  sensor.water_cold_daily:
+    friendly_name: Cold
+    unit_of_measurement: m³
+  sensor.water_hot_monthly:
+    friendly_name: Hot
+    unit_of_measurement: m³
+  sensor.water_hot_daily:
+    friendly_name: Hot
+    unit_of_measurement: m³
+  sensor.water_total_monthly:
+    friendly_name: Total
+    unit_of_measurement: m³
+  sensor.water_total_daily:
+    friendly_name: Total
+    unit_of_measurement: m³
+  sensor.electricity_t1_monthly:
+    friendly_name: T1
+    unit_of_measurement: kWh
+  sensor.electricity_t1_daily:
+    friendly_name: T1
+    unit_of_measurement: kWh
+  sensor.electricity_t2_monthly:
+    friendly_name: T2
+    unit_of_measurement: kWh
+  sensor.electricity_t2_daily:
+    friendly_name: T2
+    unit_of_measurement: kWh
+  sensor.electricity_t3_monthly:
+    friendly_name: T3
+    unit_of_measurement: kWh
+  sensor.electricity_t3_daily:
+    friendly_name: T3
+    unit_of_measurement: kWh
+  sensor.electricity_total_monthly:
+    friendly_name: Total
+    unit_of_measurement: kWh
+  sensor.electricity_total_daily:
+    friendly_name: Total
+    unit_of_measurement: kWh
+
+customize_glob:
+  "binary_sensor.*occupancy*":
+    device_class: occupancy
+
+auth_mfa_modules:
+  - type: totp

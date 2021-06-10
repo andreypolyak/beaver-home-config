@@ -1,0 +1,71 @@
+type: vertical-stack
+cards:
+  - type: custom:valetudo-map-card
+    entity: sensor.rockrobo_map
+    title: false
+    rotate: 0
+    crop:
+      top: 20
+      bottom: 6
+      left: 40
+      right: 0
+    min_height: 0
+  - type: custom:xiaomi-vacuum-card
+    entity: vacuum.rockrobo
+    name: false
+    vendor: valetudo
+    state:
+      area:
+        key: currentCleanArea
+        icon: mdi:texture-box
+        label: ""
+        unit: m²
+      time:
+        key: currentCleanTime
+        icon: mdi:clock-outline
+        label: ""
+        unit: min
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: vacuum_room
+        entity: input_select.vacuum_room_cleaning
+        icon: mdi:broom
+        variables:
+          room: all
+      - type: custom:button-card
+        template: vacuum_room
+        entity: input_select.vacuum_room_cleaning
+        icon: mdi:paper-roll
+        variables:
+          room: bathroom_entrance
+      - type: custom:button-card
+        template: vacuum_room
+        entity: input_select.vacuum_room_cleaning
+        icon: mdi:noodles
+        variables:
+          room: kitchen
+      - type: custom:button-card
+        template: vacuum_room
+        entity: input_select.vacuum_room_cleaning
+        icon: mdi:television-classic
+        variables:
+          room: living_room
+      - type: custom:button-card
+        template: vacuum_room
+        entity: input_select.vacuum_room_cleaning
+        icon: mdi:bed
+        variables:
+          room: bedroom
+      - type: custom:button-card
+        template: vacuum_base
+        entity: script.vacuum_go_to_bin
+        icon: mdi:trash-can-outline
+        tap_action:
+          action: call-service
+          service: script.vacuum_go_to_bin
+          haptic: success
+  - type: entities
+    entities:
+      - entity: input_select.vacuum_autoclean_state
+      - entity: input_datetime.vacuum_last_cleaned

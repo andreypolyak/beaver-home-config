@@ -1,0 +1,226 @@
+# - platform: switch
+#   name: Living Room Christmas Tree
+#   entity_id: switch.living_room_christmas_tree
+
+- platform: group
+  name: HA Group Living Room
+  entities:
+    - light.group_living_room_top
+    - light.living_room_sofa
+    - light.living_room_sofa_led_rgb
+    - light.group_living_room_speakers
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room
+  command_topic: zigbee2mqtt/Group Living Room/set
+  state_topic: zigbee2mqtt/Group Living Room
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Top
+  command_topic: zigbee2mqtt/Group Living Room Top/set
+  state_topic: zigbee2mqtt/Group Living Room Top
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Speakers
+  command_topic: zigbee2mqtt/Group Living Room Speakers/set
+  state_topic: zigbee2mqtt/Group Living Room Speakers
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Light Cinema Off
+  command_topic: zigbee2mqtt/Group Living Room Light Cinema Off/set
+  state_topic: zigbee2mqtt/Group Living Room Light Cinema Off
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Light Cinema On
+  command_topic: zigbee2mqtt/Group Living Room Light Cinema On/set
+  state_topic: zigbee2mqtt/Group Living Room Light Cinema On
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Dark Off
+  command_topic: zigbee2mqtt/Group Living Room Dark Off/set
+  state_topic: zigbee2mqtt/Group Living Room Dark Off
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room Dark On
+  command_topic: zigbee2mqtt/Group Living Room Dark On/set
+  state_topic: zigbee2mqtt/Group Living Room Dark On
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Storage Room
+  command_topic: zigbee2mqtt/Group Storage Room/set
+  state_topic: zigbee2mqtt/Group Storage Room
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["brightness"]
+
+- platform: mqtt
+  schema: json
+  name: Group Living Room All
+  command_topic: zigbee2mqtt/Group Living Room All/set
+  state_topic: zigbee2mqtt/Group Living Room All
+
+- platform: template
+  lights:
+    ha_template_room_living_room:
+      friendly_name: HA Template Room Living Room
+      level_template: >
+        {{ state_attr("light.ha_group_living_room", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_living_room", "on") }}
+      color_template: >
+        {{ state_attr("light.ha_group_living_room", "hs_color") if state_attr("light.ha_group_living_room", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_set_brightness
+          custom_event_data2: "{{ brightness }}"
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_set_manual_color
+          custom_event_data2: "({{ h }},{{ s }})"
+
+- platform: template
+  lights:
+    ha_template_individual_group_living_room_top:
+      friendly_name: HA Template Individual Group Living Room Top
+      level_template: >
+        {{ state_attr("light.group_living_room_top", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_living_room_top", "on") }}
+      color_template: >
+        {{ state_attr("light.group_living_room_top", "hs_color") if state_attr("light.group_living_room_top", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_living_room_top_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_living_room_top_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_group_living_room_speakers:
+      friendly_name: HA Template Individual Group Living Room Speakers
+      level_template: >
+        {{ state_attr("light.group_living_room_speakers", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_living_room_speakers", "on") }}
+      color_template: >
+        {{ state_attr("light.group_living_room_speakers", "hs_color") if state_attr("light.group_living_room_speakers", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_living_room_speakers_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_living_room_speakers_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_living_room_sofa:
+      friendly_name: HA Template Individual Living Room Sofa
+      level_template: >
+        {{ state_attr("light.living_room_sofa", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.living_room_sofa", "on") }}
+      color_template: >
+        {{ state_attr("light.living_room_sofa", "hs_color") if state_attr("light.living_room_sofa", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_sofa_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_sofa_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_living_room_sofa_led_rgb:
+      friendly_name: HA Template Individual Living Room Sofa LED RGB
+      level_template: >
+        {{ state_attr("light.living_room_sofa_led_rgb", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.living_room_sofa_led_rgb", "on") }}
+      color_template: >
+        {{ state_attr("light.living_room_sofa_led_rgb", "hs_color") if state_attr("light.living_room_sofa_led_rgb", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_sofa_led_rgb_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: living_room_sofa_led_rgb_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""

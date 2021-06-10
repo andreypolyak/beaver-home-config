@@ -1,0 +1,66 @@
+path: outside
+title: Outside
+icon: mdi:pine-tree
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_lights_details
+        states:
+          hide_lights_details:
+            type: custom:button-card
+            template: header_show_lights
+          show_lights_details:
+            type: custom:button-card
+            template: header_hide_lights
+      - !include /config/lovelace/elements/outside_lights.yaml
+      - !include /config/lovelace/elements/outside_lights_details.yaml
+      - type: custom:button-card
+        template: header
+        name: Persons
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: person.andrey
+            template: person
+            triggers_update: input_select.andrey_location
+            variables:
+              person: andrey
+              phone: andrey_iphone_11_pro_max
+          - type: custom:button-card
+            entity: person.katya
+            template: person
+            triggers_update: input_select.katya_location
+            variables:
+              person: katya
+              phone: katya_iphone_12_pro_max
+          - type: custom:button-card
+            template: base_icon
+            entity: script.update_location
+            icon: mdi:update
+            hold_action:
+              action: more-info
+              entity: script.update_location
+              haptic: success
+            tap_action:
+              action: call-service
+              service: script.update_location
+              haptic: success
+      - type: map
+        entities:
+          - person.andrey
+          - person.katya
+        hours_to_show: 24
+        dark_mode: true
+      - type: custom:button-card
+        template: header
+        name: Climate
+      - type: weather-forecast
+        entity: weather.home_hourly
+      - type: 'custom:sun-card'
+        darkMode: true
+        timeFormat: 24h
+      - !include /config/lovelace/elements/outside_climate.yaml
+      - !include /config/lovelace/elements/footer.yaml

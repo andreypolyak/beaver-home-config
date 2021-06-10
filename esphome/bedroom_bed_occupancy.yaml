@@ -1,0 +1,79 @@
+substitutions:
+  hostname: bedroom_bed_occupancy
+  name: Bedroom Bed Occupancy
+
+esphome:
+  name: $hostname
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: !secret esphome_wifi_ssid
+  password: !secret esphome_wifi_password
+  use_address: 192.168.1.98
+  ap:
+    ssid: $hostname
+    password: ""
+
+logger:
+
+api:
+
+ota:
+
+esp32_ble_tracker:
+
+sensor:
+  - platform: adc
+    pin: GPIO35
+    id: left_person_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+  - platform: adc
+    pin: GPIO34
+    id: right_person_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+  - platform: xiaomi_miscale
+    mac_address: "70:87:9E:24:92:D6"
+    weight:
+      name: Scales
+
+binary_sensor:
+  - platform: template
+    name: $name Left Person
+    id: left_person
+    lambda: |-
+      if (id(left_person_sensor).state <= 3) {
+        return true;
+      } else {
+        return false;
+      }
+    filters:
+      - delayed_off: 5s
+
+  - platform: template
+    name: $name Right Person
+    id: right_person
+    lambda: |-
+      if (id(right_person_sensor).state <= 3) {
+        return true;
+      } else {
+        return false;
+      }
+    filters:
+      - delayed_off: 5s
+  - platform: template
+    name: $name Any
+    id: any
+    lambda: |-
+      if (id(left_person).state ||
+          id(right_person).state) {
+        return true;
+      } else {
+        return false;
+      }
+    filters:
+      - delayed_off: 10s

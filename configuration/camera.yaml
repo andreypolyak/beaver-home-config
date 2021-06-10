@@ -1,0 +1,4 @@
+- platform: generic
+  name: Living Room Camera
+  still_image_url: !secret camera_still_image_url
+  stream_source: !secret camera_stream_source

@@ -1,0 +1,20 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: light.ha_template_individual_group_kitchen_top
+    template: individual_virtual_switch
+    icon: mdi:lightbulb
+    variables:
+      light_name: group_kitchen_top
+  - type: custom:button-card
+    entity: light.ha_template_individual_kitchen_table
+    template: individual_virtual_switch
+    icon: mdi:ceiling-light
+    variables:
+      light_name: kitchen_table
+  - type: custom:button-card
+    entity: light.ha_template_individual_kitchen_vent
+    template: individual_virtual_switch
+    icon: mdi:stove
+    variables:
+      light_name: kitchen_vent

@@ -1,0 +1,58 @@
+type: custom:state-switch
+entity: hash
+default: hide_devices_details
+states:
+  show_devices_details:
+    type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: header
+        name: Window
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: cover.kitchen_window
+            template: window_position_0
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            entity: cover.kitchen_window
+            template: window_position_30
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            entity: cover.kitchen_window
+            template: window_position_70
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            entity: cover.kitchen_window
+            template: window_position_100
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            template: window_auto
+            entity: input_boolean.auto_window_kitchen
+      - type: custom:button-card
+        template: header
+        name: Cover
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: cover.kitchen_cover
+            template: cover_open
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            entity: cover.kitchen_cover
+            template: kitchen_cover_ventilation
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            entity: cover.kitchen_cover
+            template: cover_close
+            variables:
+              room: kitchen
+  hide_devices_details:
+    type: horizontal-stack
+    cards: []

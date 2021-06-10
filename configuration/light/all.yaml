@@ -1,0 +1,14 @@
+- platform: mqtt
+  schema: json
+  name: Group Main All
+  command_topic: zigbee2mqtt/Group Main All/set
+  state_topic: zigbee2mqtt/Group Main All
+
+- platform: group
+  name: HA Group All
+  entities:
+    - light.ha_group_balcony
+    - light.ha_group_bathroom_entrance
+    - light.ha_group_bedroom
+    - light.ha_group_kitchen
+    - light.ha_group_living_room

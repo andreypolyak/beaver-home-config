@@ -1,0 +1,13 @@
+- platform: polling
+  api_key: !secret telegram_bot_polling_api_key
+  parse_mode: html
+  allowed_chat_ids:
+    - !secret telegram_bot_allowed_chat_ids_andrey
+    - !secret telegram_bot_allowed_chat_ids_katya
+- platform: broadcast
+  api_key: !secret telegram_bot_broadcast_api_key
+  parse_mode: html
+  allowed_chat_ids:
+    - !secret telegram_bot_allowed_chat_ids_beaver_stream
+    - !secret telegram_bot_allowed_chat_ids_home_logs
+    - !secret telegram_bot_allowed_chat_ids_home_notifications

@@ -1,0 +1,237 @@
+path: home
+title: Home
+icon: mdi:home
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - type: custom:button-card
+        template: header
+        name: Living Zone Scenes
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: living_scene
+            icon: mdi:white-balance-sunny
+            variables:
+              scene: day
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: living_scene
+            icon: mdi:weather-night
+            variables:
+              scene: night
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: living_scene
+            icon: mdi:camera-off
+            variables:
+              scene: dumb
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: living_scene
+            icon: mdi:movie-filter-outline
+            variables:
+              scene: light_cinema
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: cinema_scene
+            icon: mdi:movie-outline
+            variables:
+              scene: dark_cinema
+          - type: custom:button-card
+            entity: input_select.living_scene
+            template: living_scene
+            icon: mdi:party-popper
+            variables:
+              scene: party
+      - type: custom:button-card
+        template: header
+        name: Sleeping Zone Scenes
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: input_select.sleeping_scene
+            template: sleeping_scene
+            icon: mdi:white-balance-sunny
+            variables:
+              scene: day
+          - type: custom:button-card
+            entity: input_select.sleeping_scene
+            template: sleeping_scene
+            icon: mdi:weather-night
+            variables:
+              scene: night
+          - type: custom:button-card
+            entity: input_select.sleeping_scene
+            template: sleeping_scene
+            icon: mdi:camera-off
+            variables:
+              scene: dumb
+      - type: custom:button-card
+        template: header
+        name: Lights
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: home_page_light
+            entity: light.ha_template_room_bathroom_entrance
+            icon: mdi:paper-roll
+            variables:
+              room: bathroom_entrance
+          - type: custom:button-card
+            template: home_page_light
+            entity: light.ha_template_room_living_room
+            icon: mdi:television-classic
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: home_page_light
+            entity: light.ha_template_room_kitchen
+            icon: mdi:noodles
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            template: home_page_light
+            entity: light.ha_template_room_bedroom
+            icon: mdi:bed
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            template: home_page_light
+            entity: light.ha_template_room_balcony
+            icon: mdi:pine-tree
+            variables:
+              room: balcony
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: home_page_climate
+            variables:
+              room: bathroom
+          - type: custom:button-card
+            template: home_page_climate
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: home_page_climate
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            template: home_page_climate
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            template: home_page_climate
+            variables:
+              room: balcony
+      - type: conditional
+        conditions:
+          - entity: input_boolean.guest_mode
+            state: "on"
+        card:
+          type: entities
+          entities:
+            - input_boolean.guest_mode
+      - type: conditional
+        conditions:
+          - entity: input_select.living_scene
+            state: away
+          - entity: lock.entrance_lock
+            state: unlocked
+        card:
+          type: vertical-stack
+          cards:
+            - !include /config/lovelace/elements/lock.yaml
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.show_alarm
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - !include /config/lovelace/elements/alarm.yaml
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.vacuum_active
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Vacuum
+            - !include /config/lovelace/elements/vacuum.yaml
+      - type: conditional
+        conditions:
+          - entity: input_select.living_scene
+            state: party
+        card:
+          !include /config/lovelace/elements/party.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.living_room_sonos_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Living Room Speakers
+            - !include /config/lovelace/elements/living_room_sonos.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.living_room_tv_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: TV
+            - !include /config/lovelace/elements/tv.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.bathroom_sonos_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Bathroom Speakers
+            - !include /config/lovelace/elements/bathroom_entrance_sonos.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.kitchen_sonos_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Kitchen Speakers
+            - !include /config/lovelace/elements/kitchen_sonos.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.bedroom_sonos_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Bedroom Speakers
+            - !include /config/lovelace/elements/bedroom_sonos.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.christmas_season
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - !include /config/lovelace/elements/christmas_season.yaml
+      - !include /config/lovelace/elements/footer.yaml

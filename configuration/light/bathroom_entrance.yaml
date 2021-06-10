@@ -1,0 +1,233 @@
+- platform: switch
+  name: Bathroom Mirror
+  entity_id: switch.bathroom_mirror
+
+- platform: group
+  name: HA Group Bathroom Entrance
+  entities:
+    - light.entrance_top
+    - light.group_bathroom_top
+    - light.group_entrance_mirror
+    - light.bathroom_mirror
+
+
+- platform: mqtt
+  schema: json
+  name: Group Entrance Mirror
+  command_topic: zigbee2mqtt_entrance/Group Entrance Mirror/set
+  state_topic: zigbee2mqtt_entrance/Group Entrance Mirror
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Bathroom Entrance Color
+  command_topic: zigbee2mqtt_entrance/Group Bathroom Entrance Color/set
+  state_topic: zigbee2mqtt_entrance/Group Bathroom Entrance Color
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Bathroom Top
+  command_topic: zigbee2mqtt_entrance/Group Bathroom Top/set
+  state_topic: zigbee2mqtt_entrance/Group Bathroom Top
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Entrance Top
+  command_topic: zigbee2mqtt_entrance/Group Entrance Top/set
+  state_topic: zigbee2mqtt_entrance/Group Entrance Top
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Bathroom Entrance All
+  command_topic: zigbee2mqtt_entrance/Group Bathroom Entrance All/set
+  state_topic: zigbee2mqtt_entrance/Group Bathroom Entrance All
+
+- platform: template
+  lights:
+    ha_template_room_bathroom_entrance:
+      friendly_name: HA Template Room Bathroom Entrance
+      level_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_bathroom_entrance", "on") }}
+      color_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_set_brightness
+          custom_event_data2: "{{ brightness }}"
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_set_manual_color
+          custom_event_data2: "({{ h }},{{ s }})"
+
+- platform: template
+  lights:
+    ha_template_room_bathroom:
+      friendly_name: HA Template Room Bathroom
+      level_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_bathroom_entrance", "on") }}
+      color_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_room_entrance:
+      friendly_name: HA Template Room Entrance
+      level_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_bathroom_entrance", "on") }}
+      color_template: >
+        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_entrance_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_group_bathroom_top:
+      friendly_name: HA Template Individual Group Bathroom Top
+      level_template: >
+        {{ state_attr("light.group_bathroom_top", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_bathroom_top", "on") }}
+      color_template: >
+        {{ state_attr("light.group_bathroom_top", "hs_color") if state_attr("light.group_bathroom_top", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_bathroom_top_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_bathroom_top_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_group_entrance_top:
+      friendly_name: HA Template Individual Group Entrance Top
+      level_template: >
+        {{ state_attr("light.group_entrance_top", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_entrance_top", "on") }}
+      color_template: >
+        {{ state_attr("light.group_entrance_top", "hs_color") if state_attr("light.group_entrance_top", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_entrance_top_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_entrance_top_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_group_entrance_mirror:
+      friendly_name: HA Template Individual Group Entrance Mirror
+      level_template: >
+        {{ state_attr("light.group_entrance_mirror", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_entrance_mirror", "on") }}
+      color_template: >
+        {{ state_attr("light.group_entrance_mirror", "hs_color") if state_attr("light.group_entrance_mirror", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_entrance_mirror_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_entrance_mirror_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_bathroom_mirror:
+      friendly_name: HA Template Individual Bathroom Mirror
+      value_template: >
+        {{ is_state("light.bathroom_mirror", "on") }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_mirror_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: bathroom_mirror_virtual_switch_individual_off

@@ -1,0 +1,75 @@
+path: settings_sensors
+title: Sensor Settings
+icon: mdi:motion-sensor
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - !include /config/lovelace/elements/settings_navigation.yaml
+      - type: custom:button-card
+        template: header
+        name: Motion Sensors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: binary_sensor.*_motion
+              options:
+                secondary_info: last-updated
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Image Processing
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: image_processing.*
+              options:
+                secondary_info: last-updated
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Door Sensors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: binary_sensor.*_door
+              options:
+                secondary_info: last-updated
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Occupancy Sensors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: binary_sensor.*occupancy*
+              options:
+                secondary_info: last-updated
+      - type: custom:button-card
+        template: header
+        name: Vibration Sensors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: sensor.*vibration
+              options:
+                secondary_info: last-updated
+      - !include /config/lovelace/elements/footer.yaml

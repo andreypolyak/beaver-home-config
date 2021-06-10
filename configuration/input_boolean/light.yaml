@@ -1,0 +1,30 @@
+auto_lights_bathroom_entrance:
+  name: Bathroom and Entrance Automatic Lights
+auto_lights_kitchen:
+  name: Kitchen Automatic Lights
+auto_lights_living_room:
+  name: Living Room Automatic Lights
+auto_lights_bedroom:
+  name: Bedroom Automatic Lights
+auto_lights_balcony:
+  name: Balcony Automatic Lights
+
+auto_colors_bathroom_entrance:
+  name: Bathroom and Entrance Automatic Colors
+auto_colors_kitchen:
+  name: Kitchen Automatic Colors
+auto_colors_living_room:
+  name: Living Room Automatic Colors
+auto_colors_bedroom:
+  name: Bedroom Automatic Colors
+auto_colors_balcony:
+  name: Balcony Automatic Colors
+
+living_zone_min_delay:
+  name: Min Light Delay in Living Zone
+sleeping_zone_min_delay:
+  name: Min Light Delay in Sleeping Zone
+
+circadian_update:
+  name: Update Circadian Light
+  icon: mdi:theme-light-dark

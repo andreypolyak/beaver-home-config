@@ -1,0 +1,21 @@
+- alias: Watchdog
+  trigger:
+    platform: time_pattern
+    minutes: /1
+  action:
+    - service: shell_command.watchdog
+
+- alias: Notify on restart
+  initial_state: true
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: notify.mobile_app_andrey_iphone_11_pro_max
+    data:
+      message: "🏠 Home Assistant was successfully restarted"
+      data:
+        push:
+          sound: none
+        apns_headers:
+          apns-collapse-id: restart

@@ -1,0 +1,46 @@
+substitutions:
+  hostname: bedroom_sonoff_mini
+  name: Bedroom Sonoff Mini
+
+esphome:
+  name: $hostname
+  platform: ESP8266
+  board: esp8285
+
+wifi:
+  ssid: !secret esphome_wifi_ssid
+  password: !secret esphome_wifi_password
+  use_address: 192.168.1.163
+  ap:
+    ssid: $hostname
+    password: ""
+
+logger:
+
+api:
+
+ota:
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: true
+
+binary_sensor:
+  - platform: gpio
+    pin: GPIO00
+    id: reset
+    internal: true
+    filters:
+      - delayed_off: 10ms
+    on_press:
+      - switch.toggle: 
+          id: relay_01
+
+switch:
+  - platform: gpio
+    name: $name
+    icon: "mdi:electric-switch"
+    pin: GPIO12
+    id: relay_01
+    restore_mode: restore_default_on

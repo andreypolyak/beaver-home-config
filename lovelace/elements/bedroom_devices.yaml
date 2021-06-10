@@ -1,0 +1,17 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: cover.bedroom_cover
+    template: cover_device
+    variables:
+      room: bedroom
+  - type: custom:button-card
+    entity: cover.bedroom_window
+    template: window_device
+    variables:
+      room: bedroom
+  - type: custom:button-card
+    template: vacuum_device
+    entity: input_select.vacuum_room_cleaning
+    variables:
+      room: bedroom

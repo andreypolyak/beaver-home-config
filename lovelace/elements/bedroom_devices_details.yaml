@@ -1,0 +1,58 @@
+type: custom:state-switch
+entity: hash
+default: hide_devices_details
+states:
+  show_devices_details:
+    type: vertical-stack
+    cards:
+      - type: custom:button-card
+        template: header
+        name: Window
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: cover.bedroom_window
+            template: window_position_0
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            entity: cover.bedroom_window
+            template: window_position_30
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            entity: cover.bedroom_window
+            template: window_position_70
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            entity: cover.bedroom_window
+            template: window_position_100
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            template: window_auto
+            entity: input_boolean.auto_window_bedroom
+      - type: custom:button-card
+        template: header
+        name: Cover
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: cover.bedroom_cover
+            template: cover_open
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            entity: cover.bedroom_cover
+            template: bedroom_cover_ventilation
+            variables:
+              room: bedroom
+          - type: custom:button-card
+            entity: cover.bedroom_cover
+            template: cover_close
+            variables:
+              room: bedroom
+  hide_devices_details:
+    type: horizontal-stack
+    cards: []

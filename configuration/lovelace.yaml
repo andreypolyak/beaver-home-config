@@ -1,0 +1,29 @@
+mode: yaml
+
+resources:
+  - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+    type: module
+  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+    type: module
+  - url: /hacsfiles/button-card/button-card.js
+    type: module
+  - url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js
+    type: module
+  - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+    type: module
+  - url: /hacsfiles/lovelace-card-mod/card-mod.js
+    type: module
+  - url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js
+    type: module
+  - url: /hacsfiles/lovelace-xiaomi-vacuum-card/xiaomi-vacuum-card.js
+    type: module
+  - url: /hacsfiles/custom-sidebar/custom-sidebar.js
+    type: module
+  - url: /hacsfiles/lovelace-state-switch/state-switch.js
+    type: module
+  - url: /hacsfiles/apexcharts-card/apexcharts-card.js
+    type: module
+  - url: /hacsfiles/bar-card/bar-card.js
+    type: module
+  - url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js
+    type: module

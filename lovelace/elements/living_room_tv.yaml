@@ -1,0 +1,12 @@
+type: vertical-stack
+cards:
+  - !include /config/lovelace/elements/tv.yaml
+  - type: custom:state-switch
+    entity: hash
+    default: hide_tv_details
+    states:
+      show_tv_details:
+        !include /config/lovelace/elements/tv_details.yaml
+      hide_tv_details:
+        type: horizontal-stack
+        cards: []

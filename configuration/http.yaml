@@ -1,0 +1,8 @@
+use_x_forwarded_for: true
+trusted_proxies:
+  - !secret http_trusted_proxies_1
+  - !secret http_trusted_proxies_2
+  - !secret http_trusted_proxies_3
+  - !secret http_trusted_proxies_4
+ip_ban_enabled: true
+login_attempts_threshold: 3

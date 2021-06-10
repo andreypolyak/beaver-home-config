@@ -1,0 +1,50 @@
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: header
+        name: Andrey's Alarm
+      - type: custom:button-card
+        template: header
+        name: Katya's Alarm
+  - type: horizontal-stack
+    cards:
+      - type: custom:time-picker-card
+        entity: input_datetime.alarm_andrey
+        hide:
+          name: true
+        style:
+          "time-unit":
+            "$": |
+              .time-picker-icon {
+                padding: 0px !important;
+              }
+          .: |
+            .time-picker-row {
+              padding: 0px !important;
+            }
+      - type: custom:button-card
+        template: alarm
+        entity: input_boolean.alarm_andrey
+        variables:
+          name: andrey
+      - type: custom:time-picker-card
+        entity: input_datetime.alarm_katya
+        hide:
+          name: true
+        style:
+          "time-unit":
+            "$": |
+              .time-picker-icon {
+                padding: 0px !important;
+              }
+          .: |
+            .time-picker-row {
+              padding: 0px !important;
+            }
+      - type: custom:button-card
+        template: alarm
+        entity: input_boolean.alarm_katya
+        variables:
+          name: katya

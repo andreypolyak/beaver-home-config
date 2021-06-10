@@ -1,0 +1,231 @@
+apple_tv_repeat:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room_apple_tv
+        command: skip_backward
+    # - service: remote.send_command
+    #   data:
+    #     entity_id: remote.living_room_apple_tv
+    #     command: skip_backward
+
+# PlayStation
+playstation_turn_on:
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.playstation_4
+
+# TV
+tv_turn_on:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.living_room_apple_tv
+        command: home
+    - condition: state
+      entity_id: binary_sensor.living_room_tv
+      state: "off"
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBYAFMeDSAODw4PDh4cDw0RDBEMEQ4PDg8NEA0QDREODw4PDRAcEQ0fDRAOAAqxVR4NHw0RDBEOHRwQDRAPDw4PDg8NEA0QDg8OEAwRDg8PDhwRDR8NEA0ADQU=
+
+tv_turn_off:
+  sequence:
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.playstation_4
+    # - service: media_player.turn_off
+    #   data:
+    #     entity_id: media_player.living_room_philips_tv
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.living_room_tv
+        state: "off"
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBYAFMeDSAODw4PDh4cDw0RDBEMEQ4PDg8NEA0QDREODw4PDRAcEQ0fDRAOAAqxVR4NHw0RDBEOHRwQDRAPDw4PDg8NEA0QDg8OEAwRDg8PDhwRDR8NEA0ADQU=
+
+tv_restart:
+  sequence:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.living_room_tv_plug
+    - delay: 00:00:01
+    - service: switch.turn_on
+      data:
+        entity_id: switch.living_room_tv_plug
+
+tv_source_mac_mini:
+  sequence:
+    # - service: androidtv.adb_command
+    #   data:
+    #     entity_id: media_player.philips_tv_adb
+    #     command: "am start -a android.intent.action.VIEW -d content://android.media.tv/passthrough/org.droidtv.hdmiService%2F.HdmiService%2FHW10"
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+    - delay:
+        milliseconds: 2000
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBUAFIfDCANEA4PDh4bEQ0QDg8ODw4PDg8PDw8ODg8dHh0QDh4ODw4PDwAKrVcfDR8NEQ0QDxwcEA4QDg8NEA0QDRANEA0QDhAcHxwRDh4NEA0QDQANBQAAAAA=
+        delay_secs: 0.4
+        num_repeats: 9
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBMAFEgDR8NEA4PLCwNEA4PDw4ODw4PDhAODw4PHR4cEQ0fDg8eAAq9Vh8NHw0RDBErLA4QDg8ODw4PDg8ODw4PDhAbIBwRDx0ODx0ADQUAAAAAAAAAAAAAAAA=
+        delay_secs: 0.4
+        num_repeats: 8
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+
+tv_source_playstation_4:
+  sequence:
+    # - service: androidtv.adb_command
+    #   data:
+    #     entity_id: media_player.philips_tv_adb
+    #     command: "am start -a android.intent.action.VIEW -d content://android.media.tv/passthrough/org.droidtv.hdmiService%2F.HdmiService%2FHW11"
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+    - delay:
+        milliseconds: 2000
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBUAFIfDCANEA4PDh4bEQ0QDg8ODw4PDg8PDw8ODg8dHh0QDh4ODw4PDwAKrVcfDR8NEQ0QDxwcEA4QDg8NEA0QDRANEA0QDhAcHxwRDh4NEA0QDQANBQAAAAA=
+        delay_secs: 0.4
+        num_repeats: 9
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBMAFEgDR8NEA4PLCwNEA4PDw4ODw4PDhAODw4PHR4cEQ0fDg8eAAq9Vh8NHw0RDBErLA4QDg8ODw4PDg8ODw4PDhAbIBwRDx0ODx0ADQUAAAAAAAAAAAAAAAA=
+        delay_secs: 0.4
+        num_repeats: 5
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+
+tv_source_apple_tv:
+  sequence:
+    # - service: androidtv.adb_command
+    #   data:
+    #     entity_id: media_player.philips_tv_adb
+    #     command: "am start -a android.intent.action.VIEW -d content://android.media.tv/passthrough/org.droidtv.hdmiService%2F.HdmiService%2FHW9"
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+    - delay:
+        milliseconds: 2000
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBUAFIfDCANEA4PDh4bEQ0QDg8ODw4PDg8PDw8ODg8dHh0QDh4ODw4PDwAKrVcfDR8NEQ0QDxwcEA4QDg8NEA0QDRANEA0QDhAcHxwRDh4NEA0QDQANBQAAAAA=
+        delay_secs: 0.4
+        num_repeats: 9
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBMAFEgDR8NEA4PLCwNEA4PDw4ODw4PDhAODw4PHR4cEQ0fDg8eAAq9Vh8NHw0RDBErLA4QDg8ODw4PDg8ODw4PDhAbIBwRDx0ODx0ADQUAAAAAAAAAAAAAAAA=
+        delay_secs: 0.4
+        num_repeats: 7
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+
+tv_up:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgB4AFMfDh4ODw4PLCwNEAwRDg8ODw0QDg8NEA8PHB8dEA0fDRANEA4ACq9XHg4eDREMESssDREMEQ0QDBENEA4PDg8NER0eHBENHw0QDg8NAAqyVR4NHw4PDg8sLA0QDhAMEQ0QDRAODw4PDREdHhsSDCAODw4PDQANBQ==
+
+tv_down:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBQAFMeDSAODw4PDh4cEA4PDBENEA0QDg8NEA0QDhAdHh0QDh4ODx0ACr1YHg0fDhAMEQwfHQ8NEA8PDg8PDg0QDg8ODw0RHB8dEAwgDg8dAA0FAAAAAAAAAAA=
+
+tv_left:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgB4AFIgDR8ODw0QDh4bEQ4PDg8ODw4PDg8ODw8ODw8dHhwRDR8cHw8ACq5YHQ4eDg8PDg8dHBANEA4PDw8ODwwRDRAODw0RGyAdEAwgGyAOAAqtWB4OHg0RDBEOHR0PDREMEQ4PDg8MEQ0QDRAOEBsgGxIMIB4dDgANBQ==
+
+tv_right:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgByAFMfDh4ODw4PLSsNEA0QDRAOEAwRDBENEA0QHB8cEQ0fHg8OAAq9WB4OHg0QDg8sLA4PDRANEQ4PDRANEA4PDg8cIBsSDCAbEg4ACrxYHw4eDBEODystDg8NEA0QDg8NEA0QDhAMER0eHRAOHh0QDgANBQAAAAAAAA==
+
+tv_ok:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+
+tv_sources:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+
+tv_home:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgAoAFMfDR8NEA0QDR8bEQ0QDRANEA0QDRANEA0RDBEcHxwfHB8NEA0ADQU=
+
+tv_back:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBQAFIgDR8ODw4PKy0ODw8QDQ4OEA4PDBENEA4PDRANEQ0QHR4dHg4ACrBWHg4eDhAMESssDhANEA0QDRAODw4PDg8OEA4PDg8NEB0eHR4OAA0FAAAAAAAAAAA=
+
+tv_toggle:
+  sequence:
+    - service: remote.send_command
+      data:
+        entity_id: remote.broadlink_rm_mini_3_remote
+        command: b64:JgBYAFMeDSAODw4PDh4cDw0RDBEMEQ4PDg8NEA0QDREODw4PDRAcEQ0fDRAOAAqxVR4NHw0RDBEOHRwQDRAPDw4PDg8NEA0QDg8OEAwRDg8PDhwRDR8NEA0ADQU=
+
+yandex_play_media:
+  fields:
+    media_entity_id:
+      description: media_entity_id
+      example: media_entity_id
+    media_content_id:
+      description: media_content_id
+      example: media_content_id
+    media_content_type:
+      description: media_content_type
+      example: media_content_type
+  sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: >
+          {{ media_entity_id }}
+        media_content_id: >
+          {{ media_content_id }}
+        media_content_type: >
+          {{ media_content_type }}

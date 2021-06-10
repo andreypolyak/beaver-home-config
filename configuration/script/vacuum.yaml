@@ -1,0 +1,182 @@
+vacuum_clean_bedroom:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: bedroom
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bedroom
+
+vacuum_clean_kitchen:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: kitchen
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Kitchen
+
+vacuum_clean_living_room:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: living_room
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Living Room
+
+vacuum_clean_bathroom_entrance:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: bathroom_entrance
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
+
+vacuum_clean_bathroom:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: bathroom_entrance
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
+
+vacuum_clean_entrance:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: bathroom_entrance
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
+
+vacuum_clean_all:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: all
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.start
+      data:
+        entity_id: vacuum.rockrobo
+
+vacuum_stop:
+  sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.vacuum_room_cleaning
+        option: none
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.return_to_base
+      data:
+        entity_id: vacuum.rockrobo
+
+vacuum_go_to_bin:
+  sequence:
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: go_to
+        params:
+          spot_id: Bin
+
+vacuum_go_to_tv:
+  sequence:
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.rockrobo
+        command: go_to
+        params:
+          spot_id: TV
+
+vacuum_start:
+  sequence:
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.start
+      data:
+        entity_id: vacuum.rockrobo
+
+vacuum_stop_if_cleaning:
+  sequence:
+    - condition: state
+      entity_id: vacuum.rockrobo
+      state:
+        - cleaning
+        - returning
+    - service: vacuum.stop
+      data:
+        entity_id: vacuum.rockrobo

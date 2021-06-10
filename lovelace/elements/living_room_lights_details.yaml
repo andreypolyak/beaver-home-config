@@ -1,0 +1,129 @@
+type: custom:state-switch
+entity: hash
+default: hide_lights_details
+states:
+  show_lights_details:
+    type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: brightness_1
+            entity: light.ha_group_living_room
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: brightness_25
+            entity: light.ha_group_living_room
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: brightness_50
+            entity: light.ha_group_living_room
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: brightness_75
+            entity: light.ha_group_living_room
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: brightness_100
+            entity: light.ha_group_living_room
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: auto_lights
+            entity: input_boolean.auto_lights_living_room
+            variables:
+              room: living_room
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 255, 255)
+            variables:
+              room: living_room
+              saturation: 0
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 218, 182)
+            variables:
+              room: living_room
+              saturation: 17
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 200, 145)
+            variables:
+              room: living_room
+              saturation: 33
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 182, 109)
+            variables:
+              room: living_room
+              saturation: 50
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 163, 74)
+            variables:
+              room: living_room
+              saturation: 67
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 145, 38)
+            variables:
+              room: living_room
+              saturation: 83
+          - type: custom:button-card
+            template: light_color_hs
+            color: rgb(255, 129, 1)
+            variables:
+              room: living_room
+              saturation: 100
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(255, 0, 0)
+            variables:
+              room: living_room
+              rgb: "(255, 0, 0)"
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(253, 11, 255)
+            variables:
+              room: living_room
+              rgb: "(253, 11, 255)"
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(255, 109, 253)
+            variables:
+              room: living_room
+              rgb: "(255, 109, 253)"
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(147, 112, 255)
+            variables:
+              room: living_room
+              rgb: "(147, 112, 255)"
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(112, 147, 255)
+            variables:
+              room: living_room
+              rgb: "(112, 147, 255)"
+          - type: custom:button-card
+            template: light_color_rgb
+            color: rgb(0, 0, 255)
+            variables:
+              room: living_room
+              rgb: "(0, 0, 255)"
+          - type: custom:button-card
+            template: light_color_auto
+            entity: input_boolean.auto_colors_living_room
+            variables:
+              room: living_room
+  hide_lights_details:
+    type: horizontal-stack
+    cards: []

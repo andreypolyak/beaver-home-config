@@ -1,0 +1,64 @@
+type: vertical-stack
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:power
+        hold_action:
+          action: call-service
+          service: script.tv_restart
+          haptic: success
+        double_tap_action:
+          action: call-service
+          service: script.tv_restart
+          haptic: success
+        confirmation:
+          text: >
+            [[[ return "❗ Are you sure you want to power off or restart the TV?" ]]]
+        variables:
+          command: tv_toggle
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:arrow-up-drop-circle
+        variables:
+          command: tv_up
+      - type: custom:button-card
+        template: tv_remote
+        name: Sources
+        variables:
+          command: tv_sources
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:arrow-left-drop-circle
+        variables:
+          command: tv_left
+      - type: custom:button-card
+        template: tv_remote
+        name: OK
+        variables:
+          command: tv_ok
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:arrow-right-drop-circle
+        variables:
+          command: tv_right
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:arrow-left-circle
+        variables:
+          command: tv_back
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:arrow-down-drop-circle
+        variables:
+          command: tv_down
+      - type: custom:button-card
+        template: tv_remote
+        icon: mdi:home-circle
+        variables:
+          command: tv_home

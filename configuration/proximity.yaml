@@ -1,0 +1,13 @@
+ha_andrey_home:
+  zone: home
+  devices:
+    - device_tracker.ha_andrey_iphone_11_pro_max
+  tolerance: 50
+  unit_of_measurement: m
+
+ha_katya_home:
+  zone: home
+  devices:
+    - device_tracker.ha_katya_iphone_12_pro_max
+  tolerance: 50
+  unit_of_measurement: m

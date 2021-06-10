@@ -1,0 +1,13 @@
+bathroom_sonos_playing:
+  name: Bathroom Sonos Playing
+kitchen_sonos_playing:
+  name: Kitchen Sonos Playing
+bedroom_sonos_playing:
+  name: Bedroom Sonos Playing
+living_room_sonos_playing:
+  name: Living Room Sonos Playing
+living_room_tv_playing:
+  name: Living Room TV Playing
+
+fun_toilet:
+  name: Fun Toilet

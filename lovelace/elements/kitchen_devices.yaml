@@ -1,0 +1,53 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: cover.kitchen_cover
+    template: cover_device
+    variables:
+      room: kitchen
+  - type: custom:button-card
+    entity: cover.kitchen_window
+    template: window_device
+    variables:
+      room: kitchen
+  - type: custom:button-card
+    template: base_icon
+    entity: switch.kitchen_coffee_plug
+    icon: mdi:coffee-maker
+    hold_action:
+      action: call-service
+      service: input_boolean.toggle
+      service_data:
+        entity_id: input_boolean.coffee_prepared
+      haptic: success
+    tap_action:
+      action: toggle
+      haptic: success
+    styles:
+      grid:
+        - position: relative
+      custom_fields:
+        status:
+          - position: absolute
+          - right: 8px
+          - top: 8px
+          - font-size: 14px
+    custom_fields:
+      status: >
+        [[[
+          if ((states["input_boolean.alarm_andrey"].state == "on" || states["input_boolean.alarm_katya"].state == "on") & states["input_boolean.coffee_prepared"].state == "on")
+          return `<ha-icon
+            icon="mdi:alarm"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
+          else if (states["input_boolean.coffee_prepared"].state == "on")
+          return `<ha-icon
+            icon="mdi:checkbox-marked-circle"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
+        ]]]
+  - type: custom:button-card
+    template: vacuum_device
+    entity: input_select.vacuum_room_cleaning
+    variables:
+      room: kitchen

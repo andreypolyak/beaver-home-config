@@ -1,0 +1,34 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: cover.living_room_cover
+    template: cover_device
+    variables:
+      room: living_room
+  - type: custom:button-card
+    template: base_icon
+    entity: switch.ac
+    icon: mdi:snowflake
+    hold_action:
+      action: more-info
+      haptic: success
+    tap_action:
+      action: toggle
+      haptic: success
+    styles:
+      grid:
+        - position: relative
+      custom_fields:
+        temp:
+          - position: absolute
+          - right: 8px
+          - top: 8px
+          - font-size: 14px
+    custom_fields:
+      temp: >
+        [[[ return Math.round(states["sensor.living_room_temperature"].state) + "°" ]]]
+  - type: custom:button-card
+    template: vacuum_device
+    entity: input_select.vacuum_room_cleaning
+    variables:
+      room: living_room

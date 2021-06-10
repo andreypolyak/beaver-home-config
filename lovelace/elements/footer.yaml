@@ -1,0 +1,6 @@
+type: vertical-stack
+cards:
+  - type: markdown
+    content: " "
+  - type: markdown
+    content: " "

@@ -1,0 +1,34 @@
+substitutions:
+  hostname: bathroom_freshener
+  name: Bathroom Freshener
+
+esphome:
+  name: $hostname
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret esphome_wifi_ssid
+  password: !secret esphome_wifi_password
+  use_address: 192.168.1.245
+  ap:
+    ssid: $hostname
+    password: ""
+
+logger:
+
+api:
+
+ota:
+
+switch:
+  - platform: gpio
+    name: Bathroom Freshener
+    pin:
+      number: D2
+    id: bathroom_freshener
+    inverted: yes
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      - delay: 500ms
+      - switch.turn_off: bathroom_freshener

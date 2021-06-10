@@ -1,0 +1,25 @@
+type: custom:button-card
+template: base_icon
+entity: lock.entrance_lock
+hold_action:
+  action: more-info
+  haptic: success
+tap_action:
+  action: call-service
+  service: >
+    [[[
+      if (entity.state === "locked")
+        return "lock.unlock";
+      else
+        return "lock.lock";
+    ]]]
+  service_data:
+    entity_id: lock.entrance_lock
+  haptic: success
+state:
+  - value: locked
+    operator: "!="
+    color: var(--paper-item-icon-active-color)
+  - value: locked
+    operator: "=="
+    color: var(--paper-card-background-color)

@@ -1,0 +1,27 @@
+button_card_templates: !include /config/lovelace/templates/buttons.yaml
+apexcharts_card_templates: !include /config/lovelace/templates/charts.yaml
+
+views:
+  - !include /config/lovelace/views/home.yaml
+  - !include /config/lovelace/views/bathroom_entrance.yaml
+  - !include /config/lovelace/views/living_room.yaml
+  - !include /config/lovelace/views/kitchen.yaml
+  - !include /config/lovelace/views/bedroom.yaml
+  - !include /config/lovelace/views/outside.yaml
+
+  - !include /config/lovelace/views/settings.yaml
+  - !include /config/lovelace/views/settings_entities.yaml
+  - !include /config/lovelace/views/settings_sensors.yaml
+  - !include /config/lovelace/views/settings_lights.yaml
+  - !include /config/lovelace/views/settings_inputs.yaml
+  - !include /config/lovelace/views/settings_timers.yaml
+  - !include /config/lovelace/views/settings_batteries.yaml
+  - !include /config/lovelace/views/settings_trackers.yaml
+  - !include /config/lovelace/views/settings_appliances.yaml
+  - !include /config/lovelace/views/settings_vacuum.yaml
+  - !include /config/lovelace/views/settings_climate.yaml
+  - !include /config/lovelace/views/settings_media.yaml
+  - !include /config/lovelace/views/settings_consumption.yaml
+  - !include /config/lovelace/views/settings_logging.yaml
+
+# Updated at: 2021-06-05 20:43:44.301640+03:00

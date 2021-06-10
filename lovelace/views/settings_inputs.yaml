@@ -1,0 +1,66 @@
+path: settings_inputs
+title: Inputs Settings
+icon: mdi:form-textbox
+cards:
+- type: vertical-stack
+  cards:
+    - !include /config/lovelace/elements/navigation.yaml
+    - !include /config/lovelace/elements/settings_navigation.yaml
+    - type: custom:button-card
+      template: header
+      name: Booleans
+    - type: horizontal-stack
+      cards:
+        - type: custom:auto-entities
+          show_empty: false
+          card:
+            show_header_toggle: false
+            type: entities
+          filter:
+            include:
+              - entity_id: "input_boolean.*"
+          sort:
+            method: entity_id
+    - type: custom:button-card
+      template: header
+      name: Selects
+    - type: horizontal-stack
+      cards:
+        - type: custom:auto-entities
+          show_empty: false
+          card:
+            type: entities
+          filter:
+            include:
+              - entity_id: "input_select.*"
+          sort:
+            method: entity_id
+    - type: custom:button-card
+      template: header
+      name: Numbers
+    - type: horizontal-stack
+      cards:
+        - type: custom:auto-entities
+          show_empty: false
+          card:
+            type: entities
+          filter:
+            include:
+              - entity_id: "input_number.*"
+          sort:
+            method: entity_id
+    - type: custom:button-card
+      template: header
+      name: Datetimes
+    - type: horizontal-stack
+      cards:
+        - type: custom:auto-entities
+          show_empty: false
+          card:
+            type: entities
+          filter:
+            include:
+              - entity_id: "input_datetime.*"
+          sort:
+            method: entity_id
+    - !include /config/lovelace/elements/footer.yaml

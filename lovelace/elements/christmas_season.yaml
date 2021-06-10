@@ -1,0 +1,22 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: header
+    name: Christmas
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: christmas
+        entity: light.living_room_christmas_star
+        name: Living Room
+        icon: mdi:star
+      - type: custom:button-card
+        template: christmas
+        entity: light.living_room_christmas_tree
+        name: Living Room
+        icon: mdi:pine-tree
+      - type: custom:button-card
+        template: christmas
+        entity: light.kitchen_christmas_star
+        name: Kitchen
+        icon: mdi:star

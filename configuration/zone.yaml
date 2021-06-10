@@ -1,0 +1,38 @@
+- name: Home
+  latitude: !secret zone_home_latitude
+  longitude: !secret zone_home_longitude
+  radius: 100
+  icon: mdi:home
+
+# - name: Home
+#   latitude: !secret zone_home_latitude
+#   longitude: !secret zone_home_longitude
+#   radius: 500
+#   icon: mdi:home
+#   passive: true
+
+- name: Sabre
+  latitude: !secret zone_sabre_latitude
+  longitude: !secret zone_sabre_longitude
+  radius: 300
+  icon: mdi:office-building
+
+- name: Near Sabre
+  latitude: !secret zone_sabre_latitude
+  longitude: !secret zone_sabre_longitude
+  radius: 500
+  icon: mdi:office-building
+  passive: true
+
+- name: Adidas
+  latitude: !secret zone_adidas_latitude
+  longitude: !secret zone_adidas_longitude
+  radius: 300
+  icon: mdi:office-building
+
+- name: Near Adidas
+  latitude: !secret zone_adidas_latitude
+  longitude: !secret zone_adidas_longitude
+  radius: 500
+  icon: mdi:office-building
+  passive: true

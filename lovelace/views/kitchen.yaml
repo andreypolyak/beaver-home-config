@@ -1,0 +1,40 @@
+path: kitchen
+title: Kitchen
+icon: mdi:noodles
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_lights_details
+        states:
+          hide_lights_details:
+            type: custom:button-card
+            template: header_show_lights
+          show_lights_details:
+            type: custom:button-card
+            template: header_hide_lights
+      - !include /config/lovelace/elements/kitchen_lights.yaml
+      - !include /config/lovelace/elements/kitchen_lights_details.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_devices_details
+        states:
+          hide_devices_details:
+            type: custom:button-card
+            template: header_show_devices
+          show_devices_details:
+            type: custom:button-card
+            template: header_hide_devices
+      - !include /config/lovelace/elements/kitchen_devices.yaml
+      - !include /config/lovelace/elements/kitchen_devices_details.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/kitchen_sonos.yaml
+      - type: custom:button-card
+        template: header
+        name: Climate
+      - !include /config/lovelace/elements/kitchen_climate.yaml
+      - !include /config/lovelace/elements/footer.yaml

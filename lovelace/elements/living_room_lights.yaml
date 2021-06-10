@@ -1,0 +1,26 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: light.ha_template_individual_group_living_room_top
+    template: individual_virtual_switch
+    icon: mdi:lightbulb
+    variables:
+      light_name: group_living_room_top
+  - type: custom:button-card
+    entity: light.ha_template_individual_living_room_sofa
+    template: individual_virtual_switch
+    icon: mdi:floor-lamp
+    variables:
+      light_name: living_room_sofa
+  - type: custom:button-card
+    entity: light.ha_template_individual_group_living_room_speakers
+    template: individual_virtual_switch
+    icon: mdi:speaker
+    variables:
+      light_name: group_living_room_speakers
+  - type: custom:button-card
+    entity: light.ha_template_individual_living_room_sofa_led_rgb
+    template: individual_virtual_switch
+    icon: mdi:led-strip-variant
+    variables:
+      light_name: living_room_sofa_led_rgb

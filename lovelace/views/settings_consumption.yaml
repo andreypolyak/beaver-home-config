@@ -1,0 +1,98 @@
+path: settings_consumption
+title: Consumption Settings
+icon: mdi:gauge
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation.yaml
+      - !include /config/lovelace/elements/settings_navigation.yaml
+      - type: entities
+        entities:
+          - sensor.water_total_daily_price
+          - sensor.electricity_total_daily_price
+          - sensor.water_total_monthly_price
+          - sensor.electricity_total_monthly_price
+      - type: custom:button-card
+        template: header
+        name: Daily Water Price
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.water_cold_daily_price
+          - sensor.water_hot_daily_price
+          - sensor.water_total_daily_price
+      - type: custom:button-card
+        template: header
+        name: Daily Water
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.water_cold_daily
+          - sensor.water_hot_daily
+          - sensor.water_total_daily
+      - type: custom:button-card
+        template: header
+        name: Monthly Water Price
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.water_cold_monthly_price
+          - sensor.water_hot_monthly_price
+          - sensor.water_total_monthly_price
+      - type: custom:button-card
+        template: header
+        name: Monthly Water
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.water_cold_monthly
+          - sensor.water_hot_monthly
+          - sensor.water_total_monthly
+      - type: custom:button-card
+        template: header
+        name: Daily Electricity Price
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.electricity_t1_daily_price
+          - sensor.electricity_t2_daily_price
+          - sensor.electricity_t3_daily_price
+          - sensor.electricity_total_daily_price
+      - type: custom:button-card
+        template: header
+        name: Daily Electricity
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.electricity_t1_daily
+          - sensor.electricity_t2_daily
+          - sensor.electricity_t3_daily
+          - sensor.electricity_total_daily
+      - type: custom:button-card
+        template: header
+        name: Monthly Electricity Price
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.electricity_t1_monthly_price
+          - sensor.electricity_t2_monthly_price
+          - sensor.electricity_t3_monthly_price
+          - sensor.electricity_total_monthly_price
+      - type: custom:button-card
+        template: header
+        name: Monthly Electricity
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.electricity_t1_monthly
+          - sensor.electricity_t2_monthly
+          - sensor.electricity_t3_monthly
+          - sensor.electricity_total_monthly
+      - type: entities
+        entities:
+          - input_number.cold_water_tariff
+          - input_number.hot_water_tariff
+          - input_number.t1_electricity_tariff
+          - input_number.t2_electricity_tariff
+          - input_number.t3_electricity_tariff
+      - !include /config/lovelace/elements/footer.yaml

@@ -1,0 +1,85 @@
+type: custom:state-switch
+entity: hash
+default: hide_lights_details
+states:
+  show_lights_details:
+    type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: brightness_1
+            entity: light.ha_group_balcony
+            variables:
+              room: balcony
+          - type: custom:button-card
+            template: brightness_25
+            entity: light.ha_group_balcony
+            variables:
+              room: balcony
+          - type: custom:button-card
+            template: brightness_50
+            entity: light.ha_group_balcony
+            variables:
+              room: balcony
+          - type: custom:button-card
+            template: brightness_75
+            entity: light.ha_group_balcony
+            variables:
+              room: balcony
+          - type: custom:button-card
+            template: brightness_100
+            entity: light.ha_group_balcony
+            variables:
+              room: balcony
+          - type: custom:button-card
+            template: auto_lights
+            entity: input_boolean.auto_lights_balcony
+            variables:
+              room: balcony
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 255, 255)
+            variables:
+              room: balcony
+              kelvin: 6500
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 239, 225)
+            variables:
+              room: balcony
+              kelvin: 5600
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 222, 195)
+            variables:
+              room: balcony
+              kelvin: 4700
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 201, 157)
+            variables:
+              room: balcony
+              kelvin: 3800
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 174, 103)
+            variables:
+              room: balcony
+              kelvin: 2900
+          - type: custom:button-card
+            template: light_color_kelvin
+            color: rgb(255, 137, 14)
+            variables:
+              room: balcony
+              kelvin: 2000
+          - type: custom:button-card
+            template: light_color_auto
+            entity: input_boolean.auto_colors_balcony
+            variables:
+              room: balcony
+  hide_lights_details:
+    type: horizontal-stack
+    cards: []

@@ -1,0 +1,36 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:home
+    variables:
+      name: home
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:paper-roll
+    variables:
+      name: bathroom_entrance
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:television-classic
+    variables:
+      name: living_room
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:noodles
+    variables:
+      name: kitchen
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:bed
+    variables:
+      name: bedroom
+  - type: custom:button-card
+    template: navigation
+    icon: mdi:pine-tree
+    variables:
+      name: outside
+  - type: custom:button-card
+    template: navigation_settings
+    entity: binary_sensor.system_ok
+    icon: mdi:cog

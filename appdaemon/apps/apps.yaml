@@ -1,0 +1,428 @@
+global_modules:
+  - room_lights
+  - room_window
+  - yandex_dialog
+
+#
+# Shared
+#
+
+persistent_storage:
+  module: persistent_storage
+  class: PersistentStorage
+
+persons:
+  module: persons
+  class: Persons
+  dependencies: persistent_storage
+  chat_id: !secret notifications_chat_id
+
+#
+# Important
+#
+
+notify_restart:
+  module: notify_restart
+  class: NotifyRestart
+  dependencies: persons
+
+notify_logs:
+  module: notify_logs
+  class: NotifyLogs
+  chat_id: !secret logs_chat_id
+
+telegram_entity_logger:
+  module: telegram_entity_logger
+  class: TelegramEntityLogger
+  chat_id: !secret logs_chat_id
+
+notify_app_error:
+  module: notify_app_error
+  class: NotifyAppError
+  dependencies: persons
+
+#
+# Dialogs
+#
+
+alarm_requested:
+  module: alarm_requested
+  class: AlarmRequested
+  dependencies: persons
+  global_dependencies: yandex_dialog
+
+bed_occupied:
+  module: bed_occupied
+  class: BedOccupied
+  dependencies: persons
+  global_dependencies: yandex_dialog
+
+#
+# Bathroom and Entrance
+#
+
+bathroom_entrance_lights:
+  module: bathroom_entrance_lights
+  class: BathroomEntranceLights
+  global_dependencies: room_lights
+
+bathroom_fan:
+  module: bathroom_fan
+  class: BathroomFan
+
+bell:
+  module: bell
+  class: Bell
+  bell_sound_url: !secret bell_sound_url
+  dependencies: persons
+
+freshener:
+  module: freshener
+  class: Freshener
+  dependencies: persistent_storage
+
+fun_toilet:
+  module: fun_toilet
+  class: FunToilet
+
+lock:
+  module: lock
+  class: Lock
+  dependencies: persons
+
+washing_machine:
+  module: washing_machine
+  class: WashingMachine
+  dependencies: persons
+
+water_leak:
+  module: water_leak
+  class: WaterLeak
+  dependencies: persons
+
+welcome_announcement:
+  module: welcome_announcement
+  class: WelcomeAnnouncement
+
+#
+# Bedroom
+#
+
+alarm_andrey:
+  module: alarm
+  class: Alarm
+  person_name: andrey
+
+alarm_katya:
+  module: alarm
+  class: Alarm
+  person_name: katya
+
+alarm_manager:
+  module: alarm_manager
+  class: AlarmManager
+  dependencies: persons
+
+bed_switch:
+  module: bed_switch
+  class: BedSwitch
+
+bedroom_cover:
+  module: bedroom_cover
+  class: BedroomCover
+
+bedroom_lights:
+  module: bedroom_lights
+  class: BedroomLights
+  global_dependencies: room_lights
+
+bedroom_window:
+  module: bedroom_window
+  class: BedroomWindow
+  global_dependencies: room_window
+  dependencies:
+    - persons
+    - persistent_storage
+
+table:
+  module: table
+  class: Table
+
+wardrobe:
+  module: wardrobe
+  class: Wardrobe
+
+weight:
+  module: weight
+  class: Weight
+  dependencies:
+    - persons
+    - persistent_storage
+
+#
+# Kitchen
+#
+
+coffee:
+  module: coffee
+  class: Coffee
+
+cooler:
+  module: cooler
+  class: Cooler
+
+fridge:
+  module: fridge
+  class: Fridge
+  dependencies: persons
+
+kitchen_cover:
+  module: kitchen_cover
+  class: KitchenCover
+
+kitchen_lights:
+  module: kitchen_lights
+  class: KitchenLights
+  global_dependencies: room_lights
+
+kitchen_window:
+  module: kitchen_window
+  class: KitchenWindow
+  global_dependencies: room_window
+  dependencies:
+    - persons
+    - persistent_storage
+
+music_switch:
+  module: music_switch
+  class: MusicSwitch
+
+#
+# Living Room
+#
+
+ac:
+  module: ac
+  class: AC
+
+balcony_lights:
+  module: balcony_lights
+  class: BalconyLights
+  global_dependencies: room_lights
+
+cinema:
+  module: cinema
+  class: Cinema
+  dependencies:
+    - persons
+    - persistent_storage
+
+living_room_cover:
+  module: living_room_cover
+  class: LivingRoomCover
+
+living_room_lights:
+  module: living_room_lights
+  class: LivingRoomLights
+  global_dependencies: room_lights
+
+party:
+  module: party
+  class: Party
+
+storage_room:
+  module: storage_room
+  class: StorageRoom
+
+universal_tv_source:
+  module: universal_tv_source
+  class: UniversalTvSource
+
+vacuum:
+  module: vacuum
+  class: Vacuum
+  dependencies: persons
+
+#
+# Global
+#
+
+christmas_season:
+  module: christmas_season
+  class: ChristmasSeason
+
+circadian_update:
+  module: circadian_update
+  class: CircadianUpdate
+
+delete_snapshot:
+  module: delete_snapshot
+  class: DeleteSnapshot
+
+gledopto_cct:
+  module: gledopto_cct
+  class: GledoptoCct
+
+ha_count_updates:
+  module: ha_count_updates
+  class: HaCountUpdates
+
+is_media_playing:
+  module: is_media_playing
+  class: IsMediaPlaying
+
+light_delay:
+  module: light_delay
+  class: LightDelay
+
+location:
+  module: location
+  class: Location
+  dependencies:
+    - persons
+    - persistent_storage
+
+media_control:
+  module: media_control
+  class: MediaControl
+
+media_volume:
+  module: media_volume
+  class: MediaVolume
+
+night:
+  module: night
+  class: Night
+  dependencies: persistent_storage
+
+person_inside:
+  module: person_inside
+  class: PersonInside
+
+plant:
+  module: plant
+  class: Plant
+  dependencies: persons
+
+presence:
+  module: presence
+  class: Presence
+  dependencies: persons
+
+scenes:
+  module: scenes
+  class: Scenes
+
+update_light_state:
+  module: update_light_state
+  class: UpdateLightState
+
+update_lovelace:
+  module: update_lovelace
+  class: UpdateLovelace
+
+yandex_station:
+  module: yandex_station
+  class: YandexStation
+  dependencies: persons
+
+#
+# Notify
+#
+
+notify_addon_update:
+  module: notify_addon_update
+  class: NotifyAddonUpdate
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_air_quality:
+  module: notify_air_quality
+  class: NotifyAirQuality
+  dependencies: persons
+
+notify_arrival:
+  module: notify_arrival
+  class: NotifyArrival
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_core_update:
+  module: notify_core_update
+  class: NotifyCoreUpdate
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_hacs_update:
+  module: notify_hacs_update
+  class: NotifyHacsUpdate
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_lock:
+  module: notify_lock
+  class: NotifyLock
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_low_battery:
+  module: notify_low_battery
+  class: NotifyLowBattery
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_new_entity:
+  module: notify_new_entity
+  class: NotifyNewEntity
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_os_update:
+  module: notify_os_update
+  class: NotifyOsUpdate
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_persistent:
+  module: notify_persistent
+  class: NotifyPersistent
+  dependencies: persons
+
+notify_pi_state:
+  module: notify_pi_state
+  class: NotifyPiState
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_temperature:
+  module: notify_temperature
+  class: NotifyTemperature
+  dependencies: persons
+
+notify_unavailable:
+  module: notify_unavailable
+  class: NotifyUnavailable
+  dependencies:
+    - persons
+    - persistent_storage
+
+notify_z2m_state:
+  module: notify_z2m_state
+  class: NotifyZ2mState
+  dependencies: persons
+
+notify_zigbee_ota_update:
+  module: notify_zigbee_ota_update
+  class: NotifyZigbeeOtaUpdate
+  dependencies:
+    - persons
+    - persistent_storage

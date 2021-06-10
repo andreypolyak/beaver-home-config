@@ -1,0 +1,11 @@
+type: vertical-stack
+cards:
+  - type: custom:apexcharts-card
+    config_templates: co2
+    series:
+      - entity: sensor.bedroom_co2
+  - type: custom:apexcharts-card
+    config_templates: temperature
+    series:
+      - entity: sensor.bedroom_humidity
+      - entity: sensor.bedroom_temperature

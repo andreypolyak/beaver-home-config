@@ -1,0 +1,27 @@
+- platform: mqtt
+  name: Bedroom Window
+  state_topic: "bedroom_window/State"
+
+- platform: mqtt
+  name: Kitchen Window
+  state_topic: "kitchen_window/State"
+
+- platform: mqtt
+  name: Bedroom Window Target Position
+  state_topic: "bedroom_window/getTargetPosition"
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: Kitchen Window Target Position
+  state_topic: "kitchen_window/getTargetPosition"
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: Bedroom Window Set Position
+  state_topic: "bedroom_window/setTargetPosition"
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: Kitchen Window Set Position
+  state_topic: "kitchen_window/setTargetPosition"
+  unit_of_measurement: "%"

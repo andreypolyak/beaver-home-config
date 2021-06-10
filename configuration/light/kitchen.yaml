@@ -1,0 +1,135 @@
+- platform: switch
+  name: Kitchen Vent
+  entity_id: switch.kitchen_vent_plug
+
+- platform: group
+  name: HA Group Kitchen
+  entities:
+    - light.group_kitchen_top
+    - light.kitchen_table
+    - light.kitchen_vent
+
+- platform: mqtt
+  schema: json
+  name: Group Kitchen Top
+  command_topic: zigbee2mqtt/Group Kitchen Top/set
+  state_topic: zigbee2mqtt/Group Kitchen Top
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Kitchen Color
+  command_topic: zigbee2mqtt/Group Kitchen Color/set
+  state_topic: zigbee2mqtt/Group Kitchen Color
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: mqtt
+  schema: json
+  name: Group Kitchen Dark Off
+  command_topic: zigbee2mqtt/Group Kitchen Dark Off/set
+  state_topic: zigbee2mqtt/Group Kitchen Dark Off
+  color_mode: true
+  brightness: true
+  supported_color_modes: ["xy"]
+
+- platform: template
+  lights:
+    ha_template_room_kitchen:
+      friendly_name: HA Template Room Kitchen
+      level_template: >
+        {{ state_attr("light.ha_group_kitchen", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_kitchen", "on") }}
+      color_template: >
+        {{ state_attr("light.ha_group_kitchen", "hs_color") if state_attr("light.ha_group_kitchen", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_set_brightness
+          custom_event_data2: "{{ brightness }}"
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_set_manual_color
+          custom_event_data2: "({{ h }},{{ s }})"
+
+- platform: template
+  lights:
+    ha_template_individual_group_kitchen_top:
+      friendly_name: HA Template Individual Group Kitchen Top
+      level_template: >
+        {{ state_attr("light.group_kitchen_top", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.group_kitchen_top", "on") }}
+      color_template: >
+        {{ state_attr("light.group_kitchen_top", "hs_color") if state_attr("light.group_kitchen_top", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_kitchen_top_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: group_kitchen_top_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_kitchen_table:
+      friendly_name: HA Template Individual Kitchen Table
+      level_template: >
+        {{ state_attr("light.kitchen_table", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.kitchen_table", "on") }}
+      color_template: >
+        {{ state_attr("light.kitchen_table", "hs_color") if state_attr("light.kitchen_table", "hs_color") else [0,0] }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_table_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_table_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_color:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_kitchen_vent:
+      friendly_name: "HA Template Individual Kitchen Vent"
+      value_template: >
+        {{ is_state("light.kitchen_vent", "on") }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_vent_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: kitchen_vent_virtual_switch_individual_off

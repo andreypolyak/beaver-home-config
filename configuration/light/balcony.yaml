@@ -1,0 +1,80 @@
+- platform: switch
+  name: Balcony LED
+  entity_id: switch.balcony_led_plug
+
+- platform: group
+  name: HA Group Balcony
+  entities:
+    - light.balcony_window
+    - light.balcony_led
+
+- platform: template
+  lights:
+    ha_template_room_balcony:
+      friendly_name: HA Template Room Balcony
+      level_template: >
+        {{ state_attr("light.ha_group_balcony", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.ha_group_balcony", "on") }}
+      temperature_template: >
+        {{ state_attr("light.ha_group_balcony", "color_temp")|int if state_attr("light.ha_group_balcony", "color_temp")|int != 0 else 153 }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_virtual_switch_room_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_virtual_switch_room_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_set_brightness
+          custom_event_data2: "{{ brightness }}"
+      set_temperature:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_set_manual_color
+          custom_event_data2: "{{ (153000000 / color_temp)|int }}"
+
+- platform: template
+  lights:
+    ha_template_individual_balcony_window:
+      friendly_name: HA Template Individual Balcony Window
+      level_template: >
+        {{ state_attr("light.balcony_window", "brightness")|int }}
+      value_template: >
+        {{ is_state("light.balcony_window", "on") }}
+      temperature_template: >
+        {{ state_attr("light.balcony_window", "color_temp")|int if state_attr("light.balcony_window", "color_temp")|int != 0 else 153 }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_window_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_window_virtual_switch_individual_off
+      set_level:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+      set_temperature:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: ""
+
+- platform: template
+  lights:
+    ha_template_individual_balcony_led:
+      friendly_name: HA Template Individual Balcony LED
+      value_template: >
+        {{ is_state("light.balcony_led", "on") }}
+      turn_on:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_led_virtual_switch_individual_on
+      turn_off:
+        service: script.fire_custom_event
+        data:
+          custom_event_data: balcony_led_virtual_switch_individual_off

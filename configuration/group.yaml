@@ -1,0 +1,15 @@
+new_entities:
+  name: New Entities
+  entities: []
+
+bt_any_andrey_iphone_11_pro_max:
+  name: BT Any Andrey iPhone 11 Pro Max
+  entities:
+    - device_tracker.bt_entrance_andrey_iphone_11_pro_max_tracker
+    - device_tracker.bt_kitchen_andrey_iphone_11_pro_max_tracker
+
+bt_any_katya_iphone_12_pro_max:
+  name: BT Any Katya iPhone 12 Pro Max
+  entities:
+    - device_tracker.bt_entrance_katya_iphone_12_pro_max_tracker
+    - device_tracker.bt_kitchen_katya_iphone_12_pro_max_tracker

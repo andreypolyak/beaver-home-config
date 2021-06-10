@@ -1,0 +1,3 @@
+username: !secret yandex_station_username
+password: !secret yandex_station_password
+tts_service_name: alice_say

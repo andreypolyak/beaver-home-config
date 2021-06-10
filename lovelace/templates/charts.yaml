@@ -1,0 +1,107 @@
+base:
+  hours_12: false
+  all_series_config:
+    curve: smooth
+    stroke_width: 3
+    group_by:
+      func: max
+      duration: 15min
+base_big:
+  config_templates: base
+  apex_config:
+    chart:
+      height: 280px
+climate:
+  config_templates: base
+  experimental:
+    color_threshold: true
+  apex_config:
+    chart:
+      height: 160px
+  header:
+    show: true
+    show_states: true
+    colorize_states: true
+  all_series_config:
+    show:
+      extremas: true
+co2:
+  config_templates: climate
+  series:
+    - name: CO2
+      yaxis_id: co2
+      float_precision: 0
+      color: "#f6d2a9"
+      color_threshold:
+        - color: "#f6d2a9"
+          value: 0
+        - color: "#f5b78e"
+          value: 500
+        - color: "#f19c7c"
+          value: 600
+        - color: "#ea8171"
+          value: 700
+        - color: "#dd686c"
+          value: 800
+        - color: "#ca5268"
+          value: 900
+        - color: "#b13f64"
+          value: 1000
+  yaxis:
+    - id: co2
+      opposite: true
+      apex_config:
+        decimalsInFloat: 0
+        tickAmount: 3
+temperature:
+  config_templates: climate
+  series:
+    - name: Humidity
+      yaxis_id: humidity
+      float_precision: 0
+      color: "#85c4c9"
+      color_threshold:
+        - color: "#d1eeea"
+          value: 0
+        - color: "#a8dbd9"
+          value: 30
+        - color: "#85c4c9"
+          value: 40
+        - color: "#68abb8"
+          value: 50
+        - color: "#4f90a6"
+          value: 60
+        - color: "#3b738f"
+          value: 70
+        - color: "#2a5674"
+          value: 90
+    - name: Temperature
+      yaxis_id: temperature
+      float_precision: 1
+      color: "#de8a5a"
+      color_threshold:
+        - color: "#008080"
+          value: -100
+        - color: "#70a494"
+          value: 5
+        - color: "#b4c8a8"
+          value: 10
+        - color: "#f6edbd"
+          value: 15
+        - color: "#edbb8a"
+          value: 20
+        - color: "#de8a5a"
+          value: 25
+        - color: "#ca562c"
+          value: 30
+  yaxis:
+    - id: humidity
+      opposite: false
+      apex_config:
+        decimalsInFloat: 0
+        tickAmount: 3
+    - id: temperature
+      opposite: true
+      apex_config:
+        decimalsInFloat: 1
+        tickAmount: 3

@@ -1,0 +1,90 @@
+- platform: uptime
+  name: uptime
+
+- platform: template
+  sensors:
+    sun_elevation:
+      value_template: >
+        {{ state_attr("sun.sun", "elevation") }}
+      friendly_name: Sun Elevation
+
+- platform: mqtt
+  state_topic: valetudo/rockrobo/state
+  json_attributes_topic: valetudo/rockrobo/map_data_parsed
+  name: rockrobo_map
+  value_template: OK
+
+- platform: template
+  sensors:
+    circadian_saturation:
+      value_template: >
+        {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
+        100
+        {%- else -%}
+        {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
+        {%- endif %}
+      friendly_name: Circadian Saturation
+      unit_of_measurement: "%"
+
+- platform: history_stats
+  name: Night Scene in Living Zone
+  entity_id: input_select.living_scene
+  state: night
+  type: time
+  duration:
+    hours: 12
+  end: "{{ now() }}"
+
+- platform: template
+  sensors:
+    living_room_yandex_station_connection:
+      value_template: >
+        {% if state_attr("media_player.living_room_yandex_station", "connection_class") == "assumed" %}
+        unavailable
+        {%- else -%}
+        ok
+        {%- endif %}
+      friendly_name: Living Room Yandex Station Connection
+
+- platform: template
+  sensors:
+    bedroom_yandex_station_connection:
+      value_template: >
+        {% if state_attr("media_player.bedroom_yandex_station", "connection_class") == "assumed" %}
+        unavailable
+        {%- else -%}
+        ok
+        {%- endif %}
+      friendly_name: Bedroom Yandex Station Connection
+
+- platform: template
+  sensors:
+    wind_speed:
+      value_template: >
+        {{ state_attr("weather.home", "wind_speed")|float }}
+      friendly_name: Wind Speed
+      unit_of_measurement: "km/h"
+
+- platform: influxdb
+  host: !secret influxdb_host
+  port: !secret influxdb_port
+  username: !secret influxdb_username
+  password: !secret influxdb_password
+  scan_interval: 3600
+  queries:
+    - name: InfluxDB DB Size
+      unit_of_measurement: MB
+      value_template: "{{ (value|float / 1024 / 1024)|round(1) }}"
+      group_function: sum
+      measurement: '"monitor"."shard"'
+      database: _internal
+      where: "time > now() - 10s"
+      field: diskBytes
+
+- platform: sql
+  db_url: !secret recorder_db_url
+  queries:
+    - name: MariaDB DB Size
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: value
+      unit_of_measurement: MB
