@@ -28,13 +28,17 @@ class CircadianUpdate(hass.Hass):
       saturation = int(math.ceil((MAX - lux) / ((MAX - MIN) / (100 / STEP - 1)))) * STEP
       return saturation
 
+  def calculate_kelvin(self, saturation):
+    kelvin = 2000 + saturation * ((6500 - 2000) / 100)
+    return kelvin
+
 
   def process(self, kwargs):
     new_saturation = self.calculate_saturation()
-    self.log(f"new_saturation: {new_saturation}")
     if not new_saturation:
       # use circadian sensor
       return
+    kelvin = self.calculate_kelvin(new_saturation)
     old_saturation = self.get_old_saturation()
     if self.get_state("light.ha_group_all") == "on":
       if abs(new_saturation - old_saturation) > STEP:
@@ -43,10 +47,10 @@ class CircadianUpdate(hass.Hass):
         elif new_saturation < old_saturation:
           new_saturation = old_saturation - STEP
     if new_saturation != old_saturation:
-      self.set_saturation(new_saturation)
+      self.set_saturation(new_saturation, kelvin)
 
 
-  def set_saturation(self, new_saturation):
+  def set_saturation(self, new_saturation, kelvin):
     if new_saturation == self.get_old_saturation:
       return
     if self.get_state("light.ha_group_all") == "on":
@@ -54,6 +58,7 @@ class CircadianUpdate(hass.Hass):
         return
     self.changed_ts = self.get_now_ts()
     self.call_service("input_number/set_value", entity_id="input_number.circadian_saturation", value=new_saturation)
+    self.call_service("input_number/set_value", entity_id="input_number.circadian_kelvin", value=kelvin)
 
 
   def get_old_saturation(self):

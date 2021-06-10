@@ -22,6 +22,12 @@ circadian_saturation:
   max: 100
   step: 1
   mode: box
+circadian_kelvin:
+  name: Circadian Kelvin
+  min: 2000
+  max: 6500
+  step: 1
+  mode: box
 zigbee_ota_updates:
   name: Zigbee OTA Firmware Updates
   min: 0

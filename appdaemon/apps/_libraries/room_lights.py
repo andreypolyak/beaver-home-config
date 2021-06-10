@@ -696,8 +696,8 @@ class RoomLights(hass.Hass):
         if kelvin:
           args["kelvin"] = kelvin
         else:
-          ct = float(self.get_state("switch.adaptive_lighting_default", attribute="color_temp_mired"))
-          args["color_temp"] = ct
+          ct = int(float(self.get_state("input_number.circadian_kelvin")))
+          args["kelvin"] = ct
       if brightness and supported_features["brightness"]:
         args["brightness"] = brightness
     return args
