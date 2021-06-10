@@ -4,7 +4,7 @@ import math
 DELAY = 120
 STEP = 2
 MAX = 300
-MIN = 50
+MIN = 10
 
 
 class CircadianUpdate(hass.Hass):
