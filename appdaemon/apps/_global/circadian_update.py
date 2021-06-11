@@ -14,15 +14,38 @@ PCT = 0.2
 class CircadianUpdate(hass.Hass):
 
   def initialize(self):
+    self.storage = self.get_app("persistent_storage")
+    default = {"changed_ts": 0, "illuminance_unavaialable_ts": 0}
+    self.storage.init("circadian_update.data", default)
     self.changed_ts = 0
     self.listen_state(self.on_lights_off, "light.ha_group_all")
     self.run_every(self.process, "now", 60)
 
 
+  def process(self, kwargs):
+    new_saturation = self.calculate_saturation()
+    if not new_saturation:
+      self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
+      new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
+    kelvin = self.calculate_kelvin(new_saturation)
+    old_saturation = self.get_old_saturation()
+    if self.get_state("light.ha_group_all") == "on":
+      if abs(new_saturation - old_saturation) > SAT_STEP:
+        if new_saturation > old_saturation:
+          new_saturation = old_saturation + SAT_STEP
+        elif new_saturation < old_saturation:
+          new_saturation = old_saturation - SAT_STEP
+    if new_saturation != old_saturation:
+      self.set_saturation(new_saturation, kelvin)
+
+
   def calculate_saturation(self):
     try:
       lux = float(int(self.get_state("sensor.balcony_illuminance")))
+      last_seen = float(self.get_state("sensor.balcony_illuminance", attribute="last_seen"))
     except ValueError:
+      return None
+    if self.get_now_ts() - last_seen > 7200:
       return None
     if lux >= MAX_LUX:
       return 0
@@ -56,31 +79,14 @@ class CircadianUpdate(hass.Hass):
     kelvin = 2000 + saturation * ((6500 - 2000) / 100)
     return kelvin
 
-
-  def process(self, kwargs):
-    new_saturation = self.calculate_saturation()
-    if not new_saturation:
-      # use circadian sensor
-      return
-    kelvin = self.calculate_kelvin(new_saturation)
-    old_saturation = self.get_old_saturation()
-    if self.get_state("light.ha_group_all") == "on":
-      if abs(new_saturation - old_saturation) > SAT_STEP:
-        if new_saturation > old_saturation:
-          new_saturation = old_saturation + SAT_STEP
-        elif new_saturation < old_saturation:
-          new_saturation = old_saturation - SAT_STEP
-    if new_saturation != old_saturation:
-      self.set_saturation(new_saturation, kelvin)
-
-
   def set_saturation(self, new_saturation, kelvin):
     if new_saturation == self.get_old_saturation:
       return
     if self.get_state("light.ha_group_all") == "on":
-      if (self.get_now_ts() - self.changed_ts) < DELAY:
+      changed_ts = self.storage.read("circadian_update.data", attribute="changed_ts")
+      if (self.get_now_ts() - changed_ts) < DELAY:
         return
-    self.changed_ts = self.get_now_ts()
+    self.storage.write("circadian_update.data", self.get_now_ts(), attribute="changed_ts")
     self.call_service("input_number/set_value", entity_id="input_number.circadian_saturation", value=new_saturation)
     self.call_service("input_number/set_value", entity_id="input_number.circadian_kelvin", value=kelvin)
 
