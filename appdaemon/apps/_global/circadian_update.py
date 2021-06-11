@@ -14,9 +14,6 @@ PCT = 0.2
 class CircadianUpdate(hass.Hass):
 
   def initialize(self):
-    self.storage = self.get_app("persistent_storage")
-    default = {"changed_ts": 0, "illuminance_unavaialable_ts": 0}
-    self.storage.init("circadian_update.data", default)
     self.changed_ts = 0
     self.listen_state(self.on_lights_off, "light.ha_group_all")
     self.run_every(self.process, "now", 60)
@@ -83,10 +80,9 @@ class CircadianUpdate(hass.Hass):
     if new_saturation == self.get_old_saturation:
       return
     if self.get_state("light.ha_group_all") == "on":
-      changed_ts = self.storage.read("circadian_update.data", attribute="changed_ts")
-      if (self.get_now_ts() - changed_ts) < DELAY:
+      if (self.get_now_ts() - self.changed_ts) < DELAY:
         return
-    self.storage.write("circadian_update.data", self.get_now_ts(), attribute="changed_ts")
+    self.changed_ts = self.get_now_ts()
     self.call_service("input_number/set_value", entity_id="input_number.circadian_saturation", value=new_saturation)
     self.call_service("input_number/set_value", entity_id="input_number.circadian_kelvin", value=kelvin)
 
