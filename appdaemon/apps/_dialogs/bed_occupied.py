@@ -5,6 +5,7 @@ from datetime import date, datetime, time, timedelta
 class BedOccupied(YandexDialog):
 
   def initialize(self):
+    self.occupied_ts = 0
     self.dialog_name = "bed_occupied"
     self.dialog_init()
     self.persons = self.get_app("persons")
@@ -21,9 +22,11 @@ class BedOccupied(YandexDialog):
 
 
   def on_bedroom_occupied(self, entity, attribute, old, new, kwargs):
-    if self.get_state("input_select.sleeping_scene") == "day" and self.dialog_allowed:
+    sleeping_scene = self.get_state("input_select.sleeping_scene")
+    if sleeping_scene == "day" and self.dialog_allowed and (self.get_now_ts() - self.occupied_ts) > 120:
       self.log("Bed was occupied")
       self.dialog_allowed = False
+      self.occupied_ts = self.get_now_ts()
       self.call_service("media_player/volume_set", entity_id="media_player.bedroom_yandex_station", volume_level=0.3)
       self.start_dialog("night_mode", room="bedroom")
 
