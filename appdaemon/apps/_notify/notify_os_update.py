@@ -18,8 +18,11 @@ class NotifyOsUpdate(hass.Hass):
   def check_updates(self):
     updates_info = self.get_state("sensor.os_info", attribute="all")
     notified_version = self.storage.read("notify_os_update.notified_version")
-    new_version = updates_info["attributes"]["newest_version"]
-    old_version = updates_info["attributes"]["current_version"]
+    try:
+      new_version = updates_info["attributes"]["newest_version"]
+      old_version = updates_info["attributes"]["current_version"]
+    except KeyError:
+      return
     if new_version == old_version or notified_version == new_version:
       return
     message = self.build_message(new_version, old_version)
