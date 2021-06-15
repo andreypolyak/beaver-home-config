@@ -10,7 +10,7 @@ class YandexStation(hass.Hass):
   def initialize(self):
     self.handle = None
     self.sonos_volume = None
-    self.stop_needed = {}
+    self.stop_required = {}
     self.listen_state(self.on_living_room_alice_state, "media_player.living_room_yandex_station",
                       attribute="alice_state")
     self.rooms = []
@@ -19,7 +19,7 @@ class YandexStation(hass.Hass):
       if media_player.endswith("_yandex_station"):
         self.rooms.append(media_player.replace("media_player.", "").replace("_yandex_station", ""))
     for room in self.rooms:
-      self.stop_needed[room] = False
+      self.stop_required[room] = False
       entity = f"media_player.{room}_yandex_station"
       self.listen_state(self.on_playing, entity, new="playing")
       self.listen_state(self.on_stop_speaking, entity, attribute="alice_state", old="SPEAKING", new="LISTENING")
@@ -99,7 +99,7 @@ class YandexStation(hass.Hass):
       room = "living_room"
     else:
       room = data["room"]
-    self.stop_needed[room] = True
+    self.stop_required[room] = True
     args = {
       "entity_id": f"media_player.{room}_yandex_station",
       "media_content_id": data["text"],
@@ -112,7 +112,7 @@ class YandexStation(hass.Hass):
 
   def on_stop_speaking(self, entity, attribute, old, new, kwargs):
     room = entity.replace("media_player.", "").replace("_yandex_station", "")
-    if self.stop_needed[room]:
+    if self.stop_required[room]:
       self.log("Stopping yandex")
-      self.stop_needed[room] = False
+      self.stop_required[room] = False
       self.call_service("media_player/turn_off", entity_id=entity)
