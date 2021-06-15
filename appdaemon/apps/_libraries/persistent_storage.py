@@ -36,7 +36,7 @@ class PersistentStorage(hass.Hass):
 
   def init(self, entity, default):
     app_name = entity.split(".")[0]
-    object_name = entity.split(".")[0]
+    object_name = entity.split(".")[1]
     state = self.get_state(entity, namespace="persistent_storage", attribute="all")
     if not state or "attributes" not in state:
       self.log(f"Setting default state in app {app_name} for object {object_name}")
