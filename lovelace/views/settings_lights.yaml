@@ -21,7 +21,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: input_boolean.auto_lights_*
@@ -29,17 +29,25 @@ cards:
           method: entity_id
       - type: custom:button-card
         template: header
-        name: Disable Circadian
+        name: Circadian
       - type: custom:auto-entities
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: input_boolean.auto_colors_*
         sort:
           method: entity_id
+      - type: custom:apexcharts-card
+        config_templates: base
+        graph_span: 24hours
+        series:
+          - entity: sensor.circadian_saturation
+            name: Adaptive
+          - entity: input_number.circadian_saturation
+            name: Own
       - type: custom:button-card
         template: header
         name: HA Group Lights
@@ -47,7 +55,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: light.ha_group_*
@@ -60,7 +68,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: light.ha_template_room_*
@@ -73,7 +81,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: light.ha_template_individual_*
@@ -86,7 +94,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: light.group_*
@@ -99,7 +107,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: light.*
@@ -115,7 +123,7 @@ cards:
         show_empty: false
         card:
           type: entities
-          show_header_toggle: true
+          show_header_toggle: false
         filter:
           include:
             - entity_id: switch.*
