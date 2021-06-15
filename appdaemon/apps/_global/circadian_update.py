@@ -6,6 +6,7 @@ DELAY = 120
 SAT_STEP = 2
 MAX_LUX = 300
 MIN_LUX = 10
+# From 06:00 to 12:00 decrease saturation by maximum 20% (100% max saturation at 6, 80% at 9, 100% at 12)
 MORNING_START = 6
 MORNING_END = 12
 PCT = 0.2
@@ -38,11 +39,17 @@ class CircadianUpdate(hass.Hass):
 
   def calculate_saturation(self):
     try:
-      lux = float(int(self.get_state("sensor.balcony_illuminance")))
+      lux = float(self.get_state("sensor.balcony_illuminance"))
+    except ValueError:
+      self.log("Can't read balcon illuminance value")
+      return None
+    try:
       last_seen = float(self.get_state("sensor.balcony_illuminance", attribute="last_seen"))
     except ValueError:
+      self.log("Can't get last seen parameter for balcony illuminance sensor")
       return None
     if self.get_now_ts() - last_seen > 7200:
+      self.log("Balcony illuminance sensor last seen more than 2 hours ago")
       return None
     if lux >= MAX_LUX:
       return 0
@@ -73,7 +80,7 @@ class CircadianUpdate(hass.Hass):
 
 
   def calculate_kelvin(self, saturation):
-    kelvin = 2000 + saturation * ((6500 - 2000) / 100)
+    kelvin = 6500 - saturation * ((6500 - 2000) / 100)
     return kelvin
 
   def set_saturation(self, new_saturation, kelvin):
