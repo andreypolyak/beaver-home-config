@@ -23,7 +23,12 @@ class BedOccupied(YandexDialog):
 
   def on_bedroom_occupied(self, entity, attribute, old, new, kwargs):
     sleeping_scene = self.get_state("input_select.sleeping_scene")
-    if sleeping_scene == "day" and self.dialog_allowed and (self.get_now_ts() - self.occupied_ts) > 120:
+    if (
+      sleeping_scene == "day"
+      and self.dialog_allowed
+      and (self.get_now_ts() - self.occupied_ts) > 120
+      and self.now_is_between("20:00:00", "10:00:00")
+    ):
       self.log("Bed was occupied")
       self.dialog_allowed = False
       self.occupied_ts = self.get_now_ts()
