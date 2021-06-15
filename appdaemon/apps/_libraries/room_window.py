@@ -85,11 +85,11 @@ class RoomWindow(hass.Hass):
     if position is None:
       return
     position = self.normalize_windows_position(position)
-    if self.check_if_change_needed(position) and self.get_state(f"cover.{self.room}_window") != "unavailable":
+    if self.check_if_change_required(position) and self.get_state(f"cover.{self.room}_window") != "unavailable":
       self.change_position(position, reason)
 
 
-  def check_if_change_needed(self, position):
+  def check_if_change_required(self, position):
     try:
       current_position = int(float(self.get_state(f"cover.{self.room}_window", attribute="current_position")))
     except (ValueError, TypeError):
