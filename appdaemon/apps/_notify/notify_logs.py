@@ -48,7 +48,8 @@ HA_BLACKLIST = [
   "Connected to Broadlink",
   "Error fetching Broadlink",
   "We found a custom integration",
-  "GitHub returned 404 for https://api.github.com/repos"
+  "GitHub returned 404 for https://api.github.com/repos",
+  ":0:0 Script error."
 ]
 
 
