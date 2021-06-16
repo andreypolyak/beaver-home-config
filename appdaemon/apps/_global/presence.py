@@ -64,4 +64,3 @@ class Presence(hass.Hass):
         self.call_service("timer/cancel", entity_id=timer)
     # self.call_service("homeassistant/turn_off", entity_id="group.all")
     self.call_service("script/turn_off_all_lights")
-    # self.fire_event("update_light_state")

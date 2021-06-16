@@ -26,7 +26,6 @@ class BedSwitch(hass.Hass):
         self.turn_night_mode_everywhere()
     elif new == "brightness_move_up":
       self.turn_night_mode_everywhere()
-    # self.fire_event("update_light_state")
 
 
   def on_virtual_switch(self, event_name, data, kwargs):
