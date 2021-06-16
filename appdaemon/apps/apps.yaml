@@ -318,10 +318,6 @@ scenes:
   module: scenes
   class: Scenes
 
-update_light_state:
-  module: update_light_state
-  class: UpdateLightState
-
 update_lovelace:
   module: update_lovelace
   class: UpdateLovelace
