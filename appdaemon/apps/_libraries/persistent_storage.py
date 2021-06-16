@@ -9,6 +9,7 @@ class PersistentStorage(hass.Hass):
 
   def read(self, entity, attribute=None):
     state = self.get_state(entity, namespace="persistent_storage", attribute="all")["attributes"]
+    self.log(f"Reading {entity} state: {state}")
     if attribute == "all":
       return state
     elif attribute and attribute in state:
@@ -31,6 +32,7 @@ class PersistentStorage(hass.Hass):
       attributes[attribute] = value
     else:
       attributes["default_data"] = value
+    self.log(f"Writing to {entity} state: {attributes}")
     self.set_state(entity, namespace="persistent_storage", attributes=attributes, replace=replace)
 
 
