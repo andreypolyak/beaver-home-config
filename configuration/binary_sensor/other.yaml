@@ -87,7 +87,6 @@
           and states("binary_sensor.zigbee2mqtt_switches_state") == "on"
           and states("sensor.rpi_temp_rpi_living_room") != "unknown"
           and states("sensor.rpi_temp_rpi_entrance") != "unknown"
-          and states("sensor.rpi_temp_rpi_kitchen") != "unknown"
         }}
 
 - platform: template

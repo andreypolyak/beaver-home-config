@@ -139,11 +139,6 @@ person:
         - right: 4px
         - top: 20px
         - font-size: 14px
-      bluetooth:
-        - position: absolute
-        - right: 4px
-        - top: 36px
-        - font-size: 14px
   custom_fields:
     battery: >
       [[[ return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%" ]]]
@@ -152,16 +147,6 @@ person:
         if (states["device_tracker.wifi_" + variables.phone].state == "home")
         return `<ha-icon
           icon="mdi:wifi"
-          style="width: 14px; height: 14px;">
-          </ha-icon>`;
-        else
-        return ``;
-      ]]]
-    bluetooth: >
-      [[[
-        if (states["group.bt_any_" + variables.phone].state == "home")
-        return `<ha-icon
-          icon="mdi:bluetooth"
           style="width: 14px; height: 14px;">
           </ha-icon>`;
         else

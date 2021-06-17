@@ -247,11 +247,6 @@ vacuum:
 # Global
 #
 
-bt_tracker:
-  module: bt_tracker
-  class: BtTracker
-  dependencies: persistent_storage
-
 christmas_season:
   module: christmas_season
   class: ChristmasSeason

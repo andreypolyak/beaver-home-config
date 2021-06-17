@@ -23,8 +23,6 @@ cards:
           include:
             - entity_id: person.andrey
             - entity_id: device_tracker.wifi_andrey*
-            - entity_id: device_tracker.bt_*_andrey*
-            - entity_id: group.bt_any_andrey*
             - entity_id: device_tracker.icloud_andrey*
             - entity_id: device_tracker.ha_andrey*
             - entity_id: input_select.andrey_location
@@ -41,8 +39,6 @@ cards:
           include:
             - entity_id: person.katya
             - entity_id: device_tracker.wifi_katya*
-            - entity_id: device_tracker.bt_*_katya*
-            - entity_id: group.bt_any_katya*
             - entity_id: device_tracker.icloud_katya*
             - entity_id: device_tracker.ha_katya*
             - entity_id: input_select.katya_location
@@ -59,8 +55,6 @@ cards:
           include:
             - entity_id: person.andrey
             - entity_id: device_tracker.wifi_andrey*
-            - entity_id: device_tracker.bt_*_andrey*
-            - entity_id: group.bt_any_andrey*
             - entity_id: device_tracker.icloud_andrey*
             - entity_id: device_tracker.ha_andrey*
             - entity_id: input_select.andrey_location
@@ -77,8 +71,6 @@ cards:
           include:
             - entity_id: person.katya
             - entity_id: device_tracker.wifi_katya*
-            - entity_id: device_tracker.bt_*_katya*
-            - entity_id: group.bt_any_katya*
             - entity_id: device_tracker.icloud_katya*
             - entity_id: device_tracker.ha_katya*
             - entity_id: input_select.katya_location
@@ -94,15 +86,9 @@ cards:
             - entity_id: device_tracker.*
           exclude:
             - entity_id: device_tracker.wifi_andrey*
-            - entity_id: device_tracker.bt_andrey*
-            - entity_id: device_tracker.bt_*_andrey*
-            - entity_id: group.bt_any_andrey*
             - entity_id: device_tracker.icloud_andrey*
             - entity_id: device_tracker.ha_andrey*
             - entity_id: device_tracker.wifi_katya*
-            - entity_id: device_tracker.bt_katya*
-            - entity_id: device_tracker.bt_*_katya*
-            - entity_id: group.bt_any_katya*
             - entity_id: device_tracker.icloud_katya*
             - entity_id: device_tracker.ha_katya*
         sort:

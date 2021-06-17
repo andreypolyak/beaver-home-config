@@ -162,7 +162,7 @@ cards:
           template: restart_pi
           triggers_update:
             - sensor.rpi_temp_rpi_living_room
-          name: Living R.
+          name: Living Room
           variables:
             name: Raspberry Pi Living Room
             pi_item: living_room
@@ -182,12 +182,4 @@ cards:
           variables:
             name: Raspberry Pi Bedroom
             pi_item: bedroom
-        - type: custom:button-card
-          template: restart_pi
-          triggers_update:
-            - sensor.rpi_temp_rpi_kitchen
-          name: Kitchen
-          variables:
-            name: Raspberry Pi Kitchen
-            pi_item: kitchen
       - !include /config/lovelace/elements/footer.yaml

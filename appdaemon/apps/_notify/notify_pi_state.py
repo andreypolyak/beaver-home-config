@@ -1,6 +1,6 @@
 import appdaemon.plugins.hass.hassapi as hass
 
-ROOMS = ["entrance", "kitchen", "living_room", "bedroom"]
+ROOMS = ["entrance", "living_room", "bedroom"]
 
 
 class NotifyPiState(hass.Hass):

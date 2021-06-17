@@ -12,8 +12,6 @@ class Location(hass.Hass):
       person_phone = person["phone"]
       if not person_phone:
         continue
-      self.listen_state(self.on_change, f"device_tracker.bt_entrance_{person_phone}_tracker")
-      self.listen_state(self.on_change, f"device_tracker.bt_kitchen_{person_phone}_tracker")
       self.listen_state(self.on_change, f"device_tracker.wifi_{person_phone}")
       self.listen_state(self.on_change, f"device_tracker.ha_{person_phone}")
       self.listen_state(self.on_change, f"proximity.ha_{person_name}_home")
@@ -53,7 +51,6 @@ class Location(hass.Hass):
     person_phone = person["phone"]
     if not person_phone:
       return
-    bt_home = self.get_state(f"device_tracker.bt_global_{person_phone}") == "home"
     wifi_home = self.get_state(f"device_tracker.wifi_{person_phone}") == "home"
     ha_home = self.get_state(f"device_tracker.ha_{person_phone}") == "home"
     try:
@@ -65,14 +62,12 @@ class Location(hass.Hass):
     lock_unlocked_delta = self.get_now_ts() - lock_unlocked_ts
 
     if (
-      not bt_home
       and not wifi_home
       and not ha_home
       and (proximity is None or proximity > 500)
     ):
       return "not_home"
     elif (
-      not bt_home
       and not wifi_home
       and not ha_home
       and proximity is not None
@@ -81,14 +76,13 @@ class Location(hass.Hass):
       return "district"
     elif (
       location != "home"
-      and not bt_home
       and not wifi_home
       and ha_home
     ):
       return "yard"
     elif (
       location in ["not_home", "district", "yard", "downstairs"]
-      and (bt_home or wifi_home)
+      and wifi_home
       and lock_unlocked_delta > 300
     ):
       return "downstairs"
