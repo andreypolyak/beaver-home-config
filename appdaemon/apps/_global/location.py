@@ -62,13 +62,13 @@ class Location(hass.Hass):
     lock_unlocked_delta = self.get_now_ts() - lock_unlocked_ts
 
     if (
-      and not wifi_home
+      not wifi_home
       and not ha_home
       and (proximity is None or proximity > 500)
     ):
       return "not_home"
     elif (
-      and not wifi_home
+      not wifi_home
       and not ha_home
       and proximity is not None
       and proximity <= 500
