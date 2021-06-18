@@ -39,7 +39,6 @@ timer: !include configuration/timer.yaml
 tts: !include configuration/tts.yaml
 updater:
 utility_meter: !include configuration/utility_meter.yaml
-yandex_dialogs: !include configuration/yandex_dialogs.yaml
 yandex_smart_home: !include configuration/yandex_smart_home.yaml
 yandex_station: !include configuration/yandex_station.yaml
 zone: !include configuration/zone.yaml

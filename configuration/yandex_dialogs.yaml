@@ -1,3 +1,0 @@
-name: Афоня
-allowed_user_ids:
-  - !secret yandex_dialogs_allowed_user_id
