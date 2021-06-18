@@ -7,6 +7,7 @@ ACTIVATION_COMMAND = "Скажи Афоне арбуз"
 class YandexDialog(hass.Hass):
 
   def dialog_init(self):
+    self.run_ts = 0
     self.step = None
     self.set_inactive_dialog()
     self.room = None
@@ -14,6 +15,10 @@ class YandexDialog(hass.Hass):
 
 
   def start_dialog(self, step, room=None):
+    if self.get_now_ts() - self.run_ts <= 5:
+      return
+    else:
+      self.run_ts = self.get_now_ts()
     self.step = step
     if room:
       self.call_service("input_select/select_option", entity_id="input_select.last_active_yandex_station", option=room)
