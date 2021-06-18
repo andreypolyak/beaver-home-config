@@ -259,9 +259,9 @@ delete_snapshot:
   module: delete_snapshot
   class: DeleteSnapshot
 
-gledopto_cct:
-  module: gledopto_cct
-  class: GledoptoCct
+fix_gledopto:
+  module: fix_gledopto
+  class: FixGledopto
 
 ha_count_updates:
   module: ha_count_updates
