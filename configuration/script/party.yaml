@@ -32,32 +32,34 @@ set_random_light_color:
 
 party_tv_start:
   sequence:
-    - service: remote.send_command
+    - service: switch.turn_on
       data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+        entity_id: switch.ir_tv_sources
     - service: remote.send_command
       data:
         entity_id: remote.living_room_apple_tv
         command: home
     - delay:
         milliseconds: 2000
-    - service: remote.send_command
+    - repeat:
+        count: 9
+        sequence:
+          - service: switch.turn_on
+            data:
+              entity_id: switch.ir_tv_up
+          - delay:
+              milliseconds: 400
+    - repeat:
+        count: 8
+        sequence:
+          - service: switch.turn_on
+            data:
+              entity_id: switch.ir_tv_down
+          - delay:
+              milliseconds: 400
+    - service: switch.turn_on
       data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgBUAFIfDCANEA4PDh4bEQ0QDg8ODw4PDg8PDw8ODg8dHh0QDh4ODw4PDwAKrVcfDR8NEQ0QDxwcEA4QDg8NEA0QDRANEA0QDhAcHxwRDh4NEA0QDQANBQAAAAA=
-        delay_secs: 0.4
-        num_repeats: 9
-    - service: remote.send_command
-      data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgBMAFEgDR8NEA4PLCwNEA4PDw4ODw4PDhAODw4PHR4cEQ0fDg8eAAq9Vh8NHw0RDBErLA4QDg8ODw4PDg8ODw4PDhAbIBwRDx0ODx0ADQUAAAAAAAAAAAAAAAA=
-        delay_secs: 0.4
-        num_repeats: 8
-    - service: remote.send_command
-      data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+        entity_id: switch.ir_tv_ok
     - service: rest_command.party_tv_start
 
 party_tv_stop:
@@ -65,22 +67,17 @@ party_tv_stop:
     - service: script.turn_on
       data:
         entity_id: script.tv_source_mac_mini
-    - service: remote.send_command
+    - service: switch.turn_on
       data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgCoAFMeDh4NEA8PKywODw8ODw8ODw4PDRAODw4QDRAdEAwSDh4ODw0QDQAKr1YgDCAODw4PKi4ODw4PDRAODw4PDREMEQwRDg8cEQ4QDh4ODw0QDgAKsVMgDR8ODw0QKy0NEA4PDg8OEA4PDg8ODw4PDg8eDw0RDh4NEQ4PDgAKrVYgDh4NEA4PLCwNEA0QDRAODw8PDg8ODw4PDg8dEA0RDh4NEQ8ODgANBQ==
+        entity_id: switch.ir_tv_sources
     - delay:
         milliseconds: 1000
-    - service: remote.send_command
+    - service: switch.turn_on
       data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgBUAFIfDCANEA4PDh4bEQ0QDg8ODw4PDg8PDw8ODg8dHh0QDh4ODw4PDwAKrVcfDR8NEQ0QDxwcEA4QDg8NEA0QDRANEA0QDhAcHxwRDh4NEA0QDQANBQAAAAA=
-        delay_secs: 0.4
-        num_repeats: 1
-    - service: remote.send_command
+        entity_id: switch.ir_tv_up
+    - service: switch.turn_on
       data:
-        entity_id: remote.broadlink_rm_mini_3_remote
-        command: b64:JgAqAFIgDCAMEQwRDR8cEA4PDg8ODw4PDg8ODw4PDhAdHh0QDhANHw0QDgANBQAAAAAAAAAAAAAAAAAA
+        entity_id: switch.ir_tv_ok
     - service: rest_command.party_tv_stop
 
 party_tv_start_and_turn_on_tv:

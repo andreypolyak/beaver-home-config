@@ -77,7 +77,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 ### Multimedia
 
 - Philips TV 65PFT6520 — the software on this TV is horrible: Android TV is slow and buggy (use Apple TV instead) and API is unreliable (use a smart plug to monitor the state and IR blaster to control)
-- Broadlink RM Mini 3 — IR blaster, used to control TV and AC
+- Digma SmartControl IR1 — IR blaster flashed with ESPHome firmware, used to control TV and AC
 - Apple TV
 - Sony PlayStation 4
 - Sonos Beam, Sonos Sub, 2x Sonos One, 2x Ikea Symfonisk bookshelf speakers, 2x Ikea Symfonisk table lamp speakers, Sonos Move — multiroom audio all over the place
