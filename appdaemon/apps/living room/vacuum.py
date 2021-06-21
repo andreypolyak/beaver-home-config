@@ -5,10 +5,7 @@ class Vacuum(hass.Hass):
 
   def initialize(self):
     self.persons = self.get_app("persons")
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
+    for entity in self.persons.get_all_person_location_entities():
       self.listen_state(self.on_person_change, entity)
     self.listen_state(self.on_vacuum_docked, "vacuum.rockrobo", new="docked")
     self.listen_state(self.on_vacuum_error, "vacuum.rockrobo", new="error")
@@ -27,11 +24,7 @@ class Vacuum(hass.Hass):
     autoclean_state = self.get_vacuum_auto_clean_state()
     if autoclean_state == "done_charging" and new in ["downstairs", "home"]:
       self.go_to_bin()
-    all_persons_not_home = True
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if self.entity_exists(entity) and self.get_state(entity) != "not_home":
-        all_persons_not_home = False
+    all_persons_not_home = not self.persons.are_all_persons_inside_location("district")
     timestamp = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="timestamp"))
     day = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="day"))
 

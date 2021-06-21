@@ -5,10 +5,7 @@ class Presence(hass.Hass):
 
   def initialize(self):
     self.persons = self.get_app("persons")
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
+    for entity in self.persons.get_all_person_location_entities():
       self.listen_state(self.on_location_change, entity)
     self.listen_state(self.on_living_scene, "input_select.living_scene")
     self.listen_state(self.on_sleeping_scene, "input_select.sleeping_scene")

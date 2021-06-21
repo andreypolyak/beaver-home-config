@@ -15,11 +15,7 @@ class Lock(hass.Hass):
     self.listen_event(self.on_ios_unlock, event="ios.action_fired", actionName="LOCK_UNLOCK")
     self.listen_event(self.on_ios_unlock, event="mobile_app_notification_action", action="LOCK_UNLOCK")
     self.listen_event(self.on_ios_lock, event="mobile_app_notification_action", action="LOCK_LOCK")
-    person_names = self.persons.get_all_person_names()
-    for person_name in person_names:
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
+    for entity in self.persons.get_all_person_location_entities():
       self.listen_state(self.on_person_location_change, entity)
 
 

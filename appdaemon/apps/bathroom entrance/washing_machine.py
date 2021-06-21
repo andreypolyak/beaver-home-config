@@ -13,10 +13,7 @@ class WashingMachine(hass.Hass):
     self.listen_state(self.on_action, "input_select.washing_machine_status", new="full")
     self.listen_state(self.on_action, "input_select.sleeping_scene")
     self.listen_state(self.on_action, "input_select.living_scene")
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
+    for entity in self.persons.get_all_person_location_entities():
       self.listen_state(self.on_action, entity, new="home")
     self.run_every(self.action, "now", 600)
 

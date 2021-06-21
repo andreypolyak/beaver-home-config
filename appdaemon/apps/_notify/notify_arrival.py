@@ -15,10 +15,8 @@ class NotifyArrival(hass.Hass):
     }
     person_names = self.persons.get_all_person_names()
     for person_name in person_names:
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
       self.storage.init(f"notify_arrival.{person_name}", default)
+    for entity in self.persons.get_all_person_location_entities():
       self.listen_state(self.on_location_change, entity)
 
 
