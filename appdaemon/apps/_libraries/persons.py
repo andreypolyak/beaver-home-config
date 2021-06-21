@@ -24,6 +24,8 @@ PERSONS = {
   }
 }
 
+LOCATIONS = ["not_home", "district", "yard", "downstairs", "home"]
+
 
 class Persons(hass.Hass):
 
@@ -49,6 +51,14 @@ class Persons(hass.Hass):
     for _, person in PERSONS.items():
       person_names.append(person["name"])
     return person_names
+
+
+  def get_all_person_location_entities(self):
+    location_entities = []
+    for person_name in self.persons.get_all_person_names():
+      entity = f"input_select.{person_name}_location"
+      if self.entity_exists(entity):
+        location_entities.append(entity)
 
 
   def get_all_person_names_except_provided(self, person_name):
@@ -104,15 +114,44 @@ class Persons(hass.Hass):
     return is_anyone_home
 
 
-  def get_person_names_inside_proximity(self, proximity_max):
-    person_names_inside_proximity = []
+  def are_all_persons_inside_location(self, location):
+    locations = LOCATIONS[:]
+    if location not in locations:
+      return False
+    location_index = locations.index(location)
+    min_location_index = 999
     for _, person in PERSONS.items():
-      proximity = self.__get_proximity(person["name"])
-      if not proximity:
+      person_name = person["name"]
+      entity = f"input_select.{person_name}_location"
+      if not self.entity_exists(entity):
         continue
-      if proximity <= proximity_max:
-        person_names_inside_proximity.append(person["name"])
-    return person_names_inside_proximity
+      person_location = self.get_state(entity)
+      person_location_index = locations.index(person_location)
+      if person_location_index < min_location_index:
+        min_location_index = person_location_index
+    if min_location_index < location_index:
+      return False
+    return True
+
+
+  def is_any_person_inside_location(self, location):
+    locations = LOCATIONS[::-1]
+    if location not in locations:
+      return False
+    location_index = locations.index(location)
+    min_location_index = 999
+    for _, person in PERSONS.items():
+      person_name = person["name"]
+      entity = f"input_select.{person_name}_location"
+      if not self.entity_exists(entity):
+        continue
+      person_location = self.get_state(entity)
+      person_location_index = locations.index(person_location)
+      if person_location_index < min_location_index:
+        min_location_index = person_location_index
+    if min_location_index < location_index:
+      return False
+    return True
 
 
   def update_location(self, to):
@@ -183,17 +222,6 @@ class Persons(hass.Hass):
       if person["admin"]:
         admin_persons.append(person)
     return admin_persons
-
-
-  def __get_persons_inside_proximity(self, proximity_max):
-    persons_inside_proximity = []
-    for _, person in PERSONS.items():
-      proximity = self.__get_proximity(person["name"])
-      if not proximity:
-        continue
-      if proximity <= proximity_max:
-        persons_inside_proximity.append(person["name"])
-    return persons_inside_proximity
 
 
   def __get_notification_ts_delta(self, person_name, category):
