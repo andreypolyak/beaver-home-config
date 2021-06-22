@@ -5,7 +5,7 @@ import requests
 class HaCountUpdates(hass.Hass):
 
   def initialize(self):
-    self.run_every(self.check_updates, "now", 600)
+    self.run_every(self.check_updates, "now+300", 600)
 
 
   def check_updates(self, kwargs):

@@ -27,7 +27,7 @@ class NotifyUnavailable(hass.Hass):
     self.initial_run = True
     self.clear_entities()
     self.listen_state(self.on_unavailable_state, new="unavailable")
-    self.run_every(self.process, "now", 5)
+    self.run_every(self.process, "now+60", 5)
 
 
   def on_unavailable_state(self, entity, attribute, old, new, kwargs):

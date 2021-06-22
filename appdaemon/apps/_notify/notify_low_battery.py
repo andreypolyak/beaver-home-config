@@ -16,7 +16,7 @@ class NotifyLowBattery(hass.Hass):
     self.persons = self.get_app("persons")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_low_battery.entities", {})
-    self.run_every(self.check_entities, "now", 600)
+    self.run_every(self.check_entities, "now+120", 600)
 
 
   def check_entities(self, kwargs):

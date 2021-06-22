@@ -7,7 +7,7 @@ class NotifyZigbeeOtaUpdate(hass.Hass):
     self.persons = self.get_app("persons")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_zigbee_updates.entities", {})
-    self.run_every(self.check_entities, "now", 600)
+    self.run_every(self.check_entities, "now+120", 600)
 
 
   def check_entities(self, kwargs):

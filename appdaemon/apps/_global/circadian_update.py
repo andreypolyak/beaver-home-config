@@ -17,7 +17,7 @@ class CircadianUpdate(hass.Hass):
   def initialize(self):
     self.changed_ts = 0
     self.listen_state(self.on_lights_off, "light.ha_group_all")
-    self.run_every(self.process, "now", 60)
+    self.run_every(self.process, "now+300", 60)
 
 
   def process(self, kwargs):

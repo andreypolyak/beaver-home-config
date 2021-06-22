@@ -11,7 +11,7 @@ class Presence(hass.Hass):
     self.listen_state(self.on_sleeping_scene, "input_select.sleeping_scene")
     self.listen_state(self.on_activity, "lock.entrance_lock", new="unlocked", old="locked")
     self.listen_state(self.on_activity, "binary_sensor.entrance_door", new="on", old="off")
-    self.run_every(self.turn_off_all, "now", 3600)
+    self.run_every(self.turn_off_all, "now+300", 3600)
     sensors = self.get_state("sensor")
     for sensor in sensors:
       if sensor.endswith("_switch"):

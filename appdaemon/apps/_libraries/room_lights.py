@@ -36,7 +36,6 @@ class RoomLights(hass.Hass):
     self.listen_event(self.__on_toggle_max_brightness, "custom_event",
                       custom_event_data=f"{self.room}_toggle_max_brightness")
     self.listen_state(self.__on_lights_off, f"light.ha_group_{self.room}", new="off")
-    # self.run_every(self.update_circadian, "now", 300)
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
 
 # Control
