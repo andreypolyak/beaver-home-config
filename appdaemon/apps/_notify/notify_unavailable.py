@@ -72,14 +72,15 @@ class NotifyUnavailable(hass.Hass):
   def process_saved_entities(self):
     for entity, entity_obj in self.saved_entities.items():
       entity_state = self.get_state(entity)
+      delta_ts = self.get_now_ts() - entity_obj["ts"]
       if entity_state not in ["unavailable", "unknown"]:
         self.available_entities.append(entity)
         continue
       if entity_state == "unknown":
         continue
-      if (self.get_now_ts() - entity_obj["ts"]) < 300:
+      if delta_ts < 180:
         continue
-      if (self.get_now_ts() - entity_obj["ts"]) < 180:
+      if delta_ts >= 180 and delta_ts < 300:
         self.possible_notify_entities.append(entity)
         continue
       self.unavailable_entities_len += 1
@@ -116,7 +117,7 @@ class NotifyUnavailable(hass.Hass):
         if device_name:
           notify_objs.append(device_name)
         else:
-          notify_objs.append(self.available_entity)
+          notify_objs.append(available_entity)
     notify_objs = list(set(notify_objs))
     if len(notify_objs) > 0:
       self.log(f"Send notification about available entities: {notify_objs}")
