@@ -22,7 +22,7 @@ class CircadianUpdate(hass.Hass):
 
   def process(self, kwargs):
     new_saturation = self.calculate_saturation()
-    if not new_saturation:
+    if new_saturation is None:
       self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
       new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
     kelvin = self.calculate_kelvin(new_saturation)
