@@ -73,7 +73,7 @@ class MediaVolume(hass.Hass):
       if "check_if_playing" in media_player and self.is_playing_now(media_player["check_if_playing"]):
         continue
       volume_level = self.get_default_volume(media_player, new)
-      self.log(f"Scene in {zone.capitalize()} zone changed to: {new}."
+      self.log(f"Scene in {zone.capitalize()} zone changed to: {new}. "
                f"Setting default volume ({volume_level}) for {media_player_name}")
       self.set_volume(media_player_name, volume_level)
 
