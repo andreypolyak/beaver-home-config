@@ -55,10 +55,11 @@ class Persons(hass.Hass):
 
   def get_all_person_location_entities(self):
     location_entities = []
-    for person_name in self.persons.get_all_person_names():
+    for person_name in self.get_all_person_names():
       entity = f"input_select.{person_name}_location"
       if self.entity_exists(entity):
         location_entities.append(entity)
+    return location_entities
 
 
   def get_all_person_names_except_provided(self, person_name):
@@ -149,7 +150,7 @@ class Persons(hass.Hass):
       person_location_index = locations.index(person_location)
       if person_location_index < min_location_index:
         min_location_index = person_location_index
-    if min_location_index < location_index:
+    if min_location_index > location_index:
       return False
     return True
 
@@ -177,15 +178,15 @@ class Persons(hass.Hass):
         if person_name in PERSONS:
           persons.append(PERSONS[person_name])
     elif to == "admin":
-      persons = self.__get_admin_persons()
+      persons = self.get_admin_persons()
     elif to == "home_or_all":
-      persons_at_home = self.__get_persons_at_home()
+      persons_at_home = self.get_persons_at_home()
       if len(persons_at_home) > 0:
         persons = persons_at_home
       else:
         persons = self.get_all_persons()
     elif to == "home_or_none":
-      persons_at_home = self.__get_persons_at_home()
+      persons_at_home = self.get_persons_at_home()
       if len(persons_at_home) > 0:
         persons = persons_at_home
     elif to == "proximity" and max_proximity:
@@ -206,7 +207,7 @@ class Persons(hass.Hass):
       self.__send_notification(person, message, category, sound, is_critical, url, actions)
 
 
-  def __get_persons_at_home(self):
+  def get_persons_at_home(self):
     persons_at_home = []
     for _, person in PERSONS.items():
       person_name = person["name"]
@@ -216,7 +217,7 @@ class Persons(hass.Hass):
     return persons_at_home
 
 
-  def __get_admin_persons(self):
+  def get_admin_persons(self):
     admin_persons = []
     for _, person in PERSONS.items():
       if person["admin"]:
@@ -239,7 +240,17 @@ class Persons(hass.Hass):
       return
     # HA App Push
     properties = self.__get_notification_properties(person_name, category, sound, is_critical, url, actions)
-    self.call_service(f"notify/mobile_app_{person_phone}", message=message, data=properties)
+    tries = 2
+    for i in range(tries):
+      try:
+        self.call_service(f"notify/mobile_app_{person_phone}", message=message, data=properties)
+      except TimeoutError as e:
+        if i < tries - 1:
+          continue
+        else:
+          self.log("Failed to send notification!")
+          raise e
+      break
     # Telegram
     telegram_name = person_name.capitalize()
     telegram_message = f"{telegram_name} → {message}"
