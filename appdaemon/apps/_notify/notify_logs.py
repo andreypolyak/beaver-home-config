@@ -50,7 +50,10 @@ HA_BLACKLIST = [
   "We found a custom integration",
   "GitHub returned 404 for https://api.github.com/repos",
   ":0:0 Script error.",
-  "Timeout call http://192.168.1.78:8080/start"
+  "Timeout call http://192.168.1.78:8080/start",
+  "Cannot connect to host quasar.yandex.ru",
+  "TypeError: forward_push_notification()",
+  "Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: "
 ]
 
 
