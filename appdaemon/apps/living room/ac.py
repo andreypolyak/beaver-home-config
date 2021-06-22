@@ -4,12 +4,13 @@ import appdaemon.plugins.hass.hassapi as hass
 class AC(hass.Hass):
 
   def initialize(self):
+    self.persons = self.get_app("persons")
+    for entity in self.persons.get_all_person_location_entities():
+      self.listen_state(self.on_change, entity)
     self.listen_state(self.on_change, "binary_sensor.living_room_balcony_door")
-    self.listen_state(self.on_change, "binary_sensor.bedroom_door")
     self.listen_state(self.on_change, "sensor.balcony_temperature")
     self.listen_state(self.on_change, "sensor.living_room_temperature")
     self.listen_state(self.on_change, "sensor.living_room_humidity")
-    self.listen_state(self.on_change, "input_select.living_scene")
     self.listen_state(self.on_change, "timer.ac_no_auto_off")
     self.listen_state(self.on_change, "timer.ac_no_auto_on")
     self.listen_event(self.on_manual_toggle, "custom_event", custom_event_data="manual_ac_toggle")
@@ -43,8 +44,7 @@ class AC(hass.Hass):
       is_ac_on = self.get_state("binary_sensor.living_room_ac_door") == "on"
       is_ac_off = self.get_state("binary_sensor.living_room_ac_door") == "off"
       is_balcony_open = self.get_state("binary_sensor.living_room_balcony_door") == "on"
-      is_bedroom_open = self.get_state("binary_sensor.bedroom_door") == "on"
-      current_scene = self.get_state("input_select.living_scene")
+      people_inside_district = self.persons.is_any_person_inside_location("district")
       living_room_temperature = float(self.get_state("sensor.living_room_temperature"))
       living_room_humidity = float(self.get_state("sensor.living_room_humidity"))
       balcony_temperature = float(self.get_state("sensor.balcony_temperature"))
@@ -86,12 +86,8 @@ class AC(hass.Hass):
         change_reason = "balcony_temperature < 15"
         new_ac_state = False
 
-      if current_scene == "away":
-        change_reason = "current_scene is away"
-        new_ac_state = False
-
-      if current_scene == "night" and not is_bedroom_open:
-        change_reason = "current_scene is night and bedroom door is closed"
+      if not people_inside_district:
+        change_reason = "no people at home"
         new_ac_state = False
 
       if is_no_off_timer_on:
