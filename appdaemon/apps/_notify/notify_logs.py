@@ -101,4 +101,7 @@ class NotifyLogs(hass.Hass):
   def send_to_bot(self, text):
     message = html.escape(text[:3500])
     chat_id = self.args["chat_id"]
-    self.call_service("telegram_bot/send_message", message=message, target=chat_id, disable_notification=True)
+    try:
+      self.call_service("telegram_bot/send_message", message=message, target=chat_id, disable_notification=True)
+    except:
+      pass

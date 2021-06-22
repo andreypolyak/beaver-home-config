@@ -254,7 +254,10 @@ class Persons(hass.Hass):
     # Telegram
     telegram_name = person_name.capitalize()
     telegram_message = f"{telegram_name} → {message}"
-    self.call_service("telegram_bot/send_message", message=telegram_message, target=self.args["chat_id"])
+    try:
+      self.call_service("telegram_bot/send_message", message=telegram_message, target=self.args["chat_id"])
+    except:
+      pass
     # HA Sensor
     sensor_name = person_name.capitalize()[0]
     sensor_message = f"\"{sensor_name}→{message}\""[:99]
