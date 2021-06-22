@@ -21,7 +21,7 @@ light: !include_dir_merge_list configuration/light
 logger: !include configuration/logger.yaml
 lovelace: !include configuration/lovelace.yaml
 media_player: !include configuration/media_player.yaml
-mosenergosbyt: !include configuration/mosenergosbyt.yaml
+# mosenergosbyt: !include configuration/mosenergosbyt.yaml
 mqtt: !include configuration/mqtt.yaml
 notify: !include configuration/notify.yaml
 panel_iframe: !include configuration/panel_iframe.yaml
