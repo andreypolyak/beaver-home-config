@@ -4,9 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class KitchenCover(hass.Hass):
 
   def initialize(self):
-    self.closed_ts = 0
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
-    self.listen_event(self.on_timer_finished, "timer.finished", entity_id="timer.ventilation_kitchen_cover")
     self.listen_event(self.on_close_cover, "close_kitchen_cover")
     self.listen_event(self.on_partly_open_cover, "partly_open_kitchen_cover")
     binary_sensors = self.get_state("binary_sensor")
@@ -53,32 +51,23 @@ class KitchenCover(hass.Hass):
 
 
   def on_close_cover(self, event_name, data, kwargs):
-    delta_ts = self.get_now_ts() - self.closed_ts
-    if self.get_state("cover.kitchen_cover", attribute="current_position") != "0" and delta_ts > 30:
-      self.close_cover()
+    self.close_cover()
 
 
   def on_partly_open_cover(self, event_name, data, kwargs):
     self.partly_open_cover()
 
 
-  def on_timer_finished(self, event_name, data, kwargs):
-    self.partly_open_cover()
-
-
   def close_cover(self):
-    self.closed_ts = self.get_now_ts()
-    self.call_service("timer/start", entity_id="timer.ventilation_kitchen_cover", duration=3600)
-    self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=0)
+    if self.get_state("cover.kitchen_cover", attribute="current_position") != "0":
+      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=0)
 
 
   def open_cover(self):
-    self.closed_ts = 0
-    self.call_service("timer/cancel", entity_id="timer.ventilation_kitchen_cover")
-    self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=100)
+    if self.get_state("cover.kitchen_cover", attribute="current_position") != "100":
+      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=100)
 
 
   def partly_open_cover(self):
-    self.closed_ts = 0
-    self.call_service("timer/cancel", entity_id="timer.ventilation_kitchen_cover")
-    self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=30)
+    if self.get_state("cover.kitchen_cover", attribute="current_position") != "15":
+      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=15)
