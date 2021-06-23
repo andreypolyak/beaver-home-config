@@ -5,7 +5,8 @@ APPDAEMON_BLACKLIST = [
   "not found in namespace persistent_storage",
   " has now completed",
   "initialize() skipped",
-  "Invalid callback handle"
+  "Invalid callback handle",
+  "Found stale callback"
 ]
 
 HA_BLACKLIST = [
@@ -26,7 +27,6 @@ HA_BLACKLIST = [
   "mset?motor_speed",
   "using 'value_template' for 'position_topic'",
   "Authentication required for Account. (421)",
-  "Updating androidtv media_player took longer than the scheduled update interval",
   "Client unable to keep up with pending messages.",
   "BrokenPipeError",
   "ConnectionResetError",
@@ -53,7 +53,10 @@ HA_BLACKLIST = [
   "Timeout call http://192.168.1.78:8080/start",
   "Cannot connect to host quasar.yandex.ru",
   "TypeError: forward_push_notification()",
-  "Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: "
+  "Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ",
+  "took longer than the scheduled update interval 0:00:10",
+  "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
+  "Error retrieving proxied image from"
 ]
 
 
