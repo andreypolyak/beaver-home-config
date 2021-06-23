@@ -78,46 +78,37 @@ cards:
       - type: horizontal-stack
         cards:
         - type: custom:button-card
-          template: restart
+          template: restart_system
+          entity: input_boolean.ui_running
           name: UI
           icon: mdi:television-guide
-          tap_action:
-            action: call-service
-            service: script.reload_all
-            haptic: success
           variables:
             name: UI
+            short_name: ui
         - type: custom:button-card
-          template: restart_ad
-          entity: input_boolean.appdaemon_running
+          template: restart_system
+          entity: input_boolean.ad_running
           name: AD
           icon: mdi:robot
-          tap_action:
-            action: call-service
-            service: script.restart_appdaemon
-            haptic: success
           variables:
             name: AppDaemon
+            short_name: ad
         - type: custom:button-card
-          template: restart
+          template: restart_system
+          entity: input_boolean.ha_running
           name: HA
           icon: mdi:home-assistant
-          tap_action:
-            action: call-service
-            service: homeassistant.restart
-            haptic: success
           variables:
             name: Home Assistant
+            short_name: ha
         - type: custom:button-card
-          template: restart
+          template: restart_system
+          entity: input_boolean.os_running
           name: OS
           icon: mdi:server
-          tap_action:
-            action: call-service
-            service: hassio.host_reboot
-            haptic: success
           variables:
             name: HassOS
+            short_name: os
       - type: horizontal-stack
         cards:
         - type: custom:button-card

@@ -1,0 +1,56 @@
+restart_ui:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.ui_running
+    - service: script.fire_custom_event
+      data:
+        custom_event_data: update_lovelace
+    - service: input_boolean.reload
+    - service: input_datetime.reload
+    - service: input_number.reload
+    - service: input_select.reload
+    - service: input_text.reload
+    - service: automation.reload
+    - service: person.reload
+    - service: scene.reload
+    - service: timer.reload
+    - service: zone.reload
+    - service: frontend.reload_themes
+    - service: homeassistant.reload_core_config
+    - service: lovelace.reload_resources
+    - service: template.reload
+    # - service: script.reload
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.ui_running
+    - service: script.turn_on
+      target:
+        entity_id: script.reload_scripts
+
+reload_scripts:
+  sequence:
+    - service: script.reload
+
+restart_appdaemon:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.ad_running
+    - service: hassio.addon_restart
+      data:
+        addon: a0d7b954_appdaemon
+
+restart_ha:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.ha_running
+    - service: homeassistant.restart
+
+restart_os:
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.os_running
+    - service: hassio.host_reboot

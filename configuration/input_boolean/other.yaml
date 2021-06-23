@@ -44,6 +44,15 @@ coffee_prepared:
 guest_mode:
   name: Guest Mode
 
-appdaemon_running:
+ad_running:
   name: AppDaemon Running
   initial: false
+ha_running:
+  name: Home Assistant Running
+  initial: true
+os_running:
+  name: HassOS Running
+  initial: true
+ui_running:
+  name: User Interface Running
+  initial: true
