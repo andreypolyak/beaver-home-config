@@ -131,60 +131,6 @@ tv_source_apple_tv:
       data:
         entity_id: switch.ir_tv_ok
 
-tv_up:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_up
-
-tv_down:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_down
-
-tv_left:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_left
-
-tv_right:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_right
-
-tv_ok:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_ok
-
-tv_sources:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_sources
-
-tv_home:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_home
-
-tv_back:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_back
-
-tv_toggle:
-  sequence:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.ir_tv_toggle
-
 yandex_play_media:
   fields:
     media_entity_id:

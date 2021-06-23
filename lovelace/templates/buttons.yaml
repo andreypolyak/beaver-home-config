@@ -1281,8 +1281,10 @@ tv_remote:
   template: base
   tap_action:
     action: call-service
-    service: >
-      [[[ return "script." + variables.command ]]]
+    service: switch.turn_on
+    service_data:
+      entity_id: >
+        [[[ return "switch.ir_tv_" + variables.command ]]]
     haptic: success
   variables:
     command: ""
