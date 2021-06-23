@@ -6,6 +6,7 @@ class NotifyArrival(hass.Hass):
   def initialize(self):
     self.storage = self.get_app("persistent_storage")
     self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
 
     default = {
         "last_notified_about_district": 0,
@@ -48,8 +49,8 @@ class NotifyArrival(hass.Hass):
                            attribute="last_notified_about_district")
         arriving_person_emoji = self.persons.get_info(arriving_person_name)["emoji"]
         message = f"{arriving_person_emoji} {arriving_person_name.capitalize()} is arriving home!"
-        self.persons.send_notification(person_name, message, "notify_arrival_district", sound="Hello.caf",
-                                       url="/lovelace/outside", ios_category="notify_arrival")
+        self.notifications.send(person_name, message, "notify_arrival_district", sound="Hello.caf",
+                                url="/lovelace/outside", ios_category="notify_arrival")
       if (
           person_name != arriving_person_name
           and person_location == "home"
@@ -63,5 +64,5 @@ class NotifyArrival(hass.Hass):
                            attribute="last_notified_about_downstairs")
         arriving_person_emoji = self.persons.get_info(arriving_person_name)["emoji"]
         message = f"{arriving_person_emoji} {arriving_person_name.capitalize()} is downstairs!"
-        self.persons.send_notification(person_name, message, "notify_arrival_downstairs", sound="Hello.caf",
-                                       url="/lovelace/outside", ios_category="notify_arrival")
+        self.notifications.send(person_name, message, "notify_arrival_downstairs", sound="Hello.caf",
+                                url="/lovelace/outside", ios_category="notify_arrival")

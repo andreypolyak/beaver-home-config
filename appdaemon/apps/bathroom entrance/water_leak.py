@@ -24,7 +24,7 @@ SENSORS = [
 class WaterLeak(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     for sensor in SENSORS:
       sensor_name = sensor["name"]
       self.listen_state(self.on_leak, f"binary_sensor.{sensor_name}_leak", new="on", old="off", sensor=sensor)
@@ -36,4 +36,4 @@ class WaterLeak(hass.Hass):
     sensor_ru = sensor["ru"]
     text = f"Внимание! Обнаружена вода {sensor_ru}!"
     self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-    self.persons.send_notification("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", is_critical=True)
+    self.notifications.send("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", is_critical=True)

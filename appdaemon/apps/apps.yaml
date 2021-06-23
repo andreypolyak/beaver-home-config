@@ -17,6 +17,14 @@ persons:
   dependencies: persistent_storage
   chat_id: !secret notifications_chat_id
 
+notifications:
+  module: notifications
+  class: Notifications
+  dependencies:
+    - persons
+    - persistent_storage
+  chat_id: !secret notifications_chat_id
+
 #
 # Important
 #
@@ -39,7 +47,7 @@ telegram_entity_logger:
 notify_app_error:
   module: notify_app_error
   class: NotifyAppError
-  dependencies: persons
+  dependencies: notifications
 
 #
 # Dialogs
@@ -74,7 +82,9 @@ bell:
   module: bell
   class: Bell
   bell_sound_url: !secret bell_sound_url
-  dependencies: persons
+  dependencies:
+    - persons
+    - notifications
 
 freshener:
   module: freshener
@@ -88,17 +98,21 @@ fun_toilet:
 lock:
   module: lock
   class: Lock
-  dependencies: persons
+  dependencies:
+    - persons
+    - notifications
 
 washing_machine:
   module: washing_machine
   class: WashingMachine
-  dependencies: persons
+  dependencies:
+    - persons
+    - notifications
 
 water_leak:
   module: water_leak
   class: WaterLeak
-  dependencies: persons
+  dependencies: notifications
 
 welcome_announcement:
   module: welcome_announcement
@@ -157,6 +171,7 @@ weight:
   class: Weight
   dependencies:
     - persons
+    - notifications
     - persistent_storage
 
 #
@@ -175,7 +190,7 @@ cooler:
 fridge:
   module: fridge
   class: Fridge
-  dependencies: persons
+  dependencies: notifications
 
 kitchen_cover:
   module: kitchen_cover
@@ -216,7 +231,7 @@ cinema:
   module: cinema
   class: Cinema
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 living_room_cover:
@@ -295,7 +310,6 @@ media_volume:
 night:
   module: night
   class: Night
-  dependencies: persistent_storage
 
 person_inside:
   module: person_inside
@@ -304,7 +318,7 @@ person_inside:
 plant:
   module: plant
   class: Plant
-  dependencies: persons
+  dependencies: notifications
 
 presence:
   module: presence
@@ -332,13 +346,13 @@ notify_addon_update:
   module: notify_addon_update
   class: NotifyAddonUpdate
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_air_quality:
   module: notify_air_quality
   class: NotifyAirQuality
-  dependencies: persons
+  dependencies: notifications
 
 notify_arrival:
   module: notify_arrival
@@ -346,81 +360,82 @@ notify_arrival:
   dependencies:
     - persons
     - persistent_storage
+    - notifications
 
 notify_core_update:
   module: notify_core_update
   class: NotifyCoreUpdate
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_hacs_update:
   module: notify_hacs_update
   class: NotifyHacsUpdate
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_lock:
   module: notify_lock
   class: NotifyLock
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_low_battery:
   module: notify_low_battery
   class: NotifyLowBattery
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_new_entity:
   module: notify_new_entity
   class: NotifyNewEntity
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_os_update:
   module: notify_os_update
   class: NotifyOsUpdate
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_persistent:
   module: notify_persistent
   class: NotifyPersistent
-  dependencies: persons
+  dependencies: notifications
 
 notify_pi_state:
   module: notify_pi_state
   class: NotifyPiState
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_temperature:
   module: notify_temperature
   class: NotifyTemperature
-  dependencies: persons
+  dependencies: notifications
 
 notify_unavailable:
   module: notify_unavailable
   class: NotifyUnavailable
   dependencies:
-    - persons
+    - notifications
     - persistent_storage
 
 notify_z2m_state:
   module: notify_z2m_state
   class: NotifyZ2mState
-  dependencies: persons
+  dependencies: notifications
 
 notify_zigbee_ota_update:
   module: notify_zigbee_ota_update
   class: NotifyZigbeeOtaUpdate
   dependencies:
-    - persons
+    - notifications
     - persistent_storage

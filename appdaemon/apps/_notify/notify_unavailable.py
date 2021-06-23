@@ -19,7 +19,7 @@ class NotifyUnavailable(hass.Hass):
 
   def initialize(self):
     self.storage = self.get_app("persistent_storage")
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.new_unavailable_entities = []
     self.storage.init("notify_unavailable.entities", {})
     self.entity_registry = None
@@ -105,8 +105,7 @@ class NotifyUnavailable(hass.Hass):
     if len(notify_objs) > 0:
       self.log(f"Send notification about unavailable entities: {notify_objs}")
       message = self.build_unavailable_message(notify_objs)
-      self.persons.send_notification("admin", message, "unavailable", sound="Noir.caf",
-                                     url="/lovelace/settings_entities")
+      self.notifications.send("admin", message, "unavailable", sound="Noir.caf", url="/lovelace/settings_entities")
 
 
   def send_available_notifications(self):
@@ -122,7 +121,7 @@ class NotifyUnavailable(hass.Hass):
     if len(notify_objs) > 0:
       self.log(f"Send notification about available entities: {notify_objs}")
       message = self.build_available_message(notify_objs)
-      self.persons.send_notification("admin", message, "available", url="/lovelace/settings_entities")
+      self.notifications.send("admin", message, "available", url="/lovelace/settings_entities")
     for entity in self.available_entities:
       del self.saved_entities[entity]
 

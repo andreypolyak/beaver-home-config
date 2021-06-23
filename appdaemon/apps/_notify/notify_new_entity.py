@@ -5,7 +5,7 @@ class NotifyNewEntity(hass.Hass):
 
   def initialize(self):
     self.storage = self.get_app("persistent_storage")
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage.init("notify_new_entity.entities", {})
     self.handle = None
     self.new_entities = []
@@ -41,7 +41,7 @@ class NotifyNewEntity(hass.Hass):
   def send_notification(self, kwargs):
     if len(self.new_entities) > 0:
       message = self.build_message(self.new_entities)
-      self.persons.send_notification("admin", message, "new", sound="Tweet.caf", url="/lovelace/settings_entities")
+      self.notifications.send("admin", message, "new", sound="Tweet.caf", url="/lovelace/settings_entities")
     self.new_entities = []
 
 

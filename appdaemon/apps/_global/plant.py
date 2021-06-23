@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class Plant(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     sensors = self.get_state("sensor")
     for sensor in sensors:
       if "_moisture" in sensor:
@@ -22,4 +22,4 @@ class Plant(hass.Hass):
     if moisture < 80:
       plant_name = entity.replace("sensor.", "").replace("_moisture", "").replace("_", " ")
       text = f"🪴 It's time to water the {plant_name}. Moisture there is {moisture}%"
-      self.persons.send_notification("home_or_none", text, "plant", min_delta=21600)
+      self.notifications.send("home_or_none", text, "plant", min_delta=21600)

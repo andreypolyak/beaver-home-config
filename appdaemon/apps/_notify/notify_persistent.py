@@ -5,7 +5,7 @@ import re
 class NotifyPersistent(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     notifications = self.get_state("persistent_notification")
     for notification in notifications:
       self.on_existing_notification(notification)
@@ -32,7 +32,7 @@ class NotifyPersistent(hass.Hass):
       return
     (message, url) = self.parse_message(message)
     text = f"📻 New notification: {title}. {message}"
-    self.persons.send_notification("admin", text, "persistent", url=url)
+    self.notifications.send("admin", text, "persistent", url=url)
     self.call_service("persistent_notification/dismiss", notification_id=notification_id)
 
 

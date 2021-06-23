@@ -5,6 +5,7 @@ class WashingMachine(hass.Hass):
 
   def initialize(self):
     self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.last_changed = 0
     self.listen_state(self.on_median_power_change, "sensor.washing_machine_plug_median_power")
     self.listen_state(self.on_power_change, "sensor.bathroom_washing_machine_plug_power")
@@ -65,8 +66,8 @@ class WashingMachine(hass.Hass):
     is_not_sleeping = self.get_state("input_select.sleeping_scene") != "night"
     is_not_away = self.get_state("input_select.living_scene") != "away"
     if is_not_sleeping and is_not_away:
-      self.persons.send_notification("home_or_none", "👖 Clothes are done", "washing_machine",
-                                     sound="Bloom.caf", min_delta=3600)
+      message = "👖 Clothes are done"
+      self.notifications.send("home_or_none", message, "washing_machine", sound="Bloom.caf", min_delta=3600)
 
 
   def action(self, kwargs):

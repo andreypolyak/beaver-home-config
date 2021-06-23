@@ -6,6 +6,7 @@ class Weight(hass.Hass):
   def initialize(self):
     self.storage = self.get_app("persistent_storage")
     self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     default = {
       "current_weight": 0,
       "current_weight_ts": 0,
@@ -93,7 +94,7 @@ class Weight(hass.Hass):
       push_text += "). Click to save in Apple Health"
       weight = str(weight).replace(".", ",")
       url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
-      self.persons.send_notification(person_name, push_text, "weight", url=url)
+      self.notifications.send(person_name, push_text, "weight", url=url)
     if self.get_state("input_select.sleeping_scene") != "night":
       self.fire_event("yandex_speak_text", text=voice_text, room="bedroom")
 

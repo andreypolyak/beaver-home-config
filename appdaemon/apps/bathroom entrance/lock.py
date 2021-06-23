@@ -5,6 +5,7 @@ class Lock(hass.Hass):
 
   def initialize(self):
     self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.lock_handle = None
     self.unlocked_ts = 0
     self.unlocked_by = None
@@ -36,7 +37,7 @@ class Lock(hass.Hass):
     self.lock_handle = self.run_in(self.lock_door, 60)
     if (self.get_now_ts() - self.unlocked_ts) < 15 and self.unlocked_by:
       actions = [{"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}]
-      self.persons.send_notification(self.unlocked_by, "🔓 Lock was unlocked", "lock", actions=actions)
+      self.notifications.send(self.unlocked_by, "🔓 Lock was unlocked", "lock", actions=actions)
       self.unlocked_ts = 0
       self.unlocked_by = None
 
@@ -50,8 +51,7 @@ class Lock(hass.Hass):
         {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
         {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
       ]
-      self.persons.send_notification("home_or_all", "🔓 Lock not fully closed!", "lock",
-                                     is_critical=True, actions=actions)
+      self.notifications.send("home_or_all", "🔓 Lock not fully closed!", "lock", is_critical=True, actions=actions)
 
 
   def on_ios_lock(self, event_name, data, kwargs):
@@ -71,11 +71,11 @@ class Lock(hass.Hass):
     person_name = self.persons.get_person_name_from_entity_name(entity)
     actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
     if new == "yard" and old in ["not_home", "district"]:
-      self.persons.send_notification(person_name, "🔐 Do you want to unlock the door?", "lock_district",
-                                     min_delta=600, ios_category="lock", actions=actions)
+      self.notifications.send(person_name, "🔐 Do you want to unlock the door?", "lock_district",
+                              min_delta=600, ios_category="lock", actions=actions)
     elif new == "downstairs" and old in ["not_home", "district", "yard"]:
-      self.persons.send_notification(person_name, "🔐 To unlock the door please double tap door bell",
-                                     "lock_downstairs", min_delta=600, ios_category="lock", actions=actions)
+      self.notifications.send(person_name, "🔐 To unlock the door please double tap door bell",
+                              "lock_downstairs", min_delta=600, ios_category="lock", actions=actions)
 
 
   def lock_door(self, kwargs):

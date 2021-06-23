@@ -5,10 +5,10 @@ class Bell(hass.Hass):
 
   def initialize(self):
     self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.step = 0
     self.step_update_ts = 0
     self.last_ringed_ts = 0
-
     self.listen_state(self.on_bell_ring, "sensor.entrance_door_bell")
 
 
@@ -58,7 +58,7 @@ class Bell(hass.Hass):
                           media_content_type="music", media_content_id=url)
       self.run_in(self.restore_sonos, 2)
     # Push notifications
-    self.persons.send_notification("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
+    self.notifications.send("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
     # Lights
     if current_living_scene in ["day", "light_cinema"]:
       self.call_service("light/turn_on", entity_id="light.entrance_cloakroom", flash="short",

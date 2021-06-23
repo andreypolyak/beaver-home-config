@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class NotifyZigbeeOtaUpdate(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_zigbee_updates.entities", {})
     self.run_every(self.check_entities, "now+120", 600)
@@ -30,7 +30,7 @@ class NotifyZigbeeOtaUpdate(hass.Hass):
     self.call_service("input_number/set_value", entity_id="input_number.zigbee_ota_updates", value=num_updates)
     if len(new_entities) > 0:
       message = self.build_message(new_entities + old_entities)
-      self.persons.send_notification("admin", message, "zigbee_update", url="/hassio/ingress/45df7312_zigbee2mqtt")
+      self.notifications.send("admin", message, "zigbee_update", url="/hassio/ingress/45df7312_zigbee2mqtt")
     self.storage.write("notify_zigbee_updates.entities", entity_update_states, attribute="all")
 
 

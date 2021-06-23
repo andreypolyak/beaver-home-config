@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class NotifyOsUpdate(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_os_update.notified_version", None)
     self.listen_state(self.on_core_update, "sensor.os_info", attribute="all")
@@ -26,7 +26,7 @@ class NotifyOsUpdate(hass.Hass):
     if new_version == old_version or notified_version == new_version:
       return
     message = self.build_message(new_version, old_version)
-    self.persons.send_notification("admin", message, "os_update", url="/hassio/dashboard")
+    self.notifications.send("admin", message, "os_update", url="/hassio/dashboard")
     self.storage.write("notify_os_update.notified_version", new_version)
 
 

@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class NotifyLock(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     default = {"change_ts": None, "is_locked": False}
     self.storage.init("notify_lock.data", default)
@@ -62,8 +62,7 @@ class NotifyLock(hass.Hass):
     if self.get_state("lock.entrance_lock") == "locked" and self.get_state("binary_sensor.entrance_door") == "on":
       self.log("Entrance locked but door is opened")
       message = "🔓 Lock stuck in the locked state. Trying to fix it now"
-      self.persons.send_notification("admin", message, "lock_repair", sound="Noir.caf",
-                                     url="/lovelace/bathroom_entrance")
+      self.notifications.send("admin", message, "lock_repair", sound="Noir.caf", url="/lovelace/bathroom_entrance")
       self.configure_lock()
 
 
@@ -75,8 +74,7 @@ class NotifyLock(hass.Hass):
     if current_state != expected_state:
       self.log(f"Expected state is {expected_state}, but current state is {current_state}")
       message = f"🔓 Lock stuck in the {current_state} state. Trying to fix it now"
-      self.persons.send_notification("admin", message, "lock_repair", sound="Noir.caf",
-                                     url="/lovelace/bathroom_entrance")
+      self.notifications.send("admin", message, "lock_repair", sound="Noir.caf", url="/lovelace/bathroom_entrance")
       self.configure_lock()
 
 

@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class NotifyAppError(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.listen_log(self.on_appdaemon_log, "WARNING")
 
 
@@ -13,4 +13,4 @@ class NotifyAppError(hass.Hass):
       return
     app_name = message.replace("Unable to find module ", "").replace(" - initialize() skipped", "")
     notification_message = f"🧰 Unable to load {app_name} app"
-    self.persons.send_notification("admin", notification_message, "app_error", url="/hassio/ingress/core_configurator")
+    self.notifications.send("admin", notification_message, "app_error", url="/hassio/ingress/core_configurator")

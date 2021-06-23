@@ -6,7 +6,7 @@ ROOMS = ["entrance", "living_room", "bedroom"]
 class NotifyPiState(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     for room in ROOMS:
       self.storage.init(f"notify_pi_state.{room}_notified", True)
@@ -22,10 +22,10 @@ class NotifyPiState(hass.Hass):
     room_name = room.replace("_", " ").capitalize()
     is_notified = self.storage.read(f"notify_pi_state.{room}_notified")
     if new == "unavailable" and is_notified:
-      self.persons.send_notification("admin", f"🍓 {room_name} Raspberry Pi is offline", "pi", url="/lovelace/settings")
+      self.notifications.send("admin", f"🍓 {room_name} Raspberry Pi is offline", "pi", url="/lovelace/settings")
       self.storage.write(f"notify_pi_state.{room}_notified", False)
     elif old == "unavailable" and new != "unknown" and not is_notified:
-      self.persons.send_notification("admin", f"🍓 {room_name} Raspberry Pi is online", "pi", url="/lovelace/settings")
+      self.notifications.send("admin", f"🍓 {room_name} Raspberry Pi is online", "pi", url="/lovelace/settings")
       self.storage.write(f"notify_pi_state.{room}_notified", True)
 
 

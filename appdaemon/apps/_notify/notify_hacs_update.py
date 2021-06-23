@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class NotifyHacsUpdate(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_hacs_update.notified_updates", {})
     self.listen_state(self.on_hacs_update, "sensor.hacs_updates", attribute="all")
@@ -28,7 +28,7 @@ class NotifyHacsUpdate(hass.Hass):
       self.storage.write("notify_hacs_update.notified_updates", app_version, attribute=app_id)
       other_updates_int = len(updates) - 1
       message = self.build_message(app_name, app_version, other_updates_int)
-      self.persons.send_notification("admin", message, "hacs_update", url="/hacs")
+      self.notifications.send("admin", message, "hacs_update", url="/hacs")
 
 
   def build_message(self, app_name, app_version, other_updates_int):

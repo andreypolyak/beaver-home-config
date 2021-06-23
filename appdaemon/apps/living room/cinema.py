@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class Cinema(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     default = {
       "dark_cinema_turned_on_ts": 0,
@@ -125,7 +125,7 @@ class Cinema(hass.Hass):
       self.turn_on_scene("light_cinema")
       actions = [{"action": "DARK_CINEMA_TURN_ON", "title": "🌑 Turn on dark cinema scene", "destructive": True}]
       text = "🎦 Do you want to turn on dark cinema scene?"
-      self.persons.send_notification("home_or_none", text, "cinema", actions=actions)
+      self.notifications.send("home_or_none", text, "cinema", actions=actions)
 
 
   def on_tv_turned_off(self, entity, attribute, old, new, kwargs):

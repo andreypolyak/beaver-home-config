@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class Fridge(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
+    self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("fridge.notified_ts", 0)
     self.handle = None
@@ -22,7 +22,7 @@ class Fridge(hass.Hass):
         if (self.get_now_ts() - notified_ts) > 3600:
           text = "Внимание! Повышенная температура в холодильнике!"
           self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-          self.persons.send_notification("home_or_all", f"♨️ Fridge temperature is {temp}!", "fridge", is_critical=True)
+          self.notifications.send("home_or_all", f"♨️ Fridge temperature is {temp}!", "fridge", is_critical=True)
           self.storage.write("fridge.notified_ts", self.get_now_ts())
     except ValueError:
       pass
@@ -37,7 +37,7 @@ class Fridge(hass.Hass):
           text = "Внимание! Повышенная температура в морозильнике!"
           self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
           text = f"♨️ Freezer temperature is {temp}!"
-          self.persons.send_notification("home_or_all", text, "fridge", is_critical=True)
+          self.notifications.send("home_or_all", text, "fridge", is_critical=True)
           self.storage.write("fridge.notified_ts", self.get_now_ts())
     except ValueError:
       pass
@@ -57,7 +57,7 @@ class Fridge(hass.Hass):
     if self.get_state("binary_sensor.kitchen_freezer_door") == "on":
       text = "Внимание! Дверь морозилки не закрыта!"
       self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-      self.persons.send_notification("home_or_all", "🧊 Freezer isn't closed!", "fridge", is_critical=True)
+      self.notifications.send("home_or_all", "🧊 Freezer isn't closed!", "fridge", is_critical=True)
 
 
   def cancel_handle(self):

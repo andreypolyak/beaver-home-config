@@ -170,43 +170,6 @@ class Persons(hass.Hass):
         self.call_service(f"notify/mobile_app_{person_phone}", message="request_location_update")
 
 
-  def send_notification(self, to, message, category, sound="none", is_critical=False,
-                        min_delta=None, max_proximity=None, url=None, ios_category=None, actions=None):
-    persons = []
-    if isinstance(to, list):
-      for person_name in to:
-        if person_name in PERSONS:
-          persons.append(PERSONS[person_name])
-    elif to == "admin":
-      persons = self.get_admin_persons()
-    elif to == "home_or_all":
-      persons_at_home = self.get_persons_at_home()
-      if len(persons_at_home) > 0:
-        persons = persons_at_home
-      else:
-        persons = self.get_all_persons()
-    elif to == "home_or_none":
-      persons_at_home = self.get_persons_at_home()
-      if len(persons_at_home) > 0:
-        persons = persons_at_home
-    elif to == "proximity" and max_proximity:
-      persons = self.get_persons_inside_proximity(max_proximity)
-    elif isinstance(to, str):
-      if to in PERSONS:
-        persons.append(PERSONS[to])
-
-    for person in persons:
-      if min_delta:
-        delta = self.__get_notification_ts_delta(person["name"], category)
-        if (delta and delta < min_delta):
-          continue
-      person_name = person["name"]
-      self.storage.write(f"persons.{person_name}", self.get_now_ts(), attribute=category)
-      if ios_category:
-        category = ios_category
-      self.__send_notification(person, message, category, sound, is_critical, url, actions)
-
-
   def get_persons_at_home(self):
     persons_at_home = []
     for _, person in PERSONS.items():
@@ -223,66 +186,6 @@ class Persons(hass.Hass):
       if person["admin"]:
         admin_persons.append(person)
     return admin_persons
-
-
-  def __get_notification_ts_delta(self, person_name, category):
-    category_ts = self.storage.read(f"persons.{person_name}", attribute=category)
-    if category_ts:
-      delta = self.get_now_ts() - category_ts
-      return delta
-    return
-
-
-  def __send_notification(self, person, message, category, sound, is_critical, url, actions):
-    person_phone = person["phone"]
-    person_name = person["name"]
-    if not person_phone:
-      return
-    # HA App Push
-    properties = self.__get_notification_properties(person_name, category, sound, is_critical, url, actions)
-    tries = 2
-    for i in range(tries):
-      try:
-        self.call_service(f"notify/mobile_app_{person_phone}", message=message, data=properties)
-      except TimeoutError as e:
-        if i < tries - 1:
-          continue
-        else:
-          self.log("Failed to send notification!")
-          raise e
-      break
-    # Telegram
-    telegram_name = person_name.capitalize()
-    telegram_message = f"{telegram_name} → {message}"
-    try:
-      self.call_service("telegram_bot/send_message", message=telegram_message, target=self.args["chat_id"])
-    except:
-      pass
-    # HA Sensor
-    sensor_name = person_name.capitalize()[0]
-    sensor_message = f"\"{sensor_name}→{message}\""[:99]
-    if self.get_state("input_text.last_notification") == sensor_message:
-      self.call_service("input_text/set_value", entity_id="input_text.last_notification", value="")
-    self.call_service("input_text/set_value", entity_id="input_text.last_notification", value=sensor_message)
-    # Log
-    self.log(f"Send notification with properties: {properties}")
-
-
-  def __get_notification_properties(self, person_name, category, sound, is_critical, url, actions):
-    properties = {
-      "action_data": {"person_name": person_name},
-      "apns_headers": {"apns-collapse-id": category},
-      "push": {
-        "sound": sound
-      }
-    }
-    if is_critical:
-      properties["push"]["sound"] = {"name": "default", "critical": 1, "volume": 1.0}
-    if url:
-      properties["url"] = url
-    if actions:
-      properties["actions"] = actions
-    return properties
 
 
   def __get_proximity(self, person_name):
