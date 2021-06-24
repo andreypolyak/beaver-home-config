@@ -12,7 +12,6 @@ wifi:
   password: !secret esphome_wifi_password
   use_address: 192.168.1.213
   fast_connect: true
-  power_save_mode: none
   ap:
     ssid: $hostname
     password: ""
