@@ -141,6 +141,10 @@ alarm_manager:
   class: AlarmManager
   dependencies: persons
 
+bed_occupancy:
+  module: bed_occupancy
+  class: BedOccupancy
+
 bed_switch:
   module: bed_switch
   class: BedSwitch

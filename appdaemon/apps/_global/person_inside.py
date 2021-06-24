@@ -13,7 +13,8 @@ ROOMS = {
       "bedroom_bed_motion",
       "bedroom_table_motion",
       "bedroom_floor_motion",
-      "bedroom_bed_occupancy_any",
+      "bedroom_bed_occupancy",
+      "bedroom_theo_bed_occupancy",
       "bedroom_chair_occupancy"
     ],
     "door": "bedroom_door"

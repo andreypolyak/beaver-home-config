@@ -12,7 +12,6 @@ wifi:
   password: !secret esphome_wifi_password
   use_address: 192.168.1.98
   fast_connect: true
-  power_save_mode: none
   ap:
     ssid: $hostname
     password: ""
@@ -28,13 +27,25 @@ esp32_ble_tracker:
 sensor:
   - platform: adc
     pin: GPIO35
-    id: left_person_sensor
+    id: left_top_sensor
     update_interval: 1s
     attenuation: 11db
 
   - platform: adc
     pin: GPIO34
-    id: right_person_sensor
+    id: right_top_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+  - platform: adc
+    pin: GPIO33
+    id: left_bottom_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+  - platform: adc
+    pin: GPIO32
+    id: right_bottom_sensor
     update_interval: 1s
     attenuation: 11db
 
@@ -48,7 +59,7 @@ binary_sensor:
     name: $name Left Person
     id: left_person
     lambda: |-
-      if (id(left_person_sensor).state <= 3) {
+      if (id(left_top_sensor).state <= 3 or id(left_bottom_sensor).state <= 3) {
         return true;
       } else {
         return false;
@@ -60,15 +71,16 @@ binary_sensor:
     name: $name Right Person
     id: right_person
     lambda: |-
-      if (id(right_person_sensor).state <= 3) {
+      if (id(right_top_sensor).state <= 3 or id(right_bottom_sensor).state <= 3) {
         return true;
       } else {
         return false;
       }
     filters:
       - delayed_off: 5s
+
   - platform: template
-    name: $name Any
+    name: $name
     id: any
     lambda: |-
       if (id(left_person).state ||

@@ -1,0 +1,49 @@
+substitutions:
+  hostname: bedroom_theo_bed_occupancy
+  name: Bedroom Theo Bed Occupancy
+
+esphome:
+  name: $hostname
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: !secret esphome_wifi_ssid
+  password: !secret esphome_wifi_password
+  use_address: 192.168.1.75
+  fast_connect: true
+  ap:
+    ssid: $hostname
+    password: ""
+
+logger:
+
+api:
+
+ota:
+
+sensor:
+  - platform: adc
+    pin: GPIO34
+    id: top_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+  - platform: adc
+    pin: GPIO35
+    id: bottom_sensor
+    update_interval: 1s
+    attenuation: 11db
+
+binary_sensor:
+  - platform: template
+    name: $name
+    id: person
+    lambda: |-
+      if (id(top_sensor).state <= 3 or id(bottom_sensor).state <= 3) {
+        return true;
+      } else {
+        return false;
+      }
+    filters:
+      - delayed_off: 10s

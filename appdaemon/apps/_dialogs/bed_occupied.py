@@ -10,7 +10,7 @@ class BedOccupied(YandexDialog):
     self.dialog_init()
     self.persons = self.get_app("persons")
     self.dialog_allowed = True
-    self.listen_state(self.on_bedroom_occupied, "binary_sensor.bedroom_bed_occupancy_any", new="on", old="off")
+    self.listen_state(self.on_bedroom_occupied, "binary_sensor.bedroom_bed_occupancy", new="on", old="off")
     binary_sensors = self.get_state("binary_sensor")
     for binary_sensor in binary_sensors:
       if binary_sensor.endswith("_motion") and ("bedroom_table" in binary_sensor or "bedroom_floor" in binary_sensor):
