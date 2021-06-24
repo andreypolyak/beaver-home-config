@@ -133,7 +133,7 @@ class Notifications(hass.Hass):
     elif to == "admin":
       persons = self.persons.get_admin_persons()
     elif to == "home_or_all":
-      persons_at_home = self.__get_persons_at_home()
+      persons_at_home = self.persons.get_persons_at_home()
       if len(persons_at_home) > 0:
         persons = persons_at_home
       else:
