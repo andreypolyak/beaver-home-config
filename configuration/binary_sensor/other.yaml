@@ -60,7 +60,8 @@
       friendly_name: Living Room Yandex Station Is Active
       value_template: >
         {{
-          state_attr("media_player.living_room_yandex_station", "alice_state") != "IDLE"
+          (state_attr("media_player.living_room_yandex_station", "alice_state") != None
+          and state_attr("media_player.living_room_yandex_station", "alice_state") != "IDLE")
           or states("input_text.active_dialog") != ""
         }}
 
@@ -70,7 +71,8 @@
       friendly_name: Bedroom Yandex Station Is Active
       value_template: >
         {{
-          state_attr("media_player.bedroom_yandex_station", "alice_state") != "IDLE"
+          (state_attr("media_player.bedroom_yandex_station", "alice_state") != None
+          and state_attr("media_player.bedroom_yandex_station", "alice_state") != "IDLE")
           or states("input_text.active_dialog") != ""
         }}
 
