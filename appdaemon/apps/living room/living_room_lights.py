@@ -19,33 +19,6 @@ class LivingRoomLights(RoomLights):
     self.switches = [
       ("sensor.living_room_switch", "switch")
     ]
-    # self.turn_off_lights = [
-    #   "group_living_room"
-    # ]
-    # self.lights = {
-    #   "group_living_room": [
-    #     "group_living_room_top",
-    #     "group_living_room_speakers",
-    #     "living_room_sofa",
-    #     "living_room_sofa_led_rgb"
-    #   ]
-    # }
-    # self.presets = {
-    #   "BRIGHT": {
-    #     "group_living_room": {"state": "on", "attributes": {"brightness": 254}}
-    #   },
-    #   "DARK": {
-    #     "group_living_room_dark_on": {"state": "on", "attributes": {"brightness": 3}},
-    #     "group_living_room_dark_off": {"state": "off"}
-    #   },
-    #   "CINEMA": {
-    #     "group_living_room_light_cinema_on": {"state": "on", "attributes": {"brightness": 254}},
-    #     "group_living_room_light_cinema_off": {"state": "off"}
-    #   },
-    #   "OFF": {
-    #     "group_living_room": {"state": "off"}
-    #   }
-    # }
     self.turn_off_lights = [
       "group_living_room",
       "living_room_sofa_led_rgb"
@@ -105,7 +78,6 @@ class LivingRoomLights(RoomLights):
         self.turn_preset("DARK", mode, state)
       else:
         self.turn_off_all(state)
-        # self.turn_preset_if_on("DARK", mode, state, min_delay=True)
     elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.is_auto_lights():
       if self.get_state("binary_sensor.night_scene_in_living_zone_turned_on_long_enough") == "on":
         self.turn_preset("BRIGHT", mode, state)

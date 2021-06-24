@@ -40,7 +40,6 @@ class BedSwitch(hass.Hass):
     self.call_service("script/turn_off_all_lights_night")
     should_turn_off_wardrobe = self.get_state("binary_sensor.bedroom_wardrobe_door") == "on"
     should_turn_off_table = self.get_state("binary_sensor.bedroom_table") == "on"
-    # self.call_service("homeassistant/turn_off", entity_id="group.all_night")
     if should_turn_off_wardrobe:
       self.call_service("light/turn_off", entity_id="light.bedroom_wardrobe")
     if should_turn_off_table:

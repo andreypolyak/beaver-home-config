@@ -79,18 +79,17 @@ class YandexStation(hass.Hass):
 
 
   def on_living_room_alice_state(self, entity, attribute, old, new, kwargs):
+    sonos_entity = "media_player.living_room_sonos"
     if new in ["SPEAKING", "BUSY"]:
-      sonos_volume = float(self.get_state("media_player.living_room_sonos", attribute="volume_level"))
+      sonos_volume = float(self.get_state(sonos_entity, attribute="volume_level"))
       if sonos_volume != SONOS_MIN_VOLUME:
         self.sonos_volume = sonos_volume
         self.log(f"Setting old Sonos volume {str(self.sonos_volume)}")
-        self.call_service("media_player/volume_set", entity_id="media_player.living_room_sonos",
-                          volume_level=SONOS_MIN_VOLUME)
+        self.call_service("media_player/volume_set", entity_id=sonos_entity, volume_level=SONOS_MIN_VOLUME)
     elif new == "IDLE":
       self.log(f"Updating Sonos volume {str(self.sonos_volume)}")
       if self.sonos_volume:
-        self.call_service("media_player/volume_set", entity_id="media_player.living_room_sonos",
-                          volume_level=self.sonos_volume)
+        self.call_service("media_player/volume_set", entity_id=sonos_entity, volume_level=self.sonos_volume)
 
 
   def on_yandex_speak_text(self, event_name, data, kwargs):

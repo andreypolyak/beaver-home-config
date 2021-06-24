@@ -109,5 +109,5 @@ class MediaVolume(hass.Hass):
 
 
   def set_volume(self, media_player_name, volume_level):
-    self.call_service("media_player/volume_set", entity_id=f"media_player.{media_player_name}",
-                      volume_level=volume_level)
+    entity = f"media_player.{media_player_name}"
+    self.call_service("media_player/volume_set", entity_id=entity, volume_level=volume_level)
