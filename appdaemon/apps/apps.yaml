@@ -86,6 +86,10 @@ bell:
     - persons
     - notifications
 
+electricity_stats:
+  module: electricity_stats
+  class: ElectricityStats
+
 freshener:
   module: freshener
   class: Freshener
