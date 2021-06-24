@@ -20,19 +20,11 @@ restart_ui:
     - service: homeassistant.reload_core_config
     - service: lovelace.reload_resources
     - service: template.reload
-    # - service: script.reload
     - service: input_boolean.turn_on
       target:
         entity_id: input_boolean.ui_running
-    - service: script.turn_on
-      target:
-        entity_id: script.reload_scripts
 
-reload_scripts:
-  sequence:
-    - service: script.reload
-
-restart_appdaemon:
+restart_ad:
   sequence:
     - service: input_boolean.turn_off
       data:
