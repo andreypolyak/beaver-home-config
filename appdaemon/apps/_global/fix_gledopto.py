@@ -3,7 +3,7 @@ import appdaemon.plugins.hass.hassapi as hass
 ROOMS = {
   "bedroom": {
     "controller": "bedroom_bed_led",
-    "sample_lights": ["group_bedroom_adult_top", "group_bedroom_theo_top", "bedroom_wardrobe"]
+    "sample_lights": ["group_bedroom_adult_top", "group_bedroom_theo_top"]
   },
   "living_room": {
     "controller": "living_room_sofa_led",
