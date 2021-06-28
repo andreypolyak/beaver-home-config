@@ -79,13 +79,13 @@ class LivingRoomLights(RoomLights):
       else:
         self.turn_off_all(state)
     elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.is_auto_lights():
-      if self.get_state("binary_sensor.night_scene_in_living_zone_turned_on_long_enough") == "on":
+      if self.get_state("binary_sensor.night_scene_in_living_zone_enough") == "on":
         self.turn_preset("BRIGHT", mode, state)
         self.turn_on_scene("day")
       else:
         self.turn_preset_or_restore("DARK", mode, state, min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      if self.get_state("binary_sensor.night_scene_in_living_zone_turned_on_long_enough") == "on":
+      if self.get_state("binary_sensor.night_scene_in_living_zone_enough") == "on":
         self.turn_preset("BRIGHT", mode, state)
         self.turn_on_scene("day")
       else:

@@ -14,10 +14,13 @@ class BedOccupancy(hass.Hass):
   def on_change(self, entity, attribute, old, new, kwargs):
     sleeping_scene = self.get_state("input_select.sleeping_scene")
     living_scene = self.get_state("input_select.living_scene")
+    night_scene_in_living_zone_enough = self.get_state("binary_sensor.night_scene_in_living_zone_enough") == "on"
     if sleeping_scene != "night" or living_scene != "day":
       return
     for sensor in SENSORS:
       if self.get_state(f"binary_sensor.{sensor}") == "on":
         return
+    if not night_scene_in_living_zone_enough:
+      return
     self.log(f"Turning on day scene in sleeping zone because {entity} state changed")
     self.call_service("input_select/select_option", entity_id="input_select.sleeping_scene", option="day")
