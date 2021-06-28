@@ -193,7 +193,6 @@ coffee:
 cooler:
   module: cooler
   class: Cooler
-  dependencies: persons
 
 fridge:
   module: fridge
@@ -228,7 +227,6 @@ music_switch:
 ac:
   module: ac
   class: AC
-  dependencies: persons
 
 balcony_lights:
   module: balcony_lights
@@ -266,7 +264,6 @@ universal_tv_source:
 vacuum:
   module: vacuum
   class: Vacuum
-  dependencies: persons
 
 #
 # Global

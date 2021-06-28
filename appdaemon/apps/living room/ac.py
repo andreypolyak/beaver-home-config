@@ -4,9 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class AC(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
-    for entity in self.persons.get_all_person_location_entities():
-      self.listen_state(self.on_change, entity)
+    self.listen_state(self.on_change, "input_select.nearest_person_location")
     self.listen_state(self.on_change, "binary_sensor.living_room_balcony_door")
     self.listen_state(self.on_change, "sensor.balcony_temperature")
     self.listen_state(self.on_change, "sensor.living_room_temperature")
@@ -44,7 +42,7 @@ class AC(hass.Hass):
       is_ac_on = self.get_state("binary_sensor.living_room_ac_door") == "on"
       is_ac_off = self.get_state("binary_sensor.living_room_ac_door") == "off"
       is_balcony_open = self.get_state("binary_sensor.living_room_balcony_door") == "on"
-      people_inside_district = self.persons.is_any_person_inside_location("district")
+      nearest_person_location = self.get_state("input_select.nearest_person_location")
       living_room_temperature = float(self.get_state("sensor.living_room_temperature"))
       living_room_humidity = float(self.get_state("sensor.living_room_humidity"))
       balcony_temperature = float(self.get_state("sensor.balcony_temperature"))
@@ -86,7 +84,7 @@ class AC(hass.Hass):
         change_reason = "balcony_temperature < 15"
         new_ac_state = False
 
-      if not people_inside_district:
+      if nearest_person_location == "not_home":
         change_reason = "no people at home"
         new_ac_state = False
 

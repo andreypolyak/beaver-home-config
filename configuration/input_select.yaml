@@ -88,6 +88,15 @@ katya_location:
     - downstairs
     - home
 
+nearest_person_location:
+  name: Nearest Person Location
+  options:
+    - not_home
+    - district
+    - yard
+    - downstairs
+    - home
+
 last_active_yandex_station:
   name: Last Active Yandex Station
   options:

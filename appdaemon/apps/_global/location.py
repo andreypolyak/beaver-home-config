@@ -15,10 +15,12 @@ class Location(hass.Hass):
       self.listen_state(self.on_change, f"device_tracker.wifi_{person_phone}")
       self.listen_state(self.on_change, f"device_tracker.ha_{person_phone}")
       self.listen_state(self.on_change, f"proximity.ha_{person_name}_home")
+      self.listen_state(self.on_location_change, f"input_select.{person_name}_location")
       self.process(person)
     self.listen_state(self.on_lock_unlock, "lock.entrance_lock", new="unlocked")
     service_data = {"entity_id": "lock.entrance_lock", "service": "unlock"}
     self.listen_event(self.on_lock_unlock_service_call, "call_service", domain="lock", service_data=service_data)
+    self.set_nearest_person_location()
 
 
   def on_lock_unlock(self, entity, attribute, old, new, kwargs):
@@ -95,3 +97,17 @@ class Location(hass.Hass):
     entity = f"input_select.{person_name}_location"
     if self.entity_exists(entity):
       self.call_service("input_select/select_option", entity_id=entity, option=location)
+
+
+  def on_location_change(self, entity, attribute, old, new, kwargs):
+    self.set_nearest_person_location()
+
+
+  def set_nearest_person_location(self):
+    nearest_location = "not_home"
+    for location in ["not_home", "district", "yard", "downstairs", "home"]:
+      for entity in self.persons.get_all_person_location_entities():
+        if self.get_state(entity) == location:
+          nearest_location = location
+    self.call_service("input_select/select_option", entity_id="input_select.nearest_person_location",
+                      option=nearest_location)
