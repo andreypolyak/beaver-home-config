@@ -42,11 +42,15 @@ class KitchenCover(hass.Hass):
 
 
   def on_living_scene_change(self, entity, attribute, old, new, kwargs):
-    if new in ["party"]:
+    if new == "away":
+      self.partly_open_cover()
+    elif new == "party":
       self.close_cover()
     elif new in ["dark_cinema", "night"]:
       self.partly_open_cover()
     elif old in ["party", "night"]:
+      self.open_cover()
+    elif old == "away":
       self.open_cover()
 
 

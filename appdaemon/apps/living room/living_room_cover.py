@@ -54,9 +54,12 @@ class LivingRoomCover(hass.Hass):
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
-    if new in ["night", "light_cinema", "dark_cinema", "party"]:
+    if new in ["away", "night", "light_cinema", "dark_cinema", "party"]:
       self.close_cover()
     elif new == "day":
+      self.was_closed = False
+      self.open_cover()
+    elif old == "away":
       self.was_closed = False
       self.open_cover()
 

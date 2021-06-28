@@ -53,13 +53,17 @@ class BedroomCover(hass.Hass):
 
 
   def on_sleeping_scene_change(self, entity, attribute, old, new, kwargs):
-    if new == "night":
+    if new == "away":
+      self.partly_open_cover()
+    elif new == "night":
       self.call_service("timer/start", entity_id=f"timer.cover_bedroom_no_change", duration=1200)
       if self.is_uncomfortable():
         self.partly_open_cover()
       else:
         self.close_cover()
     elif old == "night":
+      self.open_cover()
+    elif old == "away":
       self.open_cover()
 
 
