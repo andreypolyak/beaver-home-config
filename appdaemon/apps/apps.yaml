@@ -315,6 +315,7 @@ media_volume:
 night:
   module: night
   class: Night
+  dependencies: persistent_storage
 
 person_inside:
   module: person_inside
