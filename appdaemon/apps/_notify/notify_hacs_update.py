@@ -17,7 +17,10 @@ class NotifyHacsUpdate(hass.Hass):
 
   def check_updates(self):
     updates_info = self.get_state("sensor.hacs", attribute="all")
-    updates = updates_info["attributes"]["repositories"]
+    try:
+      updates = updates_info["attributes"]["repositories"]
+    except KeyError:
+      return
     for update in updates:
       app_id = update["name"]
       app_name = update["display_name"]

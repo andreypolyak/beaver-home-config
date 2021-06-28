@@ -17,7 +17,10 @@ class NotifyAddonUpdate(hass.Hass):
 
   def check_updates(self):
     updates_info = self.get_state("sensor.supervisor_info", attribute="all")
-    updates = updates_info["attributes"]["addons"]
+    try:
+      updates = updates_info["attributes"]["addons"]
+    except KeyError:
+      return
     for update in updates:
       app_id = update["slug"]
       app_name = update["name"]
