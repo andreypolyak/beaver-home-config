@@ -4,9 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class Vacuum(hass.Hass):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
-    for entity in self.persons.get_all_person_location_entities():
-      self.listen_state(self.on_person_change, entity)
+    self.listen_state(self.on_nearest_person_location_change, "input_select.nearest_person_location")
     self.listen_state(self.on_vacuum_docked, "vacuum.rockrobo", new="docked")
     self.listen_state(self.on_vacuum_error, "vacuum.rockrobo", new="error")
     self.listen_state(self.on_vacuum_idle, "vacuum.rockrobo", new="idle")
@@ -20,16 +18,15 @@ class Vacuum(hass.Hass):
     self.call_service("input_boolean/turn_on", entity_id="input_boolean.vacuum_auto_clean")
 
 
-  def on_person_change(self, entity, attribute, old, new, kwargs):
+  def on_nearest_person_location_change(self, entity, attribute, old, new, kwargs):
     autoclean_state = self.get_vacuum_auto_clean_state()
     if autoclean_state == "done_charging" and new in ["downstairs", "home"]:
       self.go_to_bin()
-    all_persons_not_home = not self.persons.are_all_persons_inside_location("district")
     timestamp = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="timestamp"))
     day = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="day"))
 
     if (
-        all_persons_not_home
+        new == "not_home"
         and self.get_state("input_select.living_scene") == "away"
         and self.get_state("vacuum.rockrobo") == "docked"
         and (self.get_now_ts() - timestamp > (6 * 60 * 60))
@@ -59,7 +56,8 @@ class Vacuum(hass.Hass):
 
 
   def on_vacuum_returning(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_auto_clean_state() == "cleaning" and self.persons.is_anyone_home():
+    anyone_near_home = self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]
+    if self.get_vacuum_auto_clean_state() == "cleaning" and anyone_near_home:
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
       self.set_vacuum_auto_clean_state("done_charging")
@@ -81,11 +79,12 @@ class Vacuum(hass.Hass):
 
 
   def on_vacuum_docked(self, entity, attribute, old, new, kwargs):
+    anyone_near_home = self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]
     if self.get_vacuum_auto_clean_state() == "cleaning":
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
       self.set_vacuum_auto_clean_state("done_charging")
-      if self.persons.is_anyone_home():
+      if anyone_near_home:
         self.go_to_bin()
     else:
       self.set_vacuum_auto_clean_state("idle")
