@@ -1218,6 +1218,22 @@ restart_system:
   variables:
     short_name: ""
     name: ""
+config:
+  template: base
+  color: auto
+  color_type: card
+  tap_action:
+    action: navigate
+    navigation_path: >
+        [[[ return variables.url ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return 1 == 1 ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  variables:
+    url: ""
 numeric_label:
   template: base_label
   color: auto

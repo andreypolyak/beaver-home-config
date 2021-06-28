@@ -173,4 +173,59 @@ cards:
           variables:
             name: Raspberry Pi Bedroom
             pi_item: bedroom
+      - type: custom:button-card
+        template: header
+        name: Config
+      - type: horizontal-stack
+        cards:
+        - type: custom:button-card
+          template: config
+          name: Main
+          icon: mdi:zigbee
+          variables:
+            url: /hassio/ingress/45df7312_zigbee2mqtt
+        - type: custom:button-card
+          template: config
+          name: Entrance
+          icon: mdi:zigbee
+          variables:
+            url: /hassio/ingress/7c299ebf_zigbee2mqtt_entrance
+        - type: custom:button-card
+          template: config
+          name: Bedroom
+          icon: mdi:zigbee
+          variables:
+            url: /hassio/ingress/7c299ebf_zigbee2mqtt_bedroom
+        - type: custom:button-card
+          template: config
+          name: Switches
+          icon: mdi:zigbee
+          variables:
+            url: /hassio/ingress/7c299ebf_zigbee2mqtt_switches
+      - type: horizontal-stack
+        cards:
+        - type: custom:button-card
+          template: config
+          name: ESPHome
+          icon: mdi:car-esp
+          variables:
+            url: /hassio/ingress/a0d7b954_esphome
+        - type: custom:button-card
+          template: config
+          name: Roborock
+          icon: mdi:robot-vacuum
+          variables:
+            url: /roborock_panel
+        - type: custom:button-card
+          template: config
+          name: Terminal
+          icon: mdi:console
+          variables:
+            url: /hassio/ingress/a0d7b954_ssh
+        - type: custom:button-card
+          template: config
+          name: Portainer
+          icon: mdi:docker
+          variables:
+            url: /hassio/ingress/a0d7b954_portainer
       - !include /config/lovelace/elements/footer.yaml
