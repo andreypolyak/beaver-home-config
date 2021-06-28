@@ -53,15 +53,15 @@ notify_app_error:
 # Dialogs
 #
 
-alarm_requested:
-  module: alarm_requested
-  class: AlarmRequested
+alarm_requested_dialog:
+  module: alarm_requested_dialog
+  class: AlarmRequestedDialog
   dependencies: persons
   global_dependencies: yandex_dialog
 
-bed_occupied:
-  module: bed_occupied
-  class: BedOccupied
+bed_occupied_dialog:
+  module: bed_occupied_dialog
+  class: BedOccupiedDialog
   dependencies: persons
   global_dependencies: yandex_dialog
 

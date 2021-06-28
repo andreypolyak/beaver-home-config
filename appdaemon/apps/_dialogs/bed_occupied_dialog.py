@@ -2,7 +2,7 @@ from yandex_dialog import YandexDialog
 from datetime import date, datetime, time, timedelta
 
 
-class BedOccupied(YandexDialog):
+class BedOccupiedDialog(YandexDialog):
 
   def initialize(self):
     self.occupied_ts = 0

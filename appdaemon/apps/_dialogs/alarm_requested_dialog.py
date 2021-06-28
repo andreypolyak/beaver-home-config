@@ -2,7 +2,7 @@ from yandex_dialog import YandexDialog
 from datetime import date, datetime, time, timedelta
 
 
-class AlarmRequested(YandexDialog):
+class AlarmRequestedDialog(YandexDialog):
 
   def initialize(self):
     self.dialog_name = "alarm_requested"
