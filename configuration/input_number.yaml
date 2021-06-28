@@ -1,3 +1,9 @@
+weight:
+  name: Weight
+  min: 0
+  max: 200
+  step: 0.01
+  mode: box
 andrey_weight:
   name: Andrey Weight
   min: 0

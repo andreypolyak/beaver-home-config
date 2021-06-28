@@ -22,6 +22,8 @@ api:
 
 ota:
 
+esp32_ble_tracker:
+
 sensor:
   - platform: adc
     pin: GPIO34
@@ -34,6 +36,11 @@ sensor:
     id: bottom_sensor
     update_interval: 1s
     attenuation: 11db
+
+  - platform: xiaomi_miscale
+    mac_address: "70:87:9E:24:92:D6"
+    weight:
+      name: Scales Theo
 
 binary_sensor:
   - platform: template

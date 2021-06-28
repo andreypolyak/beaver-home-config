@@ -16,7 +16,17 @@ class Weight(hass.Hass):
     for person in self.persons.get_all_persons():
       person_name = person["name"]
       self.storage.init(f"weight.{person_name}", default)
-    self.listen_state(self.on_weight_change, "sensor.scales")
+    self.listen_state(self.on_scales_change, "sensor.scales")
+    self.listen_state(self.on_scales_change, "sensor.scales_theo")
+    self.listen_state(self.on_weight_change, "input_number.weight")
+
+
+  def on_scales_change(self, entity, attribute, old, new, kwargs):
+    try:
+      weight = float(new)
+    except ValueError:
+      return
+    self.call_service("input_number/set_value", entity_id="input_number.weight", value=weight)
 
 
   def on_weight_change(self, entity, attribute, old, new, kwargs):
