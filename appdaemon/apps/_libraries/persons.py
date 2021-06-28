@@ -39,17 +39,31 @@ class Persons(hass.Hass):
     return PERSONS[name]
 
 
-  def get_all_persons(self):
+  def get_all_persons(self, with_phone=False, with_alarm=False, with_location=False):
     persons = []
     for _, person in PERSONS.items():
+      person_name = person["name"]
+      if with_phone and person["phone"] is None:
+        continue
+      if with_alarm and not self.entity_exists(f"input_boolean.alarm_{person_name}"):
+        continue
+      if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
+        continue
       persons.append(person)
     return persons
 
 
-  def get_all_person_names(self):
+  def get_all_person_names(self, with_phone=False, with_alarm=False, with_location=False):
     person_names = []
     for _, person in PERSONS.items():
-      person_names.append(person["name"])
+      person_name = person["name"]
+      if with_phone and person["phone"] is None:
+        continue
+      if with_alarm and not self.entity_exists(f"input_boolean.alarm_{person_name}"):
+        continue
+      if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
+        continue
+      person_names.append(person_name)
     return person_names
 
 
@@ -62,11 +76,19 @@ class Persons(hass.Hass):
     return location_entities
 
 
-  def get_all_person_names_except_provided(self, person_name):
+  def get_all_person_names_except_provided(self, provided_person_name, with_phone=False,
+                                           with_alarm=False, with_location=False):
     person_names = []
     for _, person in PERSONS.items():
-      if person["name"] != person_name:
-        person_names.append(person["name"])
+      person_name = person["name"]
+      if person_name != provided_person_name:
+        if with_phone and person["phone"] is None:
+          continue
+        if with_alarm and not self.entity_exists(f"input_boolean.alarm_{person_name}"):
+          continue
+        if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
+          continue
+        person_names.append(person_name)
     return person_names
 
 
@@ -84,14 +106,14 @@ class Persons(hass.Hass):
     return
 
 
-  def get_person_names_with_location(self, location):
-    get_person_names_with_location = []
+  def get_all_person_names_with_location(self, location):
+    person_names = []
     for _, person in PERSONS.items():
       person_name = person["name"]
       entity = f"input_select.{person_name}_location"
       if self.entity_exists(entity) and self.get_state(entity) == location:
-        get_person_names_with_location.append(person["name"])
-    return get_person_names_with_location
+        person_names.append(person["name"])
+    return person_names
 
 
   def is_anyone_home(self):

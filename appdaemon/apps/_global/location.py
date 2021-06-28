@@ -7,11 +7,9 @@ class Location(hass.Hass):
     self.persons = self.get_app("persons")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("location.lock_unlocked_ts", 0)
-    for person in self.persons.get_all_persons():
+    for person in self.persons.get_all_persons(with_phone=True):
       person_name = person["name"]
       person_phone = person["phone"]
-      if not person_phone:
-        continue
       self.listen_state(self.on_change, f"device_tracker.wifi_{person_phone}")
       self.listen_state(self.on_change, f"device_tracker.ha_{person_phone}")
       self.listen_state(self.on_change, f"proximity.ha_{person_name}_home")
@@ -95,8 +93,7 @@ class Location(hass.Hass):
   def set_person_location(self, person, location):
     person_name = person["name"]
     entity = f"input_select.{person_name}_location"
-    if self.entity_exists(entity):
-      self.call_service("input_select/select_option", entity_id=entity, option=location)
+    self.call_service("input_select/select_option", entity_id=entity, option=location)
 
 
   def on_location_change(self, entity, attribute, old, new, kwargs):

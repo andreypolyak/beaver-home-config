@@ -17,7 +17,7 @@ class Bell(hass.Hass):
     if (current_ts - self.step_update_ts) > 10:
       self.step = 0
     if new == "double" and self.step == 0:
-      if self.persons.get_person_names_with_location("downstairs"):
+      if self.persons.get_all_person_names_with_location("downstairs"):
         self.log("Unlocking the door by being downstairs")
         self.call_service("lock/unlock", entity_id="lock.entrance_lock")
       else:

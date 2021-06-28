@@ -82,9 +82,8 @@ class BedroomWindow(RoomWindow):
 
 
   def is_alarm_soon(self):
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_boolean.alarm_{person_name}"
-      if self.entity_exists(entity) and self.get_state(entity) == "on":
+    for person_name in self.persons.get_all_person_names(with_alarm=True):
+      if self.get_state(f"input_boolean.alarm_{person_name}") == "on":
         alarm_time = self.parse_time(self.get_state(f"input_datetime.alarm_{person_name}"))
         alarm_time_minutes = alarm_time.hour * 60 + alarm_time.minute
         current_time = datetime.now()

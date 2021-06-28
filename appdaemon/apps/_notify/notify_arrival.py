@@ -30,12 +30,9 @@ class NotifyArrival(hass.Hass):
       self.storage.write(f"notify_arrival.{arriving_person_name}", current_ts, attribute="arrived")
 
     arriving_person_state = self.storage.read(f"notify_arrival.{arriving_person_name}", attribute="all")
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if not self.entity_exists(entity):
-        continue
+    for person_name in self.persons.get_all_person_names(with_location=True):
       person_state = self.storage.read(f"notify_arrival.{person_name}", attribute="all")
-      person_location = self.get_state(entity)
+      person_location = self.get_state(f"input_select.{person_name}_location")
       if (
           person_name != arriving_person_name
           and person_location == "home"

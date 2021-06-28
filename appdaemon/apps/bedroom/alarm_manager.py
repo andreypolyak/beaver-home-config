@@ -7,14 +7,11 @@ class AlarmManager(hass.Hass):
   def initialize(self):
     self.persons = self.get_app("persons")
     self.alarm_handlers = {}
-    for person_name in self.persons.get_all_person_names():
-      entity = f"input_boolean.alarm_{person_name}"
-      if not self.entity_exists(entity):
-        continue
+    for person_name in self.persons.get_all_person_names(with_alarm=True):
       self.alarm_handlers[person_name] = None
       self.listen_state(self.on_alarm_time_update, f"input_datetime.alarm_{person_name}")
-      self.listen_state(self.on_alarm_on, entity, new="on")
-      self.listen_state(self.on_alarm_off, entity, new="off")
+      self.listen_state(self.on_alarm_on, f"input_boolean.alarm_{person_name}", new="on")
+      self.listen_state(self.on_alarm_off, f"input_boolean.alarm_{person_name}", new="off")
       self.update_alarm_time(person_name)
 
     self.sleeping_zone_motion_ts = 0
@@ -52,10 +49,7 @@ class AlarmManager(hass.Hass):
     if not person_name:
       return
     other_alarms_turned_on = False
-    for other_person_name in self.persons.get_all_person_names_except_provided(person_name):
-      entity = f"input_boolean.alarm_{other_person_name}"
-      if not self.entity_exists(entity):
-        continue
+    for other_person_name in self.persons.get_all_person_names_except_provided(person_name, with_alarm=True):
       self.call_service("input_boolean/turn_off", entity_id="input_boolean.alarm_ringing")
       if self.get_state(f"input_boolean.alarm_{other_person_name}") == "on":
         other_alarms_turned_on = True
@@ -134,7 +128,7 @@ class AlarmManager(hass.Hass):
 
   def get_person_name_alarm_ringing(self):
     ringing = None
-    for person_name in self.persons.get_all_person_names():
+    for person_name in self.persons.get_all_person_names(with_alarm=True):
       if self.is_alarm_ringing(person_name):
         ringing = person_name
     return ringing
@@ -165,7 +159,7 @@ class AlarmManager(hass.Hass):
 
   def is_alarm_ringing(self, person_name):
     entity = f"input_boolean.alarm_{person_name}_ringing"
-    return self.entity_exists(entity) and self.get_state(entity) == "on"
+    return self.get_state(entity) == "on"
 
 
   def on_night_scene(self, entity, attribute, old, new, kwargs):
@@ -173,9 +167,9 @@ class AlarmManager(hass.Hass):
       return
     alarms = []
     text = "Спокойной ночи! "
-    for person_name in self.persons.get_all_person_names():
+    for person_name in self.persons.get_all_person_names(with_alarm=True):
       entity = f"input_boolean.alarm_{person_name}"
-      if self.entity_exists(entity) and self.get_state(entity) == "on":
+      if self.get_state(entity) == "on":
         alarms.append(self.get_state(f"input_datetime.alarm_{person_name}")[:-3])
     if len(alarms) == 0:
       text += "Будильник не установлен!"
@@ -188,9 +182,9 @@ class AlarmManager(hass.Hass):
 
   def allow_snooze_if_alarms_off(self):
     all_alarms_off = True
-    for person_name in self.persons.get_all_person_names():
+    for person_name in self.persons.get_all_person_names(with_alarm=True):
       entity = f"input_boolean.alarm_{person_name}"
-      if self.entity_exists(entity) and self.get_state(entity) == "on":
+      if self.get_state(entity) == "on":
         all_alarms_off = False
     if all_alarms_off:
       self.call_service("input_boolean/turn_on", entity_id="input_boolean.alarm_snooze_allowed")
