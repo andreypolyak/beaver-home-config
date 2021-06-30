@@ -56,7 +56,8 @@ HA_BLACKLIST = [
   "Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ",
   "took longer than the scheduled update interval 0:00:10",
   "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
-  "Error retrieving proxied image from"
+  "Error retrieving proxied image from",
+  "local variable 'controllers' referenced before assignment"
 ]
 
 
