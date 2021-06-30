@@ -29,7 +29,7 @@ class Alarm(hass.Hass):
     self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handlers()
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
-    self.call_service("sonos/restore", entity_id="all")
+    self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
     self.call_service("light/turn_off", entity_id="light.group_bedroom_bri", transition=self.get_transition())
     self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=self.get_transition())
     self.call_service("cover/close_cover", entity_id="cover.bedroom_cover")
@@ -40,7 +40,7 @@ class Alarm(hass.Hass):
     self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handlers()
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
-    self.call_service("sonos/restore", entity_id="all")
+    self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
     self.call_service("light/turn_on", entity_id="light.group_bedroom_color", brightness=254,
                       transition=self.get_transition(), hs_color=self.get_circadian_hs_color())
     self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=254,
@@ -53,7 +53,7 @@ class Alarm(hass.Hass):
 
   def action_1(self, kwargs):
     self.log("Alarm action 1")
-    self.call_service("sonos/snapshot", entity_id="all")
+    self.call_service("sonos/snapshot", entity_id="media_player.bedroom_sonos")
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
     self.call_service("sonos/unjoin", entity_id="media_player.bedroom_sonos")
     self.call_service("light/turn_on", entity_id="light.bedroom_bed_led", brightness=254,

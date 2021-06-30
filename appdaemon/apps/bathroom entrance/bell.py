@@ -47,16 +47,9 @@ class Bell(hass.Hass):
       self.call_service("media_player/media_pause", entity_id="media_player.living_room_apple_tv")
     # Bell sound
     if current_living_scene != "night":
-      self.call_service("sonos/snapshot", entity_id="all")
-      url = self.args["bell_sound_url"]
-      self.call_service("media_player/volume_set", entity_id="media_player.living_room_sonos", volume_level=0.15)
-      self.call_service("media_player/play_media", entity_id="media_player.living_room_sonos",
-                        media_content_type="music", media_content_id=url)
+      self.ring_on_sonos("living_room")
       if self.get_state("binary_sensor.bathroom_door") == "off":
-        self.call_service("media_player/volume_set", entity_id="media_player.bathroom_sonos", volume_level=0.15)
-        self.call_service("media_player/play_media", entity_id="media_player.bathroom_sonos",
-                          media_content_type="music", media_content_id=url)
-      self.run_in(self.restore_sonos, 2)
+        self.ring_on_sonos("bathroom")
     # Push notifications
     self.notifications.send("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
     # Lights
@@ -70,8 +63,19 @@ class Bell(hass.Hass):
       self.run_in(self.restore_light, 1)
 
 
+  def ring_on_sonos(self, room):
+    entity = f"media_player.{room}_sonos"
+    url = self.args["bell_sound_url"]
+    self.call_service("sonos/snapshot", entity_id=entity)
+    self.call_service("media_player/volume_set", entity_id=entity, volume_level=0.15)
+    self.call_service("media_player/play_media", entity_id=entity, media_content_type="music", media_content_id=url)
+    self.run_in(self.restore_sonos, 2, room=room)
+
+
   def restore_sonos(self, kwargs):
-    self.call_service("sonos/restore", entity_id="all")
+    room = kwargs["room"]
+    entity = f"media_player.{room}_sonos"
+    self.call_service("sonos/restore", entity_id=entity)
 
 
   def restore_light(self, kwargs):
