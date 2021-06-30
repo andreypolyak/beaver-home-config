@@ -38,6 +38,20 @@ class Weight(hass.Hass):
       return
     if weight < 10:
       return
+    person = self.identify_person(weight)
+    person_name = person["name"]
+    person_phone = person["phone"]
+    self.call_service("input_number/set_value", entity_id=f"input_number.{person_name}_weight", value=weight)
+    (voice_message, message) = self.build_messages(person, weight)
+    if person_phone:
+      weight = str(weight).replace(".", ",")
+      url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
+      self.notifications.send(person_name, message, "weight", sound="Calypso.caf", url=url)
+    if self.get_state("input_select.sleeping_scene") != "night":
+      self.fire_event("yandex_speak_text", text=voice_message, room="bedroom")
+
+
+  def identify_person(self, weight):
     weight_delta = 9999
     selected_person = None
     for person in self.persons.get_all_persons():
@@ -46,9 +60,12 @@ class Weight(hass.Hass):
       if abs(person_weight - weight) < weight_delta:
         weight_delta = abs(person_weight - weight)
         selected_person = person
-    person_name = selected_person["name"]
-    person_name_ru = selected_person["ru_name"]
-    self.call_service("input_number/set_value", entity_id=f"input_number.{person_name}_weight", value=weight)
+    return selected_person
+
+
+  def build_messages(self, person, weight):
+    person_name = person["name"]
+    person_name_ru = person["ru_name"]
     person_state = self.storage.read(f"weight.{person_name}", attribute="all")
     if (self.get_now_ts() - person_state["current_weight_ts"]) > 600:
       person_state = {
@@ -68,45 +85,41 @@ class Weight(hass.Hass):
     weight_change = (person_state["current_weight"] - person_state["prev_weight"]) * 1000
     weight_change = int(5 * round(weight_change / 5))
     weight_ts_change = person_state["current_weight_ts"] - person_state["prev_weight_ts"]
-    voice_text = f"{person_name_ru} весит {weight} килограмм. Вы "
-    push_text = f"⚖️ Weight: {weight} kg. ("
+    voice_message = f"{person_name_ru} весит {weight} килограмм. Вы "
+    message = f"⚖️ Weight: {weight} kg. ("
     if weight_change < 0:
-      voice_text += f"похудели на {abs(weight_change)} грамм "
-      push_text += f"-{abs(weight_change)} g. "
+      voice_message += f"похудели на {abs(weight_change)} грамм "
+      message += f"-{abs(weight_change)} g. "
     elif weight_change > 0:
-      voice_text += f"поправились на {abs(weight_change)} грамм "
-      push_text += f"+{abs(weight_change)} g. "
+      voice_message += f"поправились на {abs(weight_change)} грамм "
+      message += f"+{abs(weight_change)} g. "
     else:
-      voice_text += "не изменились в весе "
-      push_text += "+0 g. "
-    voice_text += "с момента последнего взвешивания "
-    push_text += "vs. "
+      voice_message += "не изменились в весе "
+      message += "+0 g. "
+    voice_message += "с момента последнего взвешивания "
+    message += "vs. "
     if weight_ts_change > 86400:
       days = round(weight_ts_change / 86400)
       days_text_ru = self.morph_periods(days, "day", "ru")
       days_text_en = self.morph_periods(days, "day", "en")
-      voice_text += f"{days} {days_text_ru} назад"
-      push_text += f"{days} {days_text_en} ago"
+      voice_message += f"{days} {days_text_ru} назад"
+      message += f"{days} {days_text_en} ago"
     elif weight_ts_change > 3600:
       hours = round(weight_ts_change / 3600)
       hours_text_ru = self.morph_periods(hours, "hour", "ru")
       hours_text_en = self.morph_periods(hours, "hour", "en")
-      voice_text += f"{hours} {hours_text_ru} назад"
-      push_text += f"{hours} {hours_text_en} ago"
+      voice_message += f"{hours} {hours_text_ru} назад"
+      message += f"{hours} {hours_text_en} ago"
     else:
       minutes = round(weight_ts_change / 60)
       minutes_text_ru = self.morph_periods(minutes, "minute", "ru")
       minutes_text_en = self.morph_periods(minutes, "minute", "en")
-      voice_text += f"{minutes} {minutes_text_ru} назад"
-      push_text += f"{minutes} {minutes_text_en} ago"
-    if selected_person["phone"]:
-      voice_text += ". Не забудьте нажать на уведомление, чтобы сохранить вес в Apple Health"
-      push_text += "). Click to save in Apple Health"
-      weight = str(weight).replace(".", ",")
-      url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
-      self.notifications.send(person_name, push_text, "weight", url=url)
-    if self.get_state("input_select.sleeping_scene") != "night":
-      self.fire_event("yandex_speak_text", text=voice_text, room="bedroom")
+      voice_message += f"{minutes} {minutes_text_ru} назад"
+      message += f"{minutes} {minutes_text_en} ago"
+    if person["phone"]:
+      voice_message += ". Не забудьте нажать на уведомление, чтобы сохранить вес в Apple Health"
+      message += "). Click to save in Apple Health"
+    return (voice_message, message)
 
 
   def morph_periods(self, period, period_type, language):
