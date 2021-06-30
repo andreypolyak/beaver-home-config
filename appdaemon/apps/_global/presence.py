@@ -19,9 +19,9 @@ class Presence(hass.Hass):
 
 
   def on_location_change(self, entity, attribute, old, new, kwargs):
-    is_anyone_home = self.persons.is_anyone_home()
+    nearest_person_location = self.get_state("input_select.nearest_person_location")
     if (
-      not is_anyone_home
+      nearest_person_location == "home"
       and self.get_state("input_select.living_scene") != "away"
       and self.get_state("input_boolean.guest_mode") != "on"
     ):

@@ -114,16 +114,6 @@ class Persons(hass.Hass):
     return person_names
 
 
-  def is_anyone_home(self):
-    is_anyone_home = False
-    for _, person in PERSONS.items():
-      person_name = person["name"]
-      entity = f"input_select.{person_name}_location"
-      if self.entity_exists(entity) and self.get_state(entity) == "home":
-        is_anyone_home = True
-    return is_anyone_home
-
-
   def update_location(self, to):
     persons = []
     if isinstance(to, list):
