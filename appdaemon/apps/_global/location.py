@@ -7,6 +7,7 @@ class Location(hass.Hass):
     self.persons = self.get_app("persons")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("location.lock_unlocked_ts", 0)
+    self.restart_ts = self.get_now_ts()
     for person in self.persons.get_all_persons(with_phone=True):
       person_name = person["name"]
       person_phone = person["phone"]
@@ -60,6 +61,7 @@ class Location(hass.Hass):
     location = self.get_state(f"input_select.{person_name}_location")
     lock_unlocked_ts = self.storage.read("location.lock_unlocked_ts")
     lock_unlocked_delta = self.get_now_ts() - lock_unlocked_ts
+    restart_delta = self.get_now_ts() - self.restart_ts
 
     if (
       not wifi_home
@@ -84,6 +86,7 @@ class Location(hass.Hass):
       location in ["not_home", "district", "yard", "downstairs"]
       and wifi_home
       and lock_unlocked_delta > 300
+      and restart_delta > 120
     ):
       return "downstairs"
     else:
