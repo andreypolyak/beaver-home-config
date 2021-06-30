@@ -1,12 +1,14 @@
 import appdaemon.plugins.hass.hassapi as hass
 
+ROOMS = ["bedroom", "living_room"]
+
 
 class NotifyAirQuality(hass.Hass):
 
   def initialize(self):
     self.notifications = self.get_app("notifications")
-    self.listen_state(self.on_change, "sensor.bedroom_co2")
-    self.listen_state(self.on_change, "sensor.living_room_co2")
+    for room in ROOMS:
+      self.listen_state(self.on_change, f"sensor.{room}_co2")
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
