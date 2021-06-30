@@ -10,11 +10,11 @@ class Location(hass.Hass):
     for person in self.persons.get_all_persons(with_phone=True):
       person_name = person["name"]
       person_phone = person["phone"]
-      self.listen_state(self.on_change, f"device_tracker.wifi_{person_phone}")
-      self.listen_state(self.on_change, f"device_tracker.ha_{person_phone}")
-      self.listen_state(self.on_change, f"proximity.ha_{person_name}_home")
-      self.listen_state(self.on_location_change, f"input_select.{person_name}_location")
-      self.process(person)
+      self.listen_state(self.on_tracker_change, f"device_tracker.wifi_{person_phone}")
+      self.listen_state(self.on_tracker_change, f"device_tracker.ha_{person_phone}")
+      self.listen_state(self.on_tracker_change, f"proximity.ha_{person_name}_home")
+      self.listen_state(self.on_location_tracker_change, f"input_select.{person_name}_location")
+      self.update_person_location(person)
     self.listen_state(self.on_lock_unlock, "lock.entrance_lock", new="unlocked")
     service_data = {"entity_id": "lock.entrance_lock", "service": "unlock"}
     self.listen_event(self.on_lock_unlock_service_call, "call_service", domain="lock", service_data=service_data)
@@ -33,15 +33,15 @@ class Location(hass.Hass):
     self.storage.write("location.lock_unlocked_ts", self.get_now_ts())
     persons = self.persons.get_all_persons(with_location=True)
     for person in persons:
-      self.process(person)
+      self.update_person_location(person)
 
 
-  def on_change(self, entity, attribute, old, new, kwargs):
+  def on_tracker_change(self, entity, attribute, old, new, kwargs):
     person = self.persons.get_person_from_entity_name(entity)
-    self.process(person)
+    self.update_person_location(person)
 
 
-  def process(self, person):
+  def update_person_location(self, person):
     location = self.get_person_location(person)
     self.set_person_location(person, location)
 
@@ -96,7 +96,7 @@ class Location(hass.Hass):
     self.call_service("input_select/select_option", entity_id=entity, option=location)
 
 
-  def on_location_change(self, entity, attribute, old, new, kwargs):
+  def on_location_tracker_change(self, entity, attribute, old, new, kwargs):
     self.set_nearest_person_location()
 
 
