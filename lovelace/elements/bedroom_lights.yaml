@@ -15,11 +15,11 @@ cards:
     variables:
       light_name: group_bedroom_theo_top
   - type: custom:button-card
-    entity: light.ha_template_individual_bedroom_bed_led_rgb
+    entity: light.ha_template_individual_bedroom_bed_led
     template: individual_virtual_switch
     icon: mdi:led-strip-variant
     variables:
-      light_name: bedroom_bed_led_rgb
+      light_name: bedroom_bed_led
   - type: custom:button-card
     entity: light.ha_template_individual_bedroom_wardrobe
     template: individual_virtual_switch

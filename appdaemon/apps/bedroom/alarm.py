@@ -56,7 +56,7 @@ class Alarm(hass.Hass):
     self.call_service("sonos/snapshot", entity_id="all")
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
     self.call_service("sonos/unjoin", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_on", entity_id="light.bedroom_bed_led_rgb", brightness=254,
+    self.call_service("light/turn_on", entity_id="light.bedroom_bed_led", brightness=254,
                       hs_color=self.get_circadian_hs_color())
 
 

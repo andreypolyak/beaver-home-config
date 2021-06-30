@@ -3,7 +3,7 @@
   entities:
     - light.group_bedroom_adult_top
     - light.group_bedroom_theo_top
-    - light.bedroom_bed_led_rgb
+    - light.bedroom_bed_led
     - light.bedroom_wardrobe
     - light.bedroom_table
 
@@ -158,22 +158,22 @@
 
 - platform: template
   lights:
-    ha_template_individual_bedroom_bed_led_rgb:
-      friendly_name: HA Template Individual Living Room Sofa LED RGB
+    ha_template_individual_bedroom_bed_led:
+      friendly_name: HA Template Individual Bedroom Bed LED
       level_template: >
-        {{ state_attr("light.bedroom_bed_led_rgb", "brightness")|int }}
+        {{ state_attr("light.bedroom_bed_led", "brightness")|int }}
       value_template: >
-        {{ is_state("light.bedroom_bed_led_rgb", "on") }}
+        {{ is_state("light.bedroom_bed_led", "on") }}
       color_template: >
-        {{ state_attr("light.bedroom_bed_led_rgb", "hs_color") if state_attr("light.bedroom_bed_led_rgb", "hs_color") else [0,0] }}
+        {{ state_attr("light.bedroom_bed_led", "hs_color") if state_attr("light.bedroom_bed_led", "hs_color") else [0,0] }}
       turn_on:
         service: script.fire_custom_event
         data:
-          custom_event_data: bedroom_bed_led_rgb_virtual_switch_individual_on
+          custom_event_data: bedroom_bed_led_virtual_switch_individual_on
       turn_off:
         service: script.fire_custom_event
         data:
-          custom_event_data: bedroom_bed_led_rgb_virtual_switch_individual_off
+          custom_event_data: bedroom_bed_led_virtual_switch_individual_off
       set_level:
         service: script.fire_custom_event
         data:
@@ -182,7 +182,6 @@
         service: script.fire_custom_event
         data:
           custom_event_data: ""
-
 
 - platform: template
   lights:

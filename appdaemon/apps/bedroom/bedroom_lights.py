@@ -24,7 +24,6 @@ class BedroomLights(RoomLights):
     ]
     self.turn_off_lights = [
       "group_bedroom_bri",
-      "bedroom_bed_led_rgb",
       "bedroom_table"
     ]
     self.ignore_fade_lights = ["bedroom_table"]
@@ -32,7 +31,7 @@ class BedroomLights(RoomLights):
       "group_bedroom_color": [
         "group_bedroom_adult_top",
         "group_bedroom_theo_top",
-        "bedroom_bed_led_rgb"
+        "bedroom_bed_led"
       ],
       "bedroom_wardrobe": [],
       "bedroom_table": []
@@ -44,7 +43,7 @@ class BedroomLights(RoomLights):
         "bedroom_table": {"state": "on"}
       },
       "DARK": {
-        "bedroom_bed_led_rgb": {"state": "on", "attributes": {"brightness": 3}},
+        "bedroom_bed_led": {"state": "on", "attributes": {"brightness": 3}},
         "group_bedroom_top": {"state": "off"},
         "bedroom_wardrobe": {
           "state": "{{ states('binary_sensor.bedroom_wardrobe_door') }}",
