@@ -1,12 +1,13 @@
 import appdaemon.plugins.hass.hassapi as hass
 
+TIMES = ["08:00:00", "09:00:00", "10:00:00"]
+
 
 class ElectricityStats(hass.Hass):
 
   def initialize(self):
-    self.run_daily(self.send_stats, "08:00:00")
-    self.run_daily(self.send_stats, "09:00:00")
-    self.run_daily(self.send_stats, "10:00:00")
+    for time in TIMES:
+      self.run_daily(self.send_stats, time)
 
 
   def send_stats(self, kwargs):
