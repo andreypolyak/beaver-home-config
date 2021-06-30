@@ -22,10 +22,12 @@ class NotifyPiState(hass.Hass):
     room_name = room.replace("_", " ").capitalize()
     is_notified = self.storage.read(f"notify_pi_state.{room}_notified")
     if new == "unavailable" and is_notified:
-      self.notifications.send("admin", f"🍓 {room_name} Raspberry Pi is offline", "pi", url="/lovelace/settings")
+      message = f"🍓 {room_name} Raspberry Pi is offline"
+      self.notifications.send("admin", message, "pi", sound="Alert.caf", url="/lovelace/settings")
       self.storage.write(f"notify_pi_state.{room}_notified", False)
     elif old == "unavailable" and new != "unknown" and not is_notified:
-      self.notifications.send("admin", f"🍓 {room_name} Raspberry Pi is online", "pi", url="/lovelace/settings")
+      message = f"🍓 {room_name} Raspberry Pi is online"
+      self.notifications.send("admin", message, "pi", sound="Alert.caf", url="/lovelace/settings")
       self.storage.write(f"notify_pi_state.{room}_notified", True)
 
 

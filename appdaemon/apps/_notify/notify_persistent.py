@@ -21,18 +21,18 @@ class NotifyPersistent(hass.Hass):
 
   def on_existing_notification(self, notification):
     notification_state = self.get_state(notification, attribute="all")
-    title = notification_state["attributes"]["title"]
-    message = notification_state["attributes"]["message"]
+    notification_title = notification_state["attributes"]["title"]
+    notification_message = notification_state["attributes"]["message"]
     notification_id = notification.split(".")[1]
-    self.process_notification(title, message, notification_id)
+    self.process_notification(notification_title, notification_message, notification_id)
 
 
-  def process_notification(self, title, message, notification_id):
+  def process_notification(self, notification_title, notification_message, notification_id):
     if notification_id in ["homeassistant_check_config", "homeassistant.check_config"]:
       return
-    (message, url) = self.parse_message(message)
-    text = f"📻 New notification: {title}. {message}"
-    self.notifications.send("admin", text, "persistent", url=url)
+    (notification_message, notification_url) = self.parse_message(notification_message)
+    message = f"📻 New notification: {notification_title}. {notification_message}"
+    self.notifications.send("admin", message, "persistent", url=notification_url)
     self.call_service("persistent_notification/dismiss", notification_id=notification_id)
 
 

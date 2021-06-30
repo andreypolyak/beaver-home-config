@@ -121,7 +121,7 @@ class NotifyUnavailable(hass.Hass):
     if len(notify_objs) > 0:
       self.log(f"Send notification about available entities: {notify_objs}")
       message = self.build_available_message(notify_objs)
-      self.notifications.send("admin", message, "available", url="/lovelace/settings_entities")
+      self.notifications.send("admin", message, "available", sound="Noir.caf", url="/lovelace/settings_entities")
     for entity in self.available_entities:
       del self.saved_entities[entity]
 

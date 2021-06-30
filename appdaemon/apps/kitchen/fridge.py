@@ -36,8 +36,8 @@ class Fridge(hass.Hass):
         if (self.get_now_ts() - notified_ts) > 3600:
           text = "Внимание! Повышенная температура в морозильнике!"
           self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-          text = f"♨️ Freezer temperature is {temp}!"
-          self.notifications.send("home_or_all", text, "fridge", is_critical=True)
+          message = f"♨️ Freezer temperature is {temp}!"
+          self.notifications.send("home_or_all", message, "fridge", is_critical=True)
           self.storage.write("fridge.notified_ts", self.get_now_ts())
     except ValueError:
       pass

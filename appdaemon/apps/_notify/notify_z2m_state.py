@@ -33,43 +33,48 @@ class NotifyZ2mState(hass.Hass, mqtt.Mqtt):
     url_name = kwargs["url_name"]
     url = f"/hassio/addon/{url_name}/logs"
     if new == "on":
-      self.notifications.send("admin", f"📡 {full_name} was successfully restarted", "z2m_state", url=url)
+      message = f"📡 {full_name} was successfully restarted"
+      self.notifications.send("admin", message, "z2m_state", sound="Ladder.caf", url=url)
     elif new == "off":
-      self.notifications.send("admin", f"📡 {full_name} is down", "z2m_state", url=url)
+      message = f"📡 {full_name} is down"
+      self.notifications.send("admin", message, "z2m_state", sound="Ladder.caf", url=url)
 
 
   def on_mqtt_change(self, event_name, data, kwargs):
     short_name = kwargs["short_name"]
     url_name = kwargs["url_name"]
-    message = json.loads(data["payload"])
+    payload = json.loads(data["payload"])
     category = f"{short_name}_state"
     url = f"/{url_name}"
-    if "type" not in message:
+    if "type" not in payload:
       return
-    if message["type"] == "device_connected":
-      friendly_name = message["message"]["friendly_name"]
-      self.notifications.send("admin", f"📡 New Zigbee device found: {friendly_name}", category, url=url)
-    elif message["type"] == "pairing":
-      friendly_name = message["meta"]["friendly_name"]
-      if message["message"] == "interview_started":
-        self.notifications.send("admin", f"📡 Pairing new Zigbee device: {friendly_name}", category, url=url)
-      elif message["message"] == "interview_successful":
-        if "description" in message["meta"]:
-          description = message["meta"]["description"]
+    if payload["type"] == "device_connected":
+      friendly_name = payload["message"]["friendly_name"]
+      message = f"📡 New Zigbee device found: {friendly_name}"
+      self.notifications.send("admin", message, category, sound="Ladder.caf", url=url)
+    elif payload["type"] == "pairing":
+      friendly_name = payload["meta"]["friendly_name"]
+      if payload["message"] == "interview_started":
+        message = f"📡 Pairing new Zigbee device: {friendly_name}"
+        self.notifications.send("admin", message, category, sound="Ladder.caf", url=url)
+      elif payload["message"] == "interview_successful":
+        if "description" in payload["meta"]:
+          description = payload["meta"]["description"]
           description = f" ({description})"
         else:
           description = ""
-        text = f"📡 Successfully paired new Zigbee device: {friendly_name}{description}"
-        self.notifications.send("admin", text, category, url=url)
-    elif message["type"] == "device_removed":
-      friendly_name = message["meta"]["friendly_name"]
-      self.notifications.send("admin", f"📡 Zigbee device left the network: {friendly_name}", category, url=url)
-    elif message["type"] == "zigbee_publish_error" and "MEM_ERROR" in message["message"]:
+        message = f"📡 Successfully paired new Zigbee device: {friendly_name}{description}"
+        self.notifications.send("admin", message, category, sound="Ladder.caf", url=url)
+    elif payload["type"] == "device_removed":
+      friendly_name = payload["meta"]["friendly_name"]
+      message = f"📡 Zigbee device left the network: {friendly_name}"
+      self.notifications.send("admin", message, category, sound="Ladder.caf", url=url)
+    elif payload["type"] == "zigbee_publish_error" and "MEM_ERROR" in payload["message"]:
       actions = [{"action": "PI_RESTART", "title": "📌 Restart Zigbee Pis", "destructive": True}]
-      self.notifications.send("admin", "👎 Memory error on Zigbee stick. Do you want to restart Zigbee Pis?",
-                              "z2m_error", sound="Aurora.caf", actions=actions)
-    if "error" in message["type"]:
-      self.fire_event("zigbee_log", text=message)
+      message = "👎 Memory error on Zigbee stick. Do you want to restart Zigbee Pis?"
+      self.notifications.send("admin", message, "z2m_error", sound="Ladder.caf", actions=actions)
+    if "error" in payload["type"]:
+      self.fire_event("zigbee_log", text=payload)
 
 
   def on_pi_restart(self, event_name, data, kwargs):

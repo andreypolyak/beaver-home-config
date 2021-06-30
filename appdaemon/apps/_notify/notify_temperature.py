@@ -20,5 +20,5 @@ class NotifyTemperature(hass.Hass):
     if new_value < 19:
       room = entity.replace("sensor.", "").replace("_temperature", "").replace("_", " ")
       message = f"🥶 Too cold in the {room} ({new_value}°C)!"
-      self.notifications.send("home_or_all", message, "air_quality", sound="Choo_Choo.caf", min_delta=600,
-                              url="/lovelace/settings_climate")
+      url = "/lovelace/settings_climate"
+      self.notifications.send("home_or_all", message, "air_quality", sound="Choo_Choo.caf", min_delta=600, url=url)

@@ -37,7 +37,7 @@ class Lock(hass.Hass):
     self.lock_handle = self.run_in(self.lock_door, 60)
     if (self.get_now_ts() - self.unlocked_ts) < 15 and self.unlocked_by:
       actions = [{"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}]
-      self.notifications.send(self.unlocked_by, "🔓 Lock was unlocked", "lock", actions=actions)
+      self.notifications.send(self.unlocked_by, "🔓 Lock was unlocked", "lock", sound="Calypso.caf", actions=actions)
       self.unlocked_ts = 0
       self.unlocked_by = None
 
@@ -72,10 +72,10 @@ class Lock(hass.Hass):
     actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
     if new == "yard" and old in ["not_home", "district"]:
       self.notifications.send(person_name, "🔐 Do you want to unlock the door?", "lock_district",
-                              min_delta=600, ios_category="lock", actions=actions)
+                              sound="Calypso.caf", min_delta=600, ios_category="lock", actions=actions)
     elif new == "downstairs" and old in ["not_home", "district", "yard"]:
-      self.notifications.send(person_name, "🔐 To unlock the door please double tap door bell",
-                              "lock_downstairs", min_delta=600, ios_category="lock", actions=actions)
+      self.notifications.send(person_name, "🔐 To unlock the door please double tap door bell", "lock_downstairs",
+                              sound="Calypso.caf", min_delta=600, ios_category="lock", actions=actions)
 
 
   def lock_door(self, kwargs):

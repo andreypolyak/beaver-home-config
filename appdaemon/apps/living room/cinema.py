@@ -124,8 +124,8 @@ class Cinema(hass.Hass):
     if self.get_state("input_select.living_scene") not in ["dark_cinema", "party"]:
       self.turn_on_scene("light_cinema")
       actions = [{"action": "DARK_CINEMA_TURN_ON", "title": "🌑 Turn on dark cinema scene", "destructive": True}]
-      text = "🎦 Do you want to turn on dark cinema scene?"
-      self.notifications.send("home_or_none", text, "cinema", actions=actions)
+      message = "🎦 Do you want to turn on dark cinema scene?"
+      self.notifications.send("home_or_none", message, "cinema", actions=actions)
 
 
   def on_tv_turned_off(self, entity, attribute, old, new, kwargs):
