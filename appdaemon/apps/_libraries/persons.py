@@ -69,10 +69,8 @@ class Persons(hass.Hass):
 
   def get_all_person_location_entities(self):
     location_entities = []
-    for person_name in self.get_all_person_names():
-      entity = f"input_select.{person_name}_location"
-      if self.entity_exists(entity):
-        location_entities.append(entity)
+    for person_name in self.get_all_person_names(with_location=True):
+      location_entities.append(f"input_select.{person_name}_location")
     return location_entities
 
 

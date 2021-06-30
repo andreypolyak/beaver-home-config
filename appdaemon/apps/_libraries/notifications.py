@@ -6,7 +6,7 @@ class Notifications(hass.Hass):
   def initialize(self):
     self.storage = self.get_app("persistent_storage")
     self.persons = self.get_app("persons")
-    for person in self.persons.get_all_persons():
+    for person in self.persons.get_all_persons(with_phone=True):
       person_name = person["name"]
       self.storage.init(f"notifications.{person_name}", {})
     self.storage.init(f"notifications.failed_notifications", {})
@@ -16,12 +16,10 @@ class Notifications(hass.Hass):
 
 
   def send(self, to, message, category, sound="none", is_critical=False, min_delta=None,
-           max_proximity=None, url=None, ios_category=None, actions=None):
-    persons = self.__get_person_list(to, max_proximity)
+           url=None, ios_category=None, actions=None):
+    persons = self.__get_person_list(to)
     for person in persons:
       person_name = person["name"]
-      if person["phone"] is None:
-        continue
       if min_delta:
         delta = self.__get_notification_ts_delta(person_name, category)
         if (delta and delta < min_delta):
@@ -71,8 +69,8 @@ class Notifications(hass.Hass):
         del failed_notifications[attribute]
       except KeyError:
         pass
-      self.storage.write("notifications.failed_notifications", failed_notifications, attribute="all")
       self.log(f"Succesfully sent notification with params: {params}")
+      self.storage.write("notifications.failed_notifications", failed_notifications, attribute="all")
     else:
       self.log(f"Failed to send notification with params: {params}")
       self.storage.write("notifications.failed_notifications", params, attribute=attribute)
@@ -123,8 +121,8 @@ class Notifications(hass.Hass):
     self.storage.write(f"notifications.{person_name}", self.get_now_ts(), attribute=category)
 
 
-  def __get_person_list(self, to, max_proximity):
-    all_persons = self.persons.get_all_persons()
+  def __get_person_list(self, to):
+    all_persons = self.persons.get_all_persons(with_location=True)
     persons = []
     if isinstance(to, list):
       for person_name in to:
@@ -137,16 +135,15 @@ class Notifications(hass.Hass):
       if len(persons_at_home) > 0:
         persons = persons_at_home
       else:
-        persons = self.persons.get_all_persons()
+        persons = self.persons.get_all_persons(with_location=True)
     elif to == "home_or_none":
       persons_at_home = self.persons.get_persons_at_home()
       if len(persons_at_home) > 0:
         persons = persons_at_home
-    elif to == "proximity" and max_proximity:
-      persons = self.persons.get_persons_inside_proximity(max_proximity)
     elif isinstance(to, str):
-      if to in all_persons:
-        persons.append(all_persons[to])
+      for person in all_persons:
+        if to == person["name"]:
+          persons.append(person)
     return persons
 
 

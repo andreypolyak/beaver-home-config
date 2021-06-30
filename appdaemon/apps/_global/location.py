@@ -31,7 +31,7 @@ class Location(hass.Hass):
 
   def update_unlocked_ts(self):
     self.storage.write("location.lock_unlocked_ts", self.get_now_ts())
-    persons = self.persons.get_all_persons()
+    persons = self.persons.get_all_persons(with_location=True)
     for person in persons:
       self.process(person)
 

@@ -14,7 +14,7 @@ class NotifyArrival(hass.Hass):
         "left_home": 0,
         "arrived": 0
     }
-    person_names = self.persons.get_all_person_names()
+    person_names = self.persons.get_all_person_names(with_phone=True)
     for person_name in person_names:
       self.storage.init(f"notify_arrival.{person_name}", default)
     for entity in self.persons.get_all_person_location_entities():
