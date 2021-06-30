@@ -11,9 +11,9 @@ class Party(hass.Hass):
     self.listen_state(self.on_party_lights_on, "input_boolean.party_lights", new="on")
     self.listen_state(self.on_party_lights_off, "input_boolean.party_lights", new="off")
     self.listen_state(self.on_update_party_source, "input_select.party_source")
-    self.update_party_sources({})
-    self.listen_state(self.update_party_sources, "media_player.living_room_sonos", attribute="source_list")
-    self.listen_state(self.on_tv_source, "media_player.living_room_sonos", attribute="source", new="TV")
+    sonos_entity = "media_player.living_room_sonos"
+    self.listen_state(self.update_party_sources, sonos_entity, attribute="source_list", immediate=True)
+    self.listen_state(self.on_tv_source, sonos_entity, attribute="source", new="TV")
     self.tv_was_on = True
 
 

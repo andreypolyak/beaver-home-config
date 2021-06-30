@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class BathroomFan(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.on_bathroom_door, "binary_sensor.bathroom_door")
+    self.listen_state(self.on_bathroom_door, "binary_sensor.bathroom_door", immediate=True)
 
 
   def on_bathroom_door(self, entity, attribute, old, new, kwargs):

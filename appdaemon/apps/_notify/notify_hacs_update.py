@@ -7,15 +7,10 @@ class NotifyHacsUpdate(hass.Hass):
     self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_hacs_update.notified_updates", {})
-    self.listen_state(self.on_hacs_update, "sensor.hacs_updates", attribute="all")
-    self.check_updates()
+    self.listen_state(self.on_hacs_update, "sensor.hacs_updates", attribute="all", immediate=True)
 
 
   def on_hacs_update(self, entity, attribute, old, new, kwargs):
-    self.check_updates()
-
-
-  def check_updates(self):
     updates_info = self.get_state("sensor.hacs", attribute="all")
     try:
       updates = updates_info["attributes"]["repositories"]

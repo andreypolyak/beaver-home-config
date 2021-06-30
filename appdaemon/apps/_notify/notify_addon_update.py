@@ -7,15 +7,10 @@ class NotifyAddonUpdate(hass.Hass):
     self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_addon_update.notified_updates", {})
-    self.listen_state(self.on_addon_update, "sensor.supervisor_info", attribute="all")
-    self.check_updates()
+    self.listen_state(self.on_addon_update, "sensor.supervisor_info", attribute="all", immediate=True)
 
 
   def on_addon_update(self, entity, attribute, old, new, kwargs):
-    self.check_updates()
-
-
-  def check_updates(self):
     updates_info = self.get_state("sensor.supervisor_info", attribute="all")
     try:
       updates = updates_info["attributes"]["addons"]

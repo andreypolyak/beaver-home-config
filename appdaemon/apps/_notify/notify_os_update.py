@@ -7,15 +7,10 @@ class NotifyOsUpdate(hass.Hass):
     self.notifications = self.get_app("notifications")
     self.storage = self.get_app("persistent_storage")
     self.storage.init("notify_os_update.notified_version", None)
-    self.listen_state(self.on_core_update, "sensor.os_info", attribute="all")
-    self.check_updates()
+    self.listen_state(self.on_core_update, "sensor.os_info", attribute="all", immediate=True)
 
 
   def on_core_update(self, entity, attribute, old, new, kwargs):
-    self.check_updates()
-
-
-  def check_updates(self):
     updates_info = self.get_state("sensor.os_info", attribute="all")
     notified_version = self.storage.read("notify_os_update.notified_version")
     try:

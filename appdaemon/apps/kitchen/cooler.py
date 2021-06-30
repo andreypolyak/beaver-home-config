@@ -4,13 +4,12 @@ import appdaemon.plugins.hass.hassapi as hass
 class Cooler(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.process, "light.ha_group_kitchen")
-    self.listen_state(self.process, "input_select.living_scene")
-    self.listen_state(self.process, "input_select.nearest_person_location")
-    self.turn_on_cooler()
+    self.listen_state(self.on_change, "light.ha_group_kitchen", immediate=True)
+    self.listen_state(self.on_change, "input_select.living_scene")
+    self.listen_state(self.on_change, "input_select.nearest_person_location")
 
 
-  def process(self, entity, attribute, old, new, kwargs):
+  def on_change(self, entity, attribute, old, new, kwargs):
     nearest_person_location = self.get_state("input_select.nearest_person_location")
     lights_on = self.get_state("light.ha_group_kitchen") == "on"
     living_scene = self.get_state("input_select.living_scene")

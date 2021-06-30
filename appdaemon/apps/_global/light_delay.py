@@ -4,16 +4,11 @@ import appdaemon.plugins.hass.hassapi as hass
 class LightDelay(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.on_scene_change, "input_select.living_scene")
+    self.listen_state(self.on_scene_change, "input_select.living_scene", immediate=True)
     self.listen_state(self.on_scene_change, "input_select.sleeping_scene")
-    self.process()
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
-    self.process()
-
-
-  def process(self):
     living_scene = self.get_state("input_select.living_scene")
     sleeping_scene = self.get_state("input_select.sleeping_scene")
     if living_scene in ["dark_cinema", "party", "night"]:

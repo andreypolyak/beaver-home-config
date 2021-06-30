@@ -8,7 +8,7 @@ class Plant(hass.Hass):
     sensors = self.get_state("sensor")
     for sensor in sensors:
       if "_moisture" in sensor:
-        self.listen_state(self.on_change, sensor)
+        self.listen_state(self.on_change, sensor, immediate=True)
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
@@ -21,5 +21,5 @@ class Plant(hass.Hass):
         return
     if moisture < 80:
       plant_name = entity.replace("sensor.", "").replace("_moisture", "").replace("_", " ")
-      text = f"🪴 It's time to water the {plant_name}. Moisture there is {moisture}%"
-      self.notifications.send("home_or_none", text, "plant", min_delta=21600)
+      message = f"🪴 It's time to water the {plant_name}. Moisture there is {moisture}%"
+      self.notifications.send("home_or_none", message, "plant", min_delta=21600)

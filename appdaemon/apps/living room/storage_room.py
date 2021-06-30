@@ -4,7 +4,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class StorageRoom(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.on_storage_room_change, "binary_sensor.storage_room_door")
+    self.listen_state(self.on_storage_room_change, "binary_sensor.storage_room_door", immediate=True)
 
 
   def on_storage_room_change(self, entity, attribute, old, new, kwargs):

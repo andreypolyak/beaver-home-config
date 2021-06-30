@@ -4,7 +4,10 @@ import appdaemon.plugins.hass.hassapi as hass
 class AC(hass.Hass):
 
   def initialize(self):
-    self.listen_state(self.on_change, "input_select.nearest_person_location")
+    self.handle = None
+    self.handle_ts = 0
+    self.check_handle = None
+    self.listen_state(self.on_change, "input_select.nearest_person_location", immediate=True)
     self.listen_state(self.on_change, "binary_sensor.living_room_balcony_door")
     self.listen_state(self.on_change, "sensor.balcony_temperature")
     self.listen_state(self.on_change, "sensor.living_room_temperature")
@@ -14,10 +17,6 @@ class AC(hass.Hass):
     self.listen_event(self.on_manual_toggle, "custom_event", custom_event_data="manual_ac_toggle")
     self.listen_event(self.on_manual_on, "custom_event", custom_event_data="manual_ac_on")
     self.listen_event(self.on_manual_off, "custom_event", custom_event_data="manual_ac_off")
-    self.handle = None
-    self.handle_ts = 0
-    self.check_handle = None
-    self.change()
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
