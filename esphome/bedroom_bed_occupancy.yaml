@@ -12,6 +12,7 @@ wifi:
   password: !secret esphome_wifi_password
   use_address: 192.168.1.98
   fast_connect: true
+  power_save_mode: none
   ap:
     ssid: $hostname
     password: ""
@@ -21,8 +22,6 @@ logger:
 api:
 
 ota:
-
-esp32_ble_tracker:
 
 sensor:
   - platform: adc
@@ -48,11 +47,6 @@ sensor:
     id: right_bottom_sensor
     update_interval: 1s
     attenuation: 11db
-
-  - platform: xiaomi_miscale
-    mac_address: "70:87:9E:24:92:D6"
-    weight:
-      name: Scales
 
 binary_sensor:
   - platform: template
