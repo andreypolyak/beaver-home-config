@@ -1,0 +1,63 @@
+'0x00124b001cd6084d':
+  friendly_name: Bathroom Fan
+'0x00124b001cd5fe26':
+  friendly_name: Bathroom Mirror
+'0x000d6f0013364669':
+  friendly_name: Bathroom Washing Machine Plug
+'0x00158d0004448945':
+  friendly_name: Entrance Door
+  retain: true
+'0x00158d000283bd95':
+  friendly_name: Entrance Door Bell
+  legacy: false
+'0x000b57fffe59cfd6':
+  friendly_name: Entrance Lock
+  retain: true
+'0x00158d0004467eba':
+  friendly_name: Entrance Back Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d0004110af9':
+  friendly_name: Entrance Front Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d00041d0cd1':
+  friendly_name: Bathroom Door
+  retain: true
+'0x00158d0004210b51':
+  friendly_name: Bathroom Temperature
+  retain: true
+'0x00158d000232ce4d':
+  friendly_name: Bathroom Washing Machine Door
+  retain: true
+'0x00158d000242c6a6':
+  friendly_name: Bathroom Washing Machine Leak
+  retain: true
+'0x00158d0004467dba':
+  friendly_name: Bathroom Shower Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d0004202a49':
+  friendly_name: Bathroom Toilet Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d0005cf0cde':
+  friendly_name: Bathroom Bath Leak
+'0x00158d0005d0d51d':
+  friendly_name: Bathroom Toilet Leak
+'0xccccccfffef35593':
+  friendly_name: Entrance Mirror 1
+'0xec1bbdfffe1ad9e5':
+  friendly_name: Entrance Mirror 2
+'0x680ae2fffe68f801':
+  friendly_name: Entrance Top
+'0xec1bbdfffe6da5c4':
+  friendly_name: Bathroom Top
+'0xccccccfffe4e9295':
+  friendly_name: Bathroom Entrance Backup Switch
+'0xec1bbdfffe7291e4':
+  friendly_name: Bathroom Cabinet
+'0xec1bbdfffead41a5':
+  friendly_name: Entrance Cloakroom
+'0x00158d0003d4b17b':
+  friendly_name: Bathroom Toilet Vibration

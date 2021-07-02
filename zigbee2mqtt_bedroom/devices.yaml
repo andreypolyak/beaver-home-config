@@ -1,0 +1,61 @@
+'0xccccccfffeafe5ab':
+  friendly_name: Bedroom Bed 1
+'0x00124b001d3a456b':
+  friendly_name: Bedroom CO2
+'0x000d6f0013679e20':
+  friendly_name: Bedroom Table Plug
+'0xec1bbdfffeb1c4e4':
+  friendly_name: Bedroom Bed 2
+'0xbc33acfffe00a44d':
+  friendly_name: Bedroom Theo Top 2
+'0x842e14fffefebe90':
+  friendly_name: Bedroom Theo Top 1
+'0x086bd7fffe2aeaa5':
+  friendly_name: Bedroom Wardrobe
+'0x00158d00044cfa40':
+  friendly_name: Bedroom Bed Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d000465b970':
+  friendly_name: Bedroom Temperature
+'0x00158d000485f2ff':
+  friendly_name: Bedroom Floor Motion
+  occupancy_timeout: 5
+  retain: true
+'0x00158d0002329fcc':
+  friendly_name: Bedroom Door
+  retain: true
+'0x00158d00044522f7':
+  friendly_name: Bedroom Wardrobe Door
+  retain: true
+'0x00158d0004110b29':
+  friendly_name: Bedroom Table Motion
+  occupancy_timeout: 5
+  retain: true
+'0x680ae2fffec333ac':
+  friendly_name: Bedroom Bed Night Switch
+  legacy: false
+'0xccccccfffe924308':
+  friendly_name: Bedroom Bed Light Switch
+  legacy: false
+'0x680ae2fffe8ccdaa':
+  friendly_name: Bedroom Cover Switch
+  legacy: false
+'0x680ae2fffed1a767':
+  friendly_name: Bedroom Cover
+'0x00158d0006af7a04':
+  friendly_name: Bedroom Chair Occupancy
+'0xec1bbdfffe729344':
+  friendly_name: Bedroom Top 2
+'0xec1bbdfffe2951fb':
+  friendly_name: Bedroom Top 1
+'0xec1bbdfffe729352':
+  friendly_name: Bedroom Top 3
+'0xccccccfffe275012':
+  friendly_name: Bedroom Backup Switch
+  debounce: 0.2
+  debounce_ignore:
+    - action
+  legacy: false
+'0x84fd27fffec23e73':
+  friendly_name: Bedroom Bed LED

@@ -1,0 +1,85 @@
+'110':
+  friendly_name: Group Bedroom Bed
+  retain: true
+  optimistic: true
+  devices:
+    - '0xec1bbdfffeb1c4e4'
+    - '0xccccccfffeafe5ab'
+'111':
+  friendly_name: Group Bedroom Bri
+  retain: true
+  optimistic: true
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+    - '0x086bd7fffe2aeaa5'
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+    - '0x84fd27fffec23e73'
+'112':
+  friendly_name: Group Bedroom Adult Top
+  retain: true
+  optimistic: true
+  devices:
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+'113':
+  friendly_name: Group Bedroom Theo Top
+  retain: true
+  optimistic: true
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+'114':
+  friendly_name: Group Bedroom Top
+  retain: true
+  optimistic: true
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+'115':
+  friendly_name: Group Bedroom Color
+  retain: true
+  optimistic: true
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+    - '0x84fd27fffec23e73'
+'116':
+  friendly_name: Group Bedroom All
+  retain: true
+  optimistic: false
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+    - '0x086bd7fffe2aeaa5'
+    - '0x000d6f0013679e20'
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+    - '0x84fd27fffec23e73'
+'117':
+  friendly_name: Group Bedroom All Night
+  retain: true
+  optimistic: false
+  devices:
+    - '0x842e14fffefebe90'
+    - '0xbc33acfffe00a44d'
+    - '0xec1bbdfffe2951fb'
+    - '0xec1bbdfffe729344'
+    - '0xec1bbdfffe729352'
+    - '0x84fd27fffec23e73'
+'118':
+  friendly_name: Group Bedroom Cover
+  retain: true
+  optimistic: true
+  devices:
+    - '0x680ae2fffed1a767'
