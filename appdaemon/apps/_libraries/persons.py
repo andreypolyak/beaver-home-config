@@ -17,7 +17,7 @@ PERSONS = {
   },
   "theo": {
     "name": "theo",
-    "ru_name": "Тео",
+    "ru_name": "Теодор",
     "phone": None,
     "admin": False,
     "emoji": "👦"
