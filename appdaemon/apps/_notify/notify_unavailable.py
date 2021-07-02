@@ -70,16 +70,18 @@ class NotifyUnavailable(hass.Hass):
 
 
   def process_saved_entities(self):
+    del_entities = []
     for entity, entity_obj in self.saved_entities.items():
       if not self.entity_exists(entity):
-        del self.saved_entities[entity]
+        del_entities.append(entity)
         continue
       entity_state = self.get_state(entity)
-      delta_ts = self.get_now_ts() - entity_obj["ts"]
-      if entity_state not in ["unavailable", "unknown"]:
-        self.available_entities.append(entity)
-        continue
       if entity_state == "unknown":
+        del_entities.append(entity)
+        continue
+      delta_ts = self.get_now_ts() - entity_obj["ts"]
+      if entity_state != "unavailable":
+        self.available_entities.append(entity)
         continue
       if delta_ts < 180:
         continue
@@ -91,6 +93,8 @@ class NotifyUnavailable(hass.Hass):
         continue
       self.notify_entities.append(entity)
       self.saved_entities[entity]["notified"] = True
+    for entity in del_entities:
+      del self.saved_entities[entity]
 
 
   def send_unavailable_notifications(self):
