@@ -173,6 +173,14 @@ cards:
           variables:
             name: Raspberry Pi Bedroom
             pi_item: bedroom
+        - type: custom:button-card
+          template: restart_pi
+          triggers_update:
+            - sensor.rpi_temp_rpi_kitchen
+          name: Kitchen
+          variables:
+            name: Raspberry Pi Kitchen
+            pi_item: kitchen
       - type: custom:button-card
         template: header
         name: Config

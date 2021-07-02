@@ -1,4 +1,5 @@
 watchdog: !secret shell_command_watchdog
 restart_rpi_bedroom: !secret shell_command_restart_rpi_bedroom
-restart_rpi_living_room: !secret shell_command_restart_rpi_living_room
 restart_rpi_entrance: !secret shell_command_restart_rpi_entrance
+restart_rpi_kitchen: !secret shell_command_restart_rpi_kitchen
+restart_rpi_living_room: !secret shell_command_restart_rpi_living_room

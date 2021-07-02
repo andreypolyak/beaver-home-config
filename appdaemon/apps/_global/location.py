@@ -53,6 +53,7 @@ class Location(hass.Hass):
     if not person_phone:
       return
     wifi_home = self.get_state(f"device_tracker.wifi_{person_phone}") == "home"
+    bt_home = self.get_state(f"device_tracker.bt_{person_phone}") == "home"
     ha_home = self.get_state(f"device_tracker.ha_{person_phone}") == "home"
     try:
       proximity = float(self.get_state(f"proximity.ha_{person_name}_home"))
@@ -65,12 +66,14 @@ class Location(hass.Hass):
 
     if (
       not wifi_home
+      and not bt_home
       and not ha_home
       and (proximity is None or proximity > 500)
     ):
       return "not_home"
     elif (
       not wifi_home
+      and not bt_home
       and not ha_home
       and proximity is not None
       and proximity <= 500
@@ -79,12 +82,13 @@ class Location(hass.Hass):
     elif (
       location != "home"
       and not wifi_home
+      and not bt_home
       and ha_home
     ):
       return "yard"
     elif (
       location in ["not_home", "district", "yard", "downstairs"]
-      and wifi_home
+      and (wifi_home or bt_home)
       and lock_unlocked_delta > 300
       and restart_delta > 120
     ):

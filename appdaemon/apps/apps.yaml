@@ -269,6 +269,10 @@ vacuum:
 # Global
 #
 
+bt_trackers:
+  module: bt_trackers
+  class: BtTrackers
+
 christmas_season:
   module: christmas_season
   class: ChristmasSeason

@@ -51,6 +51,7 @@ My main (highly subjective!) principles for choosing the hardware:
 - Apple Time Machine — used to backup all Macs in the house
 - Unifi Dream Machine — router and WiFi access point
 - 3x Raspberry PIs (2x2b and 1x3b) — used to [forward](https://www.zigbee2mqtt.io/how_tos/how_to_connect_to_a_remote_adapter.html) Zigbee [sticks and shields](https://t.me/zigberu) (3xCC2652 and 1xCC2531) over Ethernet to the main server which runs four different Zigbee2Mqtt instances. It's easier to admin them when they are installed on the main server rather than on PIs. Three CC2652 sticks/shields are located in different rooms to minimize the number of devices on each network, it was discovered that CC2652 provides the best performance for networks under 60 devices. One CC2531 stick is used to control Legrand switches which are working only on 11 channel
+2x Raspberry PIs (1xZero and 1x3b, same as previous) — used to track iPhones with Bluetooth using [Monitor](https://github.com/andrewjfreyer/monitor)
 
 ### Lighting
 

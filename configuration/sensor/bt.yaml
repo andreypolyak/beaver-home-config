@@ -1,0 +1,39 @@
+- platform: mqtt
+  state_topic: monitor_kitchen/rpi-kitchen/bt_andrey_iphone_11_pro_max
+  value_template: "{{ value_json.confidence }}"
+  unit_of_measurement: "%"
+  name: BT Kitchen Andrey iPhone 11 Pro Max Confidence
+
+- platform: mqtt
+  state_topic: monitor_kitchen/rpi-kitchen/bt_katya_iphone_12_pro_max
+  value_template: "{{ value_json.confidence }}"
+  unit_of_measurement: "%"
+  name: BT Kitchen Katya iPhone 12 Pro Max Confidence
+
+- platform: mqtt
+  state_topic: monitor_entrance/rpi-entrance/bt_andrey_iphone_11_pro_max
+  value_template: "{{ value_json.confidence }}"
+  unit_of_measurement: "%"
+  name: BT Entrance Andrey iPhone 11 Pro Max Confidence
+
+- platform: mqtt
+  state_topic: monitor_entrance/rpi-entrance/bt_katya_iphone_12_pro_max
+  value_template: "{{ value_json.confidence }}"
+  unit_of_measurement: "%"
+  name: BT Entrance Katya iPhone 12 Pro Max Confidence
+
+- platform: min_max
+  name: BT Andrey iPhone 11 Pro Max Confidence
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_entrance_andrey_iphone_11_pro_max_confidence
+    - sensor.bt_kitchen_andrey_iphone_11_pro_max_confidence
+
+- platform: min_max
+  name: BT Katya iPhone 12 Pro Max Confidence
+  type: max
+  round_digits: 0
+  entity_ids:
+    - sensor.bt_entrance_katya_iphone_12_pro_max_confidence
+    - sensor.bt_kitchen_katya_iphone_12_pro_max_confidence
