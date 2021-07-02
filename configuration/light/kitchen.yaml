@@ -9,33 +9,6 @@
     - light.kitchen_table
     - light.kitchen_vent
 
-- platform: mqtt
-  schema: json
-  name: Group Kitchen Top
-  command_topic: zigbee2mqtt/Group Kitchen Top/set
-  state_topic: zigbee2mqtt/Group Kitchen Top
-  color_mode: true
-  brightness: true
-  supported_color_modes: ["xy"]
-
-- platform: mqtt
-  schema: json
-  name: Group Kitchen Color
-  command_topic: zigbee2mqtt/Group Kitchen Color/set
-  state_topic: zigbee2mqtt/Group Kitchen Color
-  color_mode: true
-  brightness: true
-  supported_color_modes: ["xy"]
-
-- platform: mqtt
-  schema: json
-  name: Group Kitchen Dark Off
-  command_topic: zigbee2mqtt/Group Kitchen Dark Off/set
-  state_topic: zigbee2mqtt/Group Kitchen Dark Off
-  color_mode: true
-  brightness: true
-  supported_color_modes: ["xy"]
-
 - platform: template
   lights:
     ha_template_room_kitchen:
