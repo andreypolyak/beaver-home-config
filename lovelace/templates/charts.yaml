@@ -11,6 +11,18 @@ base_big:
   apex_config:
     chart:
       height: 280px
+weight:
+  config_templates: base_big
+  graph_span: 7d
+  experimental:
+    color_threshold: true
+  header:
+    show: true
+    show_states: true
+    colorize_states: true
+  all_series_config:
+    show:
+      extremas: true
 climate:
   config_templates: base
   experimental:
