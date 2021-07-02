@@ -54,11 +54,11 @@ class AlarmManager(hass.Hass):
       if self.get_state(f"input_boolean.alarm_{other_person_name}") == "on":
         other_alarms_turned_on = True
     if other_alarms_turned_on:
-      self.log(f"Motion occured when {person_name.capitalize()}'s alarm was ringing."
+      self.log(f"Motion occured when {person_name.capitalize()}'s alarm was ringing. "
                "Cancelling it because different alarm is turned on")
       self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
     else:
-      self.log(f"Motion occured when {person_name.capitalize()}'s alarm was ringing."
+      self.log(f"Motion occured when {person_name.capitalize()}'s alarm was ringing. "
                "Finishing it because no other alarms are turned on")
       self.fire_event("custom_event", custom_event_data=f"finish_alarm_{person_name}")
     self.run_in(self.turn_off_alarm, 1, person_name=person_name)
