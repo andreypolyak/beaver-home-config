@@ -28,7 +28,7 @@ class BedroomCover(hass.Hass):
       res = self.close_cover()
     if res:
       self.log("Cover position changed, turning on no change timer")
-      self.call_service("timer/start", entity_id=f"timer.cover_bedroom_no_change", duration=1200)
+      self.call_service("timer/start", entity_id=f"timer.cover_bedroom_no_change", duration=1800)
 
 
   def on_cover_change(self, entity, attribute, old, new, kwargs):
