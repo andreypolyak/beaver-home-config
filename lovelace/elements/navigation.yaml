@@ -31,6 +31,11 @@ cards:
     variables:
       name: outside
   - type: custom:button-card
+    template: navigation
+    icon: mdi:account-multiple
+    variables:
+      name: people
+  - type: custom:button-card
     template: navigation_settings
     entity: binary_sensor.system_ok
     icon: mdi:cog

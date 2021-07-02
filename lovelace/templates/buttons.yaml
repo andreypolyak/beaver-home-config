@@ -144,6 +144,11 @@ person:
         - right: 4px
         - top: 36px
         - font-size: 14px
+      activity:
+        - position: absolute
+        - left: 4px
+        - top: 4px
+        - font-size: 12px
   custom_fields:
     battery: >
       [[[ return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%" ]]]
@@ -162,6 +167,21 @@ person:
         if (states["device_tracker.bt_" + variables.phone].state == "home")
         return `<ha-icon
           icon="mdi:bluetooth"
+          style="width: 14px; height: 14px;">
+          </ha-icon>`;
+        else
+        return ``;
+      ]]]
+    activity: >
+      [[[
+        if (states["sensor." + variables.phone + "_activity"].state == "Walking")
+        return `<ha-icon
+          icon="mdi:walk"
+          style="width: 14px; height: 14px;">
+          </ha-icon>`;
+        else if (states["sensor." + variables.phone + "_activity"].state == "Automotive")
+        return `<ha-icon
+          icon="mdi:car"
           style="width: 14px; height: 14px;">
           </ha-icon>`;
         else
@@ -230,6 +250,7 @@ sleeping_scene:
 navigation:
   show_label: false
   show_name: false
+  aspect_ratio: 1/1
   state:
     - operator: template
       value: >
@@ -246,8 +267,6 @@ navigation:
       [[[ return "/lovelace/" + variables.name ]]]
     haptic: success
   styles:
-    card:
-      - height: 48px
     icon:
       - width: 70%
   variables:

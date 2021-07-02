@@ -1,7 +1,0 @@
-type: vertical-stack
-cards:
-  - type: custom:apexcharts-card
-    config_templates: temperature
-    series:
-      - entity: sensor.balcony_humidity
-      - entity: sensor.balcony_temperature
