@@ -121,8 +121,11 @@ class Alarm(hass.Hass):
 
 
   def turn_on_day_scene(self, kwargs):
-    self.call_service("input_select/select_option", entity_id="input_select.sleeping_scene", option="day")
-    self.call_service("input_select/select_option", entity_id="input_select.living_scene", option="day")
+    for zone in ["seleeping", "living"]:
+      entity = f"input_select.{zone}_scene"
+      if self.get_state(entity) == "night":
+        self.log(f"Turning on day scene in {zone} zone")
+        self.call_service("input_select/select_option", entity_id=entity, option="day")
 
 
   def speak_morning_info(self, kwargs):
