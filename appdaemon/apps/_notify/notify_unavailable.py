@@ -71,6 +71,9 @@ class NotifyUnavailable(hass.Hass):
 
   def process_saved_entities(self):
     for entity, entity_obj in self.saved_entities.items():
+      if not self.entity_exists(entity):
+        del self.saved_entities[entity]
+        continue
       entity_state = self.get_state(entity)
       delta_ts = self.get_now_ts() - entity_obj["ts"]
       if entity_state not in ["unavailable", "unknown"]:
