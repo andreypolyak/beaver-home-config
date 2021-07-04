@@ -15,7 +15,7 @@ class BedOccupancy(hass.Hass):
     sleeping_scene = self.get_state("input_select.sleeping_scene")
     living_scene = self.get_state("input_select.living_scene")
     night_scene_in_living_zone_enough = self.get_state("binary_sensor.night_scene_in_living_zone_enough") == "on"
-    if sleeping_scene != "night" or living_scene != "day":
+    if sleeping_scene != "night" or living_scene == "night":
       return
     for sensor in SENSORS:
       if self.get_state(f"binary_sensor.{sensor}") == "on":
