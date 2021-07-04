@@ -95,16 +95,7 @@ person:
   template: base_icon
   show_entity_picture: true
   show_state: false
-  show_label: true
-  label: >
-    [[[
-      if (states["input_select." + variables.person + "_location"].state == "home")
-        return "Home";
-      else if (parseInt(states["proximity.ha_" + variables.person + "_home"].state) < 1000)
-        return states["proximity.ha_" + variables.person + "_home"].state + " m"
-      else
-        return Math.floor(parseFloat(states["proximity.ha_" + variables.person + "_home"].state) / 1000) + " km"
-    ]]]
+  show_label: false
   hold_action:
     action: more-info
     entity: >
@@ -126,13 +117,17 @@ person:
       operator: "!="
       color: var(--paper-card-background-color)
   styles:
+    card:
+      - height: 100px
     entity_picture:
-      - width: 35%
+      - position: absolute
+      - top: 4px
+      - width: 40px
     custom_fields:
       battery:
         - position: absolute
         - right: 4px
-        - top: 4px
+        - top: 8px
         - font-size: 12px
       wifi:
         - position: absolute
@@ -147,45 +142,85 @@ person:
       activity:
         - position: absolute
         - left: 4px
-        - top: 4px
+        - top: 8px
         - font-size: 12px
+      location:
+        - position: absolute
+        - width: 100%
+        - bottom: 32px
+        - font-size: 14px
+        - white-space: initial
+        - text-overflow: initial
+        - overflow: initial
+        - align-self: middle
+      geocoded_location:
+        - position: absolute
+        - width: 100%
+        - bottom: 4px
+        - font-size: 8px
+        - white-space: initial
+        - text-overflow: initial
+        - overflow: initial
+        - align-self: middle
   custom_fields:
     battery: >
-      [[[ return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%" ]]]
+      [[[
+        if (states["sensor." + variables.phone + "_battery_state"].state != "Not Charging")
+          return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%"
+        else
+          return `<ha-icon
+            icon="mdi:battery-charging"
+            style="width: 12px; height: 12px; position: relative; top: -2px;">
+            </ha-icon>` +
+          states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%"
+      ]]]
     wifi: >
       [[[
         if (states["device_tracker.wifi_" + variables.phone].state == "home")
-        return `<ha-icon
-          icon="mdi:wifi"
-          style="width: 14px; height: 14px;">
-          </ha-icon>`;
+          return `<ha-icon
+            icon="mdi:wifi"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
         else
-        return ``;
+          return "";
       ]]]
     bt: >
       [[[
         if (states["device_tracker.bt_" + variables.phone].state == "home")
-        return `<ha-icon
-          icon="mdi:bluetooth"
-          style="width: 14px; height: 14px;">
-          </ha-icon>`;
+          return `<ha-icon
+            icon="mdi:bluetooth"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
         else
-        return ``;
+          return "";
       ]]]
     activity: >
       [[[
         if (states["sensor." + variables.phone + "_activity"].state == "Walking")
-        return `<ha-icon
-          icon="mdi:walk"
-          style="width: 14px; height: 14px;">
-          </ha-icon>`;
+          return `<ha-icon
+            icon="mdi:walk"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
         else if (states["sensor." + variables.phone + "_activity"].state == "Automotive")
-        return `<ha-icon
-          icon="mdi:car"
-          style="width: 14px; height: 14px;">
-          </ha-icon>`;
+          return `<ha-icon
+            icon="mdi:car"
+            style="width: 14px; height: 14px;">
+            </ha-icon>`;
         else
-        return ``;
+          return "";
+      ]]]
+    location: >
+      [[[
+        if (states["input_select." + variables.person + "_location"].state == "home")
+          return "Home";
+        else if (parseInt(states["proximity.ha_" + variables.person + "_home"].state) < 1000)
+          return states["proximity.ha_" + variables.person + "_home"].state + " m"
+        else
+          return Math.floor(parseFloat(states["proximity.ha_" + variables.person + "_home"].state) / 1000) + " km"
+      ]]]
+    geocoded_location: >
+      [[[
+        return states["sensor." + variables.person + "_geocoded_location"].state;
       ]]]
   variables:
     person: ""
@@ -913,7 +948,7 @@ window_device:
     auto: >
       [[[
         if (states["input_boolean.auto_window_" + variables.room].state == "on")
-        return ``;
+        return "";
         else
         return `<ha-icon
           icon="mdi:lock-outline"
@@ -1323,7 +1358,7 @@ cinema_scene:
           style="width: 14px; height: 14px;">
           </ha-icon>`;
         else
-        return ``;
+        return "";
       ]]]
   variables:
     scene: ""

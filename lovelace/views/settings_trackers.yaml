@@ -30,6 +30,7 @@ cards:
             - entity_id: device_tracker.icloud_andrey*
             - entity_id: device_tracker.ha_andrey*
             - entity_id: input_select.andrey_location
+            - entity_id: sensor.andrey_geocoded_location
         sort:
           method: entity_id
       - type: custom:button-card
@@ -50,6 +51,7 @@ cards:
             - entity_id: device_tracker.icloud_katya*
             - entity_id: device_tracker.ha_katya*
             - entity_id: input_select.katya_location
+            - entity_id: sensor.katya_geocoded_location
         sort:
           method: entity_id
       - type: custom:button-card

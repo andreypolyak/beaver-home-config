@@ -27,6 +27,9 @@ cards:
           - type: custom:button-card
             template: base_icon
             entity: script.update_location
+            styles:
+              card:
+                - height: 100px
             icon: mdi:update
             hold_action:
               action: more-info

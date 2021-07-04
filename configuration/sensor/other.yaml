@@ -88,3 +88,25 @@
       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
       column: value
       unit_of_measurement: MB
+
+- platform: template
+  sensors:
+    andrey_geocoded_location:
+      value_template: >
+        {% if is_state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Locality", "Moscow") -%}
+          {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Name") }} ({{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Sub Locality") }})
+        {%- else -%}
+          {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Administrative Area") }}, {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Locality") }}, {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Name") }}
+        {%- endif %}
+      friendly_name: Andrey Geocoded Location
+
+- platform: template
+  sensors:
+    katya_geocoded_location:
+      value_template: >
+        {% if is_state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Locality", "Moscow") -%}
+          {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Name") }} ({{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Locality") }})
+        {%- else -%}
+          {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Administrative Area") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Administrative Area") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Locality") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Name") }}
+        {%- endif %}
+      friendly_name: Katya Geocoded Location
