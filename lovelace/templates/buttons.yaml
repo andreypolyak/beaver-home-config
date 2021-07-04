@@ -336,6 +336,8 @@ navigation_settings:
     name: settings
 navigation_equal:
   show_label: false
+  show_name: false
+  aspect_ratio: 1/1
   state:
     - operator: template
       value: >
@@ -352,8 +354,6 @@ navigation_equal:
       [[[ return "/lovelace/" + variables.name ]]]
     haptic: success
   styles:
-    card:
-      - height: 48px
     icon:
       - width: 70%
   variables:
