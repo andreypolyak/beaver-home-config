@@ -165,7 +165,7 @@ person:
   custom_fields:
     battery: >
       [[[
-        if (states["sensor." + variables.phone + "_battery_state"].state != "Not Charging")
+        if (states["sensor." + variables.phone + "_battery_state"].state == "Not Charging")
           return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%"
         else
           return `<ha-icon
