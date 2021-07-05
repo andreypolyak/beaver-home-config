@@ -27,7 +27,7 @@ class Presence(hass.Hass):
       and self.get_state("input_select.living_scene") != "away"
       and self.get_state("input_boolean.guest_mode") != "on"
     ):
-      person_name = self.get_person_name_from_entity_name(entity)
+      person_name = self.persons.get_person_name_from_entity_name(entity)
       self.log(f"Change scene to Away because {person_name} went from {old} to {new}")
       self.call_service("input_select/select_option", entity_id="input_select.living_scene", option="away")
 
