@@ -1,0 +1,27 @@
+- platform: influxdb
+  host: !secret influxdb_host
+  port: !secret influxdb_port
+  username: !secret influxdb_username
+  password: !secret influxdb_password
+  scan_interval: 3600
+  queries:
+    - name: InfluxDB DB Size
+      unit_of_measurement: MB
+      value_template: "{{ (value|float / 1024 / 1024)|round(1) }}"
+      group_function: sum
+      measurement: '"monitor"."shard"'
+      database: _internal
+      where: "time > now() - 10s"
+      field: diskBytes
+
+- platform: sql
+  db_url: !secret recorder_db_url
+  queries:
+    - name: MariaDB DB Size
+      query: >
+        SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 1) "value"
+        FROM information_schema.tables
+        WHERE table_schema="homeassistant"
+        GROUP BY table_schema;
+      column: value
+      unit_of_measurement: MB

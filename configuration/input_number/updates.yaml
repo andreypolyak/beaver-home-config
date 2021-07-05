@@ -1,0 +1,13 @@
+zigbee_ota_updates:
+  name: Zigbee OTA Firmware Updates
+  min: 0
+  max: 10000
+  step: 1
+  mode: box
+
+ha_core_updates:
+  name: Home Assistant Core Updates
+  min: 0
+  max: 10000
+  step: 1
+  mode: box

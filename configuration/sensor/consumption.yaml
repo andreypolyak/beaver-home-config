@@ -41,8 +41,10 @@
       icon_template: mdi:water-pump
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.water_cold_daily")|float * states("input_number.cold_water_tariff")|float
-           + states("sensor.water_hot_daily")|float * states("input_number.hot_water_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.water_cold_daily")|float * states("input_number.cold_water_tariff")|float
+          + states("sensor.water_hot_daily")|float * states("input_number.hot_water_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -51,8 +53,10 @@
       icon_template: mdi:water-pump
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.water_cold_monthly")|float * states("input_number.cold_water_tariff")|float
-           + states("sensor.water_hot_monthly")|float * states("input_number.hot_water_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.water_cold_monthly")|float * states("input_number.cold_water_tariff")|float
+          + states("sensor.water_hot_monthly")|float * states("input_number.hot_water_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -61,7 +65,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t1_monthly")|float * states("input_number.t1_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t1_monthly")|float
+          * states("input_number.t1_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -70,7 +77,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t1_daily")|float * states("input_number.t1_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t1_daily")|float
+          * states("input_number.t1_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -79,7 +89,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t2_monthly")|float * states("input_number.t2_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t2_monthly")|float
+          * states("input_number.t2_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -88,7 +101,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t2_daily")|float * states("input_number.t2_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t2_daily")|float
+          * states("input_number.t2_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -97,7 +113,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t3_monthly")|float * states("input_number.t3_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t3_monthly")|float
+          * states("input_number.t3_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -106,7 +125,10 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t3_daily")|float * states("input_number.t3_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t3_daily")|float
+          * states("input_number.t3_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -115,9 +137,11 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t1_daily")|float * states("input_number.t1_electricity_tariff")|float
-           + states("sensor.electricity_t2_daily")|float * states("input_number.t2_electricity_tariff")|float
-           + states("sensor.electricity_t3_daily")|float * states("input_number.t3_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t1_daily")|float * states("input_number.t1_electricity_tariff")|float
+          + states("sensor.electricity_t2_daily")|float * states("input_number.t2_electricity_tariff")|float
+          + states("sensor.electricity_t3_daily")|float * states("input_number.t3_electricity_tariff")|float)|round(2)
+        }}
 
 - platform: template
   sensors:
@@ -126,6 +150,8 @@
       icon_template: mdi:flash
       unit_of_measurement: Rub
       value_template: >
-        {{ (states("sensor.electricity_t1_monthly")|float * states("input_number.t1_electricity_tariff")|float
-           + states("sensor.electricity_t2_monthly")|float * states("input_number.t2_electricity_tariff")|float
-           + states("sensor.electricity_t3_monthly")|float * states("input_number.t3_electricity_tariff")|float)|round(2) }}
+        {{
+          (states("sensor.electricity_t1_monthly")|float * states("input_number.t1_electricity_tariff")|float
+          + states("sensor.electricity_t2_monthly")|float * states("input_number.t2_electricity_tariff")|float
+          + states("sensor.electricity_t3_monthly")|float * states("input_number.t3_electricity_tariff")|float)|round(2)
+        }}

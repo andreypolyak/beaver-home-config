@@ -19,7 +19,11 @@
       value_template: >
         {{ is_state("light.ha_group_bathroom_entrance", "on") }}
       color_template: >
-        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          if state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -48,7 +52,11 @@
       value_template: >
         {{ is_state("light.ha_group_bathroom_entrance", "on") }}
       color_template: >
-        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          if state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -75,7 +83,11 @@
       value_template: >
         {{ is_state("light.ha_group_bathroom_entrance", "on") }}
       color_template: >
-        {{ state_attr("light.ha_group_bathroom_entrance", "hs_color") if state_attr("light.ha_group_bathroom_entrance", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          if state_attr("light.ha_group_bathroom_entrance", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -102,7 +114,11 @@
       value_template: >
         {{ is_state("light.group_bathroom_top", "on") }}
       color_template: >
-        {{ state_attr("light.group_bathroom_top", "hs_color") if state_attr("light.group_bathroom_top", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.group_bathroom_top", "hs_color")
+          if state_attr("light.group_bathroom_top", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -129,7 +145,11 @@
       value_template: >
         {{ is_state("light.group_entrance_top", "on") }}
       color_template: >
-        {{ state_attr("light.group_entrance_top", "hs_color") if state_attr("light.group_entrance_top", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.group_entrance_top", "hs_color")
+          if state_attr("light.group_entrance_top", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -156,7 +176,11 @@
       value_template: >
         {{ is_state("light.group_entrance_mirror", "on") }}
       color_template: >
-        {{ state_attr("light.group_entrance_mirror", "hs_color") if state_attr("light.group_entrance_mirror", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.group_entrance_mirror", "hs_color")
+          if state_attr("light.group_entrance_mirror", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:

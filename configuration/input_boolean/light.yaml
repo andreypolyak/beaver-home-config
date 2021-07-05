@@ -1,29 +1,46 @@
+# Auto Lights
+
 auto_lights_bathroom_entrance:
-  name: Bathroom and Entrance Automatic Lights
+  name: Bathroom and Entrance Auto Lights
+
 auto_lights_kitchen:
-  name: Kitchen Automatic Lights
+  name: Kitchen Auto Lights
+
 auto_lights_living_room:
-  name: Living Room Automatic Lights
+  name: Living Room Auto Lights
+
 auto_lights_bedroom:
-  name: Bedroom Automatic Lights
+  name: Bedroom Auto Lights
+
 auto_lights_balcony:
-  name: Balcony Automatic Lights
+  name: Balcony Auto Lights
+
+# Auto Colors
 
 auto_colors_bathroom_entrance:
-  name: Bathroom and Entrance Automatic Colors
+  name: Bathroom and Entrance Auto Colors
+
 auto_colors_kitchen:
-  name: Kitchen Automatic Colors
+  name: Kitchen Auto Colors
+
 auto_colors_living_room:
-  name: Living Room Automatic Colors
+  name: Living Room Auto Colors
+
 auto_colors_bedroom:
-  name: Bedroom Automatic Colors
+  name: Bedroom Auto Colors
+
 auto_colors_balcony:
-  name: Balcony Automatic Colors
+  name: Balcony Auto Colors
+
+# Min Delay
 
 living_zone_min_delay:
   name: Min Light Delay in Living Zone
+
 sleeping_zone_min_delay:
   name: Min Light Delay in Sleeping Zone
+
+# Other
 
 circadian_update:
   name: Update Circadian Light

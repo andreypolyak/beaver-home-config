@@ -19,9 +19,9 @@
     circadian_saturation:
       value_template: >
         {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
-        100
+          100
         {%- else -%}
-        {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
+          {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
         {%- endif %}
       friendly_name: Circadian Saturation
       unit_of_measurement: "%"
@@ -37,76 +37,20 @@
 
 - platform: template
   sensors:
-    living_room_yandex_station_connection:
-      value_template: >
-        {% if state_attr("media_player.living_room_yandex_station", "connection_class") == "assumed" %}
-        unavailable
-        {%- else -%}
-        ok
-        {%- endif %}
-      friendly_name: Living Room Yandex Station Connection
-
-- platform: template
-  sensors:
-    bedroom_yandex_station_connection:
-      value_template: >
-        {% if state_attr("media_player.bedroom_yandex_station", "connection_class") == "assumed" %}
-        unavailable
-        {%- else -%}
-        ok
-        {%- endif %}
-      friendly_name: Bedroom Yandex Station Connection
-
-- platform: template
-  sensors:
     wind_speed:
       value_template: >
         {{ state_attr("weather.home", "wind_speed")|float }}
       friendly_name: Wind Speed
       unit_of_measurement: "km/h"
 
-- platform: influxdb
-  host: !secret influxdb_host
-  port: !secret influxdb_port
-  username: !secret influxdb_username
-  password: !secret influxdb_password
-  scan_interval: 3600
-  queries:
-    - name: InfluxDB DB Size
-      unit_of_measurement: MB
-      value_template: "{{ (value|float / 1024 / 1024)|round(1) }}"
-      group_function: sum
-      measurement: '"monitor"."shard"'
-      database: _internal
-      where: "time > now() - 10s"
-      field: diskBytes
+- platform: command_line
+  name: Andrey Rain
+  command: >
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{states.device_tracker.ha_andrey_iphone_11_pro_max.attributes.latitude}}&lon={{states.device_tracker.ha_andrey_iphone_11_pro_max.attributes.longitude}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
+  scan_interval: 120
 
-- platform: sql
-  db_url: !secret recorder_db_url
-  queries:
-    - name: MariaDB DB Size
-      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-      column: value
-      unit_of_measurement: MB
-
-- platform: template
-  sensors:
-    andrey_geocoded_location:
-      value_template: >
-        {% if is_state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Locality", "Moscow") -%}
-          {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Name") }} ({{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Sub Locality") }})
-        {%- else -%}
-          {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Administrative Area") }}, {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Locality") }}, {{ state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Name") }}
-        {%- endif %}
-      friendly_name: Andrey Geocoded Location
-
-- platform: template
-  sensors:
-    katya_geocoded_location:
-      value_template: >
-        {% if is_state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Locality", "Moscow") -%}
-          {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Name") }} ({{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Locality") }})
-        {%- else -%}
-          {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Administrative Area") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Administrative Area") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Locality") }}, {{ state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Name") }}
-        {%- endif %}
-      friendly_name: Katya Geocoded Location
+- platform: command_line
+  name: Katya Rain
+  command: >
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{states.device_tracker.ha_katya_iphone_12_pro_max.attributes.latitude}}&lon={{states.device_tracker.ha_katya_iphone_12_pro_max.attributes.longitude}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
+  scan_interval: 120

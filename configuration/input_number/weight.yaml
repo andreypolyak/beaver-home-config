@@ -1,0 +1,20 @@
+andrey_weight:
+  name: Andrey Weight
+  min: 0
+  max: 200
+  step: 0.01
+  mode: box
+
+katya_weight:
+  name: Katya Weight
+  min: 0
+  max: 200
+  step: 0.01
+  mode: box
+
+theo_weight:
+  name: Theo Weight
+  min: 0
+  max: 200
+  step: 0.01
+  mode: box

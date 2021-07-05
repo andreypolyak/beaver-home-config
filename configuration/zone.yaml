@@ -1,15 +1,8 @@
 - name: Home
   latitude: !secret zone_home_latitude
   longitude: !secret zone_home_longitude
-  radius: 100
+  radius: 50
   icon: mdi:home
-
-# - name: Home
-#   latitude: !secret zone_home_latitude
-#   longitude: !secret zone_home_longitude
-#   radius: 500
-#   icon: mdi:home
-#   passive: true
 
 - name: Sabre
   latitude: !secret zone_sabre_latitude

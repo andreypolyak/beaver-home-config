@@ -16,7 +16,6 @@
       name: electricity
   scan_interval:
     minutes: 60
-    # minutes: 10080
 
 - platform: template
   sensors:
@@ -88,6 +87,10 @@
   sensors:
     saures_electricity_total:
       value_template: >
-        {{ states("sensor.saures_electricity_t1")|float + states("sensor.saures_electricity_t2")|float + states("sensor.saures_electricity_t3")|float }}
+        {{
+          states("sensor.saures_electricity_t1")|float
+          + states("sensor.saures_electricity_t2")|float
+          + states("sensor.saures_electricity_t3")|float
+        }}
       friendly_name: Saures Total Electricity
       unit_of_measurement: kWh

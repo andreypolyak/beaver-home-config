@@ -14,7 +14,7 @@ image_processing: !include configuration/image_processing.yaml
 influxdb: !include configuration/influxdb.yaml
 input_boolean: !include_dir_merge_named configuration/input_boolean
 input_datetime: !include configuration/input_datetime.yaml
-input_number: !include configuration/input_number.yaml
+input_number: !include_dir_merge_named configuration/input_number
 input_select: !include configuration/input_select.yaml
 input_text: !include configuration/input_text.yaml
 light: !include_dir_merge_list configuration/light
@@ -37,7 +37,7 @@ telegram_bot: !include configuration/telegram_bot.yaml
 timer: !include configuration/timer.yaml
 tts: !include configuration/tts.yaml
 updater:
-utility_meter: !include configuration/utility_meter.yaml
+utility_meter: !include_dir_merge_named configuration/utility_meter
 yandex_smart_home: !include configuration/yandex_smart_home.yaml
 yandex_station: !include configuration/yandex_station.yaml
 zone: !include configuration/zone.yaml

@@ -19,7 +19,11 @@
       value_template: >
         {{ is_state("light.ha_group_living_room", "on") }}
       color_template: >
-        {{ state_attr("light.ha_group_living_room", "hs_color") if state_attr("light.ha_group_living_room", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.ha_group_living_room", "hs_color")
+          if state_attr("light.ha_group_living_room", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -48,7 +52,11 @@
       value_template: >
         {{ is_state("light.group_living_room_top", "on") }}
       color_template: >
-        {{ state_attr("light.group_living_room_top", "hs_color") if state_attr("light.group_living_room_top", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.group_living_room_top", "hs_color")
+          if state_attr("light.group_living_room_top", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -75,7 +83,11 @@
       value_template: >
         {{ is_state("light.group_living_room_speakers", "on") }}
       color_template: >
-        {{ state_attr("light.group_living_room_speakers", "hs_color") if state_attr("light.group_living_room_speakers", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.group_living_room_speakers", "hs_color")
+          if state_attr("light.group_living_room_speakers", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -102,7 +114,11 @@
       value_template: >
         {{ is_state("light.living_room_sofa", "on") }}
       color_template: >
-        {{ state_attr("light.living_room_sofa", "hs_color") if state_attr("light.living_room_sofa", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.living_room_sofa", "hs_color")
+          if state_attr("light.living_room_sofa", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -129,7 +145,11 @@
       value_template: >
         {{ is_state("light.living_room_sofa_led_rgb", "on") }}
       color_template: >
-        {{ state_attr("light.living_room_sofa_led_rgb", "hs_color") if state_attr("light.living_room_sofa_led_rgb", "hs_color") else [0,0] }}
+        {{
+          state_attr("light.living_room_sofa_led_rgb", "hs_color")
+          if state_attr("light.living_room_sofa_led_rgb", "hs_color")
+          else [0,0]
+        }}
       turn_on:
         service: script.fire_custom_event
         data:

@@ -1,0 +1,13 @@
+cold_water_tariff:
+  name: Cold Water Tariff
+  min: 0
+  max: 1000
+  step: 0.01
+  mode: box
+
+hot_water_tariff:
+  name: Hot Water Tariff
+  min: 0
+  max: 1000
+  step: 0.01
+  mode: box

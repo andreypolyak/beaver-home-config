@@ -1,0 +1,31 @@
+# Logs
+
+log_entities:
+  name: Log Entities
+
+log_ha:
+  name: Log Home Assistant
+
+log_ad:
+  name: Log AppDaemon
+
+log_z2m:
+  name: Log Zigbee2mqtt
+
+# Running
+
+ad_running:
+  name: AppDaemon Running
+  initial: false
+
+ha_running:
+  name: Home Assistant Running
+  initial: true
+
+os_running:
+  name: HassOS Running
+  initial: true
+
+ui_running:
+  name: User Interface Running
+  initial: true

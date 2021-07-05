@@ -1,0 +1,18 @@
+# Covers
+
+living_room_cover_active:
+  name: Living Room Cover Active
+
+kitchen_cover_active:
+  name: Kitchen Cover Active
+
+bedroom_cover_active:
+  name: Bedroom Cover Active
+
+# Windows
+
+auto_window_kitchen:
+  name: Automatic Kitchen Window
+
+auto_window_bedroom:
+  name: Automatic Bedroom Window

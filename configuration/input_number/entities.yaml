@@ -1,0 +1,27 @@
+new_entities:
+  name: New Entities
+  min: 0
+  max: 10000
+  step: 1
+  mode: box
+
+logged_entities:
+  name: Logged Entities
+  min: 0
+  max: 10000
+  step: 1
+  mode: box
+
+unavailable_entities:
+  name: Unavailable Entities
+  min: 0
+  max: 10000
+  step: 1
+  mode: box
+
+low_battery_devices:
+  name: Low Battery Devices
+  min: 0
+  max: 10000
+  step: 1
+  mode: box

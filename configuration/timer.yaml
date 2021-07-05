@@ -1,3 +1,5 @@
+# Light
+
 light_bedroom:
 light_kitchen:
 light_bathroom_entrance:
@@ -9,7 +11,7 @@ light_faded_bathroom_entrance:
 light_faded_living_room:
 light_faded_balcony:
 
-coffee:
+# Light
 
 light_cooldown_period_bathroom_entrance:
 light_cooldown_period_bedroom:
@@ -17,10 +19,12 @@ light_cooldown_period_kitchen:
 light_cooldown_period_living_room:
 light_cooldown_period_balcony:
 
+# Other
+
 ac_no_auto_off:
 ac_no_auto_on:
 window_bedroom_no_change:
 window_kitchen_no_change:
 vacuum_no_clean:
-
+coffee:
 cover_bedroom_no_change:

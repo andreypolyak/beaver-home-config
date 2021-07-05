@@ -1,6 +1,7 @@
 - name: beaver_stream
   platform: telegram
   chat_id: !secret notify_beaver_stream_chat_id
+
 - name: home_logs
   platform: telegram
   chat_id: !secret notify_home_logs_chat_id

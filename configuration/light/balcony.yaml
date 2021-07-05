@@ -17,7 +17,11 @@
       value_template: >
         {{ is_state("light.ha_group_balcony", "on") }}
       temperature_template: >
-        {{ state_attr("light.ha_group_balcony", "color_temp")|int if state_attr("light.ha_group_balcony", "color_temp")|int != 0 else 153 }}
+        {{
+          state_attr("light.ha_group_balcony", "color_temp")|int
+          if state_attr("light.ha_group_balcony", "color_temp")|int != 0
+          else 153
+        }}
       turn_on:
         service: script.fire_custom_event
         data:
@@ -46,7 +50,11 @@
       value_template: >
         {{ is_state("light.balcony_window", "on") }}
       temperature_template: >
-        {{ state_attr("light.balcony_window", "color_temp")|int if state_attr("light.balcony_window", "color_temp")|int != 0 else 153 }}
+        {{
+          state_attr("light.balcony_window", "color_temp")|int
+          if state_attr("light.balcony_window", "color_temp")|int != 0
+          else 153
+        }}
       turn_on:
         service: script.fire_custom_event
         data:

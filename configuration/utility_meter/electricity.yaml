@@ -1,75 +1,49 @@
-water_cold_monthly:
-  source: sensor.saures_water_cold
-  cycle: monthly
-  offset:
-    days: 16
-    hours: 8
-water_cold_daily:
-  source: sensor.saures_water_cold
-  cycle: daily
-  offset:
-    hours: 8
-water_hot_monthly:
-  source: sensor.saures_water_hot
-  cycle: monthly
-  offset:
-    days: 16
-    hours: 8
-water_hot_daily:
-  source: sensor.saures_water_hot
-  cycle: daily
-  offset:
-    hours: 8
-water_total_monthly:
-  source: sensor.saures_water_total
-  cycle: monthly
-  offset:
-    days: 16
-    hours: 8
-water_total_daily:
-  source: sensor.saures_water_total
-  cycle: daily
-  offset:
-    hours: 8
 electricity_t1_monthly:
   source: sensor.saures_electricity_t1
   cycle: monthly
   offset:
     days: 16
     hours: 8
+
 electricity_t1_daily:
   source: sensor.saures_electricity_t1
   cycle: daily
   offset:
     hours: 8
+
 electricity_t2_monthly:
   source: sensor.saures_electricity_t2
   cycle: monthly
   offset:
     days: 16
     hours: 8
+
 electricity_t2_daily:
   source: sensor.saures_electricity_t2
   cycle: daily
   offset:
     hours: 8
+
 electricity_t3_monthly:
   source: sensor.saures_electricity_t3
   cycle: monthly
   offset:
     days: 16
     hours: 8
+
 electricity_t3_daily:
   source: sensor.saures_electricity_t3
   cycle: daily
   offset:
     hours: 8
+
 electricity_total_monthly:
   source: sensor.saures_electricity_total
   cycle: monthly
   offset:
     days: 16
     hours: 8
+
 electricity_total_daily:
   source: sensor.saures_electricity_total
   cycle: daily

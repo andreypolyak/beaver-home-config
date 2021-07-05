@@ -1,0 +1,20 @@
+t1_electricity_tariff:
+  name: T1 Electricity Tariff
+  min: 0
+  max: 1000
+  step: 0.01
+  mode: box
+
+t2_electricity_tariff:
+  name: T2 Electricity Tariff
+  min: 0
+  max: 1000
+  step: 0.01
+  mode: box
+
+t3_electricity_tariff:
+  name: T3 Electricity Tariff
+  min: 0
+  max: 1000
+  step: 0.01
+  mode: box

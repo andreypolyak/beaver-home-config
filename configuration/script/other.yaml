@@ -1,17 +1,3 @@
-find_iphone_andrey:
-  sequence:
-    - service: icloud.play_sound
-      data:
-        account: !secret script_icloud_account
-        device_name: Andrey iPhone 11 Pro Max
-
-find_iphone_katya:
-  sequence:
-    - service: icloud.play_sound
-      data:
-        account: !secret script_icloud_account
-        device_name: Katya iPhone 12 Pro Max
-
 fire_custom_event:
   fields:
     custom_event_data:
@@ -25,15 +11,6 @@ fire_custom_event:
       event_data_template:
         custom_event_data: "{{ custom_event_data }}"
         custom_event_data2: "{{ custom_event_data2|default(none) }}"
-
-update_location:
-  sequence:
-    - service: notify.mobile_app_andrey_iphone_11_pro_max
-      data:
-        message: request_location_update
-    - service: notify.mobile_app_katya_iphone_12_pro_max
-      data:
-        message: request_location_update
 
 snapshot_send:
   sequence:
@@ -71,34 +48,3 @@ backup:
           - share
           - ssl
           - addons/local
-
-turn_off_all_lights_night:
-  sequence:
-    - service: light.turn_off
-      data:
-        entity_id: light.group_bedroom_all_night
-    - service: light.turn_off
-      data:
-        entity_id: light.group_main_all
-    - service: light.turn_off
-      data:
-        entity_id: light.group_bathroom_entrance_all
-    - service: light.turn_off
-      data:
-        entity_id: light.living_room_sofa_led_rgb
-
-turn_off_all_lights:
-  sequence:
-    - service: light.turn_off
-      data:
-        entity_id: light.group_bedroom_all
-    - service: light.turn_off
-      data:
-        entity_id: light.group_main_all
-    - service: light.turn_off
-      data:
-        entity_id: light.group_bathroom_entrance_all
-    - service: light.turn_off
-      data:
-        entity_id: light.living_room_sofa_led_rgb
-

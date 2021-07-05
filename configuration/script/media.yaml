@@ -1,3 +1,5 @@
+# Apple TV
+
 apple_tv_repeat:
   sequence:
     - service: remote.send_command
@@ -6,6 +8,7 @@ apple_tv_repeat:
         command: skip_backward
 
 # PlayStation
+
 playstation_turn_on:
   sequence:
     - service: media_player.turn_on
@@ -13,6 +16,7 @@ playstation_turn_on:
         entity_id: media_player.playstation_4
 
 # TV
+
 tv_turn_on:
   sequence:
     - service: remote.send_command
@@ -130,6 +134,8 @@ tv_source_apple_tv:
     - service: switch.turn_on
       data:
         entity_id: switch.ir_tv_ok
+
+# Yandex
 
 yandex_play_media:
   fields:

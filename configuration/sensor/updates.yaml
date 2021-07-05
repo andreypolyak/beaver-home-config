@@ -1,11 +1,14 @@
 - platform: command_line
   name: Supervisor Info
-  command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version,"addons":[.data.addons[] | select(.update_available == true)]}'''
+  command: >
+    curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | 
+    jq '{"newest_version":.data.version_latest,"current_version":.data.version,"addons":[.data.addons[] | 
+    select(.update_available == true)]}'
   value_template: "{{ value_json.addons|length }}"
   json_attributes:
-  - newest_version
-  - current_version
-  - addons
+    - newest_version
+    - current_version
+    - addons
 
 - platform: template
   sensors:
@@ -16,26 +19,33 @@
 
 - platform: command_line
   name: OS Info
-  command: 'curl http://supervisor/os/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version}'''
+  command: >
+    curl http://supervisor/os/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | 
+    jq '{"newest_version":.data.version_latest,"current_version":.data.version}'
   value_template: "{{ value_json.current_version }}"
   json_attributes:
-  - newest_version
-  - current_version
+    - newest_version
+    - current_version
 
 - platform: command_line
   name: HA Info
-  command: 'curl http://supervisor/core/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version}'''
+  command: >
+    curl http://supervisor/core/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | 
+    jq '{"newest_version":.data.version_latest,"current_version":.data.version}'
   value_template: "{{ value_json.current_version }}"
   json_attributes:
-  - newest_version
-  - current_version
+    - newest_version
+    - current_version
 
 - platform: template
   sensors:
     supervisor_updates:
       friendly_name: Supervisor Updates
       value_template: >
-        {% if state_attr("sensor.supervisor_info", "current_version") != state_attr("sensor.supervisor_info", "newest_version") %}
+        {%
+          if state_attr("sensor.supervisor_info", "current_version")
+          != state_attr("sensor.supervisor_info", "newest_version")
+        %}
           1
         {% else %}
           0
@@ -57,4 +67,8 @@
     addons_supervisor_os_updates:
       friendly_name: Addons Supervisor OS Updates
       value_template: >
-        {{ states("sensor.supervisor_info")|int + states("sensor.supervisor_updates")|int + states("sensor.os_updates")|int }}
+        {{
+          states("sensor.supervisor_info")|int
+          + states("sensor.supervisor_updates")|int
+          + states("sensor.os_updates")|int
+        }}

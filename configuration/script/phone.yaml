@@ -1,0 +1,22 @@
+find_iphone_andrey:
+  sequence:
+    - service: icloud.play_sound
+      data:
+        account: !secret script_icloud_account
+        device_name: Andrey iPhone 11 Pro Max
+
+find_iphone_katya:
+  sequence:
+    - service: icloud.play_sound
+      data:
+        account: !secret script_icloud_account
+        device_name: Katya iPhone 12 Pro Max
+
+update_location:
+  sequence:
+    - service: notify.mobile_app_andrey_iphone_11_pro_max
+      data:
+        message: request_location_update
+    - service: notify.mobile_app_katya_iphone_12_pro_max
+      data:
+        message: request_location_update
