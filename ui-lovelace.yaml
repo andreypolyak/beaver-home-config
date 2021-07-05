@@ -1,5 +1,5 @@
-button_card_templates: !include /config/lovelace/templates/buttons.yaml
-apexcharts_card_templates: !include /config/lovelace/templates/charts.yaml
+button_card_templates: !include_dir_merge_named /config/lovelace/button_templates
+apexcharts_card_templates: !include /config/lovelace/chart_templates/templates.yaml
 
 views:
   - !include /config/lovelace/views/home.yaml
@@ -25,4 +25,4 @@ views:
   - !include /config/lovelace/views/settings_consumption.yaml
   - !include /config/lovelace/views/settings_logging.yaml
 
-# Updated at: 2021-07-02 09:39:06.578163+03:00
+# Updated at: 2021-07-05 12:45:55.972089+03:00

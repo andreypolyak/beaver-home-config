@@ -12,18 +12,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            template: base
-            color: auto
-            color_type: card
-            icon: mdi:broom
-            name: >
-              [[[
-                if (entity.state === "on") {
-                  return "Auto";
-                } else {
-                  return "Off";
-                }
-              ]]]
+            template: vacuum_auto
             entity: input_boolean.vacuum_auto_clean
           - type: custom:button-card
             template: base_icon

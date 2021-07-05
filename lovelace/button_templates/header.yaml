@@ -1,0 +1,65 @@
+header:
+  show_label: false
+  show_state: false
+  show_icon: false
+  color_type: icon
+  styles:
+    card:
+      - height: 32px
+      - box-shadow: none
+      - background: none
+      - font-size: 1.5em
+      - font-weight: bold
+      - padding: 0px
+    icon:
+      - width: 70%
+    name:
+      - justify-self: start
+
+header_show_lights:
+  template: header
+  name: Lights (+)
+  tap_action:
+    action: navigate
+    navigation_path: "#show_lights_details"
+    haptic: success
+
+header_hide_lights:
+  template: header
+  name: Lights (−)
+  tap_action:
+    action: navigate
+    navigation_path: "#hide_lights_details"
+    haptic: success
+
+header_show_devices:
+  template: header
+  name: Devices (+)
+  tap_action:
+    action: navigate
+    navigation_path: "#show_devices_details"
+    haptic: success
+
+header_hide_devices:
+  template: header
+  name: Devices (-)
+  tap_action:
+    action: navigate
+    navigation_path: "#hide_devices_details"
+    haptic: success
+
+header_show_tv:
+  template: header
+  name: TV (+)
+  tap_action:
+    action: navigate
+    navigation_path: "#show_tv_details"
+    haptic: success
+
+header_hide_tv:
+  template: header
+  name: TV (-)
+  tap_action:
+    action: navigate
+    navigation_path: "#hide_tv_details"
+    haptic: success

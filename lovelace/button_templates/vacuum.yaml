@@ -1,0 +1,86 @@
+vacuum_room:
+  template: vacuum_base
+  tap_action:
+    action: call-service
+    service: script.turn_on
+    service_data:
+      entity_id: >
+        [[[
+          if (entity.state === variables.room) {
+            return "script.vacuum_stop";
+          } else {
+            return "script.vacuum_clean_" + variables.room;
+          }
+        ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return variables.room; ]]]
+      operator: "=="
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return variables.room; ]]]
+      operator: "!="
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+
+vacuum_base:
+  color: auto
+  color_type: card
+  show_label: false
+  show_name: false
+  hold_action:
+    action: more-info
+    entity: vacuum.rockrobo
+    haptic: success
+  styles:
+    card:
+      - height: 36px
+
+vacuum_device:
+  template: base_icon
+  entity: input_select.vacuum_room_cleaning
+  icon: mdi:broom
+  hold_action:
+    action: more-info
+    entity: vacuum.rockrobo
+    haptic: success
+  tap_action:
+    action: call-service
+    service: script.turn_on
+    service_data:
+      entity_id: >
+        [[[
+          if (entity.state === variables.room) {
+            return "script.vacuum_stop";
+          } else {
+            return "script.vacuum_clean_" + variables.room;
+          }
+        ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return variables.room; ]]]
+      operator: "=="
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return variables.room; ]]]
+      operator: "!="
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+
+vacuum_auto_clean:
+  template: base
+  color: auto
+  color_type: card
+  icon: mdi:broom
+  name: >
+    [[[
+      if (entity.state === "on") {
+        return "Auto";
+      } else {
+        return "Off";
+      }
+    ]]]

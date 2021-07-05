@@ -1,0 +1,78 @@
+restart:
+  template: base
+  confirmation:
+    text: >
+      [[[ return "❗ Are you sure you want to restart " + variables.name + "?"; ]]]
+  variables:
+    name: ""
+
+restart_pi:
+  template: restart
+  color: auto
+  color_type: card
+  icon: mdi:raspberry-pi
+  tap_action:
+    action: call-service
+    service: >
+        [[[ return "shell_command.restart_rpi_" + variables.pi_item; ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return states["sensor.rpi_temp_rpi_" + variables.pi_item].state == "unavailable"; ]]]
+      operator: template
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return states["sensor.rpi_temp_rpi_" + variables.pi_item].state != "unavailable"; ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  variables:
+    name: ""
+    pi_item: ""
+
+restart_z2m:
+  template: restart
+  color: auto
+  color_type: card
+  icon: mdi:zigbee
+  tap_action:
+    action: call-service
+    service: hassio.addon_restart
+    service_data:
+      addon: >
+        [[[ return variables.addon_item; ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return states["binary_sensor." + variables.addon_short_name + "_state"].state != "on"; ]]]
+      operator: template
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return states["binary_sensor." + variables.addon_short_name + "_state"].state == "on"; ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  variables:
+    name: ""
+    addon_item: ""
+    addon_short_name: ""
+
+restart_system:
+  template: restart
+  color: auto
+  color_type: card
+  state:
+    - value: >
+        [[[ return states["input_boolean." + variables.short_name + "_running"].state != "on"; ]]]
+      operator: template
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return states["input_boolean." + variables.short_name + "_running"].state == "on"; ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  tap_action:
+    action: call-service
+    service: >
+      [[[ return "script.restart_" + variables.short_name; ]]]
+    haptic: success
+  variables:
+    short_name: ""
+    name: ""

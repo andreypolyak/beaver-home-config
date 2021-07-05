@@ -65,7 +65,7 @@ cards:
           name: settings_climate
       - type: custom:button-card
         template: navigation
-        icon: mdi:music-circle-outline
+        icon: mdi:music-note
         variables:
           name: settings_media
       - type: custom:button-card

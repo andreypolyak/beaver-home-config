@@ -18,7 +18,7 @@ cards:
             type: entities
           filter:
             include:
-              - entity_id: "input_boolean.*"
+              - entity_id: input_boolean.*
           sort:
             method: entity_id
     - type: custom:button-card
@@ -32,7 +32,7 @@ cards:
             type: entities
           filter:
             include:
-              - entity_id: "input_select.*"
+              - entity_id: input_select.*
           sort:
             method: entity_id
     - type: custom:button-card
@@ -46,7 +46,7 @@ cards:
             type: entities
           filter:
             include:
-              - entity_id: "input_number.*"
+              - entity_id: input_number.*
           sort:
             method: entity_id
     - type: custom:button-card
@@ -60,7 +60,7 @@ cards:
             type: entities
           filter:
             include:
-              - entity_id: "input_datetime.*"
+              - entity_id: input_datetime.*
           sort:
             method: entity_id
     - !include /config/lovelace/elements/footer.yaml

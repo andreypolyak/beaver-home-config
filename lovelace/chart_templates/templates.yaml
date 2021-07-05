@@ -6,11 +6,13 @@ base:
     group_by:
       func: max
       duration: 15min
+
 base_big:
   config_templates: base
   apex_config:
     chart:
       height: 280px
+
 weight:
   config_templates: base_big
   graph_span: 7d
@@ -23,6 +25,7 @@ weight:
   all_series_config:
     show:
       extremas: true
+
 climate:
   config_templates: base
   experimental:
@@ -37,6 +40,7 @@ climate:
   all_series_config:
     show:
       extremas: true
+
 co2:
   config_templates: climate
   series:
@@ -65,6 +69,7 @@ co2:
       apex_config:
         decimalsInFloat: 0
         tickAmount: 3
+
 temperature:
   config_templates: climate
   series:

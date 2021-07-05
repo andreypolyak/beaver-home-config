@@ -1,0 +1,261 @@
+individual_virtual_switch:
+  template: base_icon
+  hold_action:
+    action: more-info
+    entity: >
+      [[[ return "light." + variables.light_name; ]]]
+    haptic: success
+  tap_action:
+    action: call-service
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.light_name + "_virtual_switch_individual_toggle"; ]]]
+    haptic: success
+  variables:
+    light_name: ""
+
+individual_virtual_switch_with_name:
+  template: individual_virtual_switch
+  show_name: true
+
+brightness:
+  icon: mdi:brightness-6
+  color_type: card
+  show_label: false
+  show_name: true
+  hold_action:
+    action: more-info
+    entity: >
+      [[[ return "light.ha_group_" + variables.room; ]]]
+    haptic: success
+  tap_action:
+    action: call-service
+    haptic: success
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_set_brightness"; ]]]
+      custom_event_data2: >
+        [[[ return variables.brightness; ]]]
+  styles:
+    card:
+      - height: 48px
+  variables:
+    room: ""
+    brightness: ""
+
+brightness_1:
+  template: brightness
+  name: 1%
+  state:
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness < 11;
+        ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness >= 11;
+        ]]]
+      color: var(--paper-card-background-color)
+  styles:
+    card:
+      - height: 48px
+  variables:
+    room: ""
+    brightness: 3
+
+brightness_25:
+  template: brightness
+  name: 25%
+  state:
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness >= 11
+            && states["light.ha_group_" + variables.room].attributes.brightness < 95;
+        ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && (states["light.ha_group_" + variables.room].attributes.brightness < 11
+            || states["light.ha_group_" + variables.room].attributes.brightness >= 95);
+        ]]]
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+    brightness: 63
+
+brightness_50:
+  template: brightness
+  name: 50%
+  state:
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness >= 95
+            && states["light.ha_group_" + variables.room].attributes.brightness < 159;
+        ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && (states["light.ha_group_" + variables.room].attributes.brightness < 95
+            || states["light.ha_group_" + variables.room].attributes.brightness >= 159);
+        ]]]
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+    brightness: 127
+
+brightness_75:
+  template: brightness
+  name: 75%
+  state:
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness >= 159
+            && states["light.ha_group_" + variables.room].attributes.brightness < 243;
+        ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && (states["light.ha_group_" + variables.room].attributes.brightness < 159
+            || states["light.ha_group_" + variables.room].attributes.brightness >= 243);
+        ]]]
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+    brightness: 191
+
+brightness_100:
+  template: brightness
+  name: 100%
+  state:
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness >= 243;
+        ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[
+          return states["light.ha_group_" + variables.room].attributes
+            && states["light.ha_group_" + variables.room].attributes.brightness < 243;
+        ]]]
+      color: var(--paper-card-background-color)
+  variables:
+    room: ""
+    brightness: 254
+
+light_color_base:
+  show_label: false
+  show_icon: false
+  color_type: card
+  styles:
+    card:
+      - height: 48px
+
+light_color_rgb:
+  template: light_color_base
+  color: >
+    [[[ return "rgb" + variables.rgb; ]]]
+  tap_action:
+    action: call-service
+    haptic: success
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_set_manual_color"; ]]]
+      custom_event_data2: >
+        [[[ return variables.rgb; ]]]
+  variables:
+    rgb: ""
+    room: ""
+
+light_color_hs:
+  template: light_color_base
+  color: >
+    [[[ return "rgb" + variables.rgb; ]]]
+  tap_action:
+    action: call-service
+    haptic: success
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_set_manual_color"; ]]]
+      custom_event_data2: >
+        [[[ return "(30," + variables.saturation + ")"; ]]]
+  variables:
+    saturation: ""
+    room: ""
+
+light_color_kelvin:
+  template: light_color_base
+  tap_action:
+    action: call-service
+    haptic: success
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_set_manual_color"; ]]]
+      custom_event_data2: >
+        [[[ return variables.kelvin; ]]]
+  variables:
+    kelvin: ""
+    room: ""
+
+light_color_auto:
+  template: light_color_base
+  name: Auto
+  tap_action:
+    action: call-service
+    haptic: success
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_set_auto_color"; ]]]
+  styles:
+    card:
+      - border: solid 2px var(--primary-text-color)
+  variables:
+    room: ""
+
+auto_lights:
+  color_type: card
+  show_label: false
+  show_name: false
+  show_icon: true
+  icon: >
+    [[[
+      if (states["input_boolean.auto_lights_" + variables.room].state == "on") {
+        return "mdi:motion-sensor";
+      } else {
+        return "mdi:motion-sensor-off";
+      }
+    ]]]
+  tap_action:
+    action: toggle
+    haptic: success
+  styles:
+    card:
+      - height: 48px
+      - border: solid 2px var(--primary-text-color)
+  variables:
+    room: ""

@@ -17,7 +17,7 @@ cards:
               type: entities
             filter:
               include:
-                - entity_id: "timer.*"
+                - entity_id: timer.*
             sort:
               method: entity_id
       - !include /config/lovelace/elements/footer.yaml

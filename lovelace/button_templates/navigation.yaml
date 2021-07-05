@@ -1,0 +1,74 @@
+navigation:
+  show_label: false
+  show_name: false
+  aspect_ratio: 1/1
+  state:
+    - operator: template
+      value: >
+        [[[ return window.location.pathname.split("/").slice(-1)[0].includes(variables.name); ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[ return !window.location.pathname.split("/").slice(-1)[0].includes(variables.name); ]]]
+      color: var(--paper-card-background-color)
+  color_type: card
+  tap_action:
+    action: navigate
+    navigation_path: >
+      [[[ return "/lovelace/" + variables.name; ]]]
+    haptic: success
+  styles:
+    icon:
+      - width: 70%
+  variables:
+    name: ""
+
+navigation_settings:
+  template: navigation
+  triggers_update:
+    - binary_sensor.system_healthy
+    - binary_sensor.system_up_to_date
+  styles:
+    custom_fields:
+      attention:
+        - position: absolute
+        - right: 2px
+        - top: -4px
+  custom_fields:
+    attention: >
+      [[[
+        if (states["binary_sensor.system_healthy"].state == "off") {
+          return `<ha-icon icon="mdi:alert-circle-outline" style="width: 10px; height: 10px;"></ha-icon>`;
+        } else if (states["binary_sensor.system_up_to_date"].state == "off") {
+          return `<ha-icon icon="mdi:download-circle-outline" style="width: 10px; height: 10px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+  variables:
+    name: settings
+
+navigation_equal:
+  show_label: false
+  show_name: false
+  aspect_ratio: 1/1
+  state:
+    - operator: template
+      value: >
+        [[[ return window.location.pathname.split("/").slice(-1)[0] == variables.name; ]]]
+      color: var(--paper-item-icon-active-color)
+    - operator: template
+      value: >
+        [[[ return !window.location.pathname.split("/").slice(-1)[0] != variables.name; ]]]
+      color: var(--paper-card-background-color)
+  color_type: card
+  tap_action:
+    action: navigate
+    navigation_path: >
+      [[[ return "/lovelace/" + variables.name; ]]]
+    haptic: success
+  styles:
+    icon:
+      - width: 70%
+  variables:
+    name: ""

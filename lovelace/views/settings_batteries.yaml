@@ -17,7 +17,7 @@ cards:
               type: entities
             filter:
               include:
-                - entity_id: "sensor.*_battery"
+                - entity_id: sensor.*_battery
                   options:
                     secondary_info: last-updated
             sort:

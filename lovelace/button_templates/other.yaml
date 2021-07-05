@@ -1,0 +1,215 @@
+person:
+  template: base_icon
+  show_entity_picture: true
+  show_state: false
+  show_label: false
+  hold_action:
+    action: more-info
+    entity: >
+      [[[ return "person." + variables.person; ]]]
+    haptic: success
+  tap_action:
+    action: call-service
+    service: >
+      [[[ return "script.find_iphone_" + variables.person; ]]]
+    haptic: success
+  confirmation:
+    text: >
+      [[[
+        return "❗ Are you sure you want to find "
+          + variables.person.charAt(0).toUpperCase()
+          + variables.person.slice(1) + "'s phone?";
+      ]]]
+  state:
+    - value: home
+      operator: "=="
+      color: var(--paper-item-icon-active-color)
+    - value: home
+      operator: "!="
+      color: var(--paper-card-background-color)
+  styles:
+    card:
+      - height: 100px
+    entity_picture:
+      - position: absolute
+      - top: 4px
+      - width: 40px
+    custom_fields:
+      battery:
+        - position: absolute
+        - right: 4px
+        - top: 8px
+        - font-size: 12px
+      wifi:
+        - position: absolute
+        - right: 4px
+        - top: 20px
+        - font-size: 14px
+      bt:
+        - position: absolute
+        - right: 4px
+        - top: 36px
+        - font-size: 14px
+      activity:
+        - position: absolute
+        - left: 4px
+        - top: 8px
+        - font-size: 12px
+      location:
+        - position: absolute
+        - width: 100%
+        - bottom: 32px
+        - font-size: 14px
+        - white-space: initial
+        - text-overflow: initial
+        - overflow: initial
+        - align-self: middle
+      geocoded_location:
+        - position: absolute
+        - width: 100%
+        - bottom: 4px
+        - font-size: 8px
+        - white-space: initial
+        - text-overflow: initial
+        - overflow: initial
+        - align-self: middle
+  custom_fields:
+    battery: >
+      [[[
+        if (states["sensor." + variables.phone + "_battery_state"].state == "Not Charging") {
+          return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%";
+        } else {
+          return `<ha-icon icon="mdi:battery-charging"
+            style="width: 12px; height: 12px; position: relative; top: -2px;">
+            </ha-icon>` +
+            states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%";
+        }
+      ]]]
+    wifi: >
+      [[[
+        if (states["device_tracker.wifi_" + variables.phone].state == "home") {
+          return `<ha-icon icon="mdi:wifi" style="width: 14px; height: 14px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+    bt: >
+      [[[
+        if (states["device_tracker.bt_" + variables.phone].state == "home") {
+          return `<ha-icon icon="mdi:bluetooth" style="width: 14px; height: 14px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+    activity: >
+      [[[
+        if (states["sensor." + variables.phone + "_activity"].state == "Walking") {
+          return `<ha-icon icon="mdi:walk" style="width: 14px; height: 14px;"></ha-icon>`;
+        } else if (states["sensor." + variables.phone + "_activity"].state == "Automotive") {
+          return `<ha-icon icon="mdi:car" style="width: 14px; height: 14px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+    location: >
+      [[[
+        if (states["input_select." + variables.person + "_location"].state == "home") {
+          return "Home";
+        } else if (parseInt(states["proximity.ha_" + variables.person + "_home"].state) < 1000) {
+          return states["proximity.ha_" + variables.person + "_home"].state + " m";
+        } else {
+          return Math.floor(parseFloat(states["proximity.ha_" + variables.person + "_home"].state) / 1000) + " km";
+        }
+      ]]]
+    geocoded_location: >
+      [[[
+        return states["sensor." + variables.person + "_geocoded_location"].state;
+      ]]]
+  variables:
+    person: ""
+    phone: ""
+
+alarm:
+  color: auto
+  color_type: card
+  show_label: false
+  show_icon: true
+  show_state: false
+  show_name: false
+  icon: >
+      [[[
+        if (states["input_boolean.alarm_" + variables.name].state === "on") {
+          return "mdi:alarm";
+        } else {
+          return "mdi:alarm-off";
+        }
+      ]]]
+  tap_action:
+    action: call-service
+    service: input_boolean.toggle
+    service_data:
+      entity_id: >
+        [[[ return "input_boolean.alarm_" + variables.name; ]]]
+    haptic: success
+  hold_action:
+    action: more-info
+    entity: >
+      [[[ return "input_boolean.alarm_" + variables.name; ]]]
+    haptic: success
+  styles:
+    card:
+      - width: 40px
+      - height: 86px
+  variables:
+    name: ""
+
+config:
+  template: base
+  color: auto
+  color_type: card
+  tap_action:
+    action: navigate
+    navigation_path: >
+        [[[ return variables.url; ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return 1 == 1; ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  variables:
+    url: ""
+
+christmas:
+  template: base
+  color: red
+  tap_action:
+    action: toggle
+    haptic: success
+  hold_action:
+    action: more-info
+    haptic: success
+
+tv_remote:
+  template: base
+  tap_action:
+    action: call-service
+    service: switch.turn_on
+    service_data:
+      entity_id: >
+        [[[ return "switch.ir_tv_" + variables.command; ]]]
+    haptic: success
+  variables:
+    command: ""
+
+tv_remote_compact:
+  tap_action:
+    action: call-service
+    service: >
+      [[[ return "script." + variables.command; ]]]
+    haptic: success
+  styles:
+    card:
+      - height: 48px
+  variables:
+    command: ""

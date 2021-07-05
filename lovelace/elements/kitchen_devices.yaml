@@ -35,16 +35,13 @@ cards:
     custom_fields:
       status: >
         [[[
-          if ((states["input_boolean.alarm_andrey"].state == "on" || states["input_boolean.alarm_katya"].state == "on") & states["input_boolean.coffee_prepared"].state == "on")
-          return `<ha-icon
-            icon="mdi:alarm"
-            style="width: 14px; height: 14px;">
-            </ha-icon>`;
+          if (
+            (states["input_boolean.alarm_andrey"].state == "on" || states["input_boolean.alarm_katya"].state == "on")
+            & states["input_boolean.coffee_prepared"].state == "on"
+          )
+            return `<ha-icon icon="mdi:alarm" style="width: 14px; height: 14px;"></ha-icon>`;
           else if (states["input_boolean.coffee_prepared"].state == "on")
-          return `<ha-icon
-            icon="mdi:checkbox-marked-circle"
-            style="width: 14px; height: 14px;">
-            </ha-icon>`;
+            return `<ha-iconicon="mdi:checkbox-marked-circle" style="width: 14px; height: 14px;"></ha-icon>`;
         ]]]
   - type: custom:button-card
     template: vacuum_device

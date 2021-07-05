@@ -1,6 +1,6 @@
 path: settings_media
 title: Media Settings
-icon: mdi:music-circle-outline
+icon: mdi:music-note
 cards:
   - type: vertical-stack
     cards:
@@ -30,6 +30,7 @@ cards:
           - switch.living_room_tv_plug
           - input_select.current_universal_tv_source
           - input_boolean.cinema_session
+          - input_boolean.living_room_tv_playing
       - type: custom:mini-media-player
         entity: media_player.universal_apple_tv
         artwork: material
