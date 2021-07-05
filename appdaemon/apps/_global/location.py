@@ -80,8 +80,7 @@ class Location(hass.Hass):
     ):
       return "district"
     elif (
-      location != "home"
-      and not wifi_home
+      not wifi_home
       and not bt_home
       and ha_home
     ):
