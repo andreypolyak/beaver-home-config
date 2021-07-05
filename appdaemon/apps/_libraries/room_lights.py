@@ -33,8 +33,8 @@ class RoomLights(hass.Hass):
     self.listen_event(self.__on_set_manual_color, "custom_event", custom_event_data=f"{self.room}_set_manual_color")
     self.listen_event(self.__on_set_auto_color, "custom_event", custom_event_data=f"{self.room}_set_auto_color")
     self.listen_event(self.__on_set_brightness, "custom_event", custom_event_data=f"{self.room}_set_brightness")
-    self.listen_event(self.__on_toggle_max_brightness, "custom_event",
-                      custom_event_data=f"{self.room}_toggle_max_brightness")
+    event_data = f"{self.room}_toggle_max_brightness"
+    self.listen_event(self.__on_toggle_max_brightness, "custom_event", custom_event_data=event_data)
     self.listen_state(self.__on_lights_off, f"light.ha_group_{self.room}", new="off")
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
 
@@ -338,11 +338,16 @@ class RoomLights(hass.Hass):
       }
       self.turn_preset(self.current_preset, "set_auto_color", state, **kwargs)
       return
+    kwargs = {
+      "hs_color": hs_color,
+      "rgb_color": rgb_color,
+      "kelvin": kelvin,
+      "brightness": brightness
+    }
     for light in lights:
       is_light_on = self.__is_individual_light_on(light, state)
       if is_light_on or turn_on_all:
-        args = self.__build_light_args("on", light, state, hs_color=hs_color, rgb_color=rgb_color,
-                                       kelvin=kelvin, brightness=brightness)
+        args = self.__build_light_args("on", light, state, **kwargs)
         self.__turn_on_ha_light(light, args)
     self.__set_light_timers()
     self.__cancel_cooldown_timer()

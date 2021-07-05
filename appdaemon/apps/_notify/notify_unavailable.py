@@ -48,8 +48,8 @@ class NotifyUnavailable(hass.Hass):
     self.process_saved_entities()
     if len(self.notify_entities) > 0:
       self.send_unavailable_notifications()
-    self.call_service("input_number/set_value", entity_id="input_number.unavailable_entities",
-                      value=self.unavailable_entities_len)
+    entity = "input_number.unavailable_entities"
+    self.call_service("input_number/set_value", entity_id=entity, value=self.unavailable_entities_len)
     if len(self.available_entities) > 0:
       self.send_available_notifications()
     self.storage.write("notify_unavailable.entities", self.saved_entities, attribute="all")
@@ -128,7 +128,7 @@ class NotifyUnavailable(hass.Hass):
     if len(notify_objs) > 0:
       self.log(f"Send notification about available entities: {notify_objs}")
       message = self.build_available_message(notify_objs)
-      self.notifications.send("admin", message, "available", sound="Noir.caf", url="/lovelace/settings_entities")
+      self.notifications.send("admin", message, "available", sound="Fanfare.caf", url="/lovelace/settings_entities")
     for entity in self.available_entities:
       del self.saved_entities[entity]
 

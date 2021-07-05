@@ -93,8 +93,9 @@ class TelegramEntityLogger(hass.Hass):
     self.call_service("input_number/set_value", entity_id="input_number.logged_entities", value=total_logged_entities)
     if len(not_logged_entities) == 0:
       not_logged_entities = [""]
-    self.call_service("input_select/set_options", entity_id="input_select.all_entities",
-                      options=sorted(not_logged_entities))
+    else:
+      not_logged_entities = sorted(not_logged_entities)
+    self.call_service("input_select/set_options", entity_id="input_select.all_entities", options=not_logged_entities)
 
 
   def send_to_bot(self, text):

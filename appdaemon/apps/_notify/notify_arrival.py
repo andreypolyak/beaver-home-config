@@ -22,6 +22,9 @@ class NotifyArrival(hass.Hass):
 
 
   def on_location_change(self, entity, attribute, old, new, kwargs):
+    url = "/lovelace/outside"
+    sound = "Hello.caf"
+    ios_category = "notify_arrival"
     current_ts = self.get_now_ts()
     arriving_person_name = self.persons.get_person_name_from_entity_name(entity)
     if new != "home" and old == "home":
@@ -42,12 +45,12 @@ class NotifyArrival(hass.Hass):
           and (current_ts - arriving_person_state["left_home"]) > 1800
           and (current_ts - person_state["arrived"]) > 300
       ):
-        self.storage.write(f"notify_arrival.{arriving_person_name}", current_ts,
-                           attribute="last_notified_about_district")
+        storage_name = f"notify_arrival.{arriving_person_name}"
+        self.storage.write(storage_name, current_ts, attribute="last_notified_about_district")
         arriving_person_emoji = self.persons.get_info(arriving_person_name)["emoji"]
         message = f"{arriving_person_emoji} {arriving_person_name.capitalize()} is arriving home!"
-        self.notifications.send(person_name, message, "notify_arrival_district", sound="Hello.caf",
-                                url="/lovelace/outside", ios_category="notify_arrival")
+        category = "notify_arrival_district"
+        self.notifications.send(person_name, message, category, sound=sound, url=url, ios_category=ios_category)
       if (
           person_name != arriving_person_name
           and person_location == "home"
@@ -57,9 +60,9 @@ class NotifyArrival(hass.Hass):
           and (current_ts - arriving_person_state["left_home"]) > 1800
           and (current_ts - person_state["arrived"]) > 300
       ):
-        self.storage.write(f"notify_arrival.{arriving_person_name}", current_ts,
-                           attribute="last_notified_about_downstairs")
+        storage_name = f"notify_arrival.{arriving_person_name}"
+        self.storage.write(storage_name, current_ts, attribute="last_notified_about_downstairs")
         arriving_person_emoji = self.persons.get_info(arriving_person_name)["emoji"]
         message = f"{arriving_person_emoji} {arriving_person_name.capitalize()} is downstairs!"
-        self.notifications.send(person_name, message, "notify_arrival_downstairs", sound="Hello.caf",
-                                url="/lovelace/outside", ios_category="notify_arrival")
+        category = "notify_arrival_downstairs"
+        self.notifications.send(person_name, message, category, sound=sound, url=url, ios_category=ios_category)

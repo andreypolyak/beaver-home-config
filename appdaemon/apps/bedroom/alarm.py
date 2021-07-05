@@ -26,38 +26,40 @@ class Alarm(hass.Hass):
 
   def cancel_alarm(self, event_name, data, kwargs):
     self.log("Alarm cancelled")
+    transition = self.get_transition()
     self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handlers()
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
     self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bri", transition=self.get_transition())
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=self.get_transition())
+    self.call_service("light/turn_off", entity_id="light.group_bedroom_bri", transition=transition)
+    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=transition)
     self.call_service("cover/close_cover", entity_id="cover.bedroom_cover")
 
 
   def finish_alarm(self, event_name, data, kwargs):
     self.log("Alarm finished")
+    transition = self.get_transition()
+    hs_color = self.get_hs_color()
     self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handlers()
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
     self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_on", entity_id="light.group_bedroom_color", brightness=254,
-                      transition=self.get_transition(), hs_color=self.get_circadian_hs_color())
-    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=254,
-                      transition=self.get_transition())
+    entity = "light.group_bedroom_color"
+    self.call_service("light/turn_on", entity_id=entity, brightness=254, transition=transition, hs_color=hs_color)
+    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=254, transition=transition)
     self.run_in(self.turn_on_day_scene, 1)
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=self.get_transition())
+    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=transition)
     self.run_in(self.speak_morning_info, 1)
     self.call_service("cover/open_cover", entity_id="cover.bedroom_cover")
 
 
   def action_1(self, kwargs):
     self.log("Alarm action 1")
+    hs_color = self.get_hs_color()
     self.call_service("sonos/snapshot", entity_id="media_player.bedroom_sonos")
     self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
     self.call_service("sonos/unjoin", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_on", entity_id="light.bedroom_bed_led", brightness=254,
-                      hs_color=self.get_circadian_hs_color())
+    self.call_service("light/turn_on", entity_id="light.bedroom_bed_led", brightness=254, hs_color=hs_color)
 
 
   def action_60(self, kwargs):
@@ -68,9 +70,9 @@ class Alarm(hass.Hass):
 
   def action_170(self, kwargs):
     self.log("Alarm action 170")
+    hs_color = self.get_hs_color()
     self.set_sonos_volume(0.24)
-    self.call_service("light/turn_on", entity_id="light.group_bedroom_top", brightness=1,
-                      hs_color=self.get_circadian_hs_color())
+    self.call_service("light/turn_on", entity_id="light.group_bedroom_top", brightness=1, hs_color=hs_color)
     self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=1)
     self.call_service("cover/open_cover", entity_id="cover.bedroom_cover")
 
@@ -110,7 +112,7 @@ class Alarm(hass.Hass):
     self.handles = []
 
 
-  def get_circadian_hs_color(self):
+  def get_hs_color(self):
     saturation = int(float(self.get_state("input_number.circadian_saturation")))
     hs_color = [30, saturation]
     return hs_color

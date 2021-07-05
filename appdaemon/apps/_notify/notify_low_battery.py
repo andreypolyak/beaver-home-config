@@ -20,6 +20,7 @@ class NotifyLowBattery(hass.Hass):
 
 
   def check_entities(self, kwargs):
+    url = "/lovelace/settings_batteries"
     sensors = self.get_state("sensor")
     entity_low_battery_states = self.storage.read("notify_low_battery.entities", attribute="all")
     old_entities = []
@@ -44,11 +45,10 @@ class NotifyLowBattery(hass.Hass):
     self.call_service("input_number/set_value", entity_id="input_number.low_battery_devices", value=num_devices)
     if len(new_entities) > 0:
       message = self.build_message(new_entities + old_entities)
-      self.notifications.send("admin", message, "low_battery", sound="Aurora.caf", url="/lovelace/settings_batteries")
+      self.notifications.send("admin", message, "low_battery", sound="Aurora.caf", url=url)
     elif len(old_entities) > 0:
       message = self.build_message(new_entities + old_entities)
-      self.notifications.send("admin", message, "low_battery", sound="Aurora.caf", min_delta=86400,
-                              url="/lovelace/settings_batteries")
+      self.notifications.send("admin", message, "low_battery", sound="Aurora.caf", min_delta=86400, url=url)
     self.storage.write("notify_low_battery.entities", entity_low_battery_states, attribute="all")
 
 

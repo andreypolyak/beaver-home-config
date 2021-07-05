@@ -25,5 +25,5 @@ class ElectricityStats(hass.Hass):
         indications.append(indication)
       except:
         return
-    self.call_service("lkcomu_interrao/push_indications", indications=indications, notification=True,
-                      entity_id=meter_entity)
+    service = "lkcomu_interrao/push_indications"
+    self.call_service(service, indications=indications, notification=True, entity_id=meter_entity)

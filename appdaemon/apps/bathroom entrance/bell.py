@@ -53,13 +53,12 @@ class Bell(hass.Hass):
     # Push notifications
     self.notifications.send("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
     # Lights
+    entity = "light.entrance_cloakroom"
     if current_living_scene in ["day", "light_cinema"]:
-      self.call_service("light/turn_on", entity_id="light.entrance_cloakroom", flash="short",
-                        brightness=254, color_name="red")
+      self.call_service("light/turn_on", entity_id=entity, flash="short", brightness=254, color_name="red")
       self.run_in(self.restore_light, 1)
     elif current_living_scene in ["dark_cinema", "party"]:
-      self.call_service("light/turn_on", entity_id="light.entrance_cloakroom", flash="short",
-                        brightness=1, color_name="red")
+      self.call_service("light/turn_on", entity_id=entity, flash="short", brightness=1, color_name="red")
       self.run_in(self.restore_light, 1)
 
 

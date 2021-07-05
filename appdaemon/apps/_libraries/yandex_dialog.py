@@ -49,8 +49,7 @@ class YandexDialog(hass.Hass):
   def cancel_dialog(self):
     self.log("Cancelling dialog")
     self.fire_event("yandex_intent_response", text="", end_session=True)
-    entity = f"media_player.{self.room}_yandex_station"
-    self.call_service("media_player/turn_off", entity_id=entity)
+    self.call_service("media_player/turn_off", entity_id=f"media_player.{self.room}_yandex_station")
     self.set_inactive_dialog()
     self.step = None
     self.room = None

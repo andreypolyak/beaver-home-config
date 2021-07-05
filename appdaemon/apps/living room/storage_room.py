@@ -8,12 +8,9 @@ class StorageRoom(hass.Hass):
 
 
   def on_storage_room_change(self, entity, attribute, old, new, kwargs):
+    entity = "light.group_storage_room"
+    transition = float(self.get_state("input_number.transition"))
     if new == "on":
-      self.call_service("light/turn_on", entity_id="light.group_storage_room", brightness=254,
-                        transition=self.get_transition())
+      self.call_service("light/turn_on", entity_id=entity, brightness=254, transition=transition)
     elif new == "off":
-      self.call_service("light/turn_off", entity_id="light.group_storage_room", transition=self.get_transition())
-
-
-  def get_transition(self):
-    return float(self.get_state("input_number.transition"))
+      self.call_service("light/turn_off", entity_id=entity, transition=transition)

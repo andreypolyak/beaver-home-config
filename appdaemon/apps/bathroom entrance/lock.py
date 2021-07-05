@@ -51,7 +51,8 @@ class Lock(hass.Hass):
         {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
         {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
       ]
-      self.notifications.send("home_or_all", "🔓 Lock not fully closed!", "lock", is_critical=True, actions=actions)
+      message = "🔓 Lock not fully closed!"
+      self.notifications.send("home_or_all", message, "lock", is_critical=True, actions=actions)
 
 
   def on_ios_lock(self, event_name, data, kwargs):
@@ -70,12 +71,18 @@ class Lock(hass.Hass):
   def on_person_location_change(self, entity, attribute, old, new, kwargs):
     person_name = self.persons.get_person_name_from_entity_name(entity)
     actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
+    kwargs = {
+      "sound": "Calypso.caf",
+      "min_delta": 600,
+      "ios_category": "lock",
+      "actions": actions
+    }
     if new == "yard" and old in ["not_home", "district"]:
-      self.notifications.send(person_name, "🔐 Do you want to unlock the door?", "lock_district",
-                              sound="Calypso.caf", min_delta=600, ios_category="lock", actions=actions)
+      message = "🔐 Do you want to unlock the door?"
+      self.notifications.send(person_name, message, "lock_district", **kwargs)
     elif new == "downstairs" and old in ["not_home", "district", "yard"]:
-      self.notifications.send(person_name, "🔐 To unlock the door please double tap door bell", "lock_downstairs",
-                              sound="Calypso.caf", min_delta=600, ios_category="lock", actions=actions)
+      message = "🔐 To unlock the door please double tap door bell"
+      self.notifications.send(person_name, message, "lock_downstairs", **kwargs)
 
 
   def lock_door(self, kwargs):

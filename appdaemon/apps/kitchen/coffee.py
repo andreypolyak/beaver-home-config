@@ -61,6 +61,6 @@ class Coffee(hass.Hass):
 
   def turn_on_coffee(self):
     self.log("Turning on coffee")
-    self.call_service("input_datetime/set_datetime", entity_id="input_datetime.coffee_turned_on",
-                      timestamp=self.get_now_ts())
+    entity = "input_datetime.coffee_turned_on"
+    self.call_service("input_datetime/set_datetime", entity_id=entity, timestamp=self.get_now_ts())
     self.call_service("switch/turn_on", entity_id="switch.kitchen_coffee_plug")

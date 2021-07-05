@@ -74,8 +74,8 @@ class Persons(hass.Hass):
     return location_entities
 
 
-  def get_all_person_names_except_provided(self, provided_person_name, with_phone=False,
-                                           with_alarm=False, with_location=False):
+  def get_all_person_names_except_provided(self, person_name, with_phone=False, with_alarm=False, with_location=False):
+    provided_person_name = person_name
     person_names = []
     for _, person in PERSONS.items():
       person_name = person["name"]

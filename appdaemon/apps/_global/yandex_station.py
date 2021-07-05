@@ -11,8 +11,8 @@ class YandexStation(hass.Hass):
     self.handle = None
     self.sonos_volume = None
     self.stop_required = {}
-    self.listen_state(self.on_living_room_alice_state, "media_player.living_room_yandex_station",
-                      attribute="alice_state")
+    entity = "media_player.living_room_yandex_station"
+    self.listen_state(self.on_living_room_alice_state, entity, attribute="alice_state")
     self.rooms = []
     media_players = self.get_state("media_player")
     for media_player in media_players:
@@ -25,7 +25,6 @@ class YandexStation(hass.Hass):
       self.listen_state(self.on_stop_speaking, entity, attribute="alice_state", old="SPEAKING", new="LISTENING")
       self.listen_state(self.on_busy, entity, attribute="alice_state", new="BUSY")
       self.listen_state(self.on_idle, entity, attribute="alice_state", new="IDLE")
-      self.listen_state(self.on_alice_change, f"media_player.{room}_yandex_station", attribute="alice_state")
     self.listen_event(self.on_yandex_speak_text, "yandex_speak_text")
     self.listen_event(self.on_yandex_speak_text, "telegram_text")
     self.listen_event(self.on_yandex_intent, "yandex_intent")
@@ -38,17 +37,12 @@ class YandexStation(hass.Hass):
       self.fire_event(dialog_name, data=data)
 
 
-  def on_alice_change(self, entity, attribute, old, new, kwargs):
-    room = self.get_state("input_select.last_active_yandex_station")
-    dialog_name = self.get_state("input_text.active_dialog")
-    self.log(f"Entity: {entity}, new_alice_state: {old}->{new}, current_room: {room}, dialog_name: {dialog_name}")
-
-
   def on_busy(self, entity, attribute, old, new, kwargs):
+    busy_entity = entity
     for room in self.rooms:
-      if room in entity:
-        self.call_service("input_select/select_option", entity_id="input_select.last_active_yandex_station",
-                          option=room)
+      if room in busy_entity:
+        entity = "input_select.last_active_yandex_station"
+        self.call_service("input_select/select_option", entity_id=entity, option=room)
 
 
   def on_idle(self, entity, attribute, old, new, kwargs):
@@ -106,7 +100,7 @@ class YandexStation(hass.Hass):
     }
     if "volume_level" in data:
       args["extra"] = {"volume_level": data["volume_level"]}
-    self.call_service("media_player/play_media", **args)
+      self.call_service("media_player/play_media", **args)
 
 
   def on_stop_speaking(self, entity, attribute, old, new, kwargs):

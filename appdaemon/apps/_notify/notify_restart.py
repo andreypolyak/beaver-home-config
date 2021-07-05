@@ -8,8 +8,8 @@ class NotifyRestart(hass.Hass):
     self.call_service("input_boolean/turn_on", entity_id="input_boolean.ad_running")
     message = "🤖 AppDaemon was successfully restarted"
     self.notifications.send("admin", message, "appdaemon_restart", url="/hassio/addon/a0d7b954_appdaemon/logs")
-    self.listen_event(self.on_notification, event="state_changed",
-                      entity_id="persistent_notification.homeassistant_check_config")
+    entity = "persistent_notification.homeassistant_check_config"
+    self.listen_event(self.on_notification, event="state_changed", entity_id=entity)
 
 
   def on_notification(self, event_name, data, kwargs):

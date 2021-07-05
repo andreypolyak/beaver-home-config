@@ -5,8 +5,8 @@ class BedSwitch(hass.Hass):
 
   def initialize(self):
     self.listen_state(self.on_bedroom_switch_change, "sensor.bedroom_bed_night_switch")
-    self.listen_event(self.on_virtual_switch, "custom_event",
-                      custom_event_data="bedroom_bed_virtual_switch_individual_toggle")
+    event_data = "bedroom_bed_virtual_switch_individual_toggle"
+    self.listen_event(self.on_virtual_switch, "custom_event", custom_event_data=event_data)
 
 
   def on_bedroom_switch_change(self, entity, attribute, old, new, kwargs):
@@ -29,11 +29,11 @@ class BedSwitch(hass.Hass):
 
 
   def on_virtual_switch(self, event_name, data, kwargs):
+    entity = "light.group_bedroom_bed"
     if self.get_state("light.group_bedroom_bed") == "off":
-      self.call_service("light/turn_on", entity_id="light.group_bedroom_bed",
-                        brightness=3, transition=self.get_transition())
+      self.call_service("light/turn_on", entity_id=entity, brightness=3, transition=self.get_transition())
     else:
-      self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=self.get_transition())
+      self.call_service("light/turn_off", entity_id=entity, transition=self.get_transition())
 
 
   def turn_off_all_lights(self, kwargs):

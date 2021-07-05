@@ -15,8 +15,8 @@ class Cinema(hass.Hass):
     }
     self.storage.init("cinema.data", default)
 
-    self.listen_event(self.on_dark_cinema_notification_action, event="mobile_app_notification_action",
-                      action="DARK_CINEMA_TURN_ON")
+    event = "mobile_app_notification_action"
+    self.listen_event(self.on_dark_cinema_notification_action, event=event, action="DARK_CINEMA_TURN_ON")
     self.listen_state(self.on_tv_turned_on, "binary_sensor.living_room_tv", new="on", old="off")
     self.listen_state(self.on_tv_turned_off, "binary_sensor.living_room_tv", new="off", old="on")
     self.listen_state(self.on_cinema_session_turned_off, "input_boolean.cinema_session", new="off", old="on")

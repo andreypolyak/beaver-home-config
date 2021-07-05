@@ -102,8 +102,8 @@ class Vacuum(hass.Hass):
 
 
   def set_vacuum_last_cleaned_ts(self):
-    self.call_service("input_datetime/set_datetime", entity_id="input_datetime.vacuum_last_cleaned",
-                      timestamp=self.get_now_ts())
+    entity = "input_datetime.vacuum_last_cleaned"
+    self.call_service("input_datetime/set_datetime", entity_id=entity, timestamp=self.get_now_ts())
 
 
   def set_vacuum_auto_clean_state(self, state):

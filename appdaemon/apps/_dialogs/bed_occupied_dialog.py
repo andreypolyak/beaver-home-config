@@ -32,7 +32,8 @@ class BedOccupiedDialog(YandexDialog):
       self.log("Bed was occupied")
       self.dialog_allowed = False
       self.occupied_ts = self.get_now_ts()
-      self.call_service("media_player/volume_set", entity_id="media_player.bedroom_yandex_station", volume_level=0.3)
+      if self.get_state("sensor.bedroom_yandex_station_connection") == "ok":
+        self.call_service("media_player/volume_set", entity_id="media_player.bedroom_yandex_station", volume_level=0.3)
       self.start_dialog("night_mode", room="bedroom")
 
 

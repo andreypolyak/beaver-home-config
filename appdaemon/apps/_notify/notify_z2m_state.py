@@ -23,8 +23,13 @@ class NotifyZ2mState(hass.Hass, mqtt.Mqtt):
       self.listen_state(self.on_z2m_change, entity, short_name=short_name, url_name=url_name)
       self.mqtt_subscribe(f"{short_name}/bridge/log", namespace="mqtt")
       topic = f"{short_name}/bridge/log"
-      self.listen_event(self.on_mqtt_change, "MQTT_MESSAGE", topic=topic, namespace="mqtt",
-                        short_name=short_name, url_name=url_name)
+      kwargs = {
+        "topic": topic,
+        "namespace": "mqtt",
+        "short_name": short_name,
+        "url_name": url_name
+      }
+      self.listen_event(self.on_mqtt_change, "MQTT_MESSAGE", **kwargs)
     self.listen_event(self.on_pi_restart, event="mobile_app_notification_action", action="PI_RESTART")
 
 

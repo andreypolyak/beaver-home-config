@@ -113,5 +113,5 @@ class Location(hass.Hass):
       for entity in self.persons.get_all_person_location_entities():
         if self.get_state(entity) == location:
           nearest_location = location
-    self.call_service("input_select/select_option", entity_id="input_select.nearest_person_location",
-                      option=nearest_location)
+    entity = "input_select.nearest_person_location"
+    self.call_service("input_select/select_option", entity_id=entity, option=nearest_location)

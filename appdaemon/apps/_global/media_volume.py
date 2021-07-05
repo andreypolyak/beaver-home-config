@@ -58,7 +58,6 @@ class MediaVolume(hass.Hass):
     self.listen_state(self.on_scene_change, "input_select.living_scene")
     self.listen_state(self.on_scene_change, "input_select.sleeping_scene")
     for media_player_name, media_player in MEDIA_PLAYERS.items():
-      if "check_if_playing" in media_player:
         for check_if_playing_entity in media_player["check_if_playing"]:
           self.listen_state(self.on_stop_playing, check_if_playing_entity, new="off")
 
@@ -70,7 +69,7 @@ class MediaVolume(hass.Hass):
     for media_player_name, media_player in MEDIA_PLAYERS.items():
       if zone != media_player["zone"]:
         continue
-      if "check_if_playing" in media_player and self.is_playing_now(media_player["check_if_playing"]):
+      if self.is_playing_now(media_player["check_if_playing"]):
         continue
       volume_level = self.get_default_volume(media_player, new)
       self.log(f"Scene in {zone.capitalize()} zone changed to: {new}. "
@@ -80,16 +79,16 @@ class MediaVolume(hass.Hass):
 
   def on_stop_playing(self, entity, attribute, old, new, kwargs):
     for media_player_name, media_player in MEDIA_PLAYERS.items():
-      if "check_if_playing" in media_player:
         for check_if_playing_entity in media_player["check_if_playing"]:
-          if entity == check_if_playing_entity:
+        if entity != check_if_playing_entity:
+          continue
             zone = media_player["zone"]
             scene = self.get_state(f"input_select.{zone}_scene")
-            if "check_if_playing" in media_player and self.is_playing_now(media_player["check_if_playing"]):
+        if self.is_playing_now(media_player["check_if_playing"]):
               return
             volume_level = self.get_default_volume(media_player, scene)
-            self.log(f"{media_player_name} stopped playing. Setting default volume ({volume_level}) "
-                     f"for {media_player_name}")
+        self.log(f"{media_player_name} stopped playing. "
+                 f"Setting default volume ({volume_level}) for {media_player_name}")
             self.set_volume(media_player_name, volume_level)
             return
 

@@ -28,13 +28,14 @@ class Wardrobe(hass.Hass):
 
   def turn_on_wardrobe(self):
     self.log("Turning on wardrobe light")
-    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=2,
-                      transition=self.get_transition())
+    entity = "light.bedroom_wardrobe"
+    self.call_service("light/turn_on", entity_id=entity, brightness=2, transition=self.get_transition())
 
 
   def turn_off_wardrobe(self):
     self.log("Turning off wardrobe light")
-    self.call_service("light/turn_off", entity_id="light.bedroom_wardrobe", transition=self.get_transition())
+    entity = "light.bedroom_wardrobe"
+    self.call_service("light/turn_off", entity_id=entity, transition=self.get_transition())
 
 
   def get_transition(self):
