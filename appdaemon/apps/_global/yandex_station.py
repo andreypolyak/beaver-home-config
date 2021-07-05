@@ -100,6 +100,7 @@ class YandexStation(hass.Hass):
     }
     if "volume_level" in data:
       args["extra"] = {"volume_level": data["volume_level"]}
+    if self.get_state(f"sensor.{room}_yandex_station_connection") == "ok":
       self.call_service("media_player/play_media", **args)
 
 

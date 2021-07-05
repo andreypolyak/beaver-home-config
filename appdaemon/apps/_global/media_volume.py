@@ -58,8 +58,8 @@ class MediaVolume(hass.Hass):
     self.listen_state(self.on_scene_change, "input_select.living_scene")
     self.listen_state(self.on_scene_change, "input_select.sleeping_scene")
     for media_player_name, media_player in MEDIA_PLAYERS.items():
-        for check_if_playing_entity in media_player["check_if_playing"]:
-          self.listen_state(self.on_stop_playing, check_if_playing_entity, new="off")
+      for check_if_playing_entity in media_player["check_if_playing"]:
+        self.listen_state(self.on_stop_playing, check_if_playing_entity, new="off")
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
@@ -79,18 +79,18 @@ class MediaVolume(hass.Hass):
 
   def on_stop_playing(self, entity, attribute, old, new, kwargs):
     for media_player_name, media_player in MEDIA_PLAYERS.items():
-        for check_if_playing_entity in media_player["check_if_playing"]:
+      for check_if_playing_entity in media_player["check_if_playing"]:
         if entity != check_if_playing_entity:
           continue
-            zone = media_player["zone"]
-            scene = self.get_state(f"input_select.{zone}_scene")
+        zone = media_player["zone"]
+        scene = self.get_state(f"input_select.{zone}_scene")
         if self.is_playing_now(media_player["check_if_playing"]):
-              return
-            volume_level = self.get_default_volume(media_player, scene)
+          return
+        volume_level = self.get_default_volume(media_player, scene)
         self.log(f"{media_player_name} stopped playing. "
                  f"Setting default volume ({volume_level}) for {media_player_name}")
-            self.set_volume(media_player_name, volume_level)
-            return
+        self.set_volume(media_player_name, volume_level)
+        return
 
 
   def is_playing_now(self, entities):
@@ -109,4 +109,6 @@ class MediaVolume(hass.Hass):
 
   def set_volume(self, media_player_name, volume_level):
     entity = f"media_player.{media_player_name}"
+    if "yandex" in media_player_name and self.get_state(f"sensor.{media_player_name}_connection") != "ok":
+      return
     self.call_service("media_player/volume_set", entity_id=entity, volume_level=volume_level)
