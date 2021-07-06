@@ -4,9 +4,9 @@ import json
 
 Z2M_INSTANCES = [
   {"short_name": "zigbee2mqtt", "url_name": "45df7312_zigbee2mqtt"},
-  {"short_name": "zigbee2mqtt_entrance", "url_name": "7c299ebf_zigbee2mqtt_entrance"},
-  {"short_name": "zigbee2mqtt_switches", "url_name": "7c299ebf_zigbee2mqtt_switches"},
-  {"short_name": "zigbee2mqtt_bedroom", "url_name": "7c299ebf_zigbee2mqtt_bedroom"}
+  {"short_name": "zigbee2mqtt_entrance", "url_name": "1fd3ccdf_zigbee2mqtt_entrance"},
+  {"short_name": "zigbee2mqtt_switches", "url_name": "1fd3ccdf_zigbee2mqtt_switches"},
+  {"short_name": "zigbee2mqtt_bedroom", "url_name": "1fd3ccdf_zigbee2mqtt_bedroom"}
 ]
 
 ZIGBEE_PI_RESTART_COMMANDS = ["restart_rpi_living_room", "restart_rpi_entrance", "restart_rpi_bedroom"]

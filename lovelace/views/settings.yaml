@@ -127,7 +127,7 @@ cards:
           name: Entrance
           variables:
             name: Zigbee2mqtt Entrance
-            addon_item: 7c299ebf_zigbee2mqtt_entrance
+            addon_item: 1fd3ccdf_zigbee2mqtt_entrance
             addon_short_name: zigbee2mqtt_entrance
         - type: custom:button-card
           template: restart_z2m
@@ -136,7 +136,7 @@ cards:
           name: Bedroom
           variables:
             name: Zigbee2mqtt Bedroom
-            addon_item: 7c299ebf_zigbee2mqtt_bedroom
+            addon_item: 1fd3ccdf_zigbee2mqtt_bedroom
             addon_short_name: zigbee2mqtt_bedroom
         - type: custom:button-card
           template: restart_z2m
@@ -145,7 +145,7 @@ cards:
           name: Switches
           variables:
             name: Zigbee2mqtt Switches
-            addon_item: 7c299ebf_zigbee2mqtt_switches
+            addon_item: 1fd3ccdf_zigbee2mqtt_switches
             addon_short_name: zigbee2mqtt_switches
       - type: horizontal-stack
         cards:
@@ -197,19 +197,19 @@ cards:
           name: Entrance
           icon: mdi:zigbee
           variables:
-            url: /hassio/ingress/7c299ebf_zigbee2mqtt_entrance
+            url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_entrance
         - type: custom:button-card
           template: config
           name: Bedroom
           icon: mdi:zigbee
           variables:
-            url: /hassio/ingress/7c299ebf_zigbee2mqtt_bedroom
+            url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_bedroom
         - type: custom:button-card
           template: config
           name: Switches
           icon: mdi:zigbee
           variables:
-            url: /hassio/ingress/7c299ebf_zigbee2mqtt_switches
+            url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_switches
       - type: horizontal-stack
         cards:
         - type: custom:button-card
