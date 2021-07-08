@@ -9,6 +9,9 @@ scene_sleeping_night:
 scene_sleeping_dumb:
   name: Dumb Scene in Sleeping Zone
 
+scene_sleeping_away:
+  name: Away Scene in Sleeping Zone
+
 # Living Scenes
 
 scene_living_day:
@@ -28,3 +31,6 @@ scene_living_party:
   
 scene_living_dark_cinema:
   name: Dark Cinema Scene in Living Zone
+
+scene_living_away:
+  name: Away Scene in Living Zone
