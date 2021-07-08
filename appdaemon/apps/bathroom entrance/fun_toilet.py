@@ -1,10 +1,11 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 from random import randrange
 
 
-class FunToilet(hass.Hass):
+class FunToilet(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_door_close, "binary_sensor.bathroom_door", new="off", old="on")
     self.listen_state(self.on_door_open, "binary_sensor.bathroom_door", new="on", old="off")
     self.listen_state(self.on_fun_toilet_off, "input_boolean.fun_toilet", new="off", old="on")
@@ -29,18 +30,18 @@ class FunToilet(hass.Hass):
       and sonos_state["attributes"]["media_title"] == "The Woodchuck Song"
       and sonos_state["state"] == "playing"
     ):
-      self.call_service("media_player/media_pause", entity_id="media_player.bathroom_sonos")
+      self.media_pause("bathroom_sonos")
 
 
   def start_playback(self):
     if (
-      self.get_state("input_select.living_scene") == "day"
+      self.get_living_scene()
       and self.now_is_between("07:00:00", "10:00:00")
-      and self.get_state("input_boolean.fun_toilet") == "on"
+      and self.is_entity_on("input_boolean.fun_toilet")
       and randrange(100) < 10
     ):
-      self.call_service("media_player/media_pause", entity_id="media_player.bathroom_sonos")
-      self.call_service("sonos/unjoin", entity_id="media_player.bathroom_sonos")
+      self.media_pause("bathroom_sonos")
+      self.sonos_unjoin("bathroom_sonos")
       source = "The Woodchuck Song"
-      self.call_service("media_player/select_source", entity_id="media_player.bathroom_sonos", source=source)
-      self.call_service("media_player/repeat_set", entity_id="media_player.bathroom_sonos", repeat="one")
+      self.select_source("bathroom_sonos", source)
+      self.repeat_set("bathroom_sonos", "one")

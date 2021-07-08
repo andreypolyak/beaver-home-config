@@ -171,16 +171,13 @@ class BathroomEntranceLights(RoomLights):
 
 
   def should_turn_off_by_timer(self):
-    if self.get_state(f"input_select.{self.zone}_scene") == "dumb":
+    if self.get_living_scene() == "dumb":
       return "dumb_scene"
     if self.is_person_inside():
       return "person_inside"
     if not self.is_auto_lights():
       return "auto_lights_off"
-    try:
-      humidity = float(self.get_state("sensor.bathroom_humidity"))
-    except (TypeError, ValueError):
-      humidity = 0
-    if humidity > 60:
-      return "humidity"
-    return None
+    humidity = self.get_float_state("sensor.bathroom_humidity")
+    if humidity is None or humidity <= 60:
+      return None
+    return "humidity"

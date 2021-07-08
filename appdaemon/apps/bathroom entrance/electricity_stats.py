@@ -1,11 +1,12 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 TIMES = ["08:00:00", "09:00:00", "10:00:00"]
 
 
-class ElectricityStats(hass.Hass):
+class ElectricityStats(Base):
 
   def initialize(self):
+    super().initialize()
     for time in TIMES:
       self.run_daily(self.send_stats, time)
 
@@ -20,10 +21,9 @@ class ElectricityStats(hass.Hass):
       attribute = f"zone_t{tariff}_period_indication"
       if attribute not in meter_attributes or attribute is not None:
         return
-      try:
-        indication = int(float(self.get_state(f"sensor.saures_electricity_t{tariff}")))
-        indications.append(indication)
-      except:
+      indication = self.get_int_state(f"sensor.saures_electricity_t{tariff}")
+      if indication is None:
         return
+      indications.append(indication)
     service = "lkcomu_interrao/push_indications"
     self.call_service(service, indications=indications, notification=True, entity_id=meter_entity)

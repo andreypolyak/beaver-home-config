@@ -1,11 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Bell(hass.Hass):
+class Bell(Base):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
-    self.notifications = self.get_app("notifications")
+    super().initialize()
     self.step = 0
     self.step_update_ts = 0
     self.last_ringed_ts = 0
@@ -14,7 +13,7 @@ class Bell(hass.Hass):
 
   def on_bell_ring(self, entity, attribute, old, new, kwargs):
     current_ts = self.get_now_ts()
-    if (current_ts - self.step_update_ts) > 10:
+    if self.get_delta_ts(self.step_update_ts) > 10:
       self.step = 0
     if new == "double" and self.step == 0:
       if self.persons.get_all_person_names_with_location("downstairs"):
@@ -34,47 +33,46 @@ class Bell(hass.Hass):
       self.step_update_ts = current_ts
       self.log("Unlocking the door by code")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")
-    elif new in ["single", "double", "hold"] and (current_ts - self.last_ringed_ts) > 5:
+    elif new in ["single", "double", "hold"] and self.get_delta_ts(self.last_ringed_ts) > 5:
       self.step = 0
       self.bell_ring()
 
 
   def bell_ring(self):
     self.last_ringed_ts = self.get_now_ts()
-    current_living_scene = self.get_state("input_select.living_scene")
+    living_scene = self.get_living_scene()
     # Pause TV
-    if self.get_state("media_player.living_room_apple_tv") == "playing" and current_living_scene != "party":
-      self.call_service("media_player/media_pause", entity_id="media_player.living_room_apple_tv")
+    if self.get_state("media_player.living_room_apple_tv") == "playing" and living_scene != "party":
+      self.media_pause("living_room_apple_tv")
     # Bell sound
-    if current_living_scene != "night":
+    if living_scene != "night":
       self.ring_on_sonos("living_room")
-      if self.get_state("binary_sensor.bathroom_door") == "off":
+      if self.is_entity_off("binary_sensor.bathroom_door"):
         self.ring_on_sonos("bathroom")
     # Push notifications
-    self.notifications.send("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
+    self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
     # Lights
     entity = "light.entrance_cloakroom"
-    if current_living_scene in ["day", "light_cinema"]:
-      self.call_service("light/turn_on", entity_id=entity, flash="short", brightness=254, color_name="red")
+    if living_scene in ["day", "light_cinema"]:
+      self.turn_on_entity(entity, flash="short", brightness=254, color_name="red")
       self.run_in(self.restore_light, 1)
-    elif current_living_scene in ["dark_cinema", "party"]:
-      self.call_service("light/turn_on", entity_id=entity, flash="short", brightness=1, color_name="red")
+    elif living_scene in ["dark_cinema", "party"]:
+      self.turn_on_entity(entity, flash="short", brightness=1, color_name="red")
       self.run_in(self.restore_light, 1)
 
 
   def ring_on_sonos(self, room):
     entity = f"media_player.{room}_sonos"
     url = self.args["bell_sound_url"]
-    self.call_service("sonos/snapshot", entity_id=entity)
-    self.call_service("media_player/volume_set", entity_id=entity, volume_level=0.15)
-    self.call_service("media_player/play_media", entity_id=entity, media_content_type="music", media_content_id=url)
+    self.sonos_snapshot(entity)
+    self.volume_set(entity, 0.15)
+    self.play_media(entity, url, "music")
     self.run_in(self.restore_sonos, 2, room=room)
 
 
   def restore_sonos(self, kwargs):
     room = kwargs["room"]
-    entity = f"media_player.{room}_sonos"
-    self.call_service("sonos/restore", entity_id=entity)
+    self.sonos_restore(f"media_player.{room}_sonos")
 
 
   def restore_light(self, kwargs):

@@ -2,28 +2,31 @@ global_modules:
   - room_lights
   - room_window
   - yandex_dialog
+  - base
 
 #
 # Shared
 #
 
-persistent_storage:
-  module: persistent_storage
-  class: PersistentStorage
+storage:
+  module: storage
+  class: Storage
+  global_dependencies: base
 
 persons:
   module: persons
   class: Persons
-  dependencies: persistent_storage
-  chat_id: !secret notifications_chat_id
+  global_dependencies: base
+  chat_id: !secret push_chat_id
 
-notifications:
-  module: notifications
-  class: Notifications
+push:
+  module: push
+  class: Push
+  global_dependencies: base
   dependencies:
     - persons
-    - persistent_storage
-  chat_id: !secret notifications_chat_id
+    - storage
+  chat_id: !secret push_chat_id
 
 #
 # Important
@@ -32,22 +35,26 @@ notifications:
 notify_restart:
   module: notify_restart
   class: NotifyRestart
+  global_dependencies: base
   dependencies: persons
 
 notify_logs:
   module: notify_logs
   class: NotifyLogs
+  global_dependencies: base
   chat_id: !secret logs_chat_id
 
 telegram_entity_logger:
   module: telegram_entity_logger
   class: TelegramEntityLogger
+  global_dependencies: base
   chat_id: !secret logs_chat_id
 
 notify_app_error:
   module: notify_app_error
   class: NotifyAppError
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 #
 # Dialogs
@@ -56,14 +63,18 @@ notify_app_error:
 alarm_requested_dialog:
   module: alarm_requested_dialog
   class: AlarmRequestedDialog
+  global_dependencies:
+    - base
+    - yandex_dialog
   dependencies: persons
-  global_dependencies: yandex_dialog
 
 bed_occupied_dialog:
   module: bed_occupied_dialog
   class: BedOccupiedDialog
+  global_dependencies:
+    - base
+    - yandex_dialog
   dependencies: persons
-  global_dependencies: yandex_dialog
 
 #
 # Bathroom and Entrance
@@ -72,55 +83,66 @@ bed_occupied_dialog:
 bathroom_entrance_lights:
   module: bathroom_entrance_lights
   class: BathroomEntranceLights
-  global_dependencies: room_lights
+  global_dependencies:
+    - base
+    - room_lights
 
 bathroom_fan:
   module: bathroom_fan
   class: BathroomFan
+  global_dependencies: base
 
 bell:
   module: bell
   class: Bell
   bell_sound_url: !secret bell_sound_url
+  global_dependencies: base
   dependencies:
     - persons
-    - notifications
+    - push
 
 electricity_stats:
   module: electricity_stats
   class: ElectricityStats
+  global_dependencies: base
 
 freshener:
   module: freshener
   class: Freshener
-  dependencies: persistent_storage
+  global_dependencies: base
+  dependencies: storage
 
 fun_toilet:
   module: fun_toilet
   class: FunToilet
+  global_dependencies: base
 
 lock:
   module: lock
   class: Lock
+  global_dependencies: base
   dependencies:
     - persons
-    - notifications
+    - push
 
 washing_machine:
   module: washing_machine
   class: WashingMachine
+  global_dependencies: base
   dependencies:
     - persons
-    - notifications
+    - push
 
 water_leak:
   module: water_leak
   class: WaterLeak
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 welcome_announcement:
   module: welcome_announcement
   class: WelcomeAnnouncement
+  global_dependencies: base
 
 #
 # Bedroom
@@ -129,58 +151,71 @@ welcome_announcement:
 alarm_andrey:
   module: alarm
   class: Alarm
+  global_dependencies: base
   person_name: andrey
 
 alarm_katya:
   module: alarm
   class: Alarm
+  global_dependencies: base
   person_name: katya
 
 alarm_manager:
   module: alarm_manager
   class: AlarmManager
+  global_dependencies: base
   dependencies: persons
 
 bed_occupancy:
   module: bed_occupancy
   class: BedOccupancy
+  global_dependencies: base
 
 bed_switch:
   module: bed_switch
   class: BedSwitch
+  global_dependencies: base
 
 bedroom_cover:
   module: bedroom_cover
   class: BedroomCover
+  global_dependencies: base
 
 bedroom_lights:
   module: bedroom_lights
   class: BedroomLights
-  global_dependencies: room_lights
+  global_dependencies:
+    - base
+    - room_lights
 
 bedroom_window:
   module: bedroom_window
   class: BedroomWindow
-  global_dependencies: room_window
+  global_dependencies:
+    - base
+    - room_window
   dependencies:
     - persons
-    - persistent_storage
+    - storage
 
 table:
   module: table
   class: Table
+  global_dependencies: base
 
 wardrobe:
   module: wardrobe
   class: Wardrobe
+  global_dependencies: base
 
 weight:
   module: weight
   class: Weight
+  global_dependencies: base
   dependencies:
     - persons
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 #
 # Kitchen
@@ -189,36 +224,45 @@ weight:
 coffee:
   module: coffee
   class: Coffee
+  global_dependencies: base
 
 cooler:
   module: cooler
   class: Cooler
+  global_dependencies: base
 
 fridge:
   module: fridge
   class: Fridge
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 kitchen_cover:
   module: kitchen_cover
   class: KitchenCover
+  global_dependencies: base
 
 kitchen_lights:
   module: kitchen_lights
   class: KitchenLights
-  global_dependencies: room_lights
+  global_dependencies:
+    - base
+    - room_lights
 
 kitchen_window:
   module: kitchen_window
   class: KitchenWindow
-  global_dependencies: room_window
+  global_dependencies:
+    - base
+    - room_window
   dependencies:
     - persons
-    - persistent_storage
+    - storage
 
 music_switch:
   module: music_switch
   class: MusicSwitch
+  global_dependencies: base
 
 #
 # Living Room
@@ -227,43 +271,54 @@ music_switch:
 ac:
   module: ac
   class: AC
+  global_dependencies: base
 
 balcony_lights:
   module: balcony_lights
   class: BalconyLights
-  global_dependencies: room_lights
+  global_dependencies:
+    - base
+    - room_lights
 
 cinema:
   module: cinema
   class: Cinema
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 living_room_cover:
   module: living_room_cover
   class: LivingRoomCover
+  global_dependencies: base
 
 living_room_lights:
   module: living_room_lights
   class: LivingRoomLights
-  global_dependencies: room_lights
+  global_dependencies:
+    - base
+    - room_lights
 
 party:
   module: party
   class: Party
+  global_dependencies: base
 
 storage_room:
   module: storage_room
   class: StorageRoom
+  global_dependencies: base
 
 universal_tv_source:
   module: universal_tv_source
   class: UniversalTvSource
+  global_dependencies: base
 
 vacuum:
   module: vacuum
   class: Vacuum
+  global_dependencies: base
 
 #
 # Global
@@ -272,80 +327,97 @@ vacuum:
 bt_trackers:
   module: bt_trackers
   class: BtTrackers
+  global_dependencies: base
 
 christmas_season:
   module: christmas_season
   class: ChristmasSeason
+  global_dependencies: base
 
 circadian_update:
   module: circadian_update
   class: CircadianUpdate
+  global_dependencies: base
 
 delete_snapshot:
   module: delete_snapshot
   class: DeleteSnapshot
+  global_dependencies: base
 
 fix_gledopto:
   module: fix_gledopto
   class: FixGledopto
+  global_dependencies: base
 
 ha_count_updates:
   module: ha_count_updates
   class: HaCountUpdates
+  global_dependencies: base
 
 is_media_playing:
   module: is_media_playing
   class: IsMediaPlaying
+  global_dependencies: base
 
 light_delay:
   module: light_delay
   class: LightDelay
+  global_dependencies: base
 
 location:
   module: location
   class: Location
+  global_dependencies: base
   dependencies:
     - persons
-    - persistent_storage
+    - storage
 
 media_control:
   module: media_control
   class: MediaControl
+  global_dependencies: base
 
 media_volume:
   module: media_volume
   class: MediaVolume
+  global_dependencies: base
 
 night:
   module: night
   class: Night
-  dependencies: persistent_storage
+  global_dependencies: base
+  dependencies: storage
 
 person_inside:
   module: person_inside
   class: PersonInside
+  global_dependencies: base
 
 plant:
   module: plant
   class: Plant
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 presence:
   module: presence
   class: Presence
-  dependencies: persons
+  global_dependencies: base
 
 scenes:
   module: scenes
   class: Scenes
+  global_dependencies: base
 
 update_lovelace:
   module: update_lovelace
   class: UpdateLovelace
+  global_dependencies: base
 
 yandex_station:
   module: yandex_station
   class: YandexStation
+  global_dependencies: base
   dependencies: persons
 
 #
@@ -355,97 +427,112 @@ yandex_station:
 notify_addon_update:
   module: notify_addon_update
   class: NotifyAddonUpdate
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_air_quality:
   module: notify_air_quality
   class: NotifyAirQuality
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 notify_arrival:
   module: notify_arrival
   class: NotifyArrival
+  global_dependencies: base
   dependencies:
     - persons
-    - persistent_storage
-    - notifications
+    - storage
+    - push
 
 notify_core_update:
   module: notify_core_update
   class: NotifyCoreUpdate
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_hacs_update:
   module: notify_hacs_update
   class: NotifyHacsUpdate
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_lock:
   module: notify_lock
   class: NotifyLock
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_low_battery:
   module: notify_low_battery
   class: NotifyLowBattery
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_new_entity:
   module: notify_new_entity
   class: NotifyNewEntity
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_os_update:
   module: notify_os_update
   class: NotifyOsUpdate
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_persistent:
   module: notify_persistent
   class: NotifyPersistent
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 notify_pi_state:
   module: notify_pi_state
   class: NotifyPiState
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_temperature:
   module: notify_temperature
   class: NotifyTemperature
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 notify_unavailable:
   module: notify_unavailable
   class: NotifyUnavailable
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage
 
 notify_z2m_state:
   module: notify_z2m_state
   class: NotifyZ2mState
-  dependencies: notifications
+  global_dependencies: base
+  dependencies: push
 
 notify_zigbee_ota_update:
   module: notify_zigbee_ota_update
   class: NotifyZigbeeOtaUpdate
+  global_dependencies: base
   dependencies:
-    - notifications
-    - persistent_storage
+    - push
+    - storage

@@ -1,11 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class WashingMachine(hass.Hass):
+class WashingMachine(Base):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
-    self.notifications = self.get_app("notifications")
+    super().initialize()
     self.last_changed = 0
     self.listen_state(self.on_median_power_change, "sensor.washing_machine_plug_median_power")
     self.listen_state(self.on_power_change, "sensor.bathroom_washing_machine_plug_power")
@@ -20,42 +19,36 @@ class WashingMachine(hass.Hass):
 
 
   def on_power_change(self, entity, attribute, old, new, kwargs):
-    try:
-      power_int = int(float(new))
-    except (TypeError, ValueError):
+    power_int = self.get_float_state(new)
+    if power_int is None:
       return
-    delta = self.get_now_ts() - self.last_changed
-    if power_int > 100 and self.get_state("input_select.washing_machine_status") == "empty" and delta >= 120:
+    if power_int > 100 and self.get_status() == "empty" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
-      self.call_service("input_select/select_option", entity_id="input_select.washing_machine_status", option="washing")
+      self.set_status("washing")
 
 
   def on_max_power_change(self, entity, attribute, old, new, kwargs):
-    try:
-      power_int = int(float(new))
-    except (TypeError, ValueError):
+    power_int = self.get_float_state(new)
+    if power_int is None:
       return
-    delta = self.get_now_ts() - self.last_changed
-    if power_int > 80 and self.get_state("input_select.washing_machine_status") == "full" and delta >= 120:
+    if power_int > 80 and self.get_status() == "full" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
-      self.call_service("input_select/select_option", entity_id="input_select.washing_machine_status", option="washing")
+      self.set_status("washing")
 
 
   def on_median_power_change(self, entity, attribute, old, new, kwargs):
-    try:
-      power_int = int(float(new))
-    except (TypeError, ValueError):
+    power_int = self.get_float_state(new)
+    if power_int is None:
       return
-    delta = self.get_now_ts() - self.last_changed
-    if power_int < 10 and self.get_state("input_select.washing_machine_status") == "washing" and delta >= 120:
+    if power_int < 10 and self.get_status() == "washing" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
-      self.call_service("input_select/select_option", entity_id="input_select.washing_machine_status", option="full")
+      self.set_status("full")
 
 
   def on_door_change(self, entity, attribute, old, new, kwargs):
-    if new == "on" and self.get_state("input_select.washing_machine_status") != "empty":
+    if new == "on" and self.get_status() != "empty":
       self.log("Setting Empty state")
-      self.call_service("input_select/select_option", entity_id="input_select.washing_machine_status", option="empty")
+      self.set_status("empty")
 
 
   def on_action(self, entity, attribute, old, new, kwargs):
@@ -67,9 +60,17 @@ class WashingMachine(hass.Hass):
     is_not_away = self.get_state("input_select.living_scene") != "away"
     if is_not_sleeping and is_not_away:
       message = "👖 Clothes are done"
-      self.notifications.send("home_or_none", message, "washing_machine", sound="Bloom.caf", min_delta=3600)
+      self.send_push("home_or_none", message, "washing_machine", sound="Bloom.caf", min_delta=3600)
 
 
   def action(self, kwargs):
-    if self.get_state("input_select.washing_machine_status") == "full":
+    if self.get_status() == "full":
       self.notify_on_full()
+
+
+  def get_status(self):
+    self.get_state("input_select.washing_machine_status")
+
+
+  def set_status(self, status):
+    self.select_option("washing_machine_status", status)

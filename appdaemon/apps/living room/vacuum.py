@@ -1,9 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Vacuum(hass.Hass):
+class Vacuum(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_nearest_person_location_change, "input_select.nearest_person_location")
     self.listen_state(self.on_vacuum_docked, "vacuum.rockrobo", new="docked")
     self.listen_state(self.on_vacuum_error, "vacuum.rockrobo", new="error")
@@ -15,38 +16,38 @@ class Vacuum(hass.Hass):
 
 
   def on_timer_finished(self, event_name, data, kwargs):
-    self.call_service("input_boolean/turn_on", entity_id="input_boolean.vacuum_auto_clean")
+    self.turn_on_entity("input_boolean.vacuum_auto_clean")
 
 
   def on_nearest_person_location_change(self, entity, attribute, old, new, kwargs):
     autoclean_state = self.get_vacuum_auto_clean_state()
     if autoclean_state == "done_charging" and new in ["downstairs", "home"]:
       self.go_to_bin()
-    timestamp = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="timestamp"))
-    day = int(self.get_state("input_datetime.vacuum_last_cleaned", attribute="day"))
+    timestamp = self.get_int_state("input_datetime.vacuum_last_cleaned", attribute="timestamp")
+    day = self.get_int_state("input_datetime.vacuum_last_cleaned", attribute="day")
 
     if (
         new == "not_home"
-        and self.get_state("input_select.living_scene") == "away"
+        and self.get_living_scene() == "away"
         and self.get_state("vacuum.rockrobo") == "docked"
-        and (self.get_now_ts() - timestamp > (6 * 60 * 60))
-        and (day != int(self.datetime().strftime("%d")))
+        and self.get_delta_ts(timestamp) > 216000
+        and day != int(self.datetime().strftime("%d"))
         and self.get_vacuum_auto_clean_state() == "idle"
     ):
-      if self.get_state("input_boolean.vacuum_auto_clean") == "off":
-        self.call_service("timer/start", entity_id="timer.vacuum_no_clean", duration=3600)
+      if self.is_entity_off("input_boolean.vacuum_auto_clean"):
+        self.timer_start("vacuum_no_clean", 3600)
         self.log("Vacuum auto clean is turned off")
         return
-      if self.get_state("timer.vacuum_no_clean") == "active":
+      if self.is_timer_active("vacuum_no_clean"):
         self.log("Vacuum no clean timer is active")
         return
       self.log("Starting automatical vacuum cleaning")
-      self.call_service("script/turn_on", entity_id="script.vacuum_clean_all")
+      self.turn_on_entity("script.vacuum_clean_all")
       self.start_vacuum()
 
 
   def start_vacuum(self):
-    self.call_service("input_select/select_option", entity_id="input_select.vacuum_room_cleaning", option="all")
+    self.select_option("vacuum_room_cleaning", "all")
     self.set_vacuum_auto_clean_state("cleaning")
 
 
@@ -56,7 +57,7 @@ class Vacuum(hass.Hass):
 
 
   def on_vacuum_returning(self, entity, attribute, old, new, kwargs):
-    anyone_near_home = self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]
+    anyone_near_home = self.get_nearest_person_location() in ["home", "downstairs", "yard"]
     if self.get_vacuum_auto_clean_state() == "cleaning" and anyone_near_home:
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
@@ -79,7 +80,7 @@ class Vacuum(hass.Hass):
 
 
   def on_vacuum_docked(self, entity, attribute, old, new, kwargs):
-    anyone_near_home = self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]
+    anyone_near_home = self.get_nearest_person_location() in ["home", "downstairs", "yard"]
     if self.get_vacuum_auto_clean_state() == "cleaning":
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
@@ -92,22 +93,21 @@ class Vacuum(hass.Hass):
 
   def on_vacuum_change(self, entity, attribute, old, new, kwargs):
     if new != "cleaning" and old == "cleaning":
-      self.call_service("input_select/select_option", entity_id="input_select.vacuum_room_cleaning", option="none")
+      self.select_option("vacuum_room_cleaning", "none")
 
 
   def go_to_bin(self):
     self.log("Vacuum is moving to bin")
-    self.call_service("script/turn_on", entity_id="script.vacuum_go_to_bin")
+    self.turn_on_entity("script.vacuum_go_to_bin")
     self.set_vacuum_auto_clean_state("done_waiting")
 
 
   def set_vacuum_last_cleaned_ts(self):
-    entity = "input_datetime.vacuum_last_cleaned"
-    self.call_service("input_datetime/set_datetime", entity_id=entity, timestamp=self.get_now_ts())
+    self.set_current_datetime("input_datetime.vacuum_last_cleaned")
 
 
   def set_vacuum_auto_clean_state(self, state):
-    self.call_service("input_select/select_option", entity_id="input_select.vacuum_autoclean_state", option=state)
+    self.select_option("vacuum_autoclean_state", state)
 
 
   def get_vacuum_auto_clean_state(self):

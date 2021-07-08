@@ -1,9 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Alarm(hass.Hass):
+class Alarm(Base):
 
   def initialize(self):
+    super().initialize()
     self.person_name = self.args["person_name"]
     self.handles = []
     self.listen_event(self.cancel_alarm, event="custom_event", custom_event_data=f"cancel_alarm_{self.person_name}")
@@ -13,8 +14,8 @@ class Alarm(hass.Hass):
 
   def start_alarm(self, event_name, data, kwargs):
     self.log("Alarm started")
-    self.cancel_all_handlers()
-    self.call_service("input_boolean/turn_on", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
+    self.cancel_all_handles()
+    self.turn_on_entity(f"input_boolean.alarm_{self.person_name}_ringing")
     self.handles.append(self.run_in(self.action_1, 1))
     self.handles.append(self.run_in(self.action_60, 60))
     self.handles.append(self.run_in(self.action_170, 170))
@@ -26,73 +27,72 @@ class Alarm(hass.Hass):
 
   def cancel_alarm(self, event_name, data, kwargs):
     self.log("Alarm cancelled")
-    transition = self.get_transition()
-    self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
-    self.cancel_all_handlers()
-    self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
-    self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bri", transition=transition)
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=transition)
-    self.call_service("cover/close_cover", entity_id="cover.bedroom_cover")
+    transition = self.get_float_state("input_number.transition")
+    self.turn_off_entity(f"input_boolean.alarm_{self.person_name}_ringing")
+    self.cancel_all_handles()
+    self.media_pause("bedroom_sonos")
+    self.sonos_restore("bedroom_sonos")
+    self.turn_off_entity("light.group_bedroom_bri", transition=transition)
+    self.turn_off_entity("light.group_bedroom_bed", transition=transition)
+    self.close_cover("bedroom_cover")
 
 
   def finish_alarm(self, event_name, data, kwargs):
     self.log("Alarm finished")
-    transition = self.get_transition()
+    transition = self.get_float_state("input_number.transition")
     hs_color = self.get_hs_color()
-    self.call_service("input_boolean/turn_off", entity_id=f"input_boolean.alarm_{self.person_name}_ringing")
-    self.cancel_all_handlers()
-    self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
-    self.call_service("sonos/restore", entity_id="media_player.bedroom_sonos")
-    entity = "light.group_bedroom_color"
-    self.call_service("light/turn_on", entity_id=entity, brightness=254, transition=transition, hs_color=hs_color)
-    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=254, transition=transition)
+    self.turn_off_entity(f"input_boolean.alarm_{self.person_name}_ringing")
+    self.cancel_all_handles()
+    self.media_pause("bedroom_sonos")
+    self.sonos_restore("bedroom_sonos")
+    self.turn_on_entity("light.group_bedroom_color", brightness=254, transition=transition, hs_color=hs_color)
+    self.turn_on_entity("light.bedroom_wardrobe", brightness=254, transition=transition)
     self.run_in(self.turn_on_day_scene, 1)
-    self.call_service("light/turn_off", entity_id="light.group_bedroom_bed", transition=transition)
+    self.turn_off_entity("light.group_bedroom_bed", transition=transition)
     self.run_in(self.speak_morning_info, 1)
-    self.call_service("cover/open_cover", entity_id="cover.bedroom_cover")
+    self.open_cover("bedroom_cover")
 
 
   def action_1(self, kwargs):
     self.log("Alarm action 1")
     hs_color = self.get_hs_color()
-    self.call_service("sonos/snapshot", entity_id="media_player.bedroom_sonos")
-    self.call_service("media_player/media_pause", entity_id="media_player.bedroom_sonos")
-    self.call_service("sonos/unjoin", entity_id="media_player.bedroom_sonos")
-    self.call_service("light/turn_on", entity_id="light.bedroom_bed_led", brightness=254, hs_color=hs_color)
+    self.sonos_snapshot("bedroom_sonos")
+    self.media_pause("bedroom_sonos")
+    self.sonos_unjoin("bedroom_sonos")
+    self.turn_on_entity("light.bedroom_bed_led", brightness=254, hs_color=hs_color)
 
 
   def action_60(self, kwargs):
     self.log("Alarm action 60")
-    self.set_sonos_volume(0.02)
-    self.call_service("media_player/select_source", entity_id="media_player.bedroom_sonos", source="Sleepscapes | Rain")
+    self.volume_set("bedroom_sonos", 0.02)
+    self.select_source("bedroom_sonos", "Sleepscapes | Rain")
 
 
   def action_170(self, kwargs):
     self.log("Alarm action 170")
     hs_color = self.get_hs_color()
-    self.set_sonos_volume(0.24)
-    self.call_service("light/turn_on", entity_id="light.group_bedroom_top", brightness=1, hs_color=hs_color)
-    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=1)
-    self.call_service("cover/open_cover", entity_id="cover.bedroom_cover")
+    self.volume_set("bedroom_sonos", 0.24)
+    self.turn_on_entity("light.group_bedroom_top", brightness=1, hs_color=hs_color)
+    self.turn_on_entity("light.bedroom_wardrobe", brightness=1)
+    self.open_cover("bedroom_cover")
 
 
   def action_180(self, kwargs):
     self.log("Alarm action 180")
-    self.set_sonos_volume(0.26)
-    self.call_service("light/turn_on", entity_id="light.group_bedroom_top", brightness=254, transition=60)
-    self.call_service("light/turn_on", entity_id="light.bedroom_wardrobe", brightness=254, transition=60)
+    self.volume_set("bedroom_sonos", 0.26)
+    self.turn_on_entity("light.group_bedroom_top", brightness=254, transition=60)
+    self.turn_on_entity("light.bedroom_wardrobe", brightness=254, transition=60)
 
 
   def action_240(self, kwargs):
     self.log("Alarm action 240")
     source = "Classic Rock 70s 80s 90s, Rock Classics - 70s Rock, 80s Rock, 90s Rock, Rock Classicos"
-    self.call_service("media_player/select_source", entity_id="media_player.bedroom_sonos", source=source)
+    self.select_source("bedroom_sonos", source)
 
 
   def action_300(self, kwargs):
     self.log("Alarm action 300")
-    self.call_service("light/turn_on", entity_id="light.group_bedroom_bed", brightness=254, transition=60)
+    self.turn_on_entity("light.group_bedroom_bed", brightness=254, transition=60)
     current_time = self.datetime().strftime("%H:%M")
     text = f"Пора вставать! Уже {current_time}!"
     self.fire_event("yandex_speak_text", text=text, room="bedroom", volume_level=1.0)
@@ -102,32 +102,26 @@ class Alarm(hass.Hass):
     sonos_state = self.get_state("media_player.bedroom_sonos", attribute="all")
     if sonos_state["state"] == "playing":
       new_volume_level = sonos_state["attributes"]["volume_level"] + 0.02
-      self.set_sonos_volume(new_volume_level)
+      self.volume_set("bedroom_sonos", new_volume_level)
 
 
-  def cancel_all_handlers(self):
+  def cancel_all_handles(self):
     for handle in self.handles:
-      if self.timer_running(handle):
-        self.cancel_timer(handle)
+      self.cancel_handle(handle)
     self.handles = []
 
 
   def get_hs_color(self):
-    saturation = int(float(self.get_state("input_number.circadian_saturation")))
+    saturation = self.get_int_state("input_number.circadian_saturation")
     hs_color = [30, saturation]
     return hs_color
 
 
-  def set_sonos_volume(self, volume):
-    self.call_service("media_player/volume_set", entity_id="media_player.bedroom_sonos", volume_level=volume)
-
-
   def turn_on_day_scene(self, kwargs):
     for zone in ["seleeping", "living"]:
-      entity = f"input_select.{zone}_scene"
-      if self.get_state(entity) == "night":
+      if self.get_scene(zone) == "night":
         self.log(f"Turning on day scene in {zone} zone")
-        self.call_service("input_select/select_option", entity_id=entity, option="day")
+        self.set_scene(zone, "day")
 
 
   def speak_morning_info(self, kwargs):
@@ -191,7 +185,3 @@ class Alarm(hass.Hass):
     if abs_temp % 10 == 1:
       return "градуса"
     return "градусов"
-
-
-  def get_transition(self):
-    return float(self.get_state("input_number.transition"))

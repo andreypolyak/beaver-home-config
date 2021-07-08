@@ -1,12 +1,11 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Lock(hass.Hass):
+class Lock(Base):
 
   def initialize(self):
-    self.persons = self.get_app("persons")
-    self.notifications = self.get_app("notifications")
-    self.lock_handle = None
+    super().initialize()
+    self.handle = None
     self.unlocked_ts = 0
     self.unlocked_by = None
     self.listen_state(self.on_door_close, "binary_sensor.entrance_door", new="off", old="on")
@@ -22,28 +21,28 @@ class Lock(hass.Hass):
 
   def on_door_close(self, entity, attribute, old, new, kwargs):
     self.log("Door was closed")
-    self.cancel_lock_handle()
-    self.lock_handle = self.run_in(self.lock_door, 5)
+    self.cancel_handle(self.handle)
+    self.handle = self.run_in(self.lock_door, 5)
 
 
   def on_door_open(self, entity, attribute, old, new, kwargs):
     self.log("Door was opened")
-    self.cancel_lock_handle()
+    self.cancel_handle(self.handle)
 
 
   def on_lock_unlock(self, entity, attribute, old, new, kwargs):
     self.log("Lock was unlocked")
-    self.cancel_lock_handle()
-    self.lock_handle = self.run_in(self.lock_door, 60)
-    if (self.get_now_ts() - self.unlocked_ts) < 15 and self.unlocked_by:
+    self.cancel_handle(self.handle)
+    self.handle = self.run_in(self.lock_door, 60)
+    if self.get_delta_ts(self.unlocked_ts) < 15 and self.unlocked_by:
       actions = [{"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}]
-      self.notifications.send(self.unlocked_by, "🔓 Lock was unlocked", "lock", sound="Calypso.caf", actions=actions)
+      self.send_push(self.unlocked_by, "🔓 Lock was unlocked", "lock", sound="Calypso.caf", actions=actions)
       self.unlocked_ts = 0
       self.unlocked_by = None
 
 
   def on_lock_change(self, entity, attribute, old, new, kwargs):
-    self.cancel_lock_handle()
+    self.cancel_handle(self.handle)
     if self.get_state("lock.entrance_lock", attribute="lock_state") == "not_fully_locked":
       text = "Внимание! Дверь не закрыта до конца!"
       self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
@@ -52,7 +51,7 @@ class Lock(hass.Hass):
         {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
       ]
       message = "🔓 Lock not fully closed!"
-      self.notifications.send("home_or_all", message, "lock", is_critical=True, actions=actions)
+      self.send_push("home_or_all", message, "lock", is_critical=True, actions=actions)
 
 
   def on_ios_lock(self, event_name, data, kwargs):
@@ -79,24 +78,19 @@ class Lock(hass.Hass):
     }
     if new == "yard" and old in ["not_home", "district"]:
       message = "🔐 Do you want to unlock the door?"
-      self.notifications.send(person_name, message, "lock_district", **kwargs)
+      self.send_push(person_name, message, "lock_district", **kwargs)
     elif new == "downstairs" and old in ["not_home", "district", "yard"]:
       message = "🔐 To unlock the door please double tap door bell"
-      self.notifications.send(person_name, message, "lock_downstairs", **kwargs)
+      self.send_push(person_name, message, "lock_downstairs", **kwargs)
 
 
   def lock_door(self, kwargs):
-    if self.get_state("lock.entrance_lock") == "unlocked" and self.get_state("binary_sensor.entrance_door") == "off":
+    if self.get_state("lock.entrance_lock") == "unlocked" and self.is_entity_off("binary_sensor.entrance_door"):
       self.log("Locking the door")
       self.call_service("lock/lock", entity_id="lock.entrance_lock")
 
 
   def unlock_door(self):
-    if self.get_state("lock.entrance_lock") == "locked" and self.get_state("binary_sensor.entrance_door") == "off":
+    if self.get_state("lock.entrance_lock") == "locked" and self.is_entity_off("binary_sensor.entrance_door"):
       self.log("Unlocking the door")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")
-
-
-  def cancel_lock_handle(self):
-    if self.timer_running(self.lock_handle):
-      self.cancel_timer(self.lock_handle)

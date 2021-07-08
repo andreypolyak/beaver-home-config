@@ -1,4 +1,4 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 SENSORS = [
   {
@@ -21,10 +21,10 @@ SENSORS = [
 ]
 
 
-class WaterLeak(hass.Hass):
+class WaterLeak(Base):
 
   def initialize(self):
-    self.notifications = self.get_app("notifications")
+    super().initialize()
     for sensor in SENSORS:
       sensor_name = sensor["name"]
       self.listen_state(self.on_leak, f"binary_sensor.{sensor_name}_leak", new="on", old="off", sensor=sensor)
@@ -36,4 +36,4 @@ class WaterLeak(hass.Hass):
     sensor_ru = sensor["ru"]
     text = f"Внимание! Обнаружена вода {sensor_ru}!"
     self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-    self.notifications.send("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", is_critical=True)
+    self.send_push("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", is_critical=True)

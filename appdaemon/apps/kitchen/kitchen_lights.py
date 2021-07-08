@@ -157,13 +157,13 @@ class KitchenLights(RoomLights):
 
 
   def should_turn_off_by_timer(self):
-    if self.get_state(f"input_select.{self.zone}_scene") == "dumb":
+    if self.get_living_scene() == "dumb":
       return "dumb_scene"
     if not self.is_auto_lights():
       return "auto_lights_off"
     if (
-      self.get_state("binary_sensor.kitchen_chair_1_occupancy") == "on"
-      or self.get_state("binary_sensor.kitchen_chair_2_occupancy") == "on"
+      self.is_entity_on("binary_sensor.kitchen_chair_1_occupancy")
+      or self.is_entity_on("binary_sensor.kitchen_chair_2_occupancy")
     ):
       return "chair_occupied"
     return None

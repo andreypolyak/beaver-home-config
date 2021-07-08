@@ -1,12 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Weight(hass.Hass):
+class Weight(Base):
 
   def initialize(self):
-    self.storage = self.get_app("persistent_storage")
-    self.persons = self.get_app("persons")
-    self.notifications = self.get_app("notifications")
+    super().initialize()
     default = {
       "current_weight": 0,
       "current_weight_ts": 0,
@@ -15,28 +13,30 @@ class Weight(hass.Hass):
     }
     for person in self.persons.get_all_persons():
       person_name = person["name"]
-      self.storage.init(f"weight.{person_name}", default)
+      self.init_storage("weight", person_name, default)
     self.listen_state(self.on_scales_change, "sensor.bedroom_scales")
 
 
   def on_scales_change(self, entity, attribute, old, new, kwargs):
-    if new in ["unavailable", "unknown", "None"] or old in ["unavailable", "unknown", "None"]:
+    if self.is_bad(new):
       return
-    try:
-      weight = float(new)
-    except ValueError:
+    weight = self.get_float_state(new)
+    if weight is None or weight < 10:
       return
-    if weight < 10:
-      return
+    for person in self.persons.get_all_persons():
+      person_name = person["name"]
+      person_weight = self.get_float_state(f"input_number.{person_name}_weight")
+      if weight == person_weight:
+        return
     person = self.identify_person(weight)
     person_name = person["name"]
     person_phone = person["phone"]
-    self.call_service("input_number/set_value", entity_id=f"input_number.{person_name}_weight", value=weight)
+    self.set_value(f"input_number.{person_name}_weight", weight)
     (voice_message, message) = self.build_messages(person, weight)
     if person_phone:
       weight = str(weight).replace(".", ",")
       url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
-      self.notifications.send(person_name, message, "weight", sound="Calypso.caf", url=url)
+      self.send_push(person_name, message, "weight", sound="Calypso.caf", url=url)
     if self.get_state("input_select.sleeping_scene") != "night":
       self.fire_event("yandex_speak_text", text=voice_message, room="bedroom")
 
@@ -46,7 +46,7 @@ class Weight(hass.Hass):
     selected_person = None
     for person in self.persons.get_all_persons():
       person_name = person["name"]
-      person_weight = float(self.get_state(f"input_number.{person_name}_weight"))
+      person_weight = self.get_float_state(f"input_number.{person_name}_weight")
       if abs(person_weight - weight) < weight_delta:
         weight_delta = abs(person_weight - weight)
         selected_person = person
@@ -56,8 +56,8 @@ class Weight(hass.Hass):
   def build_messages(self, person, weight):
     person_name = person["name"]
     person_name_ru = person["ru_name"]
-    person_state = self.storage.read(f"weight.{person_name}", attribute="all")
-    if (self.get_now_ts() - person_state["current_weight_ts"]) > 600:
+    person_state = self.read_storage(person_name, attribute="all")
+    if self.get_delta_ts(person_state["current_weight_ts"]) > 600:
       person_state = {
         "current_weight": weight,
         "current_weight_ts": self.get_now_ts(),
@@ -71,7 +71,7 @@ class Weight(hass.Hass):
         "prev_weight": person_state["prev_weight"],
         "prev_weight_ts": person_state["prev_weight_ts"]
       }
-    self.storage.write(f"weight.{person_name}", person_state, attribute="all")
+    self.write_storage(person_name, person_state, attribute="all")
     weight_change = (person_state["current_weight"] - person_state["prev_weight"]) * 1000
     weight_change = int(5 * round(weight_change / 5))
     weight_ts_change = person_state["current_weight_ts"] - person_state["prev_weight_ts"]

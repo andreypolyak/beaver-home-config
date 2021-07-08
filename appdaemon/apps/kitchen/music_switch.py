@@ -1,4 +1,4 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 STATIONS = [
   {
@@ -29,9 +29,10 @@ STATIONS = [
 ]
 
 
-class MusicSwitch(hass.Hass):
+class MusicSwitch(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_button_press, "sensor.kitchen_music_switch")
 
 
@@ -42,10 +43,10 @@ class MusicSwitch(hass.Hass):
     source = station["source"]
     name = station["name"]
     self.fire_event("yandex_speak_text", text=f"Включаю {name}", room="living_room")
-    self.call_service("media_player/media_pause", entity_id="media_player.kitchen_sonos")
-    self.call_service("media_player/media_pause", entity_id="media_player.living_room_sonos")
-    self.call_service("sonos/unjoin", entity_id="media_player.kitchen_sonos")
-    self.call_service("media_player/select_source", entity_id="media_player.kitchen_sonos", source=source)
+    self.media_pause("kitchen_sonos")
+    self.media_pause("living_room_sonos")
+    self.sonos_unjoin("kitchen_sonos")
+    self.select_source("kitchen_sonos", source)
 
 
   def find_station(self, button):

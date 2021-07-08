@@ -1,9 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class AC(hass.Hass):
+class AC(Base):
 
   def initialize(self):
+    super().initialize()
     self.handle = None
     self.handle_ts = 0
     self.check_handle = None
@@ -24,94 +25,86 @@ class AC(hass.Hass):
 
 
   def debounce(self, kwargs):
-    current_ts = self.get_now_ts()
-    if (current_ts - self.handle_ts) > 5:
-      self.handle_ts = current_ts
-      if self.timer_running(self.handle):
-        self.cancel_timer(self.handle)
+    if self.get_delta_ts(self.handle_ts) > 5:
+      self.handle_ts = self.get_now_ts()
+      self.cancel_handle(self.handle)
       self.change()
     else:
-      if self.timer_running(self.handle):
-        self.cancel_timer(self.handle)
+      self.cancel_handle(self.handle)
       self.handle = self.run_in(self.debounce, 5)
 
 
   def change(self):
-    try:
-      is_ac_on = self.get_state("binary_sensor.living_room_ac_door") == "on"
-      is_ac_off = self.get_state("binary_sensor.living_room_ac_door") == "off"
-      is_balcony_open = self.get_state("binary_sensor.living_room_balcony_door") == "on"
-      nearest_person_location = self.get_state("input_select.nearest_person_location")
-      living_room_temperature = float(self.get_state("sensor.living_room_temperature"))
-      living_room_humidity = float(self.get_state("sensor.living_room_humidity"))
-      balcony_temperature = float(self.get_state("sensor.balcony_temperature"))
-      is_no_off_timer_on = self.get_state("timer.ac_no_auto_off") == "active"
-      is_no_on_timer_on = self.get_state("timer.ac_no_auto_on") == "active"
+    living_room_temperature = self.get_float_state("sensor.living_room_temperature")
+    living_room_humidity = self.get_float_state("sensor.living_room_humidity")
+    balcony_temperature = self.get_float_state("sensor.balcony_temperature")
+    if living_room_temperature is None or living_room_humidity is None or balcony_temperature is None:
+      return
 
-      new_ac_state = None
-      change_reason = ""
+    is_no_off_timer_on = self.is_timer_active("ac_no_auto_off")
+    is_no_on_timer_on = self.is_timer_active("ac_no_auto_on")
 
-      if living_room_temperature >= 26 and balcony_temperature >= 15:
-        change_reason = "living_room_temperature >= 26 and balcony_temperature >= 15"
-        new_ac_state = True
-      elif living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60:
-        change_reason = "living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60"
-        new_ac_state = True
-      elif living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60:
-        change_reason = "living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60"
-        new_ac_state = True
-      elif living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60:
-        change_reason = "living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60"
-        new_ac_state = True
-      elif living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60:
-        change_reason = "living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60"
-        new_ac_state = True
-      elif living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60:
-        change_reason = "living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60"
-        new_ac_state = False
-      elif living_room_temperature < 23 and balcony_temperature >= 15 and living_room_humidity < 60:
-        change_reason = "living_room_temperature < 23 and balcony_temperature >= 20 and living_room_humidity < 60"
-        new_ac_state = False
-      elif living_room_temperature < 20 and balcony_temperature >= 25 and living_room_humidity >= 60:
-        change_reason = "living_room_temperature < 20 and balcony_temperature >= 25 and living_room_humidity >= 60"
-        new_ac_state = False
-      elif living_room_temperature < 22 and balcony_temperature >= 15 and living_room_humidity >= 60:
-        change_reason = "living_room_temperature < 22 and balcony_temperature >= 20 and living_room_humidity >= 60"
-        new_ac_state = False
+    new_ac_state = None
+    change_reason = ""
 
-      if balcony_temperature < 15:
-        change_reason = "balcony_temperature < 15"
-        new_ac_state = False
+    if living_room_temperature >= 26 and balcony_temperature >= 15:
+      change_reason = "living_room_temperature >= 26 and balcony_temperature >= 15"
+      new_ac_state = True
+    elif living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60:
+      change_reason = "living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60"
+      new_ac_state = True
+    elif living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60:
+      change_reason = "living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60"
+      new_ac_state = True
+    elif living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60"
+      new_ac_state = True
+    elif living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60"
+      new_ac_state = True
+    elif living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60:
+      change_reason = "living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60"
+      new_ac_state = False
+    elif living_room_temperature < 23 and balcony_temperature >= 15 and living_room_humidity < 60:
+      change_reason = "living_room_temperature < 23 and balcony_temperature >= 20 and living_room_humidity < 60"
+      new_ac_state = False
+    elif living_room_temperature < 20 and balcony_temperature >= 25 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature < 20 and balcony_temperature >= 25 and living_room_humidity >= 60"
+      new_ac_state = False
+    elif living_room_temperature < 22 and balcony_temperature >= 15 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature < 22 and balcony_temperature >= 20 and living_room_humidity >= 60"
+      new_ac_state = False
 
-      if nearest_person_location == "not_home":
-        change_reason = "no people at home"
-        new_ac_state = False
+    if balcony_temperature < 15:
+      change_reason = "balcony_temperature < 15"
+      new_ac_state = False
 
-      if is_no_off_timer_on:
-        change_reason = "AC was manually turned on"
-        new_ac_state = True
+    if self.get_nearest_person_location() == "not_home":
+      change_reason = "no people at home"
+      new_ac_state = False
 
-      if is_no_on_timer_on:
-        change_reason = "AC was manually turned off"
-        new_ac_state = False
+    if is_no_off_timer_on:
+      change_reason = "AC was manually turned on"
+      new_ac_state = True
 
-      if is_balcony_open:
-        change_reason = "balcony door is open"
-        new_ac_state = False
+    if is_no_on_timer_on:
+      change_reason = "AC was manually turned off"
+      new_ac_state = False
 
-      if new_ac_state is True and is_ac_off:
-        self.log(f"AC was turned on because: {change_reason}")
-        self.turn_on_ac()
-      elif new_ac_state is False and is_ac_on:
-        self.log(f"AC was turned off because: {change_reason}")
-        self.turn_off_ac()
-    except ValueError:
-      pass
+    if self.is_entity_on("binary_sensor.living_room_balcony_door"):
+      change_reason = "balcony door is open"
+      new_ac_state = False
+
+    if new_ac_state is True and self.is_entity_off("binary_sensor.living_room_ac_door"):
+      self.log(f"AC was turned on because: {change_reason}")
+      self.turn_on_ac()
+    elif new_ac_state is False and self.is_entity_on("binary_sensor.living_room_ac_door"):
+      self.log(f"AC was turned off because: {change_reason}")
+      self.turn_off_ac()
 
 
   def on_manual_toggle(self, event_name, data, kwargs):
-    is_ac_on = self.get_state("binary_sensor.living_room_ac_door") == "on"
-    if is_ac_on:
+    if self.is_entity_on("binary_sensor.living_room_ac_door"):
       self.manual_off()
     else:
       self.manual_on()
@@ -126,36 +119,34 @@ class AC(hass.Hass):
 
 
   def manual_on(self):
-    self.call_service("timer/cancel", entity_id="timer.ac_no_auto_on")
-    self.call_service("timer/start", entity_id="timer.ac_no_auto_off", duration=1800)
+    self.timer_cancel("ac_no_auto_on")
+    self.timer_start("ac_no_auto_off", 1800)
 
 
   def manual_off(self):
-    self.call_service("timer/cancel", entity_id="timer.ac_no_auto_off")
-    self.call_service("timer/start", entity_id="timer.ac_no_auto_on", duration=3600)
+    self.timer_cancel("ac_no_auto_off")
+    self.timer_start("ac_no_auto_on", 1800)
 
 
   def turn_on_ac(self):
-    self.call_service("script/turn_on", entity_id="script.ac_turn_on")
-    if self.timer_running(self.check_handle):
-      self.cancel_timer(self.check_handle)
+    self.turn_on_entity("script.ac_turn_on")
+    self.cancel_handle(self.check_handle)
     self.check_handle = self.run_in(self.check_state, 10, is_on=True)
 
 
   def turn_off_ac(self):
-    self.call_service("script/turn_on", entity_id="script.ac_turn_off")
-    if self.timer_running(self.check_handle):
-      self.cancel_timer(self.check_handle)
+    self.turn_on_entity("script.ac_turn_off")
+    self.cancel_handle(self.check_handle)
     self.check_handle = self.run_in(self.check_state, 10, is_on=False)
 
 
   def check_state(self, kwargs):
-    is_ac_on = self.get_state("binary_sensor.living_room_ac_door") == "on"
-    if self.timer_running(self.check_handle):
-      self.cancel_timer(self.check_handle)
-    if "is_on" in kwargs and kwargs["is_on"] and not is_ac_on:
+    self.cancel_handle(self.check_handle)
+    is_on = "is_on" in kwargs and kwargs["is_on"]
+    is_off = "is_on" in kwargs and not kwargs["is_on"]
+    if is_on and self.is_entity_off("binary_sensor.living_room_ac_door"):
       self.log("AC turned on (fix)")
-      self.call_service("script/turn_on", entity_id="script.ac_turn_on")
-    elif "is_on" in kwargs and not kwargs["is_on"] and is_ac_on:
+      self.turn_on_entity("script.ac_turn_on")
+    elif is_off and self.is_entity_on("binary_sensor.living_room_ac_door"):
       self.log("AC turned off (fix)")
-      self.call_service("script/turn_on", entity_id="script.ac_turn_off")
+      self.turn_on_entity("script.ac_turn_off")

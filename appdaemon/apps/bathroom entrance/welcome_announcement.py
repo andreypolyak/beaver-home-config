@@ -1,9 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class WelcomeAnnouncement(hass.Hass):
+class WelcomeAnnouncement(Base):
 
   def initialize(self):
+    super().initialize()
     self.scene_change_ts = 0
     self.listen_state(self.on_scene_change, "input_select.living_scene", old="away")
     self.listen_state(self.on_door_open, "binary_sensor.entrance_door", new="on", old="off")
@@ -14,7 +15,7 @@ class WelcomeAnnouncement(hass.Hass):
 
 
   def on_door_open(self, entity, attribute, old, new, kwargs):
-    if (self.get_now_ts() - self.scene_change_ts) < 600 or self.get_state("input_select.living_scene") == "away":
+    if self.get_delta_ts(self.scene_change_ts) < 600 or self.get_living_scene() == "away":
       self.run_in(self.notify, 5)
       self.scene_change_ts = 0
 

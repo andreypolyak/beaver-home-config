@@ -150,10 +150,9 @@ class LivingRoomLights(RoomLights):
 
 
   def should_turn_off_by_timer(self):
-    do_not_turn_off_scenes = ["dumb", "light_cinema", "dark_cinema", "party"]
-    for scene in do_not_turn_off_scenes:
-      if self.get_state(f"input_select.{self.zone}_scene") == scene:
-        return f"{scene}_scene"
+    living_scene = self.get_living_scene()
+    if living_scene in ["dumb", "light_cinema", "dark_cinema", "party"]:
+      return f"{living_scene}_scene"
     if self.is_person_inside():
       return "person_inside"
     if not self.is_auto_lights():
@@ -164,12 +163,12 @@ class LivingRoomLights(RoomLights):
   def restore_lights(self, kwargs):
     state = self.get_lights_state()
     mode = "restore"
-    current_scene = self.get_state("input_select.living_scene")
-    if current_scene in ["day", "dumb"]:
+    living_scene = self.get_living_scene()
+    if living_scene in ["day", "dumb"]:
       self.turn_preset("BRIGHT", mode, state)
-    elif current_scene in ["night", "party"]:
+    elif living_scene in ["night", "party"]:
       self.turn_preset("DARK", mode, state, min_delay=True)
-    elif current_scene in ["light_cinema"]:
+    elif living_scene in ["light_cinema"]:
       self.turn_preset("CINEMA", mode, state)
-    elif current_scene in ["away", "dark_cinema"]:
+    elif living_scene in ["away", "dark_cinema"]:
       self.turn_preset("OFF", mode, state)

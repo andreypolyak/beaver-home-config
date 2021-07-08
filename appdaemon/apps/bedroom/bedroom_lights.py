@@ -123,24 +123,24 @@ class BedroomLights(RoomLights):
 
 
   def should_turn_off_by_timer(self):
-    if self.get_state(f"input_select.{self.zone}_scene") == "dumb":
+    if self.get_sleeping_scene() == "dumb":
       return "dumb_scene"
-    if self.get_state("input_boolean.alarm_ringing") == "on":
+    if self.is_entity_on("input_boolean.alarm_ringing"):
       return "alarm_ringing"
-    if self.is_person_inside() and self.get_state("input_select.sleeping_scene") != "night":
+    if self.is_person_inside() and self.get_sleeping_scene() != "night":
       return "person_inside"
     if not self.is_auto_lights():
       return "auto_lights_off"
     if (
-      self.get_state("input_select.sleeping_scene") == "night"
-      and self.get_state("binary_sensor.bedroom_wardrobe_door") == "on"
+      self.get_sleeping_scene() == "night"
+      and self.is_entity_on("binary_sensor.bedroom_wardrobe_door")
     ):
       return "wardrobe_open"
     if (
-      self.get_state("binary_sensor.bedroom_bed_occupied") == "on"
-      and self.get_state("input_select.sleeping_scene") != "night"
+      self.is_entity_on("binary_sensor.bedroom_bed_occupied")
+      and self.get_sleeping_scene() != "night"
     ):
       return "bed_occupied"
-    if self.get_state("binary_sensor.bedroom_chair_occupancy") == "on":
+    if self.is_entity_on("binary_sensor.bedroom_chair_occupancy"):
       return "chair_occupied"
     return None

@@ -1,14 +1,15 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class BathroomFan(hass.Hass):
+class BathroomFan(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_bathroom_door, "binary_sensor.bathroom_door", immediate=True)
 
 
   def on_bathroom_door(self, entity, attribute, old, new, kwargs):
     if new == "off":
-      self.call_service("switch/turn_on", entity_id="switch.bathroom_fan")
+      self.turn_on_entity("switch.bathroom_fan")
     else:
-      self.call_service("switch/turn_off", entity_id="switch.bathroom_fan")
+      self.turn_off_entity("switch.bathroom_fan")

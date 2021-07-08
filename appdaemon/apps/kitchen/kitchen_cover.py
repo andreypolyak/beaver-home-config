@@ -1,9 +1,10 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class KitchenCover(hass.Hass):
+class KitchenCover(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
     self.listen_event(self.on_close_cover, "close_kitchen_cover")
     self.listen_event(self.on_partly_open_cover, "partly_open_kitchen_cover")
@@ -17,27 +18,22 @@ class KitchenCover(hass.Hass):
 
 
   def on_cover_change(self, entity, attribute, old, new, kwargs):
-    if self.timer_running(self.handle):
-      self.cancel_timer(self.handle)
-    self.call_service("input_boolean/turn_on", entity_id="input_boolean.kitchen_cover_active")
+    self.cancel_handle(self.handle)
+    self.turn_on_entity("input_boolean.kitchen_cover_active")
     self.handle = self.run_in(self.turn_off_cover_active, 10)
 
 
   def turn_off_cover_active(self, kwargs):
-    self.call_service("input_boolean/turn_off", entity_id="input_boolean.kitchen_cover_active")
+    self.turn_off_entity("input_boolean.kitchen_cover_active")
 
 
   def on_cinema_session_off(self, entity, attribute, old, new, kwargs):
-    living_scene = self.get_state("input_select.living_scene")
-    cover_position = self.get_state("cover.kitchen_cover", attribute="current_position")
-    if living_scene not in ["night", "away", "party"] and cover_position != "100":
+    if self.get_living_scene() not in ["night", "away", "party"]:
       self.open_cover()
 
 
   def on_motion(self, entity, attribute, old, new, kwargs):
-    living_scene = self.get_state("input_select.living_scene")
-    cover_position = self.get_state("cover.kitchen_cover", attribute="current_position")
-    if living_scene == "night" and cover_position == "0":
+    if self.get_living_scene() == "night" and self.get_cover_position() == "0":
       self.partly_open_cover()
 
 
@@ -63,15 +59,25 @@ class KitchenCover(hass.Hass):
 
 
   def close_cover(self):
-    if self.get_state("cover.kitchen_cover", attribute="current_position") != "0":
-      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=0)
+    if self.get_cover_position() != "0":
+      self.set_cover_position("kitchen_cover", 0)
+      return True
+    return False
 
 
   def open_cover(self):
-    if self.get_state("cover.kitchen_cover", attribute="current_position") != "100":
-      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=100)
+    if self.get_cover_position() != "100":
+      self.set_cover_position("kitchen_cover", 100)
+      return True
+    return False
 
 
   def partly_open_cover(self):
-    if self.get_state("cover.kitchen_cover", attribute="current_position") != "15":
-      self.call_service("cover/set_cover_position", entity_id="cover.kitchen_cover", position=15)
+    if self.get_cover_position() != "15":
+      self.set_cover_position("kitchen_cover", 15)
+      return True
+    return False
+
+
+  def get_cover_position(self):
+    return self.get_state("cover.kitchen_cover", attribute="current_position")

@@ -1,30 +1,20 @@
-import appdaemon.plugins.hass.hassapi as hass
+from base import Base
 
 
-class Cooler(hass.Hass):
+class Cooler(Base):
 
   def initialize(self):
+    super().initialize()
     self.listen_state(self.on_change, "light.ha_group_kitchen", immediate=True)
     self.listen_state(self.on_change, "input_select.living_scene")
     self.listen_state(self.on_change, "input_select.nearest_person_location")
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
-    nearest_person_location = self.get_state("input_select.nearest_person_location")
-    lights_on = self.get_state("light.ha_group_kitchen") == "on"
-    living_scene = self.get_state("input_select.living_scene")
     if (
-      (nearest_person_location != "not_home" and living_scene == "away")
-      or (living_scene == "night" and not lights_on)
+      (self.get_nearest_person_location() != "not_home" and self.get_living_scene() == "away")
+      or (self.get_living_scene() == "night" and self.is_entity_off("light.ha_group_kitchen"))
     ):
-      self.turn_off_cooler()
+      self.turn_off_entity("switch.kitchen_cooler_plug")
     else:
-      self.turn_on_cooler()
-
-
-  def turn_on_cooler(self):
-    self.call_service("switch/turn_on", entity_id="switch.kitchen_cooler_plug")
-
-
-  def turn_off_cooler(self):
-    self.call_service("switch/turn_off", entity_id="switch.kitchen_cooler_plug")
+      self.turn_on_entity("switch.kitchen_cooler_plug")

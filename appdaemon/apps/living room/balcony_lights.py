@@ -57,7 +57,6 @@ class BalconyLights(RoomLights):
   def on_night(self, scene, mode, state, new=None, old=None, entity=None):
     if mode == "new_scene":
         self.turn_off_all(state)
-      # self.turn_preset_if_on("DARK", mode, state)
     elif (
       mode in ["door_sensor", "illuminance_sensor"]
       and new == "on"
