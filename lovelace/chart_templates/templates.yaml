@@ -72,6 +72,9 @@ co2:
 
 temperature:
   config_templates: climate
+  apex_config:
+    chart:
+      height: 160px
   series:
     - name: Humidity
       yaxis_id: humidity
@@ -92,6 +95,67 @@ temperature:
           value: 70
         - color: "#2a5674"
           value: 90
+    - name: Temperature
+      yaxis_id: temperature
+      float_precision: 1
+      color: "#de8a5a"
+      color_threshold:
+        - color: "#008080"
+          value: -100
+        - color: "#70a494"
+          value: 5
+        - color: "#b4c8a8"
+          value: 10
+        - color: "#f6edbd"
+          value: 15
+        - color: "#edbb8a"
+          value: 20
+        - color: "#de8a5a"
+          value: 25
+        - color: "#ca562c"
+          value: 30
+  yaxis:
+    - id: humidity
+      opposite: false
+      apex_config:
+        decimalsInFloat: 0
+        tickAmount: 3
+    - id: temperature
+      opposite: true
+      apex_config:
+        decimalsInFloat: 1
+        tickAmount: 3
+
+outside_temperature:
+  config_templates: climate
+  apex_config:
+    chart:
+      height: 200px
+  series:
+    - name: Humidity
+      yaxis_id: humidity
+      float_precision: 0
+      color: "#85c4c9"
+      color_threshold:
+        - color: "#d1eeea"
+          value: 0
+        - color: "#a8dbd9"
+          value: 30
+        - color: "#85c4c9"
+          value: 40
+        - color: "#68abb8"
+          value: 50
+        - color: "#4f90a6"
+          value: 60
+        - color: "#3b738f"
+          value: 70
+        - color: "#2a5674"
+          value: 90
+    - name: Temperature
+      yaxis_id: temperature
+      float_precision: 1
+      color: "#828282"
+      offset: -1d
     - name: Temperature
       yaxis_id: temperature
       float_precision: 1

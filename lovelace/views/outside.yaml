@@ -37,8 +37,9 @@ cards:
         template: header
         name: History
       - type: custom:apexcharts-card
-        config_templates: temperature
+        config_templates: outside_temperature
         series:
           - entity: sensor.balcony_humidity
+          - entity: sensor.balcony_temperature
           - entity: sensor.balcony_temperature
       - !include /config/lovelace/elements/footer.yaml
