@@ -19,14 +19,19 @@ cards:
       - !include /config/lovelace/elements/outside_lights_details.yaml
       - type: custom:button-card
         template: header
-        name: Hourly Weather
+        name: Hourly Forecast
       - type: weather-forecast
         entity: weather.home_hourly
       - type: custom:button-card
         template: header
-        name: Weekly Weather
+        name: Weekly Forecast
       - type: weather-forecast
         entity: weather.home
+        style:
+          .: |
+            .content {
+              display: none !important;
+            }
       - type: custom:button-card
         template: header
         name: Sun
