@@ -149,4 +149,4 @@ class BalconyLights(RoomLights):
 
 
   def is_balcony_dark(self):
-    return self.get_state("binary_sensor.balcony_dark") == "on"
+    return self.is_entity_on("binary_sensor.balcony_dark")
