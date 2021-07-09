@@ -7,7 +7,7 @@ class Location(Base):
     super().initialize()
     self.init_storage("location", "lock_unlocked_ts", 0)
     self.restart_ts = self.get_now_ts()
-    for person in self.persons.get_all_persons(with_phone=True):
+    for person in self.get_all_persons(with_phone=True):
       person_name = person["name"]
       person_phone = person["phone"]
       self.listen_state(self.on_tracker_change, f"device_tracker.wifi_{person_phone}")
@@ -31,13 +31,13 @@ class Location(Base):
 
   def update_unlocked_ts(self):
     self.write_storage("lock_unlocked_ts", self.get_now_ts())
-    persons = self.persons.get_all_persons(with_location=True)
+    persons = self.get_all_persons(with_location=True)
     for person in persons:
       self.update_person_location(person)
 
 
   def on_tracker_change(self, entity, attribute, old, new, kwargs):
-    person = self.persons.get_person_from_entity_name(entity)
+    person = self.get_person_from_entity_name(entity)
     self.update_person_location(person)
 
 
@@ -96,7 +96,7 @@ class Location(Base):
 
 
   def on_location_change(self, entity, attribute, old, new, kwargs):
-    person_name = self.persons.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_name_from_entity_name(entity)
     self.log(f"New location for {person_name}: {new}. Was: {old}")
     self.set_nearest_person_location()
 
@@ -104,7 +104,7 @@ class Location(Base):
   def set_nearest_person_location(self):
     nearest_location = "not_home"
     for location in ["not_home", "district", "yard", "downstairs", "home"]:
-      for entity in self.persons.get_all_person_location_entities():
+      for entity in self.get_all_person_location_entities():
         if self.get_state(entity) == location:
           nearest_location = location
     self.select_option("nearest_person_location", nearest_location)

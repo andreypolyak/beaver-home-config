@@ -262,3 +262,35 @@ class Base(hass.Hass):
     if value in ["unavailable", "unknown", "None"]:
       return True
     return False
+
+
+  def get_all_persons(self, *args, **kwargs):
+    return self.persons.get_all_persons(*args, **kwargs)
+
+
+  def get_all_person_names(self, *args, **kwargs):
+    return self.persons.get_all_person_names(*args, **kwargs)
+
+
+  def get_all_person_location_entities(self, *args, **kwargs):
+    return self.persons.get_all_person_location_entities(*args, **kwargs)
+
+
+  def get_all_person_names_except_provided(self, *args, **kwargs):
+    return self.persons.get_all_person_names_except_provided(*args, **kwargs)
+
+
+  def get_person_name_from_entity_name(self, *args, **kwargs):
+    return self.persons.get_person_name_from_entity_name(*args, **kwargs)
+
+
+  def get_person_from_entity_name(self, *args, **kwargs):
+    return self.persons.get_person_from_entity_name(*args, **kwargs)
+
+
+  def get_all_person_names_with_location(self, *args, **kwargs):
+    return self.persons.get_all_person_names_with_location(*args, **kwargs)
+
+
+  def get_admin_persons(self, *args, **kwargs):
+    return self.persons.get_admin_persons(*args, **kwargs)

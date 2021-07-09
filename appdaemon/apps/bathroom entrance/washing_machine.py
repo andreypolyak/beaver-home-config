@@ -13,7 +13,7 @@ class WashingMachine(Base):
     self.listen_state(self.on_action, "input_select.washing_machine_status", new="full")
     self.listen_state(self.on_action, "input_select.sleeping_scene")
     self.listen_state(self.on_action, "input_select.living_scene")
-    for entity in self.persons.get_all_person_location_entities():
+    for entity in self.get_all_person_location_entities():
       self.listen_state(self.on_action, entity, new="home")
     self.run_every(self.action, "now", 600)
 

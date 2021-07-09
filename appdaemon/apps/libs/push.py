@@ -5,7 +5,7 @@ class Push(Base):
 
   def initialize(self):
     super().initialize()
-    for person in self.persons.get_all_persons(with_phone=True):
+    for person in self.get_all_persons(with_phone=True):
       person_name = person["name"]
       self.init_storage("push", person_name, {})
     self.init_storage("push", "failed", {})
@@ -121,22 +121,22 @@ class Push(Base):
 
 
   def __get_person_list(self, to):
-    all_persons = self.persons.get_all_persons(with_location=True)
+    all_persons = self.get_all_persons(with_location=True)
     persons = []
     if isinstance(to, list):
       for person_name in to:
         if person_name in all_persons:
           persons.append(all_persons[person_name])
     elif to == "admin":
-      persons = self.persons.get_admin_persons()
+      persons = self.get_admin_persons()
     elif to == "home_or_all":
-      persons_at_home = self.persons.get_persons_at_home()
+      persons_at_home = self.get_all_person_names_with_location("home")
       if len(persons_at_home) > 0:
         persons = persons_at_home
       else:
-        persons = self.persons.get_all_persons(with_location=True)
+        persons = self.get_all_persons(with_location=True)
     elif to == "home_or_none":
-      persons_at_home = self.persons.get_persons_at_home()
+      persons_at_home = self.get_all_person_names_with_location("home")
       if len(persons_at_home) > 0:
         persons = persons_at_home
     elif isinstance(to, str):

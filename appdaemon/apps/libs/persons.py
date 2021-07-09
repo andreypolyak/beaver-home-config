@@ -31,11 +31,7 @@ class Persons(Base):
     super().initialize()
 
 
-  def get_info(self, name):
-    return PERSONS[name]
-
-
-  def get_all_persons(self, with_phone=False, with_alarm=False, with_location=False):
+  def get_all_persons(self, with_phone=False, with_alarm=False, with_location=False, location=None):
     persons = []
     for _, person in PERSONS.items():
       person_name = person["name"]
@@ -108,31 +104,6 @@ class Persons(Base):
       if self.entity_exists(entity) and self.get_state(entity) == location:
         person_names.append(person["name"])
     return person_names
-
-
-  def update_location(self, to):
-    persons = []
-    if isinstance(to, list):
-      for person_name in to:
-        if person_name in PERSONS:
-          persons.append(PERSONS[person_name])
-    elif isinstance(to, str):
-      if to in PERSONS:
-        persons.append(PERSONS[to])
-    for person in persons:
-      person_phone = person["phone"]
-      if person_phone:
-        self.call_service(f"notify/mobile_app_{person_phone}", message="request_location_update")
-
-
-  def get_persons_at_home(self):
-    persons_at_home = []
-    for _, person in PERSONS.items():
-      person_name = person["name"]
-      entity = f"input_select.{person_name}_location"
-      if self.entity_exists(entity) and self.get_state(entity) == "home":
-        persons_at_home.append(person)
-    return persons_at_home
 
 
   def get_admin_persons(self):
