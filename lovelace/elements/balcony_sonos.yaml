@@ -1,0 +1,6 @@
+type: custom:mini-media-player
+entity: media_player.sonos_move
+artwork: material
+hide:
+  icon: true
+  power: true

@@ -10,5 +10,8 @@ bedroom_sonos_playing:
 living_room_sonos_playing:
   name: Living Room Sonos Playing
 
+sonos_move_playing:
+  name: Sonos Move Playing
+
 living_room_tv_playing:
   name: Living Room TV Playing

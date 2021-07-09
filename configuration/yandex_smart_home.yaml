@@ -14,6 +14,7 @@ filter:
     - media_player.bathroom_sonos
     - media_player.kitchen_sonos
     - media_player.bedroom_sonos
+    - media_player.sonos_move
     - script.snapshot_send
     - input_boolean.scene_sleeping_day
     - input_boolean.scene_sleeping_night
@@ -129,6 +130,10 @@ entity_config:
 
   media_player.bedroom_sonos:
     room: Спальня
+    name: Колонки
+
+  media_player.sonos_move:
+    room: Балкон
     name: Колонки
 
   switch.bathroom_fan:

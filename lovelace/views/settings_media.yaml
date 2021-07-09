@@ -13,6 +13,7 @@ cards:
       - !include /config/lovelace/elements/living_room_sonos.yaml
       - !include /config/lovelace/elements/kitchen_sonos.yaml
       - !include /config/lovelace/elements/bedroom_sonos.yaml
+      - !include /config/lovelace/elements/balcony_sonos.yaml
       - type: custom:auto-entities
         show_empty: false
         card:

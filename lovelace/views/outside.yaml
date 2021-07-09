@@ -19,6 +19,10 @@ cards:
       - !include /config/lovelace/elements/outside_lights_details.yaml
       - type: custom:button-card
         template: header
+        name: Speakers
+      - !include /config/lovelace/elements/balcony_sonos.yaml
+      - type: custom:button-card
+        template: header
         name: Hourly Forecast
       - type: weather-forecast
         entity: weather.home_hourly

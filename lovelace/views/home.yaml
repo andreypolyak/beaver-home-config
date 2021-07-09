@@ -169,8 +169,7 @@ cards:
         conditions:
           - entity: input_select.living_scene
             state: party
-        card:
-          !include /config/lovelace/elements/party.yaml
+        card: !include /config/lovelace/elements/party.yaml
       - type: conditional
         conditions:
           - entity: input_boolean.living_room_sonos_playing
@@ -226,6 +225,17 @@ cards:
               template: header
               name: Bedroom Speakers
             - !include /config/lovelace/elements/bedroom_sonos.yaml
+      - type: conditional
+        conditions:
+          - entity: input_boolean.sonos_move_playing
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Balcony Speakers
+            - !include /config/lovelace/elements/balcony_sonos.yaml
       - type: conditional
         conditions:
           - entity: input_boolean.christmas_season

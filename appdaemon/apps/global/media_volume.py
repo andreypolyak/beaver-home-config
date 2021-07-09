@@ -33,6 +33,14 @@ MEDIA_PLAYERS = {
     },
     "check_if_playing": ["input_boolean.bedroom_sonos_playing"]
   },
+  "sonos_move": {
+    "default_volume": 0.2,
+    "zone": "sleeping",
+    "scene_volumes": {
+      "night": 0.1
+    },
+    "check_if_playing": ["input_boolean.sonos_move_playing"]
+  },
   "living_room_yandex_station": {
     "default_volume": 1,
     "zone": "living",
