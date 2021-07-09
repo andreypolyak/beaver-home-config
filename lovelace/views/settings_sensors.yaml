@@ -17,7 +17,7 @@ cards:
           include:
             - entity_id: binary_sensor.*_motion
               options:
-                secondary_info: last-updated
+                secondary_info: last-changed
         sort:
           method: entity_id
       - type: custom:button-card
@@ -31,7 +31,7 @@ cards:
           include:
             - entity_id: image_processing.*
               options:
-                secondary_info: last-updated
+                secondary_info: last-changed
         sort:
           method: entity_id
       - type: custom:button-card
@@ -45,7 +45,7 @@ cards:
           include:
             - entity_id: binary_sensor.*_door
               options:
-                secondary_info: last-updated
+                secondary_info: last-changed
         sort:
           method: entity_id
       - type: custom:button-card
@@ -59,7 +59,7 @@ cards:
           include:
             - entity_id: binary_sensor.*occupancy*
               options:
-                secondary_info: last-updated
+                secondary_info: last-changed
       - type: custom:button-card
         template: header
         name: Vibration Sensors
@@ -71,5 +71,5 @@ cards:
           include:
             - entity_id: sensor.*vibration
               options:
-                secondary_info: last-updated
+                secondary_info: last-changed
       - !include /config/lovelace/elements/footer.yaml
