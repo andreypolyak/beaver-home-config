@@ -21,11 +21,13 @@ person:
           + variables.person.slice(1) + "'s phone?";
       ]]]
   state:
-    - value: home
-      operator: "=="
+    - value: >
+        [[[ return states["input_select." + variables.person + "_location"].state == "home"; ]]]
+      operator: template
       color: var(--paper-item-icon-active-color)
-    - value: home
-      operator: "!="
+    - value: >
+        [[[ return states["input_select." + variables.person + "_location"].state != "home"; ]]]
+      operator: template
       color: var(--paper-card-background-color)
   styles:
     card:
