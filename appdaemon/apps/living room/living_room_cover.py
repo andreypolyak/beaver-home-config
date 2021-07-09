@@ -73,21 +73,21 @@ class LivingRoomCover(Base):
 
 
   def on_balcony_door_close(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() in ["night", "light_cinema", "dark_cinema", "party"] or self.was_closed:
+    if self.get_living_scene() in ["away", "night", "light_cinema", "dark_cinema", "party"] or self.was_closed:
       self.close_living_room_cover()
 
 
   def close_living_room_cover(self):
     if self.is_entity_off("binary_sensor.living_room_balcony_door"):
-      self.log("Cover closing")
+      self.log("Close cover")
       self.close_cover("living_room_cover")
     else:
-      self.log("Cover not closing because it's aready closed")
+      self.log("Cover will not be closed because balcony door is open")
 
 
   def open_living_room_cover(self):
     if self.is_cover_closed():
-      self.log("Cover openning")
+      self.log("Open cover")
       self.open_cover("living_room_cover")
     else:
       self.log("Cover not openning because it's aready open")
