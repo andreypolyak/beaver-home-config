@@ -18,7 +18,7 @@ class Presence(Base):
 
 
   def on_nearest_person_change(self, entity, attribute, old, new, kwargs):
-    if new != "home" and self.get_living_scene() != "away" and self.is_entity_off("input_boolean.guest_mode"):
+    if new == "not_home" and self.get_living_scene() != "away" and self.is_entity_off("input_boolean.guest_mode"):
       self.log(f"Change scene to Away because nearest person changed location to {new}")
       self.set_living_scene("away")
 

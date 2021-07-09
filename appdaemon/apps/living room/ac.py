@@ -8,7 +8,7 @@ class AC(Base):
     self.handle = None
     self.handle_ts = 0
     self.check_handle = None
-    self.listen_state(self.on_change, "input_select.nearest_person_location", immediate=True)
+    self.listen_state(self.on_change, "input_select.living_scene", immediate=True)
     self.listen_state(self.on_change, "binary_sensor.living_room_balcony_door")
     self.listen_state(self.on_change, "sensor.balcony_temperature")
     self.listen_state(self.on_change, "sensor.living_room_temperature")
@@ -79,8 +79,8 @@ class AC(Base):
       change_reason = "balcony_temperature < 15"
       new_ac_state = False
 
-    if self.get_nearest_person_location() == "not_home":
-      change_reason = "no people at home"
+    if self.get_living_scene() == "away":
+      change_reason = "away scene"
       new_ac_state = False
 
     if is_no_off_timer_on:
