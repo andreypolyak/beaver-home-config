@@ -33,6 +33,11 @@ class CircadianUpdate(Base):
           new_saturation = old_saturation + SAT_STEP
         elif new_saturation < old_saturation:
           new_saturation = old_saturation - SAT_STEP
+    # Hacky way to prevent ikea bulbs from turning red/pink when saturation is 42
+    if new_saturation == 42 and old_saturation > 42:
+      new_saturation = 40
+    elif new_saturation == 42 and old_saturation < 42:
+      new_saturation = 44
     if new_saturation != old_saturation:
       self.set_saturation(new_saturation, kelvin)
 
@@ -40,7 +45,7 @@ class CircadianUpdate(Base):
   def calculate_saturation(self):
     lux = self.get_int_state("sensor.balcony_illuminance")
     if lux is None:
-      self.log("Can't read balcon illuminance value")
+      self.log("Can't read balcony illuminance value")
       return None
     last_seen = self.get_int_state("sensor.balcony_illuminance", attribute="last_seen")
     if last_seen is None:
