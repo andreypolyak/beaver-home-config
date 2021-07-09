@@ -32,11 +32,11 @@ window_device:
   state:
     - value: >
         [[[ return states["sensor." + variables.room + "_window"].state != "STOPPED"; ]]]
-      operator: "template"
+      operator: template
       color: var(--paper-item-icon-active-color)
     - value: >
         [[[ return states["sensor." + variables.room + "_window"].state == "STOPPED"; ]]]
-      operator: "template"
+      operator: template
       color: var(--paper-card-background-color)
   custom_fields:
     position: >

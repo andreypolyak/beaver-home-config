@@ -21,11 +21,11 @@ cover_device:
   state:
     - value: >
         [[[ return states["input_boolean." + variables.room + "_cover_active"].state == "on"; ]]]
-      operator: "template"
+      operator: template
       color: var(--paper-item-icon-active-color)
     - value: >
         [[[ return states["input_boolean." + variables.room + "_cover_active"].state != "on"; ]]]
-      operator: "template"
+      operator: template
       color: var(--paper-card-background-color)
   variables:
     room: ""
