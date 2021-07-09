@@ -13,13 +13,18 @@ class BedSwitch(Base):
   def on_bedroom_switch_change(self, entity, attribute, old, new, kwargs):
     if new not in ["on", "brightness_move_up"]:
       return
-    if self.is_entity_on("input_boolean.alarm_ringing") and self.is_entity_on("input_boolean.alarm_snooze_allowed"):
-      self.fire_event("custom_event", custom_event_data="snooze_alarm")
-      self.turn_off_entity("input_boolean.alarm_snooze_allowed")
+    if self.is_entity_on("input_boolean.alarm_ringing"):
+      if self.is_entity_on("input_boolean.alarm_snooze_allowed"):
+        self.fire_event("custom_event", custom_event_data="snooze_alarm")
+        self.turn_off_entity("input_boolean.alarm_snooze_allowed")
+      else:
+        text = "Откладывать будильник больше нельзя!"
+        self.fire_event("yandex_speak_text", text=text, room="bedroom")
       return
     if new == "on":
-      if self.get_sleeping_scene != "night":
+      if self.get_sleeping_scene() != "night":
         self.log("Turning night mode in Bedroom")
+        self.fire_event("close_bedroom_cover")
         self.set_sleeping_scene("night")
       else:
         self.turn_night_mode_everywhere()
@@ -53,4 +58,4 @@ class BedSwitch(Base):
     self.turn_off_all_lights({})
     self.fire_event("close_bedroom_cover")
     self.fire_event("close_living_room_cover")
-    self.fire_event("partly_open_kitchen_cover")
+    self.fire_event("close_kitchen_cover")

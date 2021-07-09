@@ -174,4 +174,4 @@ class AlarmManager(Base):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
         all_alarms_off = False
     if all_alarms_off:
-      self.turn_off_entity("input_boolean.alarm_snooze_allowed")
+      self.turn_on_entity("input_boolean.alarm_snooze_allowed")
