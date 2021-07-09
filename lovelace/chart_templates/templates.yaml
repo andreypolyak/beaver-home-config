@@ -25,6 +25,7 @@ weight:
   all_series_config:
     show:
       extremas: true
+    float_precision: 2
 
 climate:
   config_templates: base
