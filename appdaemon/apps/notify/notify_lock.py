@@ -57,7 +57,7 @@ class NotifyLock(Base):
 
 
   def check_lock_after_door_open(self, kwargs):
-    if self.get_state("lock.entrance_lock") == "locked" and self.get_state("binary_sensor.entrance_door") == "on":
+    if self.get_state("lock.entrance_lock") == "locked" and self.is_entity_on("binary_sensor.entrance_door"):
       self.log("Entrance locked but door is opened")
       message = "🔓 Lock stuck in the locked state. Trying to fix it now"
       self.send_push("admin", message, "lock_repair", sound="Noir.caf", url="/lovelace/bathroom_entrance")
