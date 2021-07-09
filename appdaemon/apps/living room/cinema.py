@@ -8,33 +8,40 @@ class Cinema(Base):
     default = {
       "dark_cinema_turned_on_ts": 0,
       "dark_cinema_turned_off_ts": 0,
-      "scene_automatically_changed_ts": 0,
+      "auto_scene_change_ts": 0,
       "media_played_ever_in_session": False,
       "auto_cinema_session_disabled": False
     }
     self.init_storage("cinema", "data", default)
-
-    event = "mobile_app_notification_action"
-    self.listen_event(self.on_dark_cinema_notification_action, event=event, action="DARK_CINEMA_TURN_ON")
+    self.listen_event(self.on_dark_cinema_action, event="mobile_app_notification_action", action="DARK_CINEMA_TURN_ON")
     self.listen_state(self.on_tv_turned_on, "binary_sensor.living_room_tv", new="on", old="off")
     self.listen_state(self.on_tv_turned_off, "binary_sensor.living_room_tv", new="off", old="on")
     self.listen_state(self.on_cinema_session_turned_off, "input_boolean.cinema_session", new="off", old="on")
     self.listen_state(self.on_apple_tv_change, "media_player.living_room_apple_tv", attribute="all")
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
+    motion_sensors = self.find_motion_sensors()
+    for motion_sensor in motion_sensors:
+      self.listen_state(self.on_motion, motion_sensor, new="on", old="off")
+
+
+  def find_motion_sensors(self):
+    motion_sensors = []
     binary_sensors = self.get_state("binary_sensor")
     for binary_sensor in binary_sensors:
       if (
         binary_sensor.endswith("_motion")
         and not binary_sensor.startswith("binary_sensor.bedroom")
-        and binary_sensor not in ["binary_sensor.living_room_front_motion", "binary_sensor.living_room_middle_motion"]
+        and not binary_sensor.endswith("living_room_front_motion")
+        and not binary_sensor.endswith("living_room_middle_motion")
       ):
-        self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
+        motion_sensors.append(binary_sensor)
+    return motion_sensors
 
 
   def on_living_scene_change(self, entity, attribute, old, new, kwargs):
-    scene_automatically_changed_ts = self.read_storage("data", attribute="scene_automatically_changed_ts")
+    auto_scene_change_ts = self.read_storage("data", attribute="auto_scene_change_ts")
     if new != "dark_cinema":
-      if self.get_delta_ts(scene_automatically_changed_ts) > 1:
+      if self.get_delta_ts(auto_scene_change_ts) > 1:
         self.turn_off_entity("input_boolean.cinema_session")
       self.write_storage("data", self.get_now_ts(), attribute="dark_cinema_turned_off_ts")
     if new in ["night", "away"]:
@@ -55,7 +62,7 @@ class Cinema(Base):
     universal_tv_source = self.get_state("input_select.current_universal_tv_source")
     if (
       self.get_state("media_player.living_room_apple_tv") == "paused"
-      and self.get_state("input_select.living_scene") == "dark_cinema"
+      and self.get_living_scene() == "dark_cinema"
       and self.get_delta_ts(dark_cinema_turned_on_ts) > 5
       and media_played_ever_in_session
       and universal_tv_source == "apple_tv"
@@ -108,7 +115,7 @@ class Cinema(Base):
       self.write_storage("data", True, attribute="media_played_ever_in_session")
 
 
-  def on_dark_cinema_notification_action(self, event_name, data, kwargs):
+  def on_dark_cinema_action(self, event_name, data, kwargs):
     self.turn_on_scene("dark_cinema")
 
 
@@ -138,7 +145,7 @@ class Cinema(Base):
 
 
   def turn_on_scene(self, scene):
-    self.write_storage("data", self.get_now_ts(), attribute="scene_automatically_changed_ts")
+    self.write_storage("data", self.get_now_ts(), attribute="auto_scene_change_ts")
     self.set_living_scene(scene)
 
 
