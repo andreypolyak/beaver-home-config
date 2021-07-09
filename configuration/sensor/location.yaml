@@ -29,3 +29,41 @@
           {{ admin_area }}, {{ locality }}, {{ name }}
         {%- endif %}
       friendly_name: Katya Geocoded Location
+
+- platform: template
+  sensors:
+    andrey_display_location:
+      value_template: >
+        {% set location = states("input_select.andrey_location") %}
+        {% set zone = states("device_tracker.ha_andrey_iphone_11_pro_max") %}
+        {% set proximity = states("proximity.ha_andrey_iphone_11_pro_max_home")|int %}
+
+        {% if location != "not_home" %}
+          {{ location|title }}
+        {% elif zone != "not_home" %}
+          {{ zone|title }}
+        {% elif proximity < 1000 %}
+          {{ proximity }} m
+        {% else %}
+          {{ (proximity / 1000)|int }} km
+        {% endif %}
+      friendly_name: Andrey Display Location
+
+- platform: template
+  sensors:
+    katya_display_location:
+      value_template: >
+        {% set location = states("input_select.katya_location") %}
+        {% set zone = states("device_tracker.ha_katya_iphone_12_pro_max") %}
+        {% set proximity = states("proximity.ha_katya_iphone_12_pro_max_home")|int %}
+
+        {% if location != "not_home" %}
+          {{ location|title }}
+        {% elif zone != "not_home" %}
+          {{ zone|title }}
+        {% elif proximity < 1000 %}
+          {{ proximity }} m
+        {% else %}
+          {{ (proximity / 1000)|int }} km
+        {% endif %}
+      friendly_name: Katya Display Location
