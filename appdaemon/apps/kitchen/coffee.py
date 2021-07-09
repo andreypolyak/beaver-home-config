@@ -16,7 +16,7 @@ class Coffee(Base):
 
   def on_start_coffee(self, entity, attribute, old, new, kwargs):
     self.log("Coffee was turned on")
-    self.turn_off_entity("input_boolean.coffee_prepared", "")
+    self.turn_off_entity("input_boolean.coffee_prepared")
     self.timer_start("coffee", 7200)
 
 
