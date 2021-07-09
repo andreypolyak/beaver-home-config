@@ -67,5 +67,5 @@ cards:
           haptic: success
   - type: entities
     entities:
-      - entity: input_select.vacuum_autoclean_state
+      - entity: input_select.vacuum_state
       - entity: input_datetime.vacuum_last_cleaned

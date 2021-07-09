@@ -32,8 +32,8 @@
 
 - platform: template
   sensors:
-    night_scene_in_living_zone_enough:
-      friendly_name: Night Scene in Living Zone Enough
+    night_scene_enough:
+      friendly_name: Night Scene Enough
       value_template: >
         {{ states("sensor.night_scene_in_living_zone")|float >= 6 }}
 
@@ -51,7 +51,7 @@
       value_template: >
         {{
           states("vacuum.rockrobo") != "docked"
-          or states("input_select.vacuum_autoclean_state") != "idle"
+          or states("input_select.vacuum_state") != "idle"
         }}
 
 - platform: template

@@ -22,7 +22,7 @@ class WelcomeAnnouncement(Base):
 
   def notify(self, kwargs):
     washing_done = self.get_state("input_select.washing_machine_status") == "full"
-    vacuum_state = self.get_state("input_select.vacuum_autoclean_state")
+    vacuum_state = self.get_state("input_select.vacuum_state")
     hour = int(self.datetime().strftime("%H"))
     minute = self.datetime().strftime("%M")
     text = ""

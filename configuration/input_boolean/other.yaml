@@ -22,8 +22,8 @@ party_tv:
 
 # Other
 
-vacuum_auto_clean:
-  name: Auto Clean Enabled
+vacuum_auto:
+  name: Vacuum Auto
 
 christmas_season:
   name: Christmas Season

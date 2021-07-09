@@ -27,6 +27,6 @@ cards:
       - type: history-graph
         hours_to_show: 24
         entities:
-          - input_select.vacuum_autoclean_state
+          - input_select.vacuum_state
           - vacuum.rockrobo
       - !include /config/lovelace/elements/footer.yaml

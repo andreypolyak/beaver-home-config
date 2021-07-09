@@ -46,8 +46,8 @@ current_universal_tv_source:
     - apple_tv
     - playstation_4
 
-vacuum_autoclean_state:
-  name: Vacuum Clean State
+vacuum_state:
+  name: Vacuum State
   options:
     - idle
     - error
