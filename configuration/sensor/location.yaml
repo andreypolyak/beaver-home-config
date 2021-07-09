@@ -7,11 +7,11 @@
         {% set sub_locality = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Sub Locality") %}
         {% set name = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Name") %}
 
-        {% if locality == "Moscow" -%}
+        {% if locality == "Moscow" %}
           {{ name }}, ({{ sub_locality }})
-        {%- else -%}
+        {% else %}
           {{ admin_area }}, {{ locality }}, {{ name }}
-        {%- endif %}
+        {% endif %}
       friendly_name: Andrey Geocoded Location
 
 - platform: template
@@ -23,11 +23,11 @@
         {% set sub_locality = state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Locality") %}
         {% set name = state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Name") %}
 
-        {% if locality == "Moscow" -%}
+        {% if locality == "Moscow" %}
           {{ name }}, ({{ sub_locality }})
-        {%- else -%}
+        {% else %}
           {{ admin_area }}, {{ locality }}, {{ name }}
-        {%- endif %}
+        {% endif %}
       friendly_name: Katya Geocoded Location
 
 - platform: template

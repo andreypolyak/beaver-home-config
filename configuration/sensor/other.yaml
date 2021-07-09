@@ -20,9 +20,9 @@
       value_template: >
         {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
           100
-        {%- else -%}
+        {% else %}
           {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
-        {%- endif %}
+        {% endif %}
       friendly_name: Circadian Saturation
       unit_of_measurement: "%"
 
