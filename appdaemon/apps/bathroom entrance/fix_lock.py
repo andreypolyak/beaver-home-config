@@ -1,7 +1,7 @@
 from base import Base
 
 
-class NotifyLock(Base):
+class FixLock(Base):
 
   def initialize(self):
     super().initialize()

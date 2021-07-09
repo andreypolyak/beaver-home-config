@@ -5,7 +5,7 @@ global_modules:
   - base
 
 #
-# Shared
+# Libs
 #
 
 storage:
@@ -29,7 +29,7 @@ push:
   chat_id: !secret push_chat_id
 
 #
-# Important
+# Required on Restart
 #
 
 notify_restart:
@@ -55,26 +55,6 @@ notify_app_error:
   class: NotifyAppError
   global_dependencies: base
   dependencies: push
-
-#
-# Dialogs
-#
-
-alarm_requested_dialog:
-  module: alarm_requested_dialog
-  class: AlarmRequestedDialog
-  global_dependencies:
-    - base
-    - yandex_dialog
-  dependencies: persons
-
-bed_occupied_dialog:
-  module: bed_occupied_dialog
-  class: BedOccupiedDialog
-  global_dependencies:
-    - base
-    - yandex_dialog
-  dependencies: persons
 
 #
 # Bathroom and Entrance
@@ -105,6 +85,14 @@ electricity_stats:
   module: electricity_stats
   class: ElectricityStats
   global_dependencies: base
+
+fix_lock:
+  module: fix_lock
+  class: FixLock
+  global_dependencies: base
+  dependencies:
+    - push
+    - storage
 
 freshener:
   module: freshener
@@ -166,14 +154,14 @@ alarm_manager:
   global_dependencies: base
   dependencies: persons
 
+bed_night_switch:
+  module: bed_night_switch
+  class: BedNightSwitch
+  global_dependencies: base
+
 bed_occupancy:
   module: bed_occupancy
   class: BedOccupancy
-  global_dependencies: base
-
-bed_switch:
-  module: bed_switch
-  class: BedSwitch
   global_dependencies: base
 
 bedroom_cover:
@@ -216,6 +204,120 @@ weight:
     - persons
     - push
     - storage
+
+#
+# Dialogs
+#
+
+alarm_requested_dialog:
+  module: alarm_requested_dialog
+  class: AlarmRequestedDialog
+  global_dependencies:
+    - base
+    - yandex_dialog
+  dependencies: persons
+
+bed_occupied_dialog:
+  module: bed_occupied_dialog
+  class: BedOccupiedDialog
+  global_dependencies:
+    - base
+    - yandex_dialog
+  dependencies: persons
+
+#
+# Global
+#
+
+bt_trackers:
+  module: bt_trackers
+  class: BtTrackers
+  global_dependencies: base
+
+christmas_season:
+  module: christmas_season
+  class: ChristmasSeason
+  global_dependencies: base
+
+circadian_update:
+  module: circadian_update
+  class: CircadianUpdate
+  global_dependencies: base
+
+delete_snapshot:
+  module: delete_snapshot
+  class: DeleteSnapshot
+  global_dependencies: base
+
+fix_gledopto:
+  module: fix_gledopto
+  class: FixGledopto
+  global_dependencies: base
+
+ha_count_updates:
+  module: ha_count_updates
+  class: HaCountUpdates
+  global_dependencies: base
+
+is_media_playing:
+  module: is_media_playing
+  class: IsMediaPlaying
+  global_dependencies: base
+
+light_delay:
+  module: light_delay
+  class: LightDelay
+  global_dependencies: base
+
+location:
+  module: location
+  class: Location
+  global_dependencies: base
+  dependencies:
+    - persons
+    - storage
+
+media_control:
+  module: media_control
+  class: MediaControl
+  global_dependencies: base
+
+media_volume:
+  module: media_volume
+  class: MediaVolume
+  global_dependencies: base
+
+night:
+  module: night
+  class: Night
+  global_dependencies: base
+  dependencies: storage
+
+person_inside:
+  module: person_inside
+  class: PersonInside
+  global_dependencies: base
+
+presence:
+  module: presence
+  class: Presence
+  global_dependencies: base
+
+scenes:
+  module: scenes
+  class: Scenes
+  global_dependencies: base
+
+update_lovelace:
+  module: update_lovelace
+  class: UpdateLovelace
+  global_dependencies: base
+
+yandex_station:
+  module: yandex_station
+  class: YandexStation
+  global_dependencies: base
+  dependencies: persons
 
 #
 # Kitchen
@@ -321,106 +423,6 @@ vacuum:
   global_dependencies: base
 
 #
-# Global
-#
-
-bt_trackers:
-  module: bt_trackers
-  class: BtTrackers
-  global_dependencies: base
-
-christmas_season:
-  module: christmas_season
-  class: ChristmasSeason
-  global_dependencies: base
-
-circadian_update:
-  module: circadian_update
-  class: CircadianUpdate
-  global_dependencies: base
-
-delete_snapshot:
-  module: delete_snapshot
-  class: DeleteSnapshot
-  global_dependencies: base
-
-fix_gledopto:
-  module: fix_gledopto
-  class: FixGledopto
-  global_dependencies: base
-
-ha_count_updates:
-  module: ha_count_updates
-  class: HaCountUpdates
-  global_dependencies: base
-
-is_media_playing:
-  module: is_media_playing
-  class: IsMediaPlaying
-  global_dependencies: base
-
-light_delay:
-  module: light_delay
-  class: LightDelay
-  global_dependencies: base
-
-location:
-  module: location
-  class: Location
-  global_dependencies: base
-  dependencies:
-    - persons
-    - storage
-
-media_control:
-  module: media_control
-  class: MediaControl
-  global_dependencies: base
-
-media_volume:
-  module: media_volume
-  class: MediaVolume
-  global_dependencies: base
-
-night:
-  module: night
-  class: Night
-  global_dependencies: base
-  dependencies: storage
-
-person_inside:
-  module: person_inside
-  class: PersonInside
-  global_dependencies: base
-
-plant:
-  module: plant
-  class: Plant
-  global_dependencies: base
-  dependencies: push
-
-presence:
-  module: presence
-  class: Presence
-  global_dependencies: base
-
-scenes:
-  module: scenes
-  class: Scenes
-  global_dependencies: base
-
-update_lovelace:
-  module: update_lovelace
-  class: UpdateLovelace
-  global_dependencies: base
-
-yandex_station:
-  module: yandex_station
-  class: YandexStation
-  global_dependencies: base
-  dependencies: persons
-
-#
 # Notify
 #
 
@@ -463,14 +465,6 @@ notify_hacs_update:
     - push
     - storage
 
-notify_lock:
-  module: notify_lock
-  class: NotifyLock
-  global_dependencies: base
-  dependencies:
-    - push
-    - storage
-
 notify_low_battery:
   module: notify_low_battery
   class: NotifyLowBattery
@@ -508,6 +502,12 @@ notify_pi_state:
   dependencies:
     - push
     - storage
+
+notify_plant:
+  module: notify_plant
+  class: NotifyPlant
+  global_dependencies: base
+  dependencies: push
 
 notify_temperature:
   module: notify_temperature

@@ -1,7 +1,7 @@
 from base import Base
 
 
-class Plant(Base):
+class NotifyPlant(Base):
 
   def initialize(self):
     super().initialize()

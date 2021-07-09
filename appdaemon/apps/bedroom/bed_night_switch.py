@@ -1,7 +1,7 @@
 from base import Base
 
 
-class BedSwitch(Base):
+class BedNightSwitch(Base):
 
   def initialize(self):
     super().initialize()
