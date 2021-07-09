@@ -5,17 +5,34 @@ class NotifyNewEntity(Base):
 
   def initialize(self):
     super().initialize()
-    self.init_storage("notify_new_entity", "entities", {})
+    self.init_storage("notify_new_entity", "new_entities", {})
+    self.init_storage("notify_new_entity", "all_entities", [])
     self.handle = None
     self.new_entities = []
     self.call_service("group/set", object_id="new_entities", entities=self.new_entities)
     self.listen_event(self.on_entity_registry_updated, "entity_registry_updated", action="create")
     self.run_every(self.update_group, "now", 3600)
+    self.run_every(self.check_all_entities, "now", 120)
+
+
+  def check_all_entities(self, kwargs):
+    all_entities = list(self.get_state().keys())
+    saved_all_entities = self.read_storage("all_entities")
+    if len(saved_all_entities) > 0:
+      for entity in all_entities:
+        if entity in saved_all_entities:
+          continue
+        self.handle_new_entity(entity)
+    self.write_storage("all_entities", all_entities)
 
 
   def on_entity_registry_updated(self, event_name, data, kwargs):
     entity = data["entity_id"]
-    self.write_storage("entities", self.get_now_ts(), attribute=entity)
+    self.handle_new_entity(entity)
+
+
+  def handle_new_entity(self, entity):
+    self.write_storage("new_entities", self.get_now_ts(), attribute=entity)
     self.update_group({})
     self.new_entities.append(entity)
     self.cancel_handle(self.handle)
@@ -23,7 +40,7 @@ class NotifyNewEntity(Base):
 
 
   def update_group(self, kwargs):
-    entities = self.read_storage("entities", attribute="all")
+    entities = self.read_storage("new_entities", attribute="all")
     new_entities = []
     for entity, ts in entities.items():
       if self.get_delta_ts(ts) < 86400 and self.entity_exists(entity):
