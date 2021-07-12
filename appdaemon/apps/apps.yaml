@@ -396,6 +396,11 @@ cinema:
     - push
     - storage
 
+fix_light_group:
+  module: fix_light_group
+  class: FixLightGroup
+  global_dependencies: base
+
 living_room_cover:
   module: living_room_cover
   class: LivingRoomCover
