@@ -76,18 +76,18 @@ class BedroomCover(Base):
 
   def close_cover(self):
     self.set_timer_no_change()
-    if self.get_cover_position() != "0":
+    if self.get_cover_position() != 0:
       self.set_cover_position("bedroom_cover", 0)
 
 
   def open_cover(self):
-    if self.get_cover_position() != "100":
+    if self.get_cover_position() != 100:
       self.set_cover_position("bedroom_cover", 100)
 
 
   def partly_open_cover(self):
     self.set_timer_no_change()
-    if self.get_cover_position() != "15":
+    if self.get_cover_position() != 15:
       self.set_cover_position("bedroom_cover", 15)
 
 

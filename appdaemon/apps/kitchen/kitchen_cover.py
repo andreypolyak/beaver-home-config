@@ -33,7 +33,7 @@ class KitchenCover(Base):
 
 
   def on_motion(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() == "night" and self.get_cover_position() == "0":
+    if self.get_living_scene() == "night" and self.get_cover_position() == 0:
       self.partly_open_cover()
 
 
@@ -59,21 +59,21 @@ class KitchenCover(Base):
 
 
   def close_cover(self):
-    if self.get_cover_position() != "0":
+    if self.get_cover_position() != 0:
       self.set_cover_position("kitchen_cover", 0)
       return True
     return False
 
 
   def open_cover(self):
-    if self.get_cover_position() != "100":
+    if self.get_cover_position() != 100:
       self.set_cover_position("kitchen_cover", 100)
       return True
     return False
 
 
   def partly_open_cover(self):
-    if self.get_cover_position() != "15":
+    if self.get_cover_position() != 15:
       self.set_cover_position("kitchen_cover", 15)
       return True
     return False
