@@ -6,7 +6,8 @@ APPDAEMON_BLACKLIST = [
   " has now completed",
   "initialize() skipped",
   "Invalid callback handle",
-  "Found stale callback"
+  "Found stale callback",
+  "Attempt to call Home Assistant while disconnected: call_plugin_service"
 ]
 
 HA_BLACKLIST = [
