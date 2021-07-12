@@ -5,7 +5,6 @@ class Bell(Base):
 
   def initialize(self):
     super().initialize()
-    code = str(self.args["code"])
     self.step = 0
     self.step_update_ts = 0
     self.last_ringed_ts = 0
