@@ -1,32 +1,35 @@
 alarm:
   name: Alarm Time
-  icon: mdi:alarm
   has_date: false
   has_time: true
+  icon: mdi:alarm
 
 alarm_andrey:
   name: Andrey's Alarm
-  icon: mdi:alarm
   has_date: false
   has_time: true
+  icon: mdi:alarm
 
 alarm_katya:
   name: Katya's Alarm
-  icon: mdi:alarm
   has_date: false
   has_time: true
+  icon: mdi:alarm
 
 coffee_lid_opened:
   name: Coffee Lid Opened
   has_date: true
   has_time: true
+  icon: mdi:coffee-maker
 
 coffee_turned_on:
   name: Coffee Turned On
   has_date: true
   has_time: true
+  icon: mdi:coffee-maker
 
 vacuum_last_cleaned:
   name: Last Vacuum Clean Time
   has_date: true
   has_time: true
+  icon: mdi:robot-vacuum

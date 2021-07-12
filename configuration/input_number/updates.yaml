@@ -4,6 +4,7 @@ zigbee_ota_updates:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:zigbee
 
 ha_core_updates:
   name: Home Assistant Core Updates
@@ -11,3 +12,4 @@ ha_core_updates:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:home-assistant

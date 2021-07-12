@@ -1,6 +1,6 @@
 - platform: statistics
-  entity_id: sensor.bathroom_washing_machine_plug_power
   name: Washing Machine Statistics
+  entity_id: sensor.bathroom_washing_machine_plug_power
   sampling_size: 180
   precision: 0
   max_age:

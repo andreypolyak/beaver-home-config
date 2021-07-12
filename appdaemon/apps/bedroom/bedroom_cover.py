@@ -17,8 +17,8 @@ class BedroomCover(Base):
   def check_comfortable(self, kwargs):
     if self.get_sleeping_scene() != "night":
       return
-    if self.is_timer_active("cover_bedroom_no_change"):
-      self.log("No change timer is active")
+    if self.is_timer_active("cover_bedroom_freeze"):
+      self.log("Freeze timer is active")
     elif self.is_uncomfortable():
       self.log("Uncomfortable condition during night")
       self.partly_open_cover()
@@ -52,7 +52,7 @@ class BedroomCover(Base):
       else:
         self.close_cover()
       return
-    self.timer_cancel("cover_bedroom_no_change")
+    self.timer_cancel("cover_bedroom_freeze")
     if new == "away":
       self.partly_open_cover()
     elif old == "night":
@@ -75,7 +75,7 @@ class BedroomCover(Base):
 
 
   def close_cover(self):
-    self.set_timer_no_change()
+    self.set_timer_freeze()
     if self.get_cover_position() != 0:
       self.set_cover_position("bedroom_cover", 0)
 
@@ -86,7 +86,7 @@ class BedroomCover(Base):
 
 
   def partly_open_cover(self):
-    self.set_timer_no_change()
+    self.set_timer_freeze()
     if self.get_cover_position() != 15:
       self.set_cover_position("bedroom_cover", 15)
 
@@ -103,6 +103,6 @@ class BedroomCover(Base):
     return self.get_state("cover.bedroom_cover", attribute="current_position")
 
 
-  def set_timer_no_change(self):
+  def set_timer_freeze(self):
     if self.get_sleeping_scene() == "night":
-      self.timer_start("cover_bedroom_no_change", 1800)
+      self.timer_start("cover_bedroom_freeze", 1800)

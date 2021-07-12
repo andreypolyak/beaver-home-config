@@ -2,43 +2,55 @@
 
 auto_lights_bathroom_entrance:
   name: Bathroom and Entrance Auto Lights
+  icon: mdi:motion-sensor
 
 auto_lights_kitchen:
   name: Kitchen Auto Lights
+  icon: mdi:motion-sensor
 
 auto_lights_living_room:
   name: Living Room Auto Lights
+  icon: mdi:motion-sensor
 
 auto_lights_bedroom:
   name: Bedroom Auto Lights
+  icon: mdi:motion-sensor
 
 auto_lights_balcony:
   name: Balcony Auto Lights
+  icon: mdi:motion-sensor
 
 # Auto Colors
 
 auto_colors_bathroom_entrance:
   name: Bathroom and Entrance Auto Colors
+  icon: mdi:palette
 
 auto_colors_kitchen:
   name: Kitchen Auto Colors
+  icon: mdi:palette
 
 auto_colors_living_room:
   name: Living Room Auto Colors
+  icon: mdi:palette
 
 auto_colors_bedroom:
   name: Bedroom Auto Colors
+  icon: mdi:palette
 
 auto_colors_balcony:
   name: Balcony Auto Colors
+  icon: mdi:palette
 
 # Min Delay
 
 living_zone_min_delay:
   name: Min Light Delay in Living Zone
+  icon: mdi:timer-sand
 
 sleeping_zone_min_delay:
   name: Min Light Delay in Sleeping Zone
+  icon: mdi:timer-sand
 
 # Other
 

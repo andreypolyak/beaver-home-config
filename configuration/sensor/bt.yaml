@@ -1,26 +1,30 @@
 - platform: mqtt
+  name: BT Kitchen Andrey iPhone 11 Pro Max Confidence
   state_topic: monitor_kitchen/rpi-kitchen/bt_andrey_iphone_11_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
-  name: BT Kitchen Andrey iPhone 11 Pro Max Confidence
+  icon: mdi:bluetooth
 
 - platform: mqtt
+  name: BT Kitchen Katya iPhone 12 Pro Max Confidence
   state_topic: monitor_kitchen/rpi-kitchen/bt_katya_iphone_12_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
-  name: BT Kitchen Katya iPhone 12 Pro Max Confidence
+  icon: mdi:bluetooth
 
 - platform: mqtt
+  name: BT Entrance Andrey iPhone 11 Pro Max Confidence
   state_topic: monitor_entrance/rpi-entrance/bt_andrey_iphone_11_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
-  name: BT Entrance Andrey iPhone 11 Pro Max Confidence
+  icon: mdi:bluetooth
 
 - platform: mqtt
+  name: BT Entrance Katya iPhone 12 Pro Max Confidence
   state_topic: monitor_entrance/rpi-entrance/bt_katya_iphone_12_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
-  name: BT Entrance Katya iPhone 12 Pro Max Confidence
+  icon: mdi:bluetooth
 
 - platform: min_max
   name: BT Andrey iPhone 11 Pro Max Confidence

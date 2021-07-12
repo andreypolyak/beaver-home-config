@@ -2,35 +2,46 @@
 
 scene_sleeping_day:
   name: Day Scene in Sleeping Zone
+  icon: mdi:white-balance-sunny
 
 scene_sleeping_night:
   name: Night Scene in Sleeping Zone
+  icon: mdi:weather-night
 
 scene_sleeping_dumb:
   name: Dumb Scene in Sleeping Zone
+  icon: mdi:camera-off
 
 scene_sleeping_away:
   name: Away Scene in Sleeping Zone
+  icon: mdi:exit-run
 
 # Living Scenes
 
 scene_living_day:
   name: Day Scene in Living Zone
+  icon: mdi:white-balance-sunny
 
 scene_living_night:
   name: Night Scene in Living Zone
+  icon: mdi:weather-night
 
 scene_living_dumb:
   name: Dumb Scene in Living Zone
+  icon: mdi:camera-off
 
 scene_living_light_cinema:
   name: Light Cinema Scene in Living Zone
-
-scene_living_party:
-  name: Party Scene in Living Zone
+  icon: mdi:movie-filter-outline
   
 scene_living_dark_cinema:
   name: Dark Cinema Scene in Living Zone
+  icon: mdi:movie-outline
+
+scene_living_party:
+  name: Party Scene in Living Zone
+  icon: mdi:party-popper
 
 scene_living_away:
   name: Away Scene in Living Zone
+  icon: mdi:exit-run

@@ -12,7 +12,7 @@ class RoomWindow(Base):
     self.listen_state(self.on_window_stopped, f"sensor.{self.room}_window", new="STOPPED")
     self.listen_state(self.on_room_change, self.co2_sensor, ignore_debounce=False)
     self.listen_state(self.on_room_change, self.temperature_sensor, ignore_debounce=False)
-    self.listen_state(self.on_room_change, f"timer.window_{self.room}_no_change", ignore_debounce=False)
+    self.listen_state(self.on_room_change, f"timer.window_{self.room}_freeze", ignore_debounce=False)
     self.listen_state(self.on_room_change, f"input_boolean.auto_window_{self.room}", new="on", ignore_debounce=True)
     self.listen_state(self.on_position_change, f"sensor.{self.room}_window_target_position")
     self.listen_state(self.on_light_off, f"light.ha_template_room_{self.room}", new="off", old="on")
@@ -39,7 +39,7 @@ class RoomWindow(Base):
       position = float(data["custom_event_data2"])
     reason = "lovelace"
     self.set_position({"position": position, "reason": reason})
-    self.timer_start(f"window_{self.room}_no_change", 1200)
+    self.timer_start(f"window_{self.room}_freeze", 1200)
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
@@ -63,10 +63,10 @@ class RoomWindow(Base):
     ignore_debounce = kwargs["ignore_debounce"]
     self.cancel_handle(self.handle)
     handle_ts = self.read_storage(f"{self.room}_handle_ts")
-    is_timer_no_change_on = self.is_timer_active(f"window_{self.room}_no_change")
+    is_timer_freeze_on = self.is_timer_active(f"window_{self.room}_freeze")
     if (
       (ignore_debounce or self.get_delta_ts(handle_ts) > 60)
-      and not is_timer_no_change_on
+      and not is_timer_freeze_on
       and self.is_entity_on(f"input_boolean.auto_window_{self.room}")
     ):
       self.write_storage(f"{self.room}_handle_ts", self.get_now_ts())
@@ -127,7 +127,7 @@ class RoomWindow(Base):
     if target_position is None or set_position is None:
       return
     if abs(target_position - set_position) > 2:
-      self.timer_start(f"window_{self.room}_no_change", 1200)
+      self.timer_start(f"window_{self.room}_freeze", 1200)
 
 
   def is_person_sitting_near(self):

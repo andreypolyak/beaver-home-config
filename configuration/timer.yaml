@@ -1,30 +1,95 @@
 # Light
 
-light_bedroom:
-light_kitchen:
-light_bathroom_entrance:
-light_living_room:
 light_balcony:
-light_faded_bedroom:
-light_faded_kitchen:
-light_faded_bathroom_entrance:
-light_faded_living_room:
+  name: Light Balcony
+  icon: mdi:lightbulb
+
+light_bathroom_entrance:
+  name: Light Bathroom and Entrance
+  icon: mdi:lightbulb
+
+light_bedroom:
+  name: Light Bedroom
+  icon: mdi:lightbulb
+
+light_kitchen:
+  name: Light Kitchen
+  icon: mdi:lightbulb
+
+light_living_room:
+  name: Light Living Room
+  icon: mdi:lightbulb
+
+# Light Faded
+
 light_faded_balcony:
+  name: Light Faded Balcony
+  icon: mdi:lightbulb-outline
 
-# Light
+light_faded_bathroom_entrance:
+  name: Light Faded Bathroom and Entrance
+  icon: mdi:lightbulb-outline
 
-light_cooldown_period_bathroom_entrance:
-light_cooldown_period_bedroom:
-light_cooldown_period_kitchen:
-light_cooldown_period_living_room:
-light_cooldown_period_balcony:
+light_faded_bedroom:
+  name: Light Faded Bedroom
+  icon: mdi:lightbulb-outline
+
+light_faded_kitchen:
+  name: Light Faded Kitchen
+  icon: mdi:lightbulb-outline
+
+light_faded_living_room:
+  name: Light Faded Living Room
+  icon: mdi:lightbulb-outline
+
+# Light Cooldown
+
+light_cooldown_balcony:
+  name: Light Cooldown Balcony
+  icon: mdi:lightbulb-off
+
+light_cooldown_bathroom_entrance:
+  name: Light Cooldown Bathroom and Entrance
+  icon: mdi:lightbulb-off
+
+light_cooldown_bedroom:
+  name: Light Cooldown Bedroom
+  icon: mdi:lightbulb-off
+
+light_cooldown_kitchen:
+  name: Light Cooldown Kitchen
+  icon: mdi:lightbulb-off
+
+light_cooldown_living_room:
+  name: Light Cooldown Living Room
+  icon: mdi:lightbulb-off
 
 # Other
 
-ac_no_auto_off:
-ac_no_auto_on:
-window_bedroom_no_change:
-window_kitchen_no_change:
-vacuum_no_clean:
+ac_turn_off_disabled:
+  name: AC Turn Off Disabled
+  icon: mdi:air-conditioner
+
+ac_turn_on_disabled:
+  name: AC Turn On Disabled
+  icon: mdi:air-conditioner
+
+window_bedroom_freeze:
+  name: Window Bedroom Freeze
+  icon: mdi:window-open-variant
+
+window_kitchen_freeze:
+  name: Window Kitchen Freeze
+  icon: mdi:window-open-variant
+
+cover_bedroom_freeze:
+  name: Cover Bedroom Freeze
+  icon: mdi:blinds
+
+vacuum_disabled:
+  name: Vacuum Disabled
+  icon: mdi:robot-vacuum
+
 coffee:
-cover_bedroom_no_change:
+  name: Coffee
+  icon: mdi:coffee-maker

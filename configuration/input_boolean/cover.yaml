@@ -2,17 +2,22 @@
 
 living_room_cover_active:
   name: Living Room Cover Active
+  icon: mdi:blinds
 
 kitchen_cover_active:
   name: Kitchen Cover Active
+  icon: mdi:blinds
 
 bedroom_cover_active:
   name: Bedroom Cover Active
+  icon: mdi:blinds
 
 # Windows
 
 auto_window_kitchen:
   name: Automatic Kitchen Window
+  icon: mdi:window-closed-variant
 
 auto_window_bedroom:
   name: Automatic Bedroom Window
+  icon: mdi:window-closed-variant

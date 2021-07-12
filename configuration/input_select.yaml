@@ -2,6 +2,7 @@ party_source:
   name: Party Audio Source
   options:
     - ""
+  icon: mdi:party-popper
 
 washing_machine_status:
   name: Washing Machine Status
@@ -18,6 +19,8 @@ sleeping_scene:
     - night
     - dumb
     - away
+  icon: mdi:bed-king-outline
+
 
 living_scene:
   name: Scene in Living Zone
@@ -29,6 +32,7 @@ living_scene:
     - party
     - dark_cinema
     - away
+  icon: mdi:table-furniture
 
 vacuum_room_cleaning:
   name: Vacuum Cleaning Room
@@ -39,12 +43,14 @@ vacuum_room_cleaning:
     - living_room
     - kitchen
     - bedroom
+  icon: mdi:robot-vacuum
 
 current_universal_tv_source:
   name: TV Source
   options:
     - apple_tv
     - playstation_4
+  icon: mdi:television-classic
 
 vacuum_state:
   name: Vacuum State
@@ -54,21 +60,25 @@ vacuum_state:
     - cleaning
     - done_charging
     - done_waiting
+  icon: mdi:robot-vacuum
 
 logged_entities:
   name: Logged Entities
   options:
     - ""
+  icon: mdi:math-log
 
 logged_entities_with_attr:
   name: Logged Entities With All Attributes
   options:
     - ""
+  icon: mdi:math-log
 
 all_entities:
   name: All Entities
   options:
     - ""
+  icon: mdi:hexagon-multiple-outline
 
 andrey_location:
   name: Andrey Location
@@ -78,6 +88,7 @@ andrey_location:
     - yard
     - downstairs
     - home
+  icon: mdi:crosshairs-gps
 
 katya_location:
   name: Katya Location
@@ -87,6 +98,7 @@ katya_location:
     - yard
     - downstairs
     - home
+  icon: mdi:crosshairs-gps
 
 nearest_person_location:
   name: Nearest Person Location
@@ -96,9 +108,11 @@ nearest_person_location:
     - yard
     - downstairs
     - home
+  icon: mdi:crosshairs-gps
 
 last_active_yandex_station:
   name: Last Active Yandex Station
   options:
     - bedroom
     - living_room
+  icon: mdi:speaker

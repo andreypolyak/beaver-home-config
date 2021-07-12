@@ -13,7 +13,7 @@ class Vacuum(Base):
     self.listen_state(self.on_vacuum_returning, "vacuum.rockrobo", new="returning")
     self.listen_state(self.on_vacuum_change, "vacuum.rockrobo")
     self.listen_state(self.on_manual_start, "script.vacuum_clean_all", new="on")
-    self.listen_event(self.on_timer_finished, "timer.finished", entity_id="timer.vacuum_no_clean")
+    self.listen_event(self.on_timer_finished, "timer.finished", entity_id="timer.vacuum_disabled")
 
 
   def on_timer_finished(self, event_name, data, kwargs):
@@ -37,11 +37,11 @@ class Vacuum(Base):
         and self.get_vacuum_state() == "idle"
     ):
       if self.is_entity_off("input_boolean.vacuum_auto"):
-        self.timer_start("vacuum_no_clean", 3600)
+        self.timer_start("vacuum_disabled", 3600)
         self.log("Vacuum auto clean is turned off")
         return
-      if self.is_timer_active("vacuum_no_clean"):
-        self.log("Vacuum no clean timer is active")
+      if self.is_timer_active("vacuum_disabled"):
+        self.log("Vacuum cleaning disabled for one hour")
         return
       self.log("Starting automatical vacuum cleaning")
       self.turn_on_entity("script.vacuum_clean_all")

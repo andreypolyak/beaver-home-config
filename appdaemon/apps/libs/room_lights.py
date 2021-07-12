@@ -120,7 +120,7 @@ class RoomLights(Base):
     self.__cancel_light_timers()
     is_light_on = self.__is_room_light_on(state)
     is_faded = self.__is_room_faded(state)
-    cooldown_timer_active = state["timers"]["light_cooldown_period"]
+    cooldown_timer_active = state["timers"]["light_cooldown"]
     if is_light_on and is_faded:
       self.__restore_previous_state(state)
     elif is_light_on:
@@ -569,11 +569,11 @@ class RoomLights(Base):
 
 
   def __set_cooldown_timer(self):
-    self.timer_start(f"light_cooldown_period_{self.room}", COOLDOWN_DELAY)
+    self.timer_start(f"light_cooldown_{self.room}", COOLDOWN_DELAY)
 
 
   def __cancel_cooldown_timer(self):
-    self.timer_cancel(f"light_cooldown_period_{self.room}")
+    self.timer_cancel(f"light_cooldown_{self.room}")
 
 
   def __set_faded_timer(self):
@@ -653,7 +653,7 @@ class RoomLights(Base):
       state["sensors"][sensor_name] = self.is_entity_on(sensor[0])
     state["timers"]["light_faded"] = self.is_timer_active(f"light_faded_{self.room}")
     state["timers"]["light"] = self.is_timer_active(f"light_{self.room}")
-    state["timers"]["light_cooldown_period"] = self.is_timer_active(f"light_cooldown_period_{self.room}")
+    state["timers"]["light_cooldown"] = self.is_timer_active(f"light_cooldown_{self.room}")
     state["booleans"]["auto_colors"] = self.is_entity_on(f"input_boolean.auto_colors_{self.room}")
     state["booleans"]["auto_lights"] = self.is_entity_on(f"input_boolean.auto_lights_{self.room}")
     return state

@@ -4,6 +4,7 @@ new_entities:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:hexagon-multiple-outline
 
 logged_entities:
   name: Logged Entities
@@ -11,6 +12,7 @@ logged_entities:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:math-log
 
 unavailable_entities:
   name: Unavailable Entities
@@ -18,6 +20,7 @@ unavailable_entities:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:alert
 
 low_battery_devices:
   name: Low Battery Devices
@@ -25,3 +28,4 @@ low_battery_devices:
   max: 10000
   step: 1
   mode: box
+  icon: mdi:battery

@@ -13,8 +13,8 @@ class AC(Base):
     self.listen_state(self.on_change, "sensor.balcony_temperature")
     self.listen_state(self.on_change, "sensor.living_room_temperature")
     self.listen_state(self.on_change, "sensor.living_room_humidity")
-    self.listen_state(self.on_change, "timer.ac_no_auto_off")
-    self.listen_state(self.on_change, "timer.ac_no_auto_on")
+    self.listen_state(self.on_change, "timer.ac_turn_off_disabled")
+    self.listen_state(self.on_change, "timer.ac_turn_on_disabled")
     self.listen_event(self.on_manual_toggle, "custom_event", custom_event_data="manual_ac_toggle")
     self.listen_event(self.on_manual_on, "custom_event", custom_event_data="manual_ac_on")
     self.listen_event(self.on_manual_off, "custom_event", custom_event_data="manual_ac_off")
@@ -41,8 +41,8 @@ class AC(Base):
     if living_room_temperature is None or living_room_humidity is None or balcony_temperature is None:
       return
 
-    is_no_off_timer_on = self.is_timer_active("ac_no_auto_off")
-    is_no_on_timer_on = self.is_timer_active("ac_no_auto_on")
+    is_ac_turn_off_disabled = self.is_timer_active("ac_turn_off_disabled")
+    is_ac_turn_on_disabled = self.is_timer_active("ac_turn_on_disabled")
 
     new_ac_state = None
     change_reason = ""
@@ -83,11 +83,11 @@ class AC(Base):
       change_reason = "away scene"
       new_ac_state = False
 
-    if is_no_off_timer_on:
+    if is_ac_turn_off_disabled:
       change_reason = "AC was manually turned on"
       new_ac_state = True
 
-    if is_no_on_timer_on:
+    if is_ac_turn_on_disabled:
       change_reason = "AC was manually turned off"
       new_ac_state = False
 
@@ -119,13 +119,13 @@ class AC(Base):
 
 
   def manual_on(self):
-    self.timer_cancel("ac_no_auto_on")
-    self.timer_start("ac_no_auto_off", 1800)
+    self.timer_cancel("ac_turn_on_disabled")
+    self.timer_start("ac_turn_off_disabled", 1800)
 
 
   def manual_off(self):
-    self.timer_cancel("ac_no_auto_off")
-    self.timer_start("ac_no_auto_on", 1800)
+    self.timer_cancel("ac_turn_off_disabled")
+    self.timer_start("ac_turn_on_disabled", 1800)
 
 
   def turn_on_ac(self):

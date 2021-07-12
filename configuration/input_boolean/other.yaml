@@ -2,28 +2,35 @@
 
 person_inside_bedroom:
   name: Person Inside Bedroom
+  icon: mdi:account
 
 person_inside_bathroom_entrance:
   name: Person Inside Bathroom
+  icon: mdi:account
 
 person_inside_living_room:
   name: Person Inside Living Room
+  icon: mdi:account
 
 # Party
 
 party_smooth:
   name: Smooth Party Lights
+  icon: mdi:party-popper
 
 party_lights:
   name: Party Lights
+  icon: mdi:party-popper
 
 party_tv:
   name: Party TV
+  icon: mdi:party-popper
 
 # Other
 
 vacuum_auto:
   name: Vacuum Auto
+  icon: mdi:robot-vacuum
 
 christmas_season:
   name: Christmas Season
@@ -31,12 +38,16 @@ christmas_season:
 
 cinema_session:
   name: Cinema Session
+  icon: mdi:movie-outline
 
 coffee_prepared:
   name: Coffee Prepared
+  icon: mdi:coffee-maker
 
 guest_mode:
   name: Guest Mode
+  icon: mdi:account-group
 
 fun_toilet:
   name: Fun Toilet
+  icon: mdi:paper-roll

@@ -1,5 +1,7 @@
 active_dialog:
   name: Active Dialog
+  icon: mdi:speaker
 
 last_notification:
   name: Last Notification
+  icon: mdi:bell

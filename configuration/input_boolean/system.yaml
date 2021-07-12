@@ -2,30 +2,38 @@
 
 log_entities:
   name: Log Entities
+  icon: mdi:hexagon-multiple-outline
 
 log_ha:
   name: Log Home Assistant
+  icon: mdi:home-assistant
 
 log_ad:
   name: Log AppDaemon
+  icon: mdi:robot
 
 log_z2m:
   name: Log Zigbee2mqtt
+  icon: mdi:zigbee
 
 # Running
 
 ad_running:
   name: AppDaemon Running
   initial: false
+  icon: mdi:robot
 
 ha_running:
   name: Home Assistant Running
   initial: true
+  icon: mdi:home-assistant
 
 os_running:
   name: HassOS Running
   initial: true
+  icon: mdi:server
 
 ui_running:
   name: User Interface Running
   initial: true
+  icon: mdi:television-guide
