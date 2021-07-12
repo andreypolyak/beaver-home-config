@@ -84,5 +84,4 @@ class Persons(Base):
     location_entities = []
     for person_name in self.get_person_names(with_location=True):
       location_entities.append(f"input_select.{person_name}_location")
-    self.log_var(self.get_person_names(with_location=True))
     return location_entities

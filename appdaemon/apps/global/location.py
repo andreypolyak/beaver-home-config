@@ -102,7 +102,6 @@ class Location(Base):
 
 
   def set_nearest_person_location(self):
-    self.log_var(self.get_person_locations())
     nearest_location = "not_home"
     for location in ["not_home", "district", "yard", "downstairs", "home"]:
       for entity in self.get_person_locations():
