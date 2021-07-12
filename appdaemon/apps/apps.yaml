@@ -17,7 +17,7 @@ persons:
   module: persons
   class: Persons
   global_dependencies: base
-  chat_id: !secret push_chat_id
+  chat_id: !secret appdaemon_push_chat_id
 
 push:
   module: push
@@ -26,7 +26,7 @@ push:
   dependencies:
     - persons
     - storage
-  chat_id: !secret push_chat_id
+  chat_id: !secret appdaemon_push_chat_id
 
 #
 # Required on Restart
@@ -42,13 +42,13 @@ notify_logs:
   module: notify_logs
   class: NotifyLogs
   global_dependencies: base
-  chat_id: !secret logs_chat_id
+  chat_id: !secret appdaemon_logs_chat_id
 
 telegram_entity_logger:
   module: telegram_entity_logger
   class: TelegramEntityLogger
   global_dependencies: base
-  chat_id: !secret logs_chat_id
+  chat_id: !secret appdaemon_logs_chat_id
 
 notify_app_error:
   module: notify_app_error
@@ -75,6 +75,7 @@ bathroom_fan:
 bell:
   module: bell
   class: Bell
+  bell_sound_url: !secret appdaemon_bell_sound_url
   code: !secret appdaemon_bell_code
   global_dependencies: base
   dependencies:
