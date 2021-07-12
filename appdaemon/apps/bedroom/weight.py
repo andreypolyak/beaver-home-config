@@ -11,8 +11,7 @@ class Weight(Base):
       "prev_weight": 0,
       "prev_weight_ts": 0
     }
-    for person in self.get_all_persons():
-      person_name = person["name"]
+    for person_name in self.get_person_names():
       self.init_storage("weight", person_name, default)
     self.listen_state(self.on_scales_change, "sensor.bedroom_scales")
 
@@ -23,8 +22,7 @@ class Weight(Base):
     weight = self.get_float_state(new)
     if weight is None or weight < 10:
       return
-    for person in self.get_all_persons():
-      person_name = person["name"]
+    for person_name in self.get_person_names():
       person_weight = self.get_float_state(f"input_number.{person_name}_weight")
       if weight == person_weight:
         return
@@ -44,7 +42,7 @@ class Weight(Base):
   def identify_person(self, weight):
     weight_delta = 9999
     selected_person = None
-    for person in self.get_all_persons():
+    for person in self.get_persons():
       person_name = person["name"]
       person_weight = self.get_float_state(f"input_number.{person_name}_weight")
       if abs(person_weight - weight) < weight_delta:

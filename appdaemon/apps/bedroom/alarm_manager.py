@@ -7,7 +7,7 @@ class AlarmManager(Base):
   def initialize(self):
     super().initialize()
     self.handles = {}
-    for person_name in self.get_all_person_names(with_alarm=True):
+    for person_name in self.get_person_names(with_alarm=True):
       self.handles[person_name] = None
       self.listen_state(self.on_alarm_time_update, f"input_datetime.alarm_{person_name}")
       self.listen_state(self.on_alarm_on, f"input_boolean.alarm_{person_name}", new="on")
@@ -49,7 +49,7 @@ class AlarmManager(Base):
     if not person_name:
       return
     other_alarms_turned_on = False
-    for other_person_name in self.get_all_person_names_except_provided(person_name, with_alarm=True):
+    for other_person_name in self.get_person_names(except_person_name=person_name, with_alarm=True):
       self.turn_off_entity("input_boolean.alarm_ringing")
       if self.is_entity_on(f"input_boolean.alarm_{other_person_name}"):
         other_alarms_turned_on = True
@@ -65,7 +65,7 @@ class AlarmManager(Base):
 
 
   def on_alarm_off(self, entity, attribute, old, new, kwargs):
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     self.log(f"{person_name.capitalize()}'s alarm turned off")
     if self.is_entity_on(f"input_boolean.alarm_{person_name}_ringing"):
       self.log(f"{person_name.capitalize()}'s alarm is ringing and will be cancelled because alarm was turned off")
@@ -78,13 +78,13 @@ class AlarmManager(Base):
   def on_alarm_on(self, entity, attribute, old, new, kwargs):
     if self.get_sleeping_scene() != "night":
       self.set_sleeping_scene("night")
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     self.log(f"{person_name.capitalize()}'s alarm turned on")
     self.set_alarm_on_time(person_name)
 
 
   def on_alarm_time_update(self, entity, attribute, old, new, kwargs):
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     self.log(f"New time was set for {person_name.capitalize()}'s alarm")
     self.update_alarm_time(person_name)
 
@@ -127,7 +127,7 @@ class AlarmManager(Base):
 
   def get_person_name_alarm_ringing(self):
     ringing = None
-    for person_name in self.get_all_person_names(with_alarm=True):
+    for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}_ringing"):
         ringing = person_name
     return ringing
@@ -156,7 +156,7 @@ class AlarmManager(Base):
       return
     alarms = []
     text = "Спокойной ночи! "
-    for person_name in self.get_all_person_names(with_alarm=True):
+    for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
         alarms.append(self.get_state(f"input_datetime.alarm_{person_name}")[:-3])
     if len(alarms) == 0:
@@ -170,7 +170,7 @@ class AlarmManager(Base):
 
   def allow_snooze_if_alarms_off(self):
     all_alarms_off = True
-    for person_name in self.get_all_person_names(with_alarm=True):
+    for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
         all_alarms_off = False
     if all_alarms_off:

@@ -11,28 +11,28 @@ class NotifyArrival(Base):
         "left_home": 0,
         "arrived": 0
     }
-    person_names = self.get_all_person_names(with_phone=True)
+    person_names = self.get_person_names(with_phone=True)
     for person_name in person_names:
       self.init_storage("notify_arrival", person_name, default)
-    for entity in self.get_all_person_location_entities():
+    for entity in self.get_person_locations():
       self.listen_state(self.on_person_home, entity, new="home")
       self.listen_state(self.on_person_not_home, entity, old="home")
       self.listen_state(self.on_location_change, entity)
 
 
   def on_person_home(self, entity, attribute, old, new, kwargs):
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     self.write_storage(person_name, self.get_now_ts(), attribute="arrived")
 
 
   def on_person_not_home(self, entity, attribute, old, new, kwargs):
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     self.write_storage(person_name, self.get_now_ts(), attribute="left_home")
 
 
   def on_location_change(self, entity, attribute, old, new, kwargs):
-    arriving_person_name = self.get_person_name_from_entity_name(entity)
-    for person_name in self.get_all_person_names(with_location=True):
+    arriving_person_name = self.get_person_names(entity=entity)[0]
+    for person_name in self.get_person_names(with_location=True):
       person_location = self.get_state(f"input_select.{person_name}_location")
       if person_location != "home" or person_name == arriving_person_name:
         continue
@@ -54,7 +54,7 @@ class NotifyArrival(Base):
         and self.get_delta_ts(person_state["arrived"]) > 300
     ):
       self.write_storage(arriving_person_name, self.get_now_ts(), attribute=f"last_notified_about_{mode}")
-      arriving_person_emoji = self.get_all_persons()[arriving_person_name]["emoji"]
+      arriving_person_emoji = self.get_persons(person_name=arriving_person_name)[0]["emoji"]
       message = f"{arriving_person_emoji} {arriving_person_name.capitalize()} is {location_text}!"
       category = f"notify_arrival_{mode}"
       url = "/lovelace/outside"

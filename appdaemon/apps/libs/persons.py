@@ -31,9 +31,33 @@ class Persons(Base):
     super().initialize()
 
 
-  def get_all_persons(self, with_phone=False, with_alarm=False, with_location=False, location=None):
+  def get_persons(self, person_name=None, except_person_name=None, entity=None, admin=False, location=None,
+                  with_phone=False, with_alarm=False, with_location=False):
     persons = []
-    for _, person in PERSONS.items():
+    if person_name is not None:
+      persons.append(PERSONS[person_name])
+    elif except_person_name is not None:
+      for current_person_name, current_person in PERSONS.items():
+        if current_person_name != except_person_name:
+          persons.append(current_person)
+    elif entity is not None:
+      for current_person_name, current_person in PERSONS.items():
+        if current_person_name in entity:
+          persons.append(current_person)
+    elif admin:
+      for current_person_name, current_person in PERSONS.items():
+        if current_person["admin"]:
+          persons.append(current_person)
+    elif location is not None:
+      for current_person_name, current_person in PERSONS.items():
+        entity = f"input_select.{current_person_name}_location"
+        if self.entity_exists(entity) and self.get_state(entity) == location:
+          persons.append(current_person)
+    else:
+      for current_person_name, current_person in PERSONS.items():
+        persons.append(current_person)
+    filtered_persons = []
+    for person in persons:
       person_name = person["name"]
       if with_phone and person["phone"] is None:
         continue
@@ -41,74 +65,24 @@ class Persons(Base):
         continue
       if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
         continue
-      persons.append(person)
-    return persons
+      filtered_persons.append(person)
+    return filtered_persons
 
 
-  def get_all_person_names(self, with_phone=False, with_alarm=False, with_location=False):
+  def get_person_names(self, except_person_name=None, entity=None, admin=False, location=None,
+                       with_phone=False, with_alarm=False, with_location=False):
+    persons = self.get_persons(person_name=None, except_person_name=except_person_name, entity=entity, admin=admin,
+                               location=location, with_phone=with_phone, with_alarm=with_alarm,
+                               with_location=with_location)
     person_names = []
-    for _, person in PERSONS.items():
-      person_name = person["name"]
-      if with_phone and person["phone"] is None:
-        continue
-      if with_alarm and not self.entity_exists(f"input_boolean.alarm_{person_name}"):
-        continue
-      if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
-        continue
-      person_names.append(person_name)
+    for person in persons:
+      person_names.append(person["name"])
     return person_names
 
 
-  def get_all_person_location_entities(self):
+  def get_person_locations(self):
     location_entities = []
-    for person_name in self.get_all_person_names(with_location=True):
+    for person_name in self.get_person_names(with_location=True):
       location_entities.append(f"input_select.{person_name}_location")
+    self.log_var(self.get_person_names(with_location=True))
     return location_entities
-
-
-  def get_all_person_names_except_provided(self, person_name, with_phone=False, with_alarm=False, with_location=False):
-    provided_person_name = person_name
-    person_names = []
-    for _, person in PERSONS.items():
-      person_name = person["name"]
-      if person_name != provided_person_name:
-        if with_phone and person["phone"] is None:
-          continue
-        if with_alarm and not self.entity_exists(f"input_boolean.alarm_{person_name}"):
-          continue
-        if with_location and not self.entity_exists(f"input_select.{person_name}_location"):
-          continue
-        person_names.append(person_name)
-    return person_names
-
-
-  def get_person_name_from_entity_name(self, entity):
-    for _, person in PERSONS.items():
-      if person["name"] in entity:
-        return person["name"]
-    return
-
-
-  def get_person_from_entity_name(self, entity):
-    for _, person in PERSONS.items():
-      if person["name"] in entity:
-        return person
-    return
-
-
-  def get_all_person_names_with_location(self, location):
-    person_names = []
-    for _, person in PERSONS.items():
-      person_name = person["name"]
-      entity = f"input_select.{person_name}_location"
-      if self.entity_exists(entity) and self.get_state(entity) == location:
-        person_names.append(person["name"])
-    return person_names
-
-
-  def get_admin_persons(self):
-    admin_persons = []
-    for _, person in PERSONS.items():
-      if person["admin"]:
-        admin_persons.append(person)
-    return admin_persons

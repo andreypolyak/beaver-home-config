@@ -15,7 +15,7 @@ class Lock(Base):
     self.listen_event(self.on_ios_unlock, event="ios.action_fired", actionName="LOCK_UNLOCK")
     self.listen_event(self.on_ios_unlock, event="mobile_app_notification_action", action="LOCK_UNLOCK")
     self.listen_event(self.on_ios_lock, event="mobile_app_notification_action", action="LOCK_LOCK")
-    for entity in self.get_all_person_location_entities():
+    for entity in self.get_person_locations():
       self.listen_state(self.on_person_location_change, entity)
 
 
@@ -63,12 +63,12 @@ class Lock(Base):
     if "action_data" in data:
       self.unlocked_by = data["action_data"]["person_name"]
     elif "sourceDeviceID" in data:
-      self.unlocked_by = self.get_person_name_from_entity_name(data["sourceDeviceID"])
+      self.unlocked_by = self.get_person_names(entity=data["sourceDeviceID"])[0]
     self.unlocked_ts = self.get_now_ts()
 
 
   def on_person_location_change(self, entity, attribute, old, new, kwargs):
-    person_name = self.get_person_name_from_entity_name(entity)
+    person_name = self.get_person_names(entity=entity)[0]
     actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
     kwargs = {
       "sound": "Calypso.caf",

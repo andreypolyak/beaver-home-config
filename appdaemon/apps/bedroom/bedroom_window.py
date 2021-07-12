@@ -79,7 +79,7 @@ class BedroomWindow(RoomWindow):
 
 
   def is_alarm_soon(self):
-    for person_name in self.get_all_person_names(with_alarm=True):
+    for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_off(f"input_boolean.alarm_{person_name}"):
         continue
       alarm_time = self.parse_datetime(self.get_state(f"input_datetime.alarm_{person_name}"), aware=True)

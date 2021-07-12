@@ -7,7 +7,7 @@ class BtTrackers(Base):
 
   def initialize(self):
     super().initialize()
-    for person in self.get_all_persons(with_phone=True):
+    for person in self.get_persons(with_phone=True):
       person_phone = person["phone"]
       for room in ROOMS:
         self.listen_state(self.on_room_confidence_change, f"sensor.bt_{room}_{person_phone}_confidence", immediate=True)
@@ -19,7 +19,7 @@ class BtTrackers(Base):
     if confidence is None:
       return
     room = self.get_room_from_entity(entity)
-    person = self.get_person_from_entity_name(entity)
+    person = self.get_persons(entity=entity)[0]
     person_phone = person["phone"]
     state = "home"
     if confidence <= 10:
@@ -32,7 +32,7 @@ class BtTrackers(Base):
     confidence = self.get_float_state(new)
     if confidence is None:
       return
-    person = self.get_person_from_entity_name(entity)
+    person = self.get_persons(entity=entity)[0]
     person_phone = person["phone"]
     state = "home"
     if confidence <= 10:
