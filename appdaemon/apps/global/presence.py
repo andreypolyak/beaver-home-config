@@ -28,6 +28,7 @@ class Presence(Base):
       self.set_sleeping_scene("away")
       self.turn_off_all({})
       self.run_in(self.turn_off_all, 10)
+      self.run_in(self.update_light_state, 20)
     elif new != "away" and old == "away" and self.get_sleeping_scene() == "away":
       self.set_sleeping_scene("day")
 
@@ -55,3 +56,7 @@ class Presence(Base):
       if "timer.light_" in timer:
         self.timer_cancel(timer)
     self.call_service("script/turn_off_all_lights")
+
+
+  def update_light_state(self, kwargs):
+    self.turn_on_entity("script/update_light_state")
