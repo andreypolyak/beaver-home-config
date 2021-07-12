@@ -5,6 +5,7 @@ class Bell(Base):
 
   def initialize(self):
     super().initialize()
+    code = str(self.args["code"])
     self.step = 0
     self.step_update_ts = 0
     self.last_ringed_ts = 0
@@ -12,30 +13,38 @@ class Bell(Base):
 
 
   def on_bell_ring(self, entity, attribute, old, new, kwargs):
-    current_ts = self.get_now_ts()
     if self.get_delta_ts(self.step_update_ts) > 10:
       self.step = 0
-    if new == "double" and self.step == 0:
-      if self.get_person_names(location="downstairs"):
-        self.log("Unlocking the door by being downstairs")
-        self.call_service("lock/unlock", entity_id="lock.entrance_lock")
-      else:
-        self.step = 1
-        self.step_update_ts = current_ts
-    elif new == "hold" and self.step == 1:
-      self.step = 2
-      self.step_update_ts = current_ts
-    elif new == "single" and self.step == 2:
-      self.step = 3
-      self.step_update_ts = current_ts
-    elif new == "single" and self.step == 3:
+    if new == "double" and self.step == 0 and len(self.get_person_names(location="downstairs")) > 0:
+      self.log("Unlocking the door by being downstairs")
+      self.call_service("lock/unlock", entity_id="lock.entrance_lock")
+      return
+    if new not in ["single", "double", "hold"]:
+      return
+    if not self.is_code(new) and self.get_delta_ts(self.last_ringed_ts) > 5:
+      self.bell_ring()
+
+
+  def is_code(self, new):
+    code = str(self.args["code"])
+    button_code = "1"
+    if new == "double":
+      button_code = "2"
+    elif new == "hold":
+      button_code = "0"
+    if self.step > len(code) - 1 or code[self.step] != button_code:
+      self.log(f"Incorrect code. Step {self.step}")
+      self.step_update_ts = 0
       self.step = 0
-      self.step_update_ts = current_ts
+      return False
+    self.log(f"Correct code. Step {self.step}")
+    if self.step == len(code) - 1:
       self.log("Unlocking the door by code")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")
-    elif new in ["single", "double", "hold"] and self.get_delta_ts(self.last_ringed_ts) > 5:
-      self.step = 0
-      self.bell_ring()
+      self.step = -1
+    self.step += 1
+    self.step_update_ts = self.get_now_ts()
+    return True
 
 
   def bell_ring(self):

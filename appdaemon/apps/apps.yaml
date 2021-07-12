@@ -75,7 +75,7 @@ bathroom_fan:
 bell:
   module: bell
   class: Bell
-  bell_sound_url: !secret bell_sound_url
+  code: !secret appdaemon_bell_code
   global_dependencies: base
   dependencies:
     - persons
