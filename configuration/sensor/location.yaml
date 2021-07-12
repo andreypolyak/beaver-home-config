@@ -36,7 +36,7 @@
       value_template: >
         {% set location = states("input_select.andrey_location") %}
         {% set zone = states("device_tracker.ha_andrey_iphone_11_pro_max") %}
-        {% set proximity = states("proximity.ha_andrey_iphone_11_pro_max_home")|int %}
+        {% set proximity = states("proximity.ha_andrey_home")|int %}
 
         {% if location != "not_home" %}
           {{ location|title }}
@@ -55,7 +55,7 @@
       value_template: >
         {% set location = states("input_select.katya_location") %}
         {% set zone = states("device_tracker.ha_katya_iphone_12_pro_max") %}
-        {% set proximity = states("proximity.ha_katya_iphone_12_pro_max_home")|int %}
+        {% set proximity = states("proximity.ha_katya_home")|int %}
 
         {% if location != "not_home" %}
           {{ location|title }}
