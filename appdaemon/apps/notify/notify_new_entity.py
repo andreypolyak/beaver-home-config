@@ -32,6 +32,9 @@ class NotifyNewEntity(Base):
 
 
   def handle_new_entity(self, entity):
+    new_entities = self.read_storage("new_entities", attribute="all")
+    if entity in new_entities or "persistent_notification." in entity:
+      return
     self.write_storage("new_entities", self.get_now_ts(), attribute=entity)
     self.update_group({})
     self.new_entities.append(entity)
