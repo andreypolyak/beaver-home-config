@@ -1,3 +1,10 @@
 username: !secret yandex_station_username
 password: !secret yandex_station_password
 tts_service_name: alice_say
+devices:
+  !secret yandex_station_bedroom_id:
+    host: !secret yandex_station_bedroom_host
+    name: Bedroom Yandex Station
+  !secret yandex_station_living_room_id:
+    host: !secret yandex_station_living_room_host
+    name: Living Room Yandex Station
