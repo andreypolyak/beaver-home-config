@@ -27,3 +27,18 @@ turn_off_all_lights:
     - service: light.turn_off
       data:
         entity_id: light.living_room_sofa_led_rgb
+
+update_light_state:
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt/Group Main All/get
+        payload: '{"state": ""}'
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt_entrance/Group Bathroom Entrance All/get
+        payload: '{"state": ""}'
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt_bedroom/Group Bedroom All/get
+        payload: '{"state": ""}'
