@@ -57,27 +57,27 @@ cards:
       - type: custom:button-card
         template: header
         name: Andrey History
-      - type: custom:auto-entities
-        show_empty: false
-        card:
-          type: history-graph
-        filter:
-          include:
-            - entity_id: device_tracker.wifi_andrey*
-            - entity_id: device_tracker.ha_andrey*
-            - entity_id: device_tracker.bt_andrey*
-            - entity_id: input_select.andrey_location
+      - type: history-graph
+        entities:
+          - entity: input_select.andrey_location
+            name: Location
+          - entity: device_tracker.ha_andrey_iphone_11_pro_max
+            name: HA
+          - entity: device_tracker.wifi_andrey_iphone_11_pro_max
+            name: Wi-Fi
+          - entity: device_tracker.bt_andrey_iphone_11_pro_max
+            name: BT
       - type: custom:button-card
         template: header
         name: Katya History
-      - type: custom:auto-entities
-        show_empty: false
-        card:
-          type: history-graph
-        filter:
-          include:
-            - entity_id: device_tracker.wifi_katya*
-            - entity_id: device_tracker.ha_katya*
-            - entity_id: device_tracker.bt_katya*
-            - entity_id: input_select.katya_location
+      - type: history-graph
+        entities:
+          - entity: input_select.katya_location
+            name: Location
+          - entity: device_tracker.ha_katya_iphone_12_pro_max
+            name: HA
+          - entity: device_tracker.wifi_katya_iphone_12_pro_max
+            name: Wi-Fi
+          - entity: device_tracker.bt_katya_iphone_12_pro_max
+            name: BT
       - !include /config/lovelace/elements/footer.yaml
