@@ -1,4 +1,5 @@
 import appdaemon.plugins.hass.hassapi as hass
+import inspect
 
 
 class Base(hass.Hass):
@@ -9,6 +10,25 @@ class Base(hass.Hass):
     self.push = self.get_app("push")
     self.storage_namespace = ""
 
+# Logs
+
+  def log_var(self, *args):
+    frame = inspect.currentframe()
+    frame = inspect.getouterframes(frame)[1]
+    string = inspect.getframeinfo(frame[0]).code_context[0].strip()
+    var_names = string[string.find("(") + 1:-1].split(",")
+
+    res = ""
+    for i in range(len(var_names)):
+      if var_names[i].find("=") != -1:
+        var_name = var_names[i].split("=")[1].strip()
+      else:
+        var_name = var_names[i].strip()
+      var_value = args[i]
+      res += f"{var_name}: {var_value}, "
+    self.log(res[:-2])
+
+# Entity names
 
   def convert_entity_to_name(self, entity: str, lower: bool = False):
     name = entity.split(".")[1].replace("_", " ")
@@ -20,6 +40,7 @@ class Base(hass.Hass):
   def convert_name_to_entity(self, entity: str):
     return entity.replace(" ", "_").lower()
 
+# States
 
   def get_int_state(self, entity: str, attribute=None):
     try:
@@ -61,6 +82,37 @@ class Base(hass.Hass):
     return False
 
 
+  def set_value(self, entity, value):
+    domain = entity.split(".")[0]
+    self.call_service(f"{domain}/set_value", entity_id=entity, value=value)
+
+
+  def turn_on_entity(self, entity: str, **kwargs):
+    domain = entity.split(".")[0]
+    self.call_service(f"{domain}/turn_on", entity_id=entity, **kwargs)
+
+
+  def turn_off_entity(self, entity, **kwargs):
+    domain = entity.split(".")[0]
+    self.call_service(f"{domain}/turn_off", entity_id=entity, **kwargs)
+
+
+  def is_bad(self, value):
+    if value in ["unavailable", "unknown", "None", ""]:
+      return True
+    return False
+
+
+  def cancel_handle(self, handle):
+    if self.timer_running(handle):
+      self.cancel_timer(handle)
+
+
+  def get_delta_ts(self, ts):
+    return self.get_now_ts() - ts
+
+# Scenes
+
   def set_scene(self, zone, scene):
     self.call_service("input_select/select_option", entity_id=f"input_select.{zone}_scene", option=scene)
 
@@ -84,21 +136,7 @@ class Base(hass.Hass):
   def get_sleeping_scene(self):
     return self.get_state("input_select.sleeping_scene")
 
-
-  def set_value(self, entity, value):
-    domain = entity.split(".")[0]
-    self.call_service(f"{domain}/set_value", entity_id=entity, value=value)
-
-
-  def turn_on_entity(self, entity: str, **kwargs):
-    domain = entity.split(".")[0]
-    self.call_service(f"{domain}/turn_on", entity_id=entity, **kwargs)
-
-
-  def turn_off_entity(self, entity, **kwargs):
-    domain = entity.split(".")[0]
-    self.call_service(f"{domain}/turn_off", entity_id=entity, **kwargs)
-
+# Datetime
 
   def set_current_datetime(self, entity):
     self.call_service("input_datetime/set_datetime", entity_id=entity, timestamp=self.get_now_ts())
@@ -107,6 +145,7 @@ class Base(hass.Hass):
   def set_time(self, entity, time):
     self.call_service("input_datetime/set_datetime", entity_id=entity, time=time)
 
+# Input selects
 
   def select_option(self, entity, option):
     if "input_select." not in entity:
@@ -119,19 +158,7 @@ class Base(hass.Hass):
       entity = f"input_select.{entity}"
     self.call_service("input_select/set_options", entity_id=entity, options=options)
 
-
-  def cancel_handle(self, handle):
-    if self.timer_running(handle):
-      self.cancel_timer(handle)
-
-
-  def get_delta_ts(self, ts):
-    return self.get_now_ts() - ts
-
-
-  def get_nearest_person_location(self):
-    return self.get_state("input_select.nearest_person_location")
-
+# Timers
 
   def timer_start(self, entity, duration):
     if "timer." not in entity:
@@ -152,6 +179,7 @@ class Base(hass.Hass):
       return True
     return False
 
+# Media players
 
   def media_pause(self, entity):
     if "media_player." not in entity and entity != "all":
@@ -213,26 +241,7 @@ class Base(hass.Hass):
       entity = f"media_player.{entity}"
     self.call_service("sonos/restore", entity_id=entity)
 
-
-  def init_storage(self, namespace, entity, default):
-    self.storage_namespace = namespace
-    entity = f"{namespace}.{entity}"
-    self.storage.init(entity, default)
-
-
-  def read_storage(self, entity, attribute=None):
-    entity = f"{self.storage_namespace}.{entity}"
-    return self.storage.read(entity, attribute=attribute)
-
-
-  def write_storage(self, entity, value, attribute=None):
-    entity = f"{self.storage_namespace}.{entity}"
-    self.storage.write(entity, value, attribute=attribute)
-
-
-  def send_push(self, *args, **kwargs):
-    self.push.send(*args, **kwargs)
-
+# Covers
 
   def set_cover_position(self, entity, position):
     if "cover." not in entity:
@@ -257,40 +266,37 @@ class Base(hass.Hass):
       entity = f"cover.{entity}"
     self.call_service("cover/stop_cover", entity_id=entity)
 
+# Storage
 
-  def is_bad(self, value):
-    if value in ["unavailable", "unknown", "None"]:
-      return True
-    return False
-
-
-  def get_all_persons(self, *args, **kwargs):
-    return self.persons.get_all_persons(*args, **kwargs)
+  def init_storage(self, namespace, entity, default):
+    self.storage_namespace = namespace
+    entity = f"{namespace}.{entity}"
+    self.storage.init(entity, default)
 
 
-  def get_all_person_names(self, *args, **kwargs):
-    return self.persons.get_all_person_names(*args, **kwargs)
+  def read_storage(self, entity, attribute=None):
+    entity = f"{self.storage_namespace}.{entity}"
+    return self.storage.read(entity, attribute=attribute)
 
 
-  def get_all_person_location_entities(self, *args, **kwargs):
-    return self.persons.get_all_person_location_entities(*args, **kwargs)
+  def write_storage(self, entity, value, attribute=None):
+    entity = f"{self.storage_namespace}.{entity}"
+    self.storage.write(entity, value, attribute=attribute)
+
+# Push
+
+  def send_push(self, *args, **kwargs):
+    self.push.send(*args, **kwargs)
+
+# Persons
+
+  def get_persons(self, *args, **kwargs):
+    return self.persons.get_persons(*args, **kwargs)
 
 
-  def get_all_person_names_except_provided(self, *args, **kwargs):
-    return self.persons.get_all_person_names_except_provided(*args, **kwargs)
+  def get_person_names(self, *args, **kwargs):
+    return self.persons.get_person_names(*args, **kwargs)
 
 
-  def get_person_name_from_entity_name(self, *args, **kwargs):
-    return self.persons.get_person_name_from_entity_name(*args, **kwargs)
-
-
-  def get_person_from_entity_name(self, *args, **kwargs):
-    return self.persons.get_person_from_entity_name(*args, **kwargs)
-
-
-  def get_all_person_names_with_location(self, *args, **kwargs):
-    return self.persons.get_all_person_names_with_location(*args, **kwargs)
-
-
-  def get_admin_persons(self, *args, **kwargs):
-    return self.persons.get_admin_persons(*args, **kwargs)
+  def get_person_locations(self):
+    return self.persons.get_person_locations()
