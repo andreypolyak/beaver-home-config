@@ -10,11 +10,10 @@ class NotifyZigbeeOtaUpdate(Base):
 
 
   def check_entities(self, kwargs):
-    binary_sensors = self.get_state("binary_sensor")
     entity_update_states = self.read_storage("entities", attribute="all")
     old_entities = []
     new_entities = []
-    for entity in binary_sensors:
+    for entity in self.get_state("binary_sensor"):
       if not entity.endswith("_update_available"):
         continue
       if self.is_entity_off(entity):

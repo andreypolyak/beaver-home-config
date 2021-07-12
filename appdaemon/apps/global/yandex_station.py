@@ -15,8 +15,7 @@ class YandexStation(Base):
     entity = "media_player.living_room_yandex_station"
     self.listen_state(self.on_living_room_alice_state, entity, attribute="alice_state")
     self.rooms = []
-    media_players = self.get_state("media_player")
-    for media_player in media_players:
+    for media_player in self.get_state("media_player"):
       if media_player.endswith("_yandex_station"):
         self.rooms.append(media_player.replace("media_player.", "").replace("_yandex_station", ""))
     for room in self.rooms:

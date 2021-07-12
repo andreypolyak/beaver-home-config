@@ -5,8 +5,7 @@ class NotifyPlant(Base):
 
   def initialize(self):
     super().initialize()
-    sensors = self.get_state("sensor")
-    for sensor in sensors:
+    for sensor in self.get_state("sensor"):
       if "_moisture" in sensor:
         self.listen_state(self.on_change, sensor, immediate=True)
 

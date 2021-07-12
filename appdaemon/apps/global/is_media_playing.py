@@ -19,8 +19,7 @@ class IsMediaPlaying(Base):
 
   def find_all_sonos_devices(self):
     self.sonos_devices = []
-    media_players = self.get_state("media_player")
-    for media_player in media_players.keys():
+    for media_player in self.get_state("media_player"):
       if "sonos" in media_player:
         sonos_device = media_player.replace("media_player.", "")
         self.sonos_devices.append(sonos_device)

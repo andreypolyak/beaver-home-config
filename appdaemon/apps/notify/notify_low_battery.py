@@ -20,11 +20,10 @@ class NotifyLowBattery(Base):
 
   def check_entities(self, kwargs):
     url = "/lovelace/settings_batteries"
-    sensors = self.get_state("sensor")
     entity_low_battery_states = self.read_storage("entities", attribute="all")
     old_entities = []
     new_entities = []
-    for entity in sensors:
+    for entity in self.get_state("sensor"):
       if not entity.endswith("_battery"):
         continue
       if any(i in entity for i in BLACKLIST):

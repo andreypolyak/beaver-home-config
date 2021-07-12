@@ -6,8 +6,7 @@ class NotifyPersistent(Base):
 
   def initialize(self):
     super().initialize()
-    notifications = self.get_state("persistent_notification")
-    for notification in notifications:
+    for notification in self.get_state("persistent_notification"):
       self.on_existing_notification(notification)
     self.listen_event(self.on_new_notification, "call_service", domain="persistent_notification", service="create")
 

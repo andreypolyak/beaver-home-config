@@ -5,8 +5,7 @@ class NotifyTemperature(Base):
 
   def initialize(self):
     super().initialize()
-    sensors = self.get_state("sensor")
-    for sensor in sensors:
+    for sensor in self.get_state("sensor"):
       if sensor.endswith("_temperature") and "balcony" not in sensor:
         self.listen_state(self.on_change, sensor)
 

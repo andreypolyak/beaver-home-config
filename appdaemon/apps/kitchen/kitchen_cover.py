@@ -8,8 +8,7 @@ class KitchenCover(Base):
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
     self.listen_event(self.on_close_cover, "close_kitchen_cover")
     self.listen_event(self.on_partly_open_cover, "partly_open_kitchen_cover")
-    binary_sensors = self.get_state("binary_sensor")
-    for binary_sensor in binary_sensors:
+    for binary_sensor in self.get_state("binary_sensor"):
       if binary_sensor.endswith("_motion") and "bedroom" not in binary_sensor:
         self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
     self.listen_state(self.on_cinema_session_off, "input_boolean.cinema_session", new="off")

@@ -644,7 +644,7 @@ class RoomLights(Base):
       state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
     light = f"ha_group_{self.room}"
     state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-    for _, preset in self.presets.items():
+    for preset in self.presets.values():
       for light in preset:
         if light not in state["lights"]:
           state["lights"][light] = self.get_state(f"light.{light}", attribute="all")

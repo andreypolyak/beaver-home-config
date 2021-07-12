@@ -11,8 +11,7 @@ class Presence(Base):
     self.listen_state(self.on_activity, "lock.entrance_lock", new="unlocked", old="locked")
     self.listen_state(self.on_activity, "binary_sensor.entrance_door", new="on", old="off")
     self.run_every(self.turn_off_all, "now+300", 3600)
-    sensors = self.get_state("sensor")
-    for sensor in sensors:
+    for sensor in self.get_state("sensor"):
       if sensor.endswith("_switch"):
         self.listen_state(self.on_activity, sensor)
 
@@ -51,8 +50,7 @@ class Presence(Base):
   def turn_off_all(self, kwargs):
     if self.get_living_scene() != "away":
       return
-    timers = self.get_state("timer")
-    for timer in timers.keys():
+    for timer in self.get_state("timer"):
       if "timer.light_" in timer:
         self.timer_cancel(timer)
     self.call_service("script/turn_off_all_lights")

@@ -7,8 +7,7 @@ class Scenes(Base):
     super().initialize()
     self.listen_state(self.on_scene_change, "input_select.living_scene", zone="living")
     self.listen_state(self.on_scene_change, "input_select.sleeping_scene", zone="sleeping")
-    input_booleans = self.get_state("input_boolean")
-    for input_boolean in input_booleans:
+    for input_boolean in self.get_state("input_boolean"):
       if "input_boolean.scene_living_" in input_boolean or "input_boolean.scene_sleeping_" in input_boolean:
         self.listen_state(self.on_boolean_change, input_boolean, new="on")
 

@@ -26,8 +26,7 @@ class Cinema(Base):
 
   def find_motion_sensors(self):
     motion_sensors = []
-    binary_sensors = self.get_state("binary_sensor")
-    for binary_sensor in binary_sensors:
+    for binary_sensor in self.get_state("binary_sensor"):
       if (
         binary_sensor.endswith("_motion")
         and not binary_sensor.startswith("binary_sensor.bedroom")

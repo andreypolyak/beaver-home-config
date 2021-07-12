@@ -59,8 +59,7 @@ class WashingMachine(Base):
     is_not_sleeping = self.get_state("input_select.sleeping_scene") != "night"
     is_not_away = self.get_state("input_select.living_scene") != "away"
     if is_not_sleeping and is_not_away:
-      message = "👖 Clothes are done"
-      self.send_push("home_or_none", message, "washing_machine", sound="Bloom.caf", min_delta=3600)
+      self.send_push("home_or_none", "👖 Clothes are done", "washing_machine", sound="Bloom.caf", min_delta=3600)
 
 
   def action(self, kwargs):

@@ -6,8 +6,7 @@ class MediaControl(Base):
   def initialize(self):
     super().initialize()
     self.sonos_devices = []
-    media_players = self.get_state("media_player")
-    for media_player in media_players.keys():
+    for media_player in self.get_state("media_player"):
       if "_sonos" in media_player:
         self.sonos_devices.append(media_player)
     self.listen_state(self.on_scene_change, "input_select.living_scene")

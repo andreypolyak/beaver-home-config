@@ -15,8 +15,7 @@ class AlarmManager(Base):
       self.update_alarm_time(person_name)
 
     self.sleeping_zone_motion_ts = 0
-    binary_sensors = self.get_state("binary_sensor")
-    for binary_sensor in binary_sensors:
+    for binary_sensor in self.get_state("binary_sensor"):
       if not binary_sensor.endswith("_motion"):
         continue
       if "bedroom_floor" in binary_sensor or "bedroom_table" in binary_sensor:
