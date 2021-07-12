@@ -70,7 +70,7 @@ class NotifyUnavailable(Base):
   def process_saved_entities(self):
     del_entities = []
     for entity, entity_obj in self.saved_entities.items():
-      if not self.entity_exists(entity):
+      if not self.entity_exists(entity) or self.get_state(entity, attribute="restored") is True:
         del_entities.append(entity)
         continue
       entity_state = self.get_state(entity)
