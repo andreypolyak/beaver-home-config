@@ -27,12 +27,21 @@
       unit_of_measurement: "%"
 
 - platform: history_stats
-  name: Night Scene in Living Zone
+  name: Night Scene in Living Zone 12 Hours
   entity_id: input_select.living_scene
   state: night
   type: time
   duration:
     hours: 12
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: Night Scene in Living Zone 1 Hour
+  entity_id: input_select.living_scene
+  state: night
+  type: time
+  duration:
+    hours: 1
   end: "{{ now() }}"
 
 - platform: template

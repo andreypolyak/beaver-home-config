@@ -35,7 +35,10 @@
     night_scene_enough:
       friendly_name: Night Scene Enough
       value_template: >
-        {{ states("sensor.night_scene_in_living_zone")|float >= 6 }}
+        {{
+          states("sensor.night_scene_in_living_zone_12_hours")|float >= 6
+          and states("sensor.night_scene_in_living_zone_1_hour")|float >= 0.75
+        }}
 
 - platform: template
   sensors:
