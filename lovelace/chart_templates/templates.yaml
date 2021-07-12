@@ -1,6 +1,7 @@
 base:
   hours_12: false
   all_series_config:
+    fill_raw: last
     curve: smooth
     stroke_width: 3
     group_by:
