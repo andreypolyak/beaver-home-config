@@ -22,7 +22,7 @@ class Vacuum(Base):
 
   def on_nearest_person_location_change(self, entity, attribute, old, new, kwargs):
     vacuum_state = self.get_vacuum_state()
-    if vacuum_state == "done_charging" and self.self.is_anyone_near_home():
+    if vacuum_state == "done_charging" and self.is_anyone_near_home():
       self.go_to_bin()
 
 
@@ -59,7 +59,7 @@ class Vacuum(Base):
 
 
   def on_vacuum_returning(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_state() == "cleaning" and self.self.is_anyone_near_home():
+    if self.get_vacuum_state() == "cleaning" and self.is_anyone_near_home():
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
       self.set_vacuum_auto_clean_state("done_charging")
@@ -115,4 +115,4 @@ class Vacuum(Base):
 
 
   def is_anyone_near_home(self):
-    return self.get_nearest_person_location() in ["home", "downstairs", "yard"]
+    return self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]
