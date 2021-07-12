@@ -303,6 +303,12 @@ presence:
   class: Presence
   global_dependencies: base
 
+restart_lights:
+  module: restart_lights
+  class: RestartLights
+  global_dependencies: base
+  dependencies: push
+
 scenes:
   module: scenes
   class: Scenes
