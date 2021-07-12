@@ -19,6 +19,6 @@ class NotifyPlant(Base):
       if self.get_scene(zone) == "night":
         return
     if moisture < 80:
-      plant_name = self.convert_entity_to_name(entity.replace("_moisture", ""), lower=True)
+      plant_name = entity.replace("sensor.", "").replace("_moisture", "").replace("_", " ")
       message = f"🪴 It's time to water the {plant_name}. Moisture there is {moisture}%"
       self.send_push("home_or_none", message, "plant", min_delta=21600)

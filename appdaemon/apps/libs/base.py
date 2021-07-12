@@ -28,18 +28,6 @@ class Base(hass.Hass):
       res += f"{var_name}: {var_value}, "
     self.log(res[:-2])
 
-# Entity names
-
-  def convert_entity_to_name(self, entity: str, lower: bool = False):
-    name = entity.split(".")[1].replace("_", " ")
-    if not lower:
-      name = name.title()
-    return name
-
-
-  def convert_name_to_entity(self, entity: str):
-    return entity.replace(" ", "_").lower()
-
 # States
 
   def get_int_state(self, entity: str, attribute=None):
