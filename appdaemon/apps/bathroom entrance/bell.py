@@ -32,7 +32,7 @@ class Bell(Base):
     elif new == "hold":
       button_code = "0"
     if self.step > len(code) - 1 or code[self.step] != button_code:
-      self.log(f"Incorrect code. Step {self.step}")
+      self.log(f"Incorrect code (button_code). Step {self.step}")
       self.step_update_ts = 0
       self.step = 0
       return False
