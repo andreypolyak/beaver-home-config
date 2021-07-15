@@ -8,6 +8,7 @@ class AC(Base):
     self.handle = None
     self.handle_ts = 0
     self.check_handle = None
+    self.turn_off_handle = None
     self.listen_state(self.on_change, "input_select.living_scene", immediate=True)
     self.listen_state(self.on_change, "binary_sensor.living_room_balcony_door")
     self.listen_state(self.on_change, "sensor.balcony_temperature")
@@ -44,7 +45,7 @@ class AC(Base):
     is_ac_turn_off_disabled = self.is_timer_active("ac_turn_off_disabled")
     is_ac_turn_on_disabled = self.is_timer_active("ac_turn_on_disabled")
 
-    new_ac_state = None
+    new_ac_state = False
     change_reason = ""
 
     if living_room_temperature >= 26 and balcony_temperature >= 15:
@@ -95,12 +96,14 @@ class AC(Base):
       change_reason = "balcony door is open"
       new_ac_state = False
 
-    if new_ac_state is True and self.is_entity_off("binary_sensor.living_room_ac_door"):
+    if new_ac_state and self.is_entity_off("binary_sensor.living_room_ac_door"):
+      self.cancel_handle(self.turn_off_handle)
       self.log(f"AC was turned on because: {change_reason}")
       self.turn_on_ac()
-    elif new_ac_state is False and self.is_entity_on("binary_sensor.living_room_ac_door"):
-      self.log(f"AC was turned off because: {change_reason}")
-      self.turn_off_ac()
+    elif not new_ac_state and self.is_entity_on("binary_sensor.living_room_ac_door"):
+      self.log(f"AC will be turned off because: {change_reason}")
+      if not self.timer_running(self.turn_off_handle):
+        self.turn_off_handle = self.run_in(self.turn_off_ac, 15)
 
 
   def on_manual_toggle(self, event_name, data, kwargs):
@@ -134,7 +137,8 @@ class AC(Base):
     self.check_handle = self.run_in(self.check_state, 10, is_on=True)
 
 
-  def turn_off_ac(self):
+  def turn_off_ac(self, kwargs):
+    self.log("Turning off AC")
     self.turn_on_entity("script.ac_turn_off")
     self.cancel_handle(self.check_handle)
     self.check_handle = self.run_in(self.check_state, 10, is_on=False)
