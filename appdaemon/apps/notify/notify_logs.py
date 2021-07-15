@@ -22,9 +22,7 @@ HA_BLACKLIST = [
   "Could not find data in region",
   "Disconnected: Did not receive auth message within 10 seconds",
   "Update of switch.living_room_christmas_tree is taking over 10 seconds",
-  "Repository is archived",
   "PS4 could not be reached",
-  "GitHub Ratelimit error",
   "mset?motor_speed",
   "using 'value_template' for 'position_topic'",
   "Authentication required for Account. (421)",
@@ -49,7 +47,6 @@ HA_BLACKLIST = [
   "Connected to Broadlink",
   "Error fetching Broadlink",
   "We found a custom integration",
-  "GitHub returned 404 for https://api.github.com/repos",
   ":0:0 Script error.",
   "Timeout call http://192.168.1.78:8080/start",
   "Cannot connect to host quasar.yandex.ru",
@@ -58,7 +55,8 @@ HA_BLACKLIST = [
   "took longer than the scheduled update interval 0:00:10",
   "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
   "Error retrieving proxied image from",
-  "local variable 'controllers' referenced before assignment"
+  "local variable 'controllers' referenced before assignment",
+  "custom_components.hacs"
 ]
 
 
