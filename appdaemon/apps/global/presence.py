@@ -57,4 +57,4 @@ class Presence(Base):
 
 
   def update_light_state(self, kwargs):
-    self.turn_on_entity("script/update_light_state")
+    self.call_service("script/update_light_state")
