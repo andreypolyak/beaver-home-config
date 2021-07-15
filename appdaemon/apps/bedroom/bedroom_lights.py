@@ -94,7 +94,7 @@ class BedroomLights(RoomLights):
     elif (
       mode == "floor_motion_sensor"
       and new == "on"
-      and self.get_state("input_boolean.alarm_ringing") != "on"
+      and self.is_entity_off("input_boolean.alarm_ringing")
       and self.is_auto_lights()
     ):
       self.turn_preset("DARK", mode, state, min_delay=True)
