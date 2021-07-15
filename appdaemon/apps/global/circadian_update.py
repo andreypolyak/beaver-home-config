@@ -3,8 +3,8 @@ import math
 
 DELAY = 120
 SAT_STEP = 2
-MAX_LUX = 300
-MIN_LUX = 10
+MAX_LUX = 200
+MIN_LUX = 0
 # From 06:00 to 12:00 decrease saturation by maximum 20% (100% max saturation at 6, 80% at 9, 100% at 12)
 MORNING_START = 6
 MORNING_END = 12
@@ -33,11 +33,6 @@ class CircadianUpdate(Base):
           new_saturation = old_saturation + SAT_STEP
         elif new_saturation < old_saturation:
           new_saturation = old_saturation - SAT_STEP
-    # Hacky way to prevent ikea bulbs from turning red/pink when saturation is 42
-    if new_saturation == 42 and old_saturation > 42:
-      new_saturation = 40
-    elif new_saturation == 42 and old_saturation < 42:
-      new_saturation = 44
     if new_saturation != old_saturation:
       self.set_saturation(new_saturation, kelvin)
 
