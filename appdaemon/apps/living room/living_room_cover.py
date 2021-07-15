@@ -13,6 +13,11 @@ class LivingRoomCover(Base):
     self.listen_state(self.on_cover_running_change, "cover.living_room_cover", attribute="running", immediate=True)
     self.listen_state(self.on_cover_switch_change, "sensor.living_room_cover_switch")
     self.listen_event(self.on_close_living_room_cover, "close_living_room_cover")
+    self.run_every(self.get_cover_state, "now", 60)
+
+
+  def get_cover_state(self, kwargs):
+    self.call_service("mqtt/publish", topic="zigbee2mqtt/Living Room Cover/get", payload='{"state": ""}')
 
 
   def on_cover_switch_change(self, entity, attribute, old, new, kwargs):
@@ -31,7 +36,7 @@ class LivingRoomCover(Base):
     position = self.get_state("cover.living_room_cover", attribute="current_position")
     if position != self.prev_position or position not in [0, 100]:
       self.log(f"Cover changed position ({position}). Getting fresh update")
-      self.call_service("mqtt/publish", topic="zigbee2mqtt/Living Room Cover/get", payload='{"state": ""}')
+      self.get_cover_state({})
       self.turn_on_entity("input_boolean.living_room_cover_active")
       self.prev_position = position
       self.run_in(self.update_position, 4)
