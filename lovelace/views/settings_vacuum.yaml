@@ -13,7 +13,7 @@ cards:
         cards:
           - type: custom:button-card
             template: vacuum_auto
-            entity: input_boolean.vacuum_auto_clean
+            entity: input_boolean.vacuum_auto
           - type: custom:button-card
             template: base_icon
             entity: vacuum.rockrobo

@@ -71,7 +71,7 @@ vacuum_device:
   variables:
     room: ""
 
-vacuum_auto_clean:
+vacuum_auto:
   template: base
   color: auto
   color_type: card
