@@ -173,7 +173,8 @@
   lights:
     bedroom_table:
       friendly_name: Bedroom Table
-      value_template: "off"
+      value_template: >
+        {{ is_state("input_boolean.bedroom_table_lamp", "on") }}
       turn_on:
         service: script.fire_custom_event
         data:

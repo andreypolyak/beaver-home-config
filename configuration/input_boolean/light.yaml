@@ -57,3 +57,7 @@ sleeping_zone_min_delay:
 circadian_update:
   name: Update Circadian Light
   icon: mdi:theme-light-dark
+
+bedroom_table_lamp:
+  name: Bedroom Table lamp
+  icon: mdi:desk-lamp
