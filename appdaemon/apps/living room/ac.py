@@ -51,17 +51,17 @@ class AC(Base):
     if living_room_temperature >= 26 and balcony_temperature >= 15:
       change_reason = "living_room_temperature >= 26 and balcony_temperature >= 15"
       new_ac_state = True
-    elif living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60:
-      change_reason = "living_room_temperature >= 23 and balcony_temperature >= 25 and living_room_humidity < 60"
+    elif living_room_temperature >= 25 and balcony_temperature >= 25 and living_room_humidity < 60:
+      change_reason = "living_room_temperature >= 25 and balcony_temperature >= 25 and living_room_humidity < 60"
       new_ac_state = True
-    elif living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60:
-      change_reason = "living_room_temperature >= 25 and balcony_temperature >= 20 and living_room_humidity < 60"
+    elif living_room_temperature >= 27 and balcony_temperature >= 20 and living_room_humidity < 60:
+      change_reason = "living_room_temperature >= 27 and balcony_temperature >= 20 and living_room_humidity < 60"
       new_ac_state = True
-    elif living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60:
-      change_reason = "living_room_temperature >= 22 and balcony_temperature >= 25 and living_room_humidity >= 60"
+    elif living_room_temperature >= 24 and balcony_temperature >= 25 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature >= 24 and balcony_temperature >= 25 and living_room_humidity >= 60"
       new_ac_state = True
-    elif living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60:
-      change_reason = "living_room_temperature >= 24 and balcony_temperature >= 20 and living_room_humidity >= 60"
+    elif living_room_temperature >= 26 and balcony_temperature >= 20 and living_room_humidity >= 60:
+      change_reason = "living_room_temperature >= 26 and balcony_temperature >= 20 and living_room_humidity >= 60"
       new_ac_state = True
     elif living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60:
       change_reason = "living_room_temperature < 21 and balcony_temperature >= 25 and living_room_humidity < 60"
