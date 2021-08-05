@@ -28,8 +28,6 @@
   friendly_name: Living Room Party Plug
 '0x000d6f001363956e':
   friendly_name: Living Room Party Laser Plug
-'0x00124b002113ac0e':
-  friendly_name: Living Room Sofa LED
 '0x00158d0005413bde':
   friendly_name: Living Room Back Motion
   occupancy_timeout: 5
@@ -124,3 +122,5 @@
   friendly_name: Kitchen Chair 2 Occupancy
 '0x00158d0006726399':
   friendly_name: Kitchen Chair 1 Occupancy
+'0x84fd27fffec35e3d':
+  friendly_name: Living Room Sofa LED

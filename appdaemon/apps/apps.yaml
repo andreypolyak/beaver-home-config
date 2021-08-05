@@ -250,11 +250,6 @@ delete_snapshot:
   class: DeleteSnapshot
   global_dependencies: base
 
-fix_gledopto:
-  module: fix_gledopto
-  class: FixGledopto
-  global_dependencies: base
-
 ha_count_updates:
   module: ha_count_updates
   class: HaCountUpdates

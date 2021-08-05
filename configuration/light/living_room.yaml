@@ -7,7 +7,7 @@
   entities:
     - light.group_living_room_top
     - light.living_room_sofa
-    - light.living_room_sofa_led_rgb
+    - light.living_room_sofa_led
     - light.group_living_room_speakers
 
 - platform: template
@@ -138,26 +138,26 @@
 
 - platform: template
   lights:
-    ha_template_individual_living_room_sofa_led_rgb:
-      friendly_name: HA Template Individual Living Room Sofa LED RGB
+    ha_template_individual_living_room_sofa_led:
+      friendly_name: HA Template Individual Living Room Sofa LED
       level_template: >
-        {{ state_attr("light.living_room_sofa_led_rgb", "brightness")|int }}
+        {{ state_attr("light.living_room_sofa_led", "brightness")|int }}
       value_template: >
-        {{ is_state("light.living_room_sofa_led_rgb", "on") }}
+        {{ is_state("light.living_room_sofa_led", "on") }}
       color_template: >
         {{
-          state_attr("light.living_room_sofa_led_rgb", "hs_color")
-          if state_attr("light.living_room_sofa_led_rgb", "hs_color")
+          state_attr("light.living_room_sofa_led", "hs_color")
+          if state_attr("light.living_room_sofa_led", "hs_color")
           else [0,0]
         }}
       turn_on:
         service: script.fire_custom_event
         data:
-          custom_event_data: living_room_sofa_led_rgb_virtual_switch_individual_on
+          custom_event_data: living_room_sofa_led_virtual_switch_individual_on
       turn_off:
         service: script.fire_custom_event
         data:
-          custom_event_data: living_room_sofa_led_rgb_virtual_switch_individual_off
+          custom_event_data: living_room_sofa_led_virtual_switch_individual_off
       set_level:
         service: script.fire_custom_event
         data:

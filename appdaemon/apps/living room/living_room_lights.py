@@ -20,35 +20,30 @@ class LivingRoomLights(RoomLights):
       ("sensor.living_room_switch", "switch")
     ]
     self.turn_off_lights = [
-      "group_living_room",
-      "living_room_sofa_led_rgb"
+      "group_living_room"
     ]
     self.lights = {
       "group_living_room": [
         "group_living_room_top",
         "group_living_room_speakers",
-        "living_room_sofa"
-      ],
-      "living_room_sofa_led_rgb": []
+        "living_room_sofa",
+        "living_room_sofa_led"
+      ]
     }
     self.presets = {
       "BRIGHT": {
-        "group_living_room": {"state": "on", "attributes": {"brightness": 254}},
-        "living_room_sofa_led_rgb": {"state": "on", "attributes": {"brightness": 254}}
+        "group_living_room": {"state": "on", "attributes": {"brightness": 254}}
       },
       "DARK": {
         "group_living_room_dark_on": {"state": "on", "attributes": {"brightness": 3}},
-        "group_living_room_dark_off": {"state": "off"},
-        "living_room_sofa_led_rgb": {"state": "on", "attributes": {"brightness": 3}}
+        "group_living_room_dark_off": {"state": "off"}
       },
       "CINEMA": {
         "group_living_room_light_cinema_on": {"state": "on", "attributes": {"brightness": 254}},
-        "group_living_room_light_cinema_off": {"state": "off"},
-        "living_room_sofa_led_rgb": {"state": "on", "attributes": {"brightness": 254}}
+        "group_living_room_light_cinema_off": {"state": "off"}
       },
       "OFF": {
-        "group_living_room": {"state": "off"},
-        "living_room_sofa_led_rgb": {"state": "off"}
+        "group_living_room": {"state": "off"}
       }
     }
     self.room_init()
