@@ -1,401 +1,381 @@
 from base import Base
 import random
-import json
 
 FADE_DURATION = 60
 COOLDOWN_DELAY = 60
 
 
+# CHANGE: remove state from all signatures
+# CHANGE: create "OFF" preset
+# CHANGE: turn_off_all to set_preset("OFF")
+# CHANGE: light_toggle to toggle_preset
+# CHANGE: overwrite_scene to toggle_brightness(new, set_day=True)
+# CHANGE: night_scene_light_toggle to toggle_preset(set_day=True)
+# CHANGE: use set_cooldown in set_preset for switches and remove mode
+# CHANGE: remove is_door_open
+# CHANGE: differentiate switch and virtual_switch
+
+# TODO: logging
+
 class RoomLights(Base):
 
   def room_init(self):
     super().initialize()
-    self.current_preset = "BRIGHT"
-    self.person_inside = False
-    self.supported_features = {}
-    self.state_before_fade = {}
-    self.is_max_delay = False
-    self.is_min_delay = False
     self.allow_button_hold = True
+    default = self.__build_initial_state()
+    self.init_storage(f"{self.room}_lights", "state", default)
+    self.__sync_state()
     self.handle = None
     self.listen_state(self.__on_scene, f"input_select.{self.zone}_scene")
     for sensor in self.sensors:
       self.listen_state(self.__on_sensor, sensor[0], mode=sensor[1])
     for switch in self.switches:
       self.listen_state(self.__on_switch, switch[0], mode=switch[1])
-    self.listen_event(self.__on_timer_finished, "timer.finished", entity_id=f"timer.light_{self.room}")
-    self.listen_event(self.__on_faded_timer_finished, "timer.finished", entity_id=f"timer.light_faded_{self.room}")
+    self.listen_event(self.__on_light_timer_finish, "timer.finished", entity_id=f"timer.light_{self.room}")
+    self.listen_event(self.__on_faded_timer_finish, "timer.finished", entity_id=f"timer.light_faded_{self.room}")
+    self.listen_event(self.__on_cooldown_timer_finish, "timer.finished", entity_id=f"timer.light_cooldown_{self.room}")
     for operation in ["on", "off", "toggle"]:
       custom_event_data = f"{self.room}_virtual_switch_room_{operation}"
       self.listen_event(self.__on_virtual_switch, "custom_event", custom_event_data=custom_event_data)
-      for light in self.__build_list_of_individual_lights():
-        custom_event_data = f"{light}_virtual_switch_individual_{operation}"
+      for light_name in self.lights.keys():
+        custom_event_data = f"{light_name}_virtual_switch_individual_{operation}"
         self.listen_event(self.__on_individual_virtual_switch, "custom_event", custom_event_data=custom_event_data)
     self.listen_event(self.__on_set_manual_color, "custom_event", custom_event_data=f"{self.room}_set_manual_color")
     self.listen_event(self.__on_set_auto_color, "custom_event", custom_event_data=f"{self.room}_set_auto_color")
     self.listen_event(self.__on_set_brightness, "custom_event", custom_event_data=f"{self.room}_set_brightness")
-    event_data = f"{self.room}_toggle_max_brightness"
-    self.listen_event(self.__on_toggle_max_brightness, "custom_event", custom_event_data=event_data)
-    self.listen_state(self.__on_lights_off, f"light.ha_group_{self.room}", new="off")
+    custom_event_data = f"{self.room}_toggle_max_brightness"
+    self.listen_event(self.__on_toggle_max_brightness, "custom_event", custom_event_data=custom_event_data)
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
+    self.listen_state(self.__on_set_auto_lights, f"input_boolean.auto_lights_{self.room}")
 
-# Control
 
-  def turn_preset(self, preset, mode, state, min_delay=False, brightness=None,
-                  hs_color=None, rgb_color=None, kelvin=None):
-    self.__cancel_light_timers()
-    self.is_min_delay = min_delay
-    self.is_max_delay = False
-    self.current_preset = preset
-    turn_off_all = True
-    for light, light_params in self.presets[preset].items():
-      new_state = light_params["state"]
-      if "{{" in new_state and "}}" in new_state:
-        new_state = self.render_template(new_state)
-      if new_state == "on":
-        turn_off_all = False
-        if not brightness and "attributes" in light_params and "brightness" in light_params["attributes"]:
-          light_brightness = light_params["attributes"]["brightness"]
-        else:
-          light_brightness = brightness
-        kwargs = {
-          "brightness": light_brightness,
-          "hs_color": hs_color,
-          "rgb_color": rgb_color,
-          "kelvin": kelvin
-        }
-        args = self.__build_light_args("on", light, state, **kwargs)
-        self.__turn_on_ha_light(light, args)
-      elif new_state == "off":
-        args = self.__build_light_args("off", light, state)
-        self.__turn_off_ha_light(light, args)
+# Public room light control
 
-    if turn_off_all and "switch" in mode and mode != "virtual_switch":
+
+  def set_preset(self, preset_name, min_delay=False, save_preset=True, set_cooldown=False):
+    self.log(f"Set {preset_name} preset with following parameters: min_delay={min_delay}, "
+             f"save_preset={save_preset}, set_cooldown={set_cooldown}")
+    if save_preset:
+      self.write_storage("state", preset_name, attribute="preset_name")
+    light_set = self.__build_light_set_from_preset(preset_name)
+    self.__set_light_set(light_set)
+    if self.__is_light_off() and set_cooldown:
       self.__set_cooldown_timer()
-    elif "motion_sensor" not in mode:
+    else:
       self.__cancel_cooldown_timer()
 
-    if not turn_off_all:
-      self.__set_light_timers()
+
+  def set_preset_if_on(self, preset_name, min_delay=False):
+    self.log(f"Set {preset_name} preset if lights on with following parameters: min_delay={min_delay}")
+    are_all_lights_off = self.__is_light_off()
+    if not are_all_lights_off:
+      self.set_preset(preset_name, min_delay=min_delay)
 
 
-  def turn_preset_if_on(self, preset, mode, state, min_delay=False):
-    self.current_preset = preset
-    is_light_on = self.__is_room_light_on(state)
-    if is_light_on:
-      self.turn_preset(preset, mode, state, min_delay=min_delay)
+  def set_preset_or_restore(self, preset_name, min_delay=False):
+    self.log(f"Set {preset_name} preset or restore lights with following parameters: min_delay={min_delay}")
+    is_faded = self.read_storage("state", attribute="faded")
+    are_all_lights_off = self.__is_light_off()
+    is_cooldown = self.read_storage("state", attribute="cooldown")
+    if is_faded:
+      self.__unfade()
+    elif not are_all_lights_off:
+      # Or set_preset instead of set light timer?
+      self.__set_light_timer()
+    elif not is_cooldown:
+      self.set_preset(preset_name, min_delay=min_delay)
 
 
-  def light_toggle(self, preset, operation, mode, state, min_delay=False):
-    self.current_preset = preset
-    is_light_on = self.__is_room_light_on(state)
-    if operation == "off" or (is_light_on and operation != "on"):
-      self.turn_off_all(state)
-      if "switch" in mode:
-        self.__set_cooldown_timer()
-    else:
-      self.turn_preset(preset, mode, state, min_delay=min_delay)
-
-
-  def turn_off_all(self, state):
-    self.log(f"Turning off all lights in {self.room}")
-    for light in self.turn_off_lights:
-      args = self.__build_light_args("off", light, state)
-      self.__turn_off_ha_light(light, args)
-    self.__cancel_light_timers()
-    self.__cancel_cooldown_timer()
-
-
-  def night_scene_light_toggle(self, preset, operation, mode, state, min_delay=False):
-    is_light_on = self.__is_room_light_on(state)
-    if is_light_on:
-      self.light_toggle(preset, operation, mode, state)
-    else:
-      self.turn_preset(preset, mode, state)
+  def toggle_preset(self, preset_name, command, min_delay=False, set_day=False, set_cooldown=False):
+    self.log(f"Toggle {preset_name} preset with following parameters: command={command}, min_delay={min_delay}, "
+             f"set_day={set_day}, set_cooldown={set_cooldown}")
+    are_all_lights_off = self.__is_light_off()
+    if command == "off" or (not are_all_lights_off and command == "toggle"):
+      self.set_preset("OFF", save_preset=False, set_cooldown=set_cooldown)
+      return
+    self.set_preset(preset_name, min_delay=min_delay)
+    if set_day:
       self.turn_on_scene("day")
 
 
-  def turn_preset_or_restore(self, preset, mode, state, min_delay=False, turn_on=True):
-    self.current_preset = preset
-    self.__cancel_light_timers()
-    is_light_on = self.__is_room_light_on(state)
-    is_faded = self.__is_room_faded(state)
-    cooldown_timer_active = state["timers"]["light_cooldown"]
-    if is_light_on and is_faded:
-      self.__restore_previous_state(state)
-    elif is_light_on:
-      self.__set_light_timers()
-    elif not cooldown_timer_active and turn_on:
-      self.turn_preset(preset, mode, state, min_delay=min_delay)
-
-
-  def toggle_brightness(self, action, state):
-    if not self.__handle_button_hold(action):
+  def toggle_brightness(self, command, set_day=False):
+    self.log(f"Toggle brightness with following parameters: command={command}, set_day={set_day}")
+    if not self.__handle_button_hold(command):
       return
-    if action == "brightness_up":
+    if set_day:
+      self.turn_on_scene("day")
+      self.set_preset("BRIGHT")
+    elif command == "brightness_up":
       self.__toggle_max_brightness()
-    elif action == "brightness_down":
+    elif command == "brightness_down":
       self.__toggle_min_brightness()
     self.handle = self.run_in(self.__allow_button_hold, 3)
 
 
-  def overwrite_scene(self, action, scene, preset, state):
-    if not self.__handle_button_hold(action):
+  def turn_on_scene(self, scene):
+    self.set_scene(self.zone, "day")
+
+
+# Control light set
+
+
+  def __unfade(self):
+    light_set = self.read_storage("state", attribute="lights")
+    lights = self.__build_groups_from_light_set(light_set)
+    for light_name, light in lights.items():
+      self.__set_light(light_name, light)
+    self.write_storage("state", True, attribute="max_delay")
+    self.__set_light_timer()
+
+
+  def __fade(self):
+    light_set = {}
+    fade_any = False
+    lights = self.read_storage("state", attribute="lights")
+    has_full_brightness = False
+    for light_name in lights.keys():
+      if self.__is_feature_supported(light_name, "brightness") and lights[light_name]["brightness"] > 3:
+        has_full_brightness = True
+        break
+    for light_name in lights.keys():
+      if not lights[light_name]["state"]:
+        light_set[light_name] = {"state": False}
+        continue
+      if hasattr(self, "ignore_fade_lights") and light_name in self.ignore_fade_lights:
+        continue
+      if not self.__is_feature_supported(light_name, "brightness"):
+        light_set[light_name] = {"state": False}
+        continue
+      if lights[light_name]["brightness"] == 3 and not has_full_brightness:
+        light_set[light_name] = {"state": False}
+        continue
+      light_set[light_name] = {"state": True, "brightness": 2}
+      fade_any = True
+    if fade_any:
+      groups = self.__build_groups_from_light_set(light_set)
+      for light_name, light in groups.items():
+        self.__set_light(light_name, light, fade=True)
+      self.__set_faded_timer()
       return
-    if action in ["brightness_up", "brightness_down"]:
-      self.turn_on_scene(scene)
-      self.turn_preset(preset, "long_press", state)
-    self.handle = self.run_in(self.__allow_button_hold, 3)
+    self.set_preset("OFF", save_preset=False)
+
+
+  def __set_features(self, color=None, brightness=None):
+    if color is not None:
+      self.write_storage("state", color, attribute="color")
+    light_set = self.read_storage("state", attribute="lights")
+    are_all_lights_off = self.__is_light_off()
+    is_faded = self.read_storage("state", attribute="faded")
+    for light_name, light in light_set.items():
+      if are_all_lights_off or light["state"] or is_faded:
+        light_set[light_name]["state"] = True
+      is_brightness_supported = self.__is_feature_supported(light_name, "brightness")
+      if brightness is not None and is_brightness_supported and light_set[light_name]["state"]:
+        light_set[light_name]["brightness"] = brightness
+    self.__set_light_set(light_set)
+
+
+  def __set_light_set(self, light_set, circadian=False):
+    self.log(f"Setting new light state: {light_set}")
+    self.write_storage("state", light_set, attribute="lights")
+    with_color = False
+    for light in light_set.values():
+      if light["state"]:
+        with_color = True
+        break
+    groups = self.__build_groups_from_light_set(light_set, with_color=with_color)
+    for light_name, light in groups.items():
+      self.__set_light(light_name, light, circadian=circadian)
+    if circadian:
+      return
+    are_all_lights_off = self.__is_light_off()
+    self.log_var(are_all_lights_off)
+    if are_all_lights_off:
+      self.__set_default_params()
+      self.__cancel_light_timer()
+    else:
+      self.__set_light_timer()
+
+
+  def __individual_virtual_switch(self, light_name, command):
+    # TODO: optimize and do in one step
+    is_faded = self.read_storage("state", attribute="faded")
+    if is_faded:
+      self.__unfade()
+    light_set = self.read_storage("state", attribute="lights")
+    light = light_set[light_name]
+    if command == "on":
+      light["state"] = True
+    elif command == "off":
+      light["state"] = False
+    else:
+      light["state"] = not light["state"]
+    if light["state"] and "brightness" in self.lights[light_name]:
+      if "brightness" in light_set[light_name]:
+        light["brightness"] = light_set[light_name]["brightness"]
+      else:
+        light["brightness"] = 3
+    light_set[light_name] = light
+    self.__set_light_set(light_set)
 
 
   def __toggle_max_brightness(self):
-    state = self.get_lights_state()
-    if state["booleans"]["auto_colors"]:
-      self.__set_max_brightness(state)
+    max_brightness = 0
+    for light in self.read_storage("state", attribute="lights").values():
+      if "brightness" in light and light["brightness"] > max_brightness:
+        max_brightness = light["brightness"]
+    if self.color_mode == "rgb":
+      color = [30, 33]
+      is_right_color = self.read_storage("state", attribute="color") == color
+    elif self.color_mode == "cct":
+      color = 4700
+      is_right_color = self.read_storage("state", attribute="color") == color
     else:
-      self.__set_auto_color(state)
+      color = None
+      is_right_color = True
+    if max_brightness == 254 and is_right_color:
+      self.write_storage("state", "auto", attribute="color")
+      preset_name = self.read_storage("state", attribute="preset_name")
+      self.set_preset(preset_name, save_preset=False)
+    else:
+      self.__set_features(color=color, brightness=254)
 
 
   def __toggle_min_brightness(self):
-    state = self.get_lights_state()
-    room_lights = state["lights"][f"ha_group_{self.room}"]
-    if room_lights["state"] == "on" and room_lights["attributes"]["brightness"] <= 3:
-      self.__set_brightness(254, state, turn_on_all=True)
+    min_brightness = 255
+    for light in self.read_storage("state", attribute="lights").values():
+      if "brightness" in light and light["brightness"] < min_brightness:
+        min_brightness = light["brightness"]
+    if min_brightness == 3:
+      preset_name = self.read_storage("state", attribute="preset_name")
+      self.set_preset(preset_name, save_preset=False)
     else:
-      self.__set_min_brightness(state)
+      self.__set_features(brightness=3)
 
 
-  def individual_light_toggle(self, light, preset, operation, state):
-    is_light_on = self.__is_individual_light_on(light, state)
-    if operation == "off" or (operation == "toggle" and is_light_on):
-      args = self.__build_light_args("off", light, state)
-      self.__turn_off_ha_light(light, args)
-      is_any_light_is_on = self.__is_any_light_is_on(state, except_light=light)
-      if not is_any_light_is_on:
-        self.__cancel_light_timers()
-        self.__set_cooldown_timer()
-        return
+# Control lights
+
+
+  def __set_light(self, light_name, light, circadian=False, fade=False):
+    if light["state"]:
+      self.__turn_on_light(light_name, light, circadian=circadian, fade=fade)
     else:
-      brightness = self.__get_max_brightness_in_current_preset()
-      args = self.__build_light_args("on", light, state, brightness=brightness)
-      self.__turn_on_ha_light(light, args)
-    self.__set_light_timers()
-    self.__cancel_cooldown_timer()
+      self.__turn_off_light(light_name, fade=fade)
 
 
-  def __set_brightness(self, brightness, state, turn_off_if_no_brightness=False, turn_on_all=False):
-    lights = self.__build_list_of_individual_lights()
-    is_any_light_is_on = self.__is_any_light_is_on(state)
-    if not is_any_light_is_on:
-      self.turn_preset(self.current_preset, "set_brightness", state, min_delay=self.is_min_delay, brightness=brightness)
-      return
-    for light in lights:
-      supported_features = self.__get_supported_features(light, state)
-      is_light_on = self.__is_individual_light_on(light, state)
-      if supported_features["brightness"] and (is_light_on or turn_on_all):
-        args = self.__build_light_args("on", light, state, brightness=brightness, ignore_color=True)
-        self.__turn_on_ha_light(light, args)
-      elif not supported_features["brightness"] and turn_off_if_no_brightness:
-        args = self.__build_light_args("off", light, state)
-        self.__turn_off_ha_light(light, args)
-      elif not supported_features["brightness"] and turn_on_all:
-        args = self.__build_light_args("on", light, state)
-        self.__turn_on_ha_light(light, args)
-    self.__set_light_timers()
-    self.__cancel_cooldown_timer()
-
-
-  def __restore_previous_state(self, state):
-    for light_name, light_group in self.lights.items():
-      # Light group without children lights
-      if len(light_group) == 0:
-        light_args = self.__build_light_args_for_restore(light_name, state)
-        if light_args is not None:
-          self.__turn_on_ha_light(light_name, light_args)
-      # Light group with children
+  def __turn_on_light(self, light_name, light, circadian=False, fade=False):
+    kwargs = {}
+    if self.__is_feature_supported(light_name, "transition"):
+      if circadian or fade:
+        kwargs["transition"] = 2
       else:
-        light_group_args = {}
-        for individual_light_name in light_group:
-          light_args = self.__build_light_args_for_restore(individual_light_name, state)
-          if light_args is not None:
-            light_group_args[individual_light_name] = json.dumps(light_args)
-        args_are_same = len(set(light_group_args.values())) == 1
-        turn_on_all = len(light_group_args.values()) == len(light_group)
-        turn_on_any = len(set(light_group_args.values())) > 0
-        # Turn on group
-        if args_are_same and turn_on_all:
-          light_args = json.loads(list(light_group_args.values())[0])
-          self.__turn_on_ha_light(light_name, light_args)
-        # Turn on individually
-        elif turn_on_any:
-          for individual_light_name, light_args in light_group_args.items():
-            light_args = json.loads(light_args)
-            self.__turn_on_ha_light(individual_light_name, light_args)
-    self.is_max_delay = True
-    self.__set_light_timers()
+        kwargs["transition"] = self.get_float_state("input_number.transition")
+    if "brightness" in light:
+      kwargs["brightness"] = light["brightness"]
+    if self.__is_feature_supported(light_name, "color"):
+      color = self.__get_color(self.read_storage("state", attribute="color"))
+      kwargs[color["mode"]] = color["value"]
+    self.log(f"Turn on {light_name} with args: {kwargs}")
+    self.turn_on_entity(f"light.{light_name}", **kwargs)
 
 
-  def __build_light_args_for_restore(self, light, state):
-    if "lights" not in self.state_before_fade:
-      self.state_before_fade = state
-    light_params = self.state_before_fade["lights"][light]
-    args = None
-    if light_params["state"] == "on":
-      args = {}
-      supported_features = self.__get_supported_features(light, self.state_before_fade)
-      light_attributes = light_params["attributes"]
-      if "brightness" in light_attributes and supported_features["brightness"]:
-        if light_attributes["brightness"] != 2:
-          args["brightness"] = light_attributes["brightness"]
-        else:
-          args["brightness"] = 254
-      if "hs_color" in light_attributes and supported_features["color"]:
-        args["hs_color"] = light_attributes["hs_color"]
-      elif "color_temp" in light_attributes and supported_features["temperature"]:
-        args["color_temp"] = light_attributes["color_temp"]
-      if supported_features["transition"]:
-        args["transition"] = self.get_float_state("input_number.transition")
-    return args
+  def __turn_off_light(self, light_name, fade=False):
+    kwargs = {}
+    if self.__is_feature_supported(light_name, "transition"):
+      if fade:
+        kwargs["transition"] = 2
+      else:
+        kwargs["transition"] = self.get_float_state("input_number.transition")
+    self.log(f"Turn off {light_name} with args: {kwargs}")
+    self.turn_off_entity(f"light.{light_name}", **kwargs)
 
 
-  def __fade_lamp(self, light, state):
-    if state["lights"][light]["state"] != "on":
-      return False
-    elif state["timers"]["light"]:
-      return False
-    elif hasattr(self, "ignore_fade_lights") and light in self.ignore_fade_lights:
-      return False
-    supported_features = self.__get_supported_features(light, state)
-    args = {}
-    if (
-      supported_features["brightness"]
-      and "brightness" in state["lights"][light]["attributes"]
-      and state["lights"][light]["state"] == "on"
-      and state["lights"][light]["attributes"]["brightness"] > 3
-    ):
-      args["brightness"] = 2
-      if supported_features["transition"]:
-        args["transition"] = 2
-      self.log(f"Fading {light} light")
-      self.__turn_on_ha_light(light, args)
-      return True
+# Control timers
+
+
+  def __set_light_timer(self):
+    if self.is_entity_on(f"input_boolean.{self.zone}_zone_min_delay"):
+      delay = self.min_delay
+    elif self.read_storage("state", attribute="max_delay"):
+      delay = self.max_delay
     else:
-      self.__turn_off_ha_light(light, {})
-      return False
-
-
-  def turn_on_scene(self, scene):
-    self.log(f"Turning on {scene} scene")
-    self.set_scene(self.zone, scene)
-    return True
-
-
-  def __on_circadian_change(self, entity, attribute, old, new, kwargs):
-    state = self.get_lights_state()
-    lights = self.__build_list_of_individual_lights()
-    should_circadian_update = self.is_entity_on("input_boolean.circadian_update")
-    if (
-      not should_circadian_update
-      or not state["booleans"]["auto_colors"]
-      or self.get_scene(self.zone) not in ["day", "light_cinema"]
-    ):
-      return
-    for light in lights:
-      is_light_on = self.__is_individual_light_on(light, state)
-      if is_light_on:
-        args = self.__build_light_args("on", light, state, transition=2)
-        self.__turn_on_ha_light(light, args)
-
-
-  def __set_auto_color(self, state):
-    lights = self.__build_list_of_individual_lights()
-    is_any_light_is_on = self.__is_any_light_is_on(state)
-    if not is_any_light_is_on:
-      self.turn_preset(self.current_preset, "set_auto_color", state, min_delay=self.is_min_delay)
-      self.__turn_on_auto_colors()
-      return
-    for light in lights:
-      is_light_on = self.__is_individual_light_on(light, state)
-      if is_light_on:
-        args = self.__build_light_args("on", light, state)
-        self.__turn_on_ha_light(light, args)
-    self.__turn_on_auto_colors()
-    self.__set_light_timers()
+      delay = self.delay
+    delay += random.randrange(60)
+    self.timer_start(f"light_{self.room}", delay)
+    self.__cancel_faded_timer()
     self.__cancel_cooldown_timer()
 
 
-  def __set_manual_color(self, state, rgb_color=None, hs_color=None, kelvin=None, brightness=None, turn_on_all=False):
-    self.__turn_off_auto_colors()
-    self.log(f"rgb_color: {rgb_color}, hs_color: {hs_color}, kelvin: {kelvin}")
-    lights = self.__build_list_of_individual_lights()
-    is_any_light_is_on = self.__is_any_light_is_on(state)
-    if not is_any_light_is_on:
-      kwargs = {
-        "min_delay": self.is_min_delay,
-        "hs_color": hs_color,
-        "rgb_color": rgb_color,
-        "kelvin": kelvin
-      }
-      self.turn_preset(self.current_preset, "set_auto_color", state, **kwargs)
+  def __cancel_light_timer(self):
+    self.timer_cancel(f"light_{self.room}")
+    self.__cancel_faded_timer()
+
+
+  def __set_faded_timer(self):
+    self.timer_start(f"light_faded_{self.room}", FADE_DURATION)
+    self.write_storage("state", True, attribute="faded")
+
+
+  def __cancel_faded_timer(self):
+    self.timer_cancel(f"light_faded_{self.room}")
+    self.write_storage("state", False, attribute="faded")
+
+
+  def __set_cooldown_timer(self):
+    self.timer_start(f"light_cooldown_{self.room}", COOLDOWN_DELAY)
+    self.write_storage("state", True, attribute="cooldown")
+
+
+  def __cancel_cooldown_timer(self):
+    self.timer_cancel(f"light_cooldown_{self.room}")
+    self.write_storage("state", False, attribute="cooldown")
+
+
+# Timer callbacks
+
+
+  def __on_light_timer_finish(self, event_name, data, kwargs):
+    reason = self.should_turn_off_by_timer()
+    if reason:
+      self.__set_light_timer()
+      self.log(f"Lights were not faded because of: {reason}")
       return
-    kwargs = {
-      "hs_color": hs_color,
-      "rgb_color": rgb_color,
-      "kelvin": kelvin,
-      "brightness": brightness
-    }
-    for light in lights:
-      is_light_on = self.__is_individual_light_on(light, state)
-      if is_light_on or turn_on_all:
-        args = self.__build_light_args("on", light, state, **kwargs)
-        self.__turn_on_ha_light(light, args)
-    self.__set_light_timers()
-    self.__cancel_cooldown_timer()
+    self.__fade()
 
 
-  def __set_max_brightness(self, state):
-    # For some reason HA returns supported features=44 (no color support) for all light groups
-    # supported_features = self.__get_supported_features(f"ha_group_{self.room}", state)
-    supported_features = self.__get_supported_features(f"ha_template_room_{self.room}", state)
-    self.log(f"supported_features: {supported_features}")
-    if supported_features["color"]:
-      self.__set_manual_color(state, hs_color=[30, 33], brightness=254, turn_on_all=True)
-    elif supported_features["temperature"]:
-      self.__set_manual_color(state, kelvin=4700, brightness=254, turn_on_all=True)
-    else:
-      self.__set_brightness(254, state)
+  def __on_faded_timer_finish(self, event_name, data, kwargs):
+    self.write_storage("state", False, attribute="max_delay")
+    self.write_storage("state", False, attribute="faded")
+    reason = self.should_turn_off_by_timer()
+    if reason:
+      self.log(f"Lights were not turned off because of: {reason}")
+      self.__unfade()
+      return
+    self.set_preset("OFF", save_preset=False)
 
 
-  def __set_min_brightness(self, state):
-    self.__set_auto_color(state)
-    self.__set_brightness(3, state, turn_off_if_no_brightness=True)
+  def __on_cooldown_timer_finish(self, event_name, data, kwargs):
+    self.write_storage("state", False, attribute="cooldown")
 
-
-  def is_cover_active(self):
-    entity = f"input_boolean.{self.room}_cover_active"
-    if self.entity_exists(entity) and self.is_entity_on(entity):
-      return True
-    return False
 
 # Callbacks
 
+
   def __on_scene(self, entity, attribute, old, new, kwargs):
-    self.__turn_on_auto_colors()
-    self.__turn_on_auto_lights()
+    self.__set_default_params()
     func_name = f"on_{old}"
     func = getattr(self, func_name, None)
-    state = self.get_lights_state()
     entity = entity.replace("input_select.", "")
     mode = "old_scene"
     if callable(func):
-      res = func(old, mode, state, new=new, old=old, entity=entity)
+      res = func(old, mode, new=new, old=old, entity=entity)
       if res is not False:
         self.write_to_log(old, mode, entity, new, old)
     func_name = f"on_{new}"
     func = getattr(self, func_name, None)
     mode = "new_scene"
     if callable(func):
-      res = func(new, mode, state, new=new, old=old, entity=entity)
+      res = func(new, mode, new=new, old=old, entity=entity)
       if res is not False:
         self.write_to_log(new, mode, entity, new, old)
 
@@ -406,11 +386,10 @@ class RoomLights(Base):
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
-    state = self.get_lights_state()
     entity = entity.replace("binary_sensor.", "").replace("sensor.", "")
     mode = kwargs["mode"]
     if callable(func):
-      res = func(scene, mode, state, new=new, old=old, entity=entity)
+      res = func(scene, mode, new=new, old=old, entity=entity)
       if res is not False:
         self.write_to_log(scene, mode, entity, new, old)
 
@@ -419,7 +398,6 @@ class RoomLights(Base):
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
-    state = self.get_lights_state()
     if new in ["on", "off"]:
       new = "toggle"
     elif new == "rotate_left":
@@ -431,7 +409,7 @@ class RoomLights(Base):
     entity = entity.replace("sensor.", "")
     mode = kwargs["mode"]
     if callable(func):
-      res = func(scene, mode, state, new=new, old=old, entity=entity)
+      res = func(scene, mode, new=new, old=old, entity=entity)
       if res is not False:
         self.write_to_log(scene, mode, entity, new, old)
 
@@ -441,7 +419,6 @@ class RoomLights(Base):
     event_data = data["custom_event_data"]
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
-    state = self.get_lights_state()
     operation = "toggle"
     if "_virtual_switch_room_on" in event_data:
       operation = "on"
@@ -450,144 +427,72 @@ class RoomLights(Base):
     entity = f"ha_template_{self.room}"
     mode = "virtual_switch"
     if callable(func):
-      res = func(scene, mode, state, new=operation, entity=entity)
+      res = func(scene, mode, new=operation, entity=entity)
       if res is not False:
         self.write_to_log(scene, mode, entity, operation, None)
 
 
   def __on_individual_virtual_switch(self, event_name, data, kwargs):
     event_data = data["custom_event_data"]
-    operation = "toggle"
+    command = "toggle"
     if "_virtual_switch_individual_on" in event_data:
-      operation = "on"
+      command = "on"
     elif "_virtual_switch_individual_off" in event_data:
-      operation = "off"
-    light = data["custom_event_data"].replace(f"_virtual_switch_individual_{operation}", "")
-    state = self.get_lights_state()
-    preset = self.current_preset
-    self.individual_light_toggle(light, preset, operation, state)
+      command = "off"
+    light_name = event_data.replace(f"_virtual_switch_individual_{command}", "")
+    self.__individual_virtual_switch(light_name, command)
 
 
   def __on_set_manual_color(self, event_name, data, kwargs):
-    state = self.get_lights_state()
-    rgb_color = None
-    hs_color = None
-    kelvin = None
-    input_color = data["custom_event_data2"]
-    if isinstance(input_color, list) and len(input_color) == 3:
-      rgb_color = input_color
-      self.__set_manual_color(state, rgb_color=rgb_color)
-    elif isinstance(input_color, list) and len(input_color) == 2:
-      hs_color = input_color
-      self.__set_manual_color(state, hs_color=hs_color)
-    else:
-      kelvin = input_color
-      self.__set_manual_color(state, kelvin=kelvin)
+    self.turn_off_entity(f"input_boolean.auto_colors_{self.room}")
+    color = data["custom_event_data2"]
+    self.__set_features(color=color)
 
 
   def __on_set_auto_color(self, event_name, data, kwargs):
-    state = self.get_lights_state()
-    self.__set_auto_color(state)
+    self.turn_on_entity(f"input_boolean.auto_colors_{self.room}")
+    self.__set_features(color="auto")
 
 
   def __on_set_brightness(self, event_name, data, kwargs):
-    state = self.get_lights_state()
     brightness = int(data["custom_event_data2"])
-    self.__set_brightness(brightness, state)
+    self.__set_features(brightness=brightness)
+
+
+  def __on_set_auto_lights(self, entity, attribute, old, new, kwargs):
+    if new == "on":
+      self.write_storage("state", True, attribute="auto_lights")
+    else:
+      self.write_storage("state", False, attribute="auto_lights")
 
 
   def __on_toggle_max_brightness(self, event_name, data, kwargs):
     self.__toggle_max_brightness()
 
 
-  def __on_lights_off(self, entity, attribute, old, new, kwargs):
-    self.__turn_on_auto_colors()
-
-# Timers
-
-  def __on_faded_timer_finished(self, event_name, data, kwargs):
-    self.is_max_delay = False
-    state = self.get_lights_state()
-    reason = self.should_turn_off_by_timer()
-    if not reason or reason == "person_inside":
-      for light in self.turn_off_lights:
-        args = self.__build_light_args("off", light, state)
-        self.__turn_off_ha_light(light, args)
-    else:
-      self.__set_light_timers()
-      self.log(f"Lights were not turned off because of: {reason}")
-
-
-  def __on_timer_finished(self, event_name, data, kwargs):
-    state = self.get_lights_state()
-    reason = self.should_turn_off_by_timer()
-    if reason:
-      self.__set_light_timers()
-      self.log(f"Lights were not faded because of: {reason}")
+  def __on_circadian_change(self, entity, attribute, old, new, kwargs):
+    if (
+      self.is_entity_off("input_boolean.circadian_update")
+      or self.read_storage("state", attribute="color") != "auto"
+      or self.get_scene(self.zone) not in ["day", "light_cinema"]
+    ):
       return
-    self.state_before_fade = state
-    is_any_faded = False
-    for light_name, light_group in self.lights.items():
-      # Light group without children lights
-      if len(light_group) == 0:
-        result = self.__fade_lamp(light_name, state)
-        is_any_faded = is_any_faded or result
-      # Light group with children
-      else:
-        fade_any = False
-        turn_off_any = False
-        for individual_light_name in light_group:
-          if self.__light_should_be_faded(individual_light_name, state):
-            fade_any = True
-          else:
-            turn_off_any = True
-        if fade_any != turn_off_any:
-          result = self.__fade_lamp(light_name, state)
-          is_any_faded = is_any_faded or result
-        else:
-          for individual_light_name in light_group:
-            result = self.__fade_lamp(individual_light_name, state)
-            is_any_faded = is_any_faded or result
-    if is_any_faded:
-      self.__set_faded_timer()
+    light_set = self.read_storage("state", attribute="lights")
+    self.__set_light_set(light_set, circadian=True)
 
 
-  def __set_light_timers(self):
-    if self.is_entity_on(f"input_boolean.{self.zone}_zone_min_delay"):
-      delay = self.min_delay
-    elif self.is_max_delay:
-      delay = self.max_delay
-    else:
-      delay = self.delay
-    delay += random.randrange(60)
-    self.timer_start(f"light_{self.room}", delay)
+# Public helpers
 
 
-  def __cancel_light_timers(self):
-    self.timer_cancel(f"light_{self.room}")
-    self.timer_cancel(f"light_faded_{self.room}")
-
-
-  def __set_cooldown_timer(self):
-    self.timer_start(f"light_cooldown_{self.room}", COOLDOWN_DELAY)
-
-
-  def __cancel_cooldown_timer(self):
-    self.timer_cancel(f"light_cooldown_{self.room}")
-
-
-  def __set_faded_timer(self):
-    self.timer_start(f"light_faded_{self.room}", FADE_DURATION)
-
-# Helpers
-
-  def get_scene_turned_on_period(self):
-    scene_last_changed_str = self.get_state(f"input_select.{self.zone}_scene", attribute="last_changed")
-    scene_last_changed = self.convert_utc(scene_last_changed_str).timestamp()
-    return self.get_delta_ts(scene_last_changed)
+  def is_cover_active(self):
+    entity = f"input_boolean.{self.room}_cover_active"
+    if self.entity_exists(entity) and self.is_entity_on(entity):
+      return True
+    return False
 
 
   def write_to_log(self, scene, mode, entity, new, old):
+    # TODO: redo in future?
     log_str = "Room trigger: "
     if scene:
       log_str += f"scene={scene}"
@@ -602,63 +507,6 @@ class RoomLights(Base):
     self.log(log_str)
 
 
-  def __get_supported_features(self, light, state):
-    if light in self.supported_features:
-      return self.supported_features[light]
-    features = {
-      "brightness": False,
-      "color": False,
-      "transition": False,
-      "temperature": False
-    }
-    try:
-      supported_features = state["lights"][light]["attributes"]["supported_features"]
-    except KeyError:
-      supported_features = self.get_state(f"light.{light}", attribute="supported_features")
-    supported_features_str = str(format(supported_features, "b")).rjust(8, "0")
-    if supported_features_str[7] == "1":
-      features["brightness"] = True
-    if supported_features_str[3] == "1":
-      features["color"] = True
-    if supported_features_str[2] == "1":
-      features["transition"] = True
-    if supported_features_str[6] == "1":
-      features["temperature"] = True
-    self.supported_features[light] = features
-    self.log(f"Supported features for {light}: {features}", level="DEBUG")
-    return features
-
-
-  def get_lights_state(self):
-    state = {
-      "lights": {},
-      "sensors": {},
-      "timers": {},
-      "booleans": {}
-    }
-    for light, group_lights in self.lights.items():
-      state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-      for light in group_lights:
-        state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-    for light in self.turn_off_lights:
-      state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-    light = f"ha_group_{self.room}"
-    state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-    for preset in self.presets.values():
-      for light in preset:
-        if light not in state["lights"]:
-          state["lights"][light] = self.get_state(f"light.{light}", attribute="all")
-    for sensor in self.sensors:
-      sensor_name = sensor[0].replace("binary_sensor.", "")
-      state["sensors"][sensor_name] = self.is_entity_on(sensor[0])
-    state["timers"]["light_faded"] = self.is_timer_active(f"light_faded_{self.room}")
-    state["timers"]["light"] = self.is_timer_active(f"light_{self.room}")
-    state["timers"]["light_cooldown"] = self.is_timer_active(f"light_cooldown_{self.room}")
-    state["booleans"]["auto_colors"] = self.is_entity_on(f"input_boolean.auto_colors_{self.room}")
-    state["booleans"]["auto_lights"] = self.is_entity_on(f"input_boolean.auto_lights_{self.room}")
-    return state
-
-
   def is_person_inside(self):
     is_person_inside = False
     entity = f"input_boolean.person_inside_{self.room}"
@@ -667,137 +515,59 @@ class RoomLights(Base):
     return is_person_inside
 
 
-  def is_door_open(self, state, sensor):
-    return state["sensors"][sensor]
-
-
   def is_auto_lights(self):
-    if self.is_entity_on(f"input_boolean.auto_lights_{self.room}"):
-      return True
-    return False
+    return self.read_storage("state", attribute="auto_lights")
 
 
-  def __build_light_args(self, operation, light, state, brightness=None, hs_color=None,
-                         rgb_color=None, kelvin=None, ignore_color=False, transition=None):
-    args = {}
-    supported_features = self.__get_supported_features(light, state)
-    if supported_features["transition"]:
-      if transition:
-        args["transition"] = transition
-      else:
-        args["transition"] = self.get_float_state("input_number.transition")
-    if operation == "on":
-      if supported_features["color"] and not ignore_color:
-        if rgb_color:
-          args["rgb_color"] = rgb_color
-        elif hs_color:
-          args["hs_color"] = hs_color
-        else:
-          saturation = self.get_int_state("input_number.circadian_saturation")
-          args["hs_color"] = [30, saturation]
-      elif supported_features["temperature"] and not ignore_color:
-        if kelvin:
-          args["kelvin"] = kelvin
-        else:
-          ct = self.get_int_state("input_number.circadian_kelvin")
-          args["kelvin"] = ct
-      if brightness and supported_features["brightness"]:
-        args["brightness"] = brightness
-    return args
+# Private helpers
 
 
-  def __build_list_of_individual_lights(self):
-    individual_lights = []
-    for light_name, light_group in self.lights.items():
-      if len(light_group) == 0:
-        individual_lights.append(light_name)
-      else:
-        for light in light_group:
-          individual_lights.append(light)
-    return individual_lights
+  def __build_light_set_from_preset(self, preset_name):
+    light_set = {}
+    for light_name, light in self.presets[preset_name].items():
+      light_set[light_name] = light.copy()
+      if isinstance(light["state"], str):
+        light_set[light_name]["state"] = self.render_template(light["state"])
+    return light_set
 
 
-  def __allow_button_hold(self, kwargs):
-    self.allow_button_hold = True
+  def __build_groups_from_light_set(self, light_set, with_color=False):
+    feature_groups = {}
+    for light_name, light in light_set.items():
+      key = self.__build_light_features_key(light_name, light, with_color=with_color)
+      if key not in feature_groups:
+        feature_groups[key] = []
+      feature_groups[key].append(light_name)
+    groups = {}
+    for feature_group in feature_groups.values():
+      found_group = False
+      for group_name, group in self.groups.items():
+        if set(group) == set(feature_group):
+          groups[group_name] = light_set[feature_group[0]]
+          found_group = True
+          continue
+      if not found_group:
+        for light_name in feature_group:
+          groups[light_name] = light_set[light_name]
+    return groups
 
 
-  def __is_any_light_is_on(self, state, except_light=None):
-    individual_lights = self.__build_list_of_individual_lights()
-    is_any_light_is_on = False
-    for individual_light in individual_lights:
-      if individual_light != except_light and state["lights"][individual_light]["state"] == "on":
-        is_any_light_is_on = True
-    return is_any_light_is_on
-
-
-  def __get_max_brightness_in_current_preset(self):
-    brightness = -1
-    for light, light_params in self.presets[self.current_preset].items():
-      if "attributes" in light_params and "brightness" in light_params["attributes"]:
-        light_brightness = light_params["attributes"]["brightness"]
-        if light_brightness > brightness:
-          brightness = light_brightness
-    if brightness == -1:
-      brightness = 254
-    return brightness
-
-
-  def __is_room_light_on(self, state):
-    return state["lights"][f"ha_group_{self.room}"]["state"] == "on"
-
-
-  def __is_individual_light_on(self, light, state):
-    return state["lights"][light]["state"] == "on"
-
-
-  def __turn_on_ha_light(self, light, args):
-    self.turn_on_entity(f"light.{light}", **args)
-    self.log(f"Turned on {light} with following parameters: {args}")
-
-
-  def __turn_off_ha_light(self, light, args):
-    self.turn_off_entity(f"light.{light}", **args)
-    self.log(f"Turned off {light} with following parameters: {args}")
-
-
-  def __is_room_faded(self, state):
-    if state["timers"]["light_faded"]:
-      return True
-    if (
-      "brightness" in state["lights"][f"ha_group_{self.room}"]["attributes"]
-      and state["lights"][f"ha_group_{self.room}"]["attributes"]["brightness"] == 2
-    ):
-      return True
-    return False
-
-
-  def __light_should_be_faded(self, light, state):
-    supported_features = self.__get_supported_features(light, state)
-    if (
-      supported_features["brightness"]
-      and "brightness" in state["lights"][light]["attributes"]
-      and state["lights"][light]["state"] == "on"
-      and state["lights"][light]["attributes"]["brightness"] > 3
-    ):
-      return True
-    return False
-
-
-  def __turn_on_auto_colors(self):
-    self.turn_on_entity(f"input_boolean.auto_colors_{self.room}")
-
-
-  def __turn_off_auto_colors(self):
-    self.turn_off_entity(f"input_boolean.auto_colors_{self.room}")
-
-
-  def __turn_on_auto_lights(self):
-    self.turn_on_entity(f"input_boolean.auto_lights_{self.room}")
+  def __build_light_features_key(self, light_name, light, with_color=False):
+    state = light["state"]
+    key = str(state)
+    if state:
+      if "brightness" in self.lights[light_name]:
+        key += "brightness"
+      if with_color and "color" in self.lights[light_name]:
+        key += "color"
+    else:
+      if "transition" in self.lights[light_name]:
+        key += "transition"
+    return key
 
 
   def __handle_button_hold(self, action):
-    if self.timer_running(self.handle):
-      self.cancel_timer(self.handle)
+    self.cancel_handle(self.handle)
     if action == "brightness_stop":
       self.allow_button_hold = True
       return False
@@ -805,3 +575,76 @@ class RoomLights(Base):
       return False
     self.allow_button_hold = False
     return True
+
+
+  def __allow_button_hold(self, kwargs):
+    self.allow_button_hold = True
+
+
+  def __is_feature_supported(self, light_name, feature):
+    if light_name in self.lights and feature in self.lights[light_name]:
+      return True
+    if light_name in self.groups:
+      for child_light_name in self.groups[light_name]:
+        if feature not in self.lights[child_light_name]:
+          return False
+      return True
+    return False
+
+
+  def __is_light_off(self):
+    for light in self.read_storage("state", attribute="lights").values():
+      if light["state"]:
+        return False
+    return True
+
+
+  def __get_color(self, input_color):
+    color = {
+      "mode": "",
+      "value": ""
+    }
+    if isinstance(input_color, str) and input_color == "auto" and self.color_mode == "rgb":
+      saturation = self.get_int_state("input_number.circadian_saturation")
+      color["mode"] = "hs_color"
+      color["value"] = [30, saturation]
+    elif isinstance(input_color, str) and input_color == "auto" and self.color_mode == "cct":
+      kelvin = self.get_int_state("input_number.circadian_kelvin")
+      color["mode"] = "kelvin"
+      color["value"] = kelvin
+    elif isinstance(input_color, list) and len(input_color) == 3:
+      color["mode"] = "rgb_color"
+      color["value"] = input_color
+    elif isinstance(input_color, list) and len(input_color) == 2:
+      color["mode"] = "hs_color"
+      color["value"] = input_color
+    else:
+      color["mode"] = "kelvin"
+      color["value"] = input_color
+    return color
+
+
+  def __set_default_params(self):
+    self.write_storage("state", "auto", attribute="color")
+    self.write_storage("state", True, attribute="auto_lights")
+    self.write_storage("state", False, attribute="max_delay")
+
+
+  def __build_initial_state(self):
+    state = {
+      "lights": {},
+      "preset_name": "BRIGHT",
+      "faded": self.is_timer_active(f"light_faded_{self.room}"),
+      "cooldown": self.is_timer_active(f"light_cooldown_{self.room}"),
+      "color": "auto",
+      "auto_lights": self.is_entity_on(f"input_boolean.auto_lights_{self.room}"),
+      "max_delay": False
+    }
+    state["lights"] = self.__build_light_set_from_preset("BRIGHT")
+    return state
+
+
+  def __sync_state(self):
+    self.write_storage("state", self.is_timer_active(f"light_faded_{self.room}"), attribute="faded")
+    self.write_storage("state", self.is_timer_active(f"light_cooldown_{self.room}"), attribute="cooldown")
+    self.write_storage("state", self.is_entity_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")

@@ -6,6 +6,7 @@ class KitchenLights(RoomLights):
   def initialize(self):
     self.zone = "living"
     self.room = "kitchen"
+    self.color_mode = "rgb"
     self.delay = 240
     self.max_delay = 600
     self.min_delay = 30
@@ -21,137 +22,149 @@ class KitchenLights(RoomLights):
     self.switches = [
       ("sensor.kitchen_switch", "switch")
     ]
-    self.turn_off_lights = [
-      "group_kitchen_color",
-      "kitchen_vent"
-    ]
+    self.groups = {
+      "group_kitchen_color": ["group_kitchen_top", "kitchen_table"]
+    }
     self.lights = {
-      "group_kitchen_color": [
-        "group_kitchen_top",
-        "kitchen_table"
-      ],
+      "group_kitchen_top": ["color", "brightness", "transition"],
+      "kitchen_table": ["color", "brightness", "transition"],
       "kitchen_vent": []
     }
     self.presets = {
       "BRIGHT": {
-        "group_kitchen_color": {"state": "on", "attributes": {"brightness": 254}},
-        "kitchen_vent": {"state": "on"}
+        "group_kitchen_top": {"state": True, "brightness": 254},
+        "kitchen_table": {"state": True, "brightness": 254},
+        "kitchen_vent": {"state": True}
       },
       "BRIGHT_CINEMA": {
-        "kitchen_table": {"state": "off"},
-        "group_kitchen_top": {"state": "on", "attributes": {"brightness": 254}},
-        "kitchen_vent": {"state": "on"}
+        "group_kitchen_top": {"state": True, "brightness": 254},
+        "kitchen_table": {"state": False},
+        "kitchen_vent": {"state": True}
       },
       "DARK": {
-        "kitchen_table": {"state": "off"},
-        "group_kitchen_top": {"state": "on", "attributes": {"brightness": 3}},
-        "kitchen_vent": {"state": "on"}
+        "group_kitchen_top": {"state": True, "brightness": 3},
+        "kitchen_table": {"state": False},
+        "kitchen_vent": {"state": True}
       },
       "NIGHT": {
-        "kitchen_table": {"state": "on", "attributes": {"brightness": 3}},
-        "group_kitchen_top": {"state": "off"},
-        "kitchen_vent": {"state": "off"}
+        "group_kitchen_top": {"state": False},
+        "kitchen_table": {"state": True, "brightness": 3},
+        "kitchen_vent": {"state": False}
+      },
+      "OFF": {
+        "group_kitchen_top": {"state": False},
+        "kitchen_table": {"state": False},
+        "kitchen_vent": {"state": False}
       }
     }
     self.room_init()
 
 
-  def on_day(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      self.turn_preset_if_on("BRIGHT", mode, state)
+      self.set_preset_if_on("BRIGHT")
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.set_preset_or_restore("BRIGHT")
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_night(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-        self.turn_off_all(state)
-      # self.turn_preset_if_on("NIGHT", mode, state, min_delay=True)
+      self.set_preset("OFF")
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
       if self.is_entity_on("binary_sensor.night_scene_enough"):
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
         self.turn_on_scene("day")
       else:
-        self.turn_preset_or_restore("NIGHT", mode, state, min_delay=True)
+        self.set_preset_or_restore("NIGHT", min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
       if self.is_entity_on("binary_sensor.night_scene_enough"):
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
         self.turn_on_scene("day")
       else:
-        self.turn_preset_or_restore("NIGHT", mode, state, min_delay=True)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.night_scene_light_toggle("BRIGHT", new, mode, state)
+        self.set_preset_or_restore("NIGHT", min_delay=True)
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
-      self.overwrite_scene(new, "day", "BRIGHT", state)
+      self.toggle_brightness(new, set_day=True)
     else:
       return False
 
 
-  def on_dumb(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
     if mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_party(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_party(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      self.turn_preset_if_on("DARK", mode, state, min_delay=True)
+      self.set_preset_if_on("DARK", min_delay=True)
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK", mode, state, min_delay=True)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("DARK", new, mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK", min_delay=True)
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("DARK", new, min_delay=True, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("DARK", new, min_delay=True)
     elif mode == "switch" and "brightness" in new:
-      self.overwrite_scene(new, "day", "BRIGHT", state)
+      self.toggle_brightness(new, set_day=True)
     else:
       return False
 
 
-  def on_light_cinema(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      self.turn_preset_if_on("BRIGHT_CINEMA", mode, state)
+      self.set_preset_if_on("BRIGHT_CINEMA")
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT_CINEMA", mode, state)
+      self.set_preset_or_restore("BRIGHT_CINEMA")
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT_CINEMA", mode, state)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT_CINEMA", new, mode, state)
+      self.set_preset_or_restore("BRIGHT_CINEMA")
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT_CINEMA", new, min_delay=True, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT_CINEMA", new, min_delay=True)
     elif mode == "switch" and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_dark_cinema(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      self.turn_preset_if_on("DARK", mode, state, min_delay=True)
+      self.set_preset_if_on("DARK", min_delay=True)
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK", mode, state, min_delay=True)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("DARK", new, mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK", min_delay=True)
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("DARK", new, min_delay=True, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("DARK", new, min_delay=True)
     elif mode == "switch" and "brightness" in new:
-      self.overwrite_scene(new, "day", "BRIGHT", state)
+      self.toggle_brightness(new, set_day=True)
     else:
       return False
 
 
-  def on_away(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None, entity=None):
     if mode == "virtual_switch":
-      self.turn_off_all(state)
+      self.set_preset("OFF")
     else:
       return False
 

@@ -66,6 +66,7 @@ bathroom_entrance_lights:
   global_dependencies:
     - base
     - room_lights
+  dependencies: storage
 
 bathroom_fan:
   module: bathroom_fan
@@ -176,6 +177,7 @@ bedroom_lights:
   global_dependencies:
     - base
     - room_lights
+  dependencies: storage
 
 bedroom_window:
   module: bedroom_window
@@ -352,6 +354,7 @@ kitchen_lights:
   global_dependencies:
     - base
     - room_lights
+  dependencies: storage
 
 kitchen_window:
   module: kitchen_window
@@ -383,6 +386,7 @@ balcony_lights:
   global_dependencies:
     - base
     - room_lights
+  dependencies: storage
 
 cinema:
   module: cinema
@@ -408,6 +412,7 @@ living_room_lights:
   global_dependencies:
     - base
     - room_lights
+  dependencies: storage
 
 party:
   module: party

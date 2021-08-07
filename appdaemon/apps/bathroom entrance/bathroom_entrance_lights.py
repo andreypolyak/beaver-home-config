@@ -6,6 +6,7 @@ class BathroomEntranceLights(RoomLights):
   def initialize(self):
     self.zone = "living"
     self.room = "bathroom_entrance"
+    self.color_mode = "rgb"
     self.delay = 240
     self.max_delay = 600
     self.min_delay = 30
@@ -20,152 +21,163 @@ class BathroomEntranceLights(RoomLights):
     self.switches = [
       ("sensor.living_room_switch", "switch")
     ]
-    self.turn_off_lights = [
-      "group_bathroom_entrance_color",
-      "bathroom_mirror"
-    ]
+    self.groups = {
+      "group_bathroom_entrance_color": ["group_bathroom_top", "group_entrance_top", "group_entrance_mirror"]
+    }
     self.lights = {
-      "group_bathroom_entrance_color": ["group_entrance_top", "group_bathroom_top", "group_entrance_mirror"],
+      "group_bathroom_top": ["color", "brightness", "transition"],
+      "group_entrance_top": ["color", "brightness", "transition"],
+      "group_entrance_mirror": ["color", "brightness", "transition"],
       "bathroom_mirror": []
     }
     self.presets = {
       "BRIGHT": {
-        "group_bathroom_entrance_color": {"state": "on", "attributes": {"brightness": 254}},
-        "bathroom_mirror": {"state": "on"}
+        "group_bathroom_top": {"state": True, "brightness": 254},
+        "group_entrance_top": {"state": True, "brightness": 254},
+        "group_entrance_mirror": {"state": True, "brightness": 254},
+        "bathroom_mirror": {"state": True}
       },
       "NIGHT": {
-        "group_entrance_mirror": {"state": "on", "attributes": {"brightness": 3}},
-        "group_bathroom_top": {"state": "on", "attributes": {"brightness": 3}},
-        "group_entrance_top": {"state": "off"},
-        "bathroom_mirror": {"state": "off"}
+        "group_bathroom_top": {"state": True, "brightness": 3},
+        "group_entrance_top": {"state": False},
+        "group_entrance_mirror": {"state": True, "brightness": 3},
+        "bathroom_mirror": {"state": False}
       },
       "DARK": {
-        "group_bathroom_entrance_color": {"state": "on", "attributes": {"brightness": 3}},
-        "bathroom_mirror": {"state": "off"}
+        "group_bathroom_top": {"state": True, "brightness": 3},
+        "group_entrance_top": {"state": True, "brightness": 3},
+        "group_entrance_mirror": {"state": True, "brightness": 3},
+        "bathroom_mirror": {"state": False}
       },
       "NIGHT_ENTRANCE_BRIGHT_BATHROOM": {
-        "group_bathroom_top": {"state": "on", "attributes": {"brightness": 254}},
-        "bathroom_mirror": {"state": "on"},
-        "group_entrance_mirror": {"state": "on", "attributes": {"brightness": 3}},
-        "group_entrance_top": {"state": "off"}
+        "group_bathroom_top": {"state": True, "brightness": 254},
+        "group_entrance_top": {"state": False},
+        "group_entrance_mirror": {"state": True, "brightness": 3},
+        "bathroom_mirror": {"state": False}
       },
       "DARK_ENTRANCE_BRIGHT_BATHROOM": {
-        "group_bathroom_top": {"state": "on", "attributes": {"brightness": 254}},
-        "bathroom_mirror": {"state": "on"},
-        "group_entrance_mirror": {"state": "on", "attributes": {"brightness": 3}},
-        "group_entrance_top": {"state": "on", "attributes": {"brightness": 3}}
-      }
+        "group_bathroom_top": {"state": True, "brightness": 254},
+        "group_entrance_top": {"state": True, "brightness": 3},
+        "group_entrance_mirror": {"state": True, "brightness": 3},
+        "bathroom_mirror": {"state": True}
+      },
+      "OFF": {
+        "group_bathroom_top": {"state": False},
+        "group_entrance_top": {"state": False},
+        "group_entrance_mirror": {"state": False},
+        "bathroom_mirror": {"state": False}
+      },
     }
     self.room_init()
 
 
-  def on_day(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if old == "away":
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
       else:
-        self.turn_preset_if_on("BRIGHT", mode, state)
+        self.set_preset_if_on("BRIGHT")
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode in ["bathroom_door_sensor"] and new in ["on", "off"] and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode == "virtual_switch":
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.toggle_preset("BRIGHT", new)
     else:
       return False
 
 
-  def on_night(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      if self.is_door_open(state, "bathroom_door") and old == "away":
-        self.turn_preset("NIGHT", mode, state)
-      elif not self.is_door_open(state, "bathroom_door") and old == "away":
-        self.turn_preset("NIGHT_ENTRANCE_BRIGHT_BATHROOM", mode, state)
-      elif self.is_door_open(state, "bathroom_door"):
-        self.turn_off_all(state)
-      elif not self.is_door_open(state, "bathroom_door"):
-        self.turn_preset_if_on("NIGHT", mode, state, min_delay=True)
+      if self.is_bathroom_door_open() and old == "away":
+        self.set_preset("NIGHT")
+      elif not self.is_bathroom_door_open() and old == "away":
+        self.set_preset("NIGHT_ENTRANCE_BRIGHT_BATHROOM")
+      elif self.is_bathroom_door_open():
+        self.set_preset("OFF")
+      elif not self.is_bathroom_door_open():
+        self.set_preset_if_on("NIGHT", min_delay=True)
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.is_auto_lights():
       if self.is_entity_on("binary_sensor.night_scene_enough"):
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
         self.turn_on_scene("day")
-      elif self.is_door_open(state, "bathroom_door"):
-        self.turn_preset_or_restore("NIGHT", mode, state, min_delay=True)
+      elif self.is_bathroom_door_open():
+        self.set_preset_or_restore("NIGHT", min_delay=True)
       else:
-        self.turn_preset_or_restore("NIGHT_ENTRANCE_BRIGHT_BATHROOM", mode, state)
+        self.set_preset_or_restore("NIGHT_ENTRANCE_BRIGHT_BATHROOM")
     elif mode == "bathroom_door_sensor" and new == "off" and self.is_auto_lights():
-      self.turn_preset_if_on("NIGHT_ENTRANCE_BRIGHT_BATHROOM", mode, state)
+      self.set_preset_if_on("NIGHT_ENTRANCE_BRIGHT_BATHROOM")
     elif mode == "bathroom_door_sensor" and new == "on" and self.is_auto_lights():
-      self.turn_preset_if_on("NIGHT", mode, state, min_delay=True)
+      self.set_preset_if_on("NIGHT", min_delay=True)
     elif mode == "virtual_switch":
-      if self.is_door_open(state, "bathroom_door"):
-        self.light_toggle("NIGHT", new, mode, state)
+      if self.is_bathroom_door_open():
+        self.toggle_preset("NIGHT", new)
       else:
-        self.light_toggle("NIGHT_ENTRANCE_BRIGHT_BATHROOM", new, mode, state)
+        self.toggle_preset("NIGHT_ENTRANCE_BRIGHT_BATHROOM", new)
     else:
       return False
 
 
-  def on_dumb(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
     if mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_party(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_party(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if old == "away":
-        self.turn_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+        self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
       else:
-        self.turn_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+        self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode == "virtual_switch":
-      self.light_toggle("DARK_ENTRANCE_BRIGHT_BATHROOM", new, mode, state, min_delay=True)
+      self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
     else:
       return False
 
 
-  def on_light_cinema(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if old == "away":
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
       else:
-        self.turn_preset_if_on("BRIGHT", mode, state)
+        self.set_preset_if_on("BRIGHT")
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode == "virtual_switch":
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.toggle_preset("BRIGHT", new)
     else:
       return False
 
 
-  def on_dark_cinema(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if old == "away":
-        self.turn_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+        self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
       else:
-        self.turn_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+        self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.is_auto_lights():
-      self.turn_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", mode, state, min_delay=True)
+      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode == "virtual_switch":
-      self.light_toggle("DARK_ENTRANCE_BRIGHT_BATHROOM", new, mode, state, min_delay=True)
+      self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
     else:
       return False
 
 
-  def on_away(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None, entity=None):
     if mode == "virtual_switch":
-      self.turn_off_all(state)
+      self.set_preset("OFF")
     else:
       return False
 
@@ -178,6 +190,10 @@ class BathroomEntranceLights(RoomLights):
     if not self.is_auto_lights():
       return "auto_lights_off"
     humidity = self.get_float_state("sensor.bathroom_humidity")
-    if humidity is None or humidity <= 60:
-      return None
-    return "humidity"
+    if not self.is_bathroom_door_open() and humidity is not None and humidity > 60:
+      return "humidity"
+    return None
+
+
+  def is_bathroom_door_open(self):
+    return self.is_entity_on("binary_sensor.bathroom_door")

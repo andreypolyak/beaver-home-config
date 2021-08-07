@@ -6,6 +6,7 @@ class BedroomLights(RoomLights):
   def initialize(self):
     self.zone = "sleeping"
     self.room = "bedroom"
+    self.color_mode = "rgb"
     self.delay = 300
     self.max_delay = 720
     self.min_delay = 30
@@ -22,102 +23,103 @@ class BedroomLights(RoomLights):
       ("sensor.bedroom_theo_switch", "theo_switch"),
       ("sensor.bedroom_switch", "switch")
     ]
-    self.turn_off_lights = [
-      "group_bedroom_bri",
-      "bedroom_table"
-    ]
     self.ignore_fade_lights = ["bedroom_table"]
+    self.groups = {
+      "group_bedroom_bri": ["group_bedroom_adult_top", "group_bedroom_theo_top", "bedroom_bed_led", "bedroom_wardrobe"],
+      "group_bedroom_color": ["group_bedroom_adult_top", "group_bedroom_theo_top", "bedroom_bed_led"],
+      "group_bedroom_top": ["group_bedroom_adult_top", "group_bedroom_theo_top"]
+    }
     self.lights = {
-      "group_bedroom_color": [
-        "group_bedroom_adult_top",
-        "group_bedroom_theo_top",
-        "bedroom_bed_led"
-      ],
-      "bedroom_wardrobe": [],
+      "group_bedroom_adult_top": ["color", "brightness", "transition"],
+      "group_bedroom_theo_top": ["color", "brightness", "transition"],
+      "bedroom_bed_led": ["color", "brightness", "transition"],
+      "bedroom_wardrobe": ["brightness", "transition"],
       "bedroom_table": []
     }
     self.presets = {
       "BRIGHT": {
-        "group_bedroom_color": {"state": "on", "attributes": {"brightness": 254}},
-        "bedroom_wardrobe": {"state": "on", "attributes": {"brightness": 254}},
-        "bedroom_table": {"state": "on"}
+        "group_bedroom_adult_top": {"state": True, "brightness": 254},
+        "group_bedroom_theo_top": {"state": True, "brightness": 254},
+        "bedroom_bed_led": {"state": True, "brightness": 254},
+        "bedroom_wardrobe": {"state": True, "brightness": 254},
+        "bedroom_table": {"state": True}
       },
       "DARK": {
-        "bedroom_bed_led": {"state": "on", "attributes": {"brightness": 3}},
-        "group_bedroom_top": {"state": "off"},
-        "bedroom_wardrobe": {
-          "state": "{{ states('binary_sensor.bedroom_wardrobe_door') }}",
-          "attributes": {"brightness": 3}
-        },
-        "bedroom_table": {"state": "off"}
+        "group_bedroom_adult_top": {"state": False},
+        "group_bedroom_theo_top": {"state": False},
+        "bedroom_bed_led": {"state": True, "brightness": 3},
+        "bedroom_wardrobe": {"state": "{{ states('binary_sensor.bedroom_wardrobe_door') == 'on' }}", "brightness": 3},
+        "bedroom_table": {"state": False}
       },
       "OFF": {
-        "group_bedroom_color": {"state": "off"},
-        "bedroom_wardrobe": {
-          "state": "{{ states('binary_sensor.bedroom_wardrobe_door') }}",
-          "attributes": {"brightness": 3}
-        },
-        "bedroom_table": {"state": "off"}
+        "group_bedroom_adult_top": {"state": False},
+        "group_bedroom_theo_top": {"state": False},
+        "bedroom_bed_led": {"state": False},
+        "bedroom_wardrobe": {"state": False, "brightness": 3},
+        "bedroom_table": {"state": False}
       }
     }
     self.room_init()
 
 
-  def on_day(self, scene, mode, state, new=None, old=None, entity=None):
-    self.log(f"mode: {mode}, new: {new}")
+  def on_day(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if old == "night":
-        self.turn_preset("BRIGHT", mode, state)
+        self.set_preset("BRIGHT")
       else:
-        self.turn_preset_if_on("BRIGHT", mode, state)
+        self.set_preset_if_on("BRIGHT")
     elif (
       mode in ["motion_sensor", "floor_motion_sensor", "door_sensor", "bed_sensor", "chair_sensor"]
       and new == "on"
       and self.is_auto_lights()
     ):
-      self.turn_preset_or_restore("BRIGHT", mode, state)
+      self.set_preset_or_restore("BRIGHT")
     elif mode == "table_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
-      self.turn_preset_or_restore("BRIGHT", mode, state)
-    elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT", "toggle", mode, state)
+      self.set_preset_or_restore("BRIGHT")
+    elif mode == "switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new)
     elif mode == "theo_switch" and new in ["toggle", "on", "off"]:
       self.turn_on_scene("night")
     elif mode in ["switch", "theo_switch", "virtual_switch"] and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_night(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      self.turn_preset_if_on("OFF", mode, state)
+      self.set_preset_if_on("DARK", min_delay=True)
     elif (
       mode == "floor_motion_sensor"
       and new == "on"
       and self.is_entity_off("input_boolean.alarm_ringing")
       and self.is_auto_lights()
     ):
-      self.turn_preset("DARK", mode, state, min_delay=True)
-    elif mode in ["switch", "theo_switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.night_scene_light_toggle("BRIGHT", new, mode, state)
+      self.set_preset("DARK", min_delay=True)
+    elif mode in ["switch", "theo_switch"] and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new, set_day=True, set_cooldown=True)
+    elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
+      self.toggle_preset("BRIGHT", new, set_day=True)
     elif mode in ["switch", "theo_switch", "virtual_switch"] and "brightness" in new:
-      self.overwrite_scene(new, "day", "BRIGHT", state)
+      self.toggle_brightness(new, set_day=True)
     else:
       return False
 
 
-  def on_dumb(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
     if mode in ["switch", "theo_switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.light_toggle("BRIGHT", new, mode, state)
+      self.toggle_preset("BRIGHT", new)
     elif mode in ["switch", "theo_switch", "virtual_switch"] and "brightness" in new:
-      self.toggle_brightness(new, state)
+      self.toggle_brightness(new)
     else:
       return False
 
 
-  def on_away(self, scene, mode, state, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None, entity=None):
     if mode == "virtual_switch":
-      self.turn_off_all(state)
+      self.set_preset("OFF")
     else:
       return False
 
