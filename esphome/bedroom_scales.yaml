@@ -28,4 +28,11 @@ sensor:
   - platform: xiaomi_miscale
     mac_address: "70:87:9E:24:92:D6"
     weight:
+      id: weight_miscale
       name: Bedroom Scales
+      on_value:
+        - homeassistant.event:
+            event: esphome.weight
+            data:
+              weight: !lambda |-
+                return id(weight_miscale).state;
