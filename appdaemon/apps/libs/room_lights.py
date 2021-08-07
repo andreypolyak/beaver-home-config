@@ -134,7 +134,12 @@ class RoomLights(Base):
     lights = self.read_storage("state", attribute="lights")
     has_full_brightness = False
     for light_name in lights.keys():
-      if self.__is_feature_supported(light_name, "brightness") and lights[light_name]["brightness"] > 3:
+      if (
+        self.__is_feature_supported(light_name, "brightness")
+        and lights[light_name]["state"]
+        and "brightness" in lights[light_name]
+        and lights[light_name]["brightness"] > 3
+      ):
         has_full_brightness = True
         break
     for light_name in lights.keys():
@@ -554,10 +559,13 @@ class RoomLights(Base):
 
   def __build_light_features_key(self, light_name, light, with_color=False):
     state = light["state"]
+    brightness = 0
+    if "brightness" in light:
+      brightness = light["brightness"]
     key = str(state)
     if state:
       if "brightness" in self.lights[light_name]:
-        key += "brightness"
+        key += f"brightness{brightness}"
       if with_color and "color" in self.lights[light_name]:
         key += "color"
     else:
