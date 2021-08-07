@@ -18,8 +18,10 @@ class Table(Base):
       return
     if float(new) > 9 and self.get_delta_ts(self.turned_off_ts) > 3:
       self.turn_on_entity("input_boolean.bedroom_table_lamp")
+      self.turn_on_entity("light.ha_template_individual_bedroom_table")
     else:
       self.turn_off_entity("input_boolean.bedroom_table_lamp")
+      self.turn_off_entity("light.ha_template_individual_bedroom_table")
 
 
   def on_fake_light_on(self, event_name, data, kwargs):
@@ -30,6 +32,7 @@ class Table(Base):
     self.turned_off_ts = self.get_now_ts()
     if self.is_entity_on("light.bedroom_table"):
       self.turn_off_entity("input_boolean.bedroom_table_lamp")
+      self.turn_off_entity("light.ha_template_individual_bedroom_table")
       self.turn_off_entity("switch.bedroom_table_plug")
 
 
