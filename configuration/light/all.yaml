@@ -6,3 +6,17 @@
     - light.ha_group_bedroom
     - light.ha_group_kitchen
     - light.ha_group_living_room
+
+- platform: group
+  name: All Lights
+  entities:
+    - light.group_bedroom_all
+    - light.group_main_all
+    - light.group_bathroom_entrance_all
+
+- platform: group
+  name: All Lights Night
+  entities:
+    - light.group_bedroom_all_night
+    - light.group_main_all
+    - light.group_bathroom_entrance_all

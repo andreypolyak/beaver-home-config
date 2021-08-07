@@ -53,7 +53,7 @@ class Presence(Base):
     for timer in self.get_state("timer"):
       if "timer.light_" in timer:
         self.timer_cancel(timer)
-    self.call_service("script/turn_off_all_lights")
+    self.turn_off_entity("light.all_lights")
 
 
   def update_light_state(self, kwargs):

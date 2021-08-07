@@ -42,7 +42,7 @@ class BedNightSwitch(Base):
 
 
   def turn_off_all_lights(self, kwargs):
-    self.call_service("script/turn_off_all_lights_night")
+    self.turn_off_entity("light.all_lights_night")
     if self.is_entity_on("binary_sensor.bedroom_wardrobe_door"):
       self.turn_off_entity("light.bedroom_wardrobe")
     if self.is_entity_on("binary_sensor.bedroom_table"):
