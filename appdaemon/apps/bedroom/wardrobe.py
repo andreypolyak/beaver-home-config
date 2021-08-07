@@ -20,20 +20,6 @@ class Wardrobe(Base):
     self.cancel_handle(self.handle)
     is_door_open = self.is_entity_on("binary_sensor.bedroom_wardrobe_door")
     if is_door_open and self.is_entity_off("light.bedroom_wardrobe"):
-      self.turn_on_wardrobe()
+      self.turn_on_entity("light.ha_template_individual_bedroom_wardrobe")
     elif not is_door_open and self.is_entity_off("light.group_bedroom_top"):
-      self.turn_off_wardrobe()
-
-
-  def turn_on_wardrobe(self):
-    self.log("Turning on wardrobe light")
-    entity = "light.bedroom_wardrobe"
-    transition = self.get_float_state("input_number.transition")
-    self.turn_on_entity(entity, brightness=2, transition=transition)
-
-
-  def turn_off_wardrobe(self):
-    self.log("Turning off wardrobe light")
-    entity = "light.bedroom_wardrobe"
-    transition = self.get_float_state("input_number.transition")
-    self.turn_off_entity(entity, transition=transition)
+      self.turn_off_entity("light.ha_template_individual_bedroom_wardrobe")
