@@ -209,6 +209,7 @@ entity_config:
     name: Климат
     properties:
       - type: temperature
+        entity: sensor.bathroom_temperature
       - type: humidity
         entity: sensor.bathroom_humidity
 
@@ -217,6 +218,7 @@ entity_config:
     name: Климат
     properties:
       - type: temperature
+        entity: sensor.living_room_temperature
       - type: humidity
         entity: sensor.living_room_humidity
       - type: co2_level
@@ -227,6 +229,7 @@ entity_config:
     name: Климат
     properties:
       - type: temperature
+        entity: sensor.kitchen_temperature
       - type: humidity
         entity: sensor.kitchen_humidity
 
@@ -235,6 +238,7 @@ entity_config:
     name: Климат
     properties:
       - type: temperature
+        entity: sensor.bedroom_temperature
       - type: humidity
         entity: sensor.bedroom_humidity
       - type: co2_level
@@ -245,6 +249,7 @@ entity_config:
     name: Климат
     properties:
       - type: temperature
+        entity: sensor.balcony_temperature
       - type: humidity
         entity: sensor.balcony_humidity
 
