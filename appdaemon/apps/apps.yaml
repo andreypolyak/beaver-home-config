@@ -516,6 +516,12 @@ notify_plant:
   global_dependencies: base
   dependencies: push
 
+notify_rain:
+  module: notify_rain
+  class: NotifyRain
+  global_dependencies: base
+  dependencies: push
+
 notify_temperature:
   module: notify_temperature
   class: NotifyTemperature

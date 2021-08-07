@@ -5,3 +5,11 @@ active_dialog:
 last_notification:
   name: Last Notification
   icon: mdi:bell
+
+andrey_rain:
+  name: Andrey Rain
+  icon: mdi:weather-pouring
+
+katya_rain:
+  name: Katya Rain
+  icon: mdi:weather-pouring
