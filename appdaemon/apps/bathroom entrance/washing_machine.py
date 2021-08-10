@@ -56,9 +56,7 @@ class WashingMachine(Base):
 
 
   def notify_on_full(self):
-    is_not_sleeping = self.get_state("input_select.sleeping_scene") != "night"
-    is_not_away = self.get_state("input_select.living_scene") != "away"
-    if is_not_sleeping and is_not_away:
+    if self.get_sleeping_scene() not in ["night", "away"]:
       self.send_push("home_or_none", "👖 Clothes are done", "washing_machine", sound="Bloom.caf", min_delta=3600)
 
 
