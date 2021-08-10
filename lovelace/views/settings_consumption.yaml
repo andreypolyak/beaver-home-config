@@ -6,6 +6,9 @@ cards:
     cards:
       - !include /config/lovelace/elements/navigation.yaml
       - !include /config/lovelace/elements/settings_navigation.yaml
+      - type: custom:button-card
+        template: header
+        name: Price
       - type: entities
         entities:
           - sensor.water_total_daily_price

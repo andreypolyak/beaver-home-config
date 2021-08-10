@@ -38,6 +38,31 @@ cards:
             }
       - type: custom:button-card
         template: header
+        name: Rains
+      - type: entity
+        entity: input_text.andrey_rain
+        name: Andrey
+        style:
+          .: |
+            .value {
+              font-size: 14px !important;
+            }
+            .icon {
+              display: none !important;
+            }
+      - type: entity
+        entity: input_text.katya_rain
+        name: Katya
+        style:
+          .: |
+            .value {
+              font-size: 14px !important;
+            }
+            .icon {
+              display: none !important;
+            }
+      - type: custom:button-card
+        template: header
         name: Sun
       - type: custom:sun-card
         darkMode: true
