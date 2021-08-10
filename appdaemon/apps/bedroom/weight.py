@@ -5,8 +5,6 @@ class Weight(Base):
 
   def initialize(self):
     super().initialize()
-    self.last_changed_ts = 0
-    self.last_weight = 0
     default = {
       "current_weight": 0,
       "current_weight_ts": 0,
@@ -16,17 +14,26 @@ class Weight(Base):
     }
     for person_name in self.get_person_names():
       self.init_storage("weight", person_name, default)
+    default = {
+      "changed_ts": 0,
+      "weight": 0
+    }
+    self.init_storage("weight", "last", default)
     self.listen_event(self.on_scales_change, "esphome.weight")
 
 
   def on_scales_change(self, event_name, data, kwargs):
+    last = person_state = self.read_storage("last", attribute="all")
     weight = round(float(data["weight"]), 2)
     if weight < 10:
       return
-    if self.last_weight == weight and self.get_delta_ts(self.last_changed_ts) > 1200:
+    if last["weight"] == weight and self.get_delta_ts(last["changed_ts"]) > 1200:
       return
-    self.last_changed_ts = self.get_now_ts()
-    self.last_weight = weight
+    last = {
+      "changed_ts": self.get_now_ts(),
+      "weight": weight
+    }
+    self.write_storage("last", last, attribute="all")
     person = self.identify_person(weight)
     person_name = person["name"]
     person_phone = person["phone"]
@@ -36,10 +43,8 @@ class Weight(Base):
     self.set_value(f"input_number.{person_name}_weight", weight)
     (voice_message, message) = self.build_messages(person, weight)
     if person_phone:
-      weight = str(weight).replace(".", ",")
-      url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
-      self.send_push(person_name, message, "weight", sound="Calypso.caf", url=url)
-    if self.get_state("input_select.sleeping_scene") != "night":
+      self.send_push(person_name, message, "weight", sound="Calypso.caf", url=self.build_url(weight))
+    if self.get_sleeping_scene() != "night":
       self.fire_event("yandex_speak_text", text=voice_message, room="bedroom")
 
 
@@ -160,3 +165,9 @@ class Weight(Base):
         elif period_type == "minute":
           return "minutes"
     return None
+
+
+  def build_url(self, weight):
+    weight = str(weight).replace(".", ",")
+    url = f"shortcuts://run-shortcut?name=Weight&input={weight}"
+    return url
