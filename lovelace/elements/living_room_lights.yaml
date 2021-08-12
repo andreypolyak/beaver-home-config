@@ -3,7 +3,7 @@ cards:
   - type: custom:button-card
     entity: light.ha_template_individual_group_living_room_top
     template: individual_virtual_switch
-    icon: mdi:lightbulb
+    icon: hue:ceiling-round
     variables:
       light_name: group_living_room_top
   - type: custom:button-card

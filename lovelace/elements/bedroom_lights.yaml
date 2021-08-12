@@ -1,40 +1,42 @@
-type: horizontal-stack
+type: vertical-stack
 cards:
-  - type: custom:button-card
-    entity: light.ha_template_individual_group_bedroom_adult_top
-    template: individual_virtual_switch_with_name
-    name: Adult
-    icon: mdi:lightbulb
-    variables:
-      light_name: group_bedroom_adult_top
-  - type: custom:button-card
-    entity: light.ha_template_individual_group_bedroom_theo_top
-    template: individual_virtual_switch_with_name
-    name: Theo
-    icon: mdi:lightbulb
-    variables:
-      light_name: group_bedroom_theo_top
-  - type: custom:button-card
-    entity: light.ha_template_individual_bedroom_bed_led
-    template: individual_virtual_switch
-    icon: mdi:led-strip-variant
-    variables:
-      light_name: bedroom_bed_led
-  - type: custom:button-card
-    entity: light.ha_template_individual_bedroom_wardrobe
-    template: individual_virtual_switch
-    icon: mdi:wardrobe-outline
-    variables:
-      light_name: bedroom_wardrobe
-  - type: custom:button-card
-    entity: light.ha_template_individual_bedroom_table
-    template: individual_virtual_switch
-    icon: mdi:table-chair
-    variables:
-      light_name: bedroom_table
-  - type: custom:button-card
-    entity: light.group_bedroom_bed
-    template: individual_virtual_switch
-    icon: mdi:bed-king-outline
-    variables:
-      light_name: bedroom_bed
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: light.ha_template_individual_group_bedroom_adult_top
+        template: individual_virtual_switch
+        icon: hue:ceiling-round
+        variables:
+          light_name: group_bedroom_adult_top
+      - type: custom:button-card
+        entity: light.ha_template_individual_group_bedroom_theo_top
+        template: individual_virtual_switch
+        icon: hue:wall-spot
+        variables:
+          light_name: group_bedroom_theo_top
+      - type: custom:button-card
+        entity: light.ha_template_individual_bedroom_bed_led
+        template: individual_virtual_switch
+        icon: mdi:led-strip-variant
+        variables:
+          light_name: bedroom_bed_led
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: light.ha_template_individual_bedroom_wardrobe
+        template: individual_virtual_switch
+        icon: mdi:wardrobe-outline
+        variables:
+          light_name: bedroom_wardrobe
+      - type: custom:button-card
+        entity: light.ha_template_individual_bedroom_table
+        template: individual_virtual_switch
+        icon: hue:desk-lamp
+        variables:
+          light_name: bedroom_table
+      - type: custom:button-card
+        entity: light.group_bedroom_bed
+        template: individual_virtual_switch
+        icon: mdi:bed-king-outline
+        variables:
+          light_name: bedroom_bed

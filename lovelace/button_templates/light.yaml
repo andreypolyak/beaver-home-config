@@ -15,9 +15,23 @@ individual_virtual_switch:
   variables:
     light_name: ""
 
-individual_virtual_switch_with_name:
+individual_virtual_switch_with_room_icon:
   template: individual_virtual_switch
-  show_name: true
+  styles:
+    custom_fields:
+      room:
+        - position: absolute
+        - right: 8px
+        - bottom: 8px
+        - font-size: 14px
+  custom_fields:
+    room: >
+      [[[
+        return `<ha-icon icon="` + variables.room_icon + `" style="width: 14px; height: 14px;"></ha-icon>`;
+      ]]]
+  variables:
+    light_name: ""
+    room_icon: ""
 
 brightness:
   icon: mdi:brightness-6

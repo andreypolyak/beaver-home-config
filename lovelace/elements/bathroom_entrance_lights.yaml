@@ -2,29 +2,29 @@ type: horizontal-stack
 cards:
   - type: custom:button-card
     entity: light.ha_template_individual_group_bathroom_top
-    template: individual_virtual_switch_with_name
-    name: Bathroom
-    icon: mdi:lightbulb
+    template: individual_virtual_switch_with_room_icon
+    icon: hue:ceiling-round
     variables:
       light_name: group_bathroom_top
+      room_icon: mdi:shower
   - type: custom:button-card
     entity: light.ha_template_individual_bathroom_mirror
-    template: individual_virtual_switch_with_name
-    name: Bathroom
+    template: individual_virtual_switch_with_room_icon
     icon: mdi:mirror
     variables:
       light_name: bathroom_mirror
+      room_icon: mdi:shower
   - type: custom:button-card
     entity: light.ha_template_individual_group_entrance_top
-    template: individual_virtual_switch_with_name
-    name: Entrance
-    icon: mdi:lightbulb
+    template: individual_virtual_switch_with_room_icon
+    icon: hue:ceiling-round
     variables:
       light_name: group_entrance_top
+      room_icon: mdi:door-open
   - type: custom:button-card
     entity: light.ha_template_individual_group_entrance_mirror
-    template: individual_virtual_switch_with_name
-    name: Entrance
+    template: individual_virtual_switch_with_room_icon
     icon: mdi:mirror
     variables:
       light_name: group_entrance_mirror
+      room_icon: mdi:door-open
