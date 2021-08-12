@@ -55,7 +55,7 @@ HA_BLACKLIST = [
   "took longer than the scheduled update interval 0:00:10",
   "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
   "Error retrieving proxied image from",
-  "local variable 'controllers' referenced before assignment",
+  "File \"/config/custom_components/sauresha/sensor.py\", line 266, in current_controller_info",
   "custom_components.hacs"
 ]
 
