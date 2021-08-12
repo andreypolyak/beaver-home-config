@@ -405,6 +405,7 @@ living_room_cover:
   module: living_room_cover
   class: LivingRoomCover
   global_dependencies: base
+  dependencies: storage
 
 living_room_lights:
   module: living_room_lights
