@@ -43,6 +43,8 @@ class Coffee(Base):
     turned_on_ts = int(self.get_state("input_datetime.coffee_turned_on", attribute="timestamp"))
     if self.now_is_between("16:00:00", "04:00:00"):
       self.turn_on_entity("input_boolean.coffee_prepared")
+      text = "Кофе будет сварен завтра с утра"
+      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
     elif self.now_is_between("04:00:00", "13:00:00") and self.get_delta_ts(turned_on_ts) > 43200:
       self.turn_on_coffee()
 
