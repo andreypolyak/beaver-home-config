@@ -32,7 +32,7 @@ class Vacuum(Base):
 
     if (
         self.get_state("vacuum.rockrobo") == "docked"
-        and self.get_delta_ts(timestamp) > 216000
+        and self.get_delta_ts(timestamp) > 21600
         and day != int(self.datetime().strftime("%d"))
         and self.get_vacuum_state() == "idle"
     ):
