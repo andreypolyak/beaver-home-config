@@ -1,0 +1,25 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+        "label": "Restart AppDaemon",
+        "type": "shell",
+        "command": "ha addons restart a0d7b954_appdaemon",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "never"
+        }
+    },
+    {
+        "label": "Restart Home Assistant",
+        "type": "shell",
+        "command": "ha core restart",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "never"
+        }
+    }
+  ]
+}

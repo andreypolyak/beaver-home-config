@@ -1,0 +1,63 @@
+{
+	// Place your snippets for python here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Template App": {
+		"prefix": "app",
+		"body": [
+			"from base import Base",
+			"",
+			"",
+			"class TemplateApp(Base):",
+			"",
+			"  def initialize(self):",
+			"    super().initialize()",
+			"    self.listen_state(self.on_change, \"entity.entity\")",
+			"    self.listen_event(self.on_event, \"event_name\")",
+			"",
+			"",
+			"  def on_change(self, entity, attribute, old, new, kwargs):",
+			"    pass",
+			"",
+			"",
+			"  def on_event(self, event_name, data, kwargs):",
+			"    pass",
+			""
+		],
+		"description": "Template App"
+	},
+	"Listen State": {
+		"prefix": "ls",
+		"body": [
+			"self.listen_state(self.on_change, \"entity.entity\")",
+			"",
+			"",
+			"def on_change(self, entity, attribute, old, new, kwargs):",
+			"  pass",
+			""
+		],
+		"description": "Listen State"
+	},
+	"Listen Event": {
+		"prefix": "le",
+		"body": [
+			"self.listen_event(self.on_event, \"event_name\")",
+			"",
+			"",
+			"def on_event(self, event_name, data, kwargs):",
+			"  pass",
+			""
+		],
+		"description": "Listen State"
+	}
+}
