@@ -27,24 +27,3 @@ snapshot_send:
     - service: script.fire_custom_event
       data:
         custom_event_data: delete_snapshot
-
-backup:
-  sequence:
-    - service: hassio.snapshot_partial
-      data_template:
-        name: "{{ now().strftime('%Y_%m_%d') }}_hassio"
-        password: !secret script_backup_password
-        addons: 
-          - a0d7b954_appdaemon
-          - core_duckdns
-          - 7ad98f9c_zigbee2mqtt
-          - 7ad98f9c_zigbee2mqtt_edge
-          - cebe7a76_hassio_google_drive_backup
-          - a0d7b954_portainer
-          - core_nginx_proxy
-          - a0d7b954_grafana
-        folders:
-          - homeassistant
-          - share
-          - ssl
-          - addons/local
