@@ -81,7 +81,7 @@ class BedroomLights(RoomLights):
     elif mode == "virtual_switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new)
     elif mode == "theo_switch" and new in ["toggle", "on", "off"]:
-      self.turn_on_scene("night")
+      self.set_sleeping_scene("night")
     elif mode in ["switch", "theo_switch", "virtual_switch"] and "brightness" in new:
       self.toggle_brightness(new)
     else:

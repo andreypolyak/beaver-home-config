@@ -96,13 +96,13 @@ class LivingRoomLights(RoomLights):
     elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.is_auto_lights():
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
-        self.turn_on_scene("day")
+        self.set_living_scene("day")
       else:
         self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
-        self.turn_on_scene("day")
+        self.set_living_scene("day")
       else:
         self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "switch" and new in ["toggle", "on", "off"]:
@@ -130,7 +130,7 @@ class LivingRoomLights(RoomLights):
     elif mode == "old_scene":
       self.run_in(self.restore_lights, 1)
     elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.turn_on_scene("day")
+      self.set_living_scene("day")
     elif mode == "switch" and "brightness" in new:
       self.toggle_brightness(new, set_day=True)
     else:
@@ -141,7 +141,7 @@ class LivingRoomLights(RoomLights):
     if mode == "new_scene":
       self.set_preset("CINEMA", min_delay=True)
     elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.turn_on_scene("dark_cinema")
+      self.set_living_scene("dark_cinema")
     elif mode == "switch" and "brightness" in new:
       self.toggle_brightness(new, set_day=True)
     else:
@@ -152,7 +152,7 @@ class LivingRoomLights(RoomLights):
     if mode == "new_scene":
       self.set_preset("OFF", min_delay=True)
     elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
-      self.turn_on_scene("light_cinema")
+      self.set_living_scene("light_cinema")
     elif mode == "switch" and "brightness" in new:
       self.toggle_brightness(new, set_day=True)
     else:

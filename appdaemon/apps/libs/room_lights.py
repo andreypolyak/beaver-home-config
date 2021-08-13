@@ -95,7 +95,7 @@ class RoomLights(Base):
       return
     self.set_preset(preset_name, min_delay=min_delay)
     if set_day:
-      self.turn_on_scene("day")
+      self.set_scene(self.zone, "day")
 
 
   def toggle_brightness(self, command, set_day=False):
@@ -103,17 +103,13 @@ class RoomLights(Base):
     if not self.__handle_button_hold(command):
       return
     if set_day:
-      self.turn_on_scene("day")
+      self.set_scene(self.zone, "day")
       self.set_preset("BRIGHT")
     elif command == "brightness_up":
       self.__toggle_max_brightness()
     elif command == "brightness_down":
       self.__toggle_min_brightness()
     self.handle = self.run_in(self.__allow_button_hold, 3)
-
-
-  def turn_on_scene(self, scene):
-    self.set_scene(self.zone, "day")
 
 
 # Control light set
