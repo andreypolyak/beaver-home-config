@@ -56,7 +56,8 @@ HA_BLACKLIST = [
   "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
   "Error retrieving proxied image from",
   "File \"/config/custom_components/sauresha/sensor.py\", line 266, in current_controller_info",
-  "custom_components.hacs"
+  "custom_components.hacs",
+  "<class 'homeassistant.components.mqtt.light.schema_json.MqttLightJson'>) took "
 ]
 
 
