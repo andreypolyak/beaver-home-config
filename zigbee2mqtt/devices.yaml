@@ -109,9 +109,9 @@
 '0xccccccfffe9fe76f':
   friendly_name: Living Room Top 2
 '0x00124b002260a037':
-  friendly_name: Living Room Ficus
+  friendly_name: Living Room Plant Ficus
 '0x00124b002260a033':
-  friendly_name: Kitchen Palm
+  friendly_name: Kitchen Plant Sid
 '0x00158d00045cc45b':
   friendly_name: Kitchen Freezer Door
 '0x00158d0004850370':
@@ -124,3 +124,5 @@
   friendly_name: Kitchen Chair 1 Occupancy
 '0x84fd27fffec35e3d':
   friendly_name: Living Room Sofa LED
+'0x00124b002241f609':
+  friendly_name: Kitchen Plant Sonic

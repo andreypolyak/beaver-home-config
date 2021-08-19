@@ -66,7 +66,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 ### Sensors
 
 - 2x ZigBee DIYRuz [CO2 Sensors](https://diyruz.github.io/posts/airsense/) — uses SenseAir S8 for measuring
-- 2x ZigBee DIYRuz [Plant Sensors](https://diyruz.github.io/posts/flower/)
+- 4x ZigBee DIYRuz [Plant Sensors](https://diyruz.github.io/posts/flower/)
 - 2x DIY [bed occupancy sensor](https://github.com/eoncire/HA_bed_presence) — uses ESP32 and film pressure sensors, ESPHome firmware
 - 12x Aqara human body movement and illuminance sensor (RTCGQ11LM) — [hacked](https://community.smartthings.com/t/making-xiaomi-motion-sensor-a-super-motion-sensor/139806) to have 5 seconds occupancy timeout
 - 7x Aqara temperature, humidity and pressure sensor (WSDCGQ11LM)

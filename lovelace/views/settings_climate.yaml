@@ -12,15 +12,29 @@ cards:
       - type: entities
         entities:
           - type: custom:bar-card
-            entity: sensor.kitchen_palm_moisture
-            name: Kitchen Palm
+            entity: sensor.entrance_plant_stonehenge_moisture
+            name: Entrance Plant Stonehenge Moisture
             entity_row: true
             color: var(--primary-color)
             positions:
               icon: off
           - type: custom:bar-card
-            entity: sensor.living_room_ficus_moisture
-            name: Living Room Ficus
+            entity: sensor.kitchen_plant_sid_moisture
+            name: Kitchen Plant Sid Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.kitchen_plant_sonic_moisture
+            name: Kitchen Plant Sonic Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.living_room_plant_ficus_moisture
+            name: Living Room Plant Ficus Moisture
             entity_row: true
             color: var(--primary-color)
             positions:
@@ -29,10 +43,14 @@ cards:
         config_templates: base
         graph_span: 72hours
         series:
-          - entity: sensor.kitchen_palm_moisture
-            name: Kitchen Palm
-          - entity: sensor.living_room_ficus_moisture
-            name: Living Room Ficus
+          - entity: sensor.entrance_plant_stonehenge_moisture
+            name: Entrance Plant Stonehenge Moisture
+          - entity: sensor.kitchen_plant_sid_moisture
+            name: Kitchen Plant Sid Moisture
+          - entity: sensor.kitchen_plant_sonic_moisture
+            name: Kitchen Plant Sonic Moisture
+          - entity: sensor.living_room_plant_ficus_moisture
+            name: Living Room Plant Ficus Moisture
       - type: custom:button-card
         template: header
         name: CO2
