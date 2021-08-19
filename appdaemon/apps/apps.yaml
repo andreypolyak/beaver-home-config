@@ -247,11 +247,6 @@ circadian_update:
   class: CircadianUpdate
   global_dependencies: base
 
-delete_snapshot:
-  module: delete_snapshot
-  class: DeleteSnapshot
-  global_dependencies: base
-
 ha_count_updates:
   module: ha_count_updates
   class: HaCountUpdates

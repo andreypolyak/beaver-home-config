@@ -48,10 +48,4 @@ cards:
         template: header
         name: Climate
       - !include /config/lovelace/elements/living_room_climate.yaml
-      - type: custom:button-card
-        template: header
-        name: Camera
-      - type: custom:webrtc-camera
-        entity: camera.living_room_camera
-        ui: true
       - !include /config/lovelace/elements/footer.yaml

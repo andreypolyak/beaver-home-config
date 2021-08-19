@@ -26,7 +26,6 @@ class PersonInside(Base):
 
   def initialize(self):
     super().initialize()
-    self.listen_state(self.on_image_processing, "image_processing.doods_living_room_camera")
     self.handle = None
     for room_name, room in ROOMS.items():
       for sensor in room["sensors"]:
@@ -50,17 +49,3 @@ class PersonInside(Base):
   def on_door_open(self, entity, attribute, old, new, kwargs):
     room_name = kwargs["room_name"]
     self.turn_off_entity(f"input_boolean.person_inside_{room_name}")
-
-
-  def on_image_processing(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new):
-      return
-    self.cancel_handle(self.handle)
-    if int(new) == 0:
-      self.handle = self.run_in(self.empty_living_room, 60)
-    else:
-      self.turn_on_entity("input_boolean.person_inside_living_room")
-
-
-  def empty_living_room(self, kwargs):
-    self.turn_off_entity("input_boolean.person_inside_living_room")

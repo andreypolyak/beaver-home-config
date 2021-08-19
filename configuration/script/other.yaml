@@ -11,19 +11,3 @@ fire_custom_event:
       event_data_template:
         custom_event_data: "{{ custom_event_data }}"
         custom_event_data2: "{{ custom_event_data2|default(none) }}"
-
-snapshot_send:
-  sequence:
-    - service: camera.snapshot
-      data:
-        entity_id: camera.living_room_camera
-        filename: www/snapshot.jpg
-    - service: notify.beaver_stream
-      data:
-        message: ""
-        data:
-          photo:
-            - file: /config/www/snapshot.jpg
-    - service: script.fire_custom_event
-      data:
-        custom_event_data: delete_snapshot

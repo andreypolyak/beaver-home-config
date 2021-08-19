@@ -1,8 +1,0 @@
-- platform: doods
-  url: !secret image_processing_doods_host
-  detector: default
-  source:
-    - entity_id: camera.living_room_camera
-  labels:
-    - name: person
-      confidence: 50

@@ -8,10 +8,6 @@ person_inside_bathroom_entrance:
   name: Person Inside Bathroom
   icon: mdi:account
 
-person_inside_living_room:
-  name: Person Inside Living Room
-  icon: mdi:account
-
 # Party
 
 party_smooth:

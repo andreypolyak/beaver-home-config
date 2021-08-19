@@ -83,7 +83,6 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - Sony PlayStation 4
 - Sonos Beam, Sonos Sub, 2x Sonos One, 2x Ikea Symfonisk bookshelf speakers, 2x Ikea Symfonisk table lamp speakers, Sonos Move — multiroom audio all over the place
 - 2x Yandex Station Mini — voice assistant which supports the Russian language
-- cheap RTSP capable IP camera — used with [DOODS](https://github.com/snowzach/doods) as presence sensor in the living room and to make keepsake photos in the living room
 
 ### Remotes
 
