@@ -22,6 +22,8 @@ class Freshener(Base):
 
 
   def on_flush(self, entity, attribute, old, new, kwargs):
+    if self.is_bad(new):
+      return
     self.log("Toilet flush, schedule spray")
     self.schedule_spray()
 
@@ -44,7 +46,7 @@ class Freshener(Base):
 
   def schedule_spray(self):
     self.cancel_handle(self.handle)
-    self.handle = self.run_in(self.spray, 15)
+    self.handle = self.run_in(self.spray, 30)
 
 
   def spray(self, kwargs):
