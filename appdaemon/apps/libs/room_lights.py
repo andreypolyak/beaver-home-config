@@ -153,11 +153,13 @@ class RoomLights(Base):
       light_set[light_name] = {"state": True, "brightness": 2}
       fade_any = True
     if fade_any:
+      self.log("Fading lights")
       groups = self.__build_groups_from_light_set(light_set)
       for light_name, light in groups.items():
         self.__set_light(light_name, light, fade=True)
       self.__set_faded_timer()
       return
+    self.log("Turning lights off because they can't be faded")
     self.set_preset("OFF", save_preset=False)
 
 
@@ -177,7 +179,7 @@ class RoomLights(Base):
 
 
   def __set_light_set(self, light_set, circadian=False):
-    self.log(f"Setting new light state: {light_set}")
+    self.log(f"Setting new light state: {light_set} with parameters: circadian={circadian}")
     self.write_storage("state", light_set, attribute="lights")
     with_color = False
     for light in light_set.values():
@@ -190,7 +192,6 @@ class RoomLights(Base):
     if circadian:
       return
     are_all_lights_off = self.__is_light_off()
-    self.log_var(are_all_lights_off)
     if are_all_lights_off:
       self.__set_default_params()
       self.__cancel_light_timer()
