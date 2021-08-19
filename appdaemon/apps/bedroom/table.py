@@ -11,6 +11,7 @@ class Table(Base):
     self.listen_event(self.on_fake_light_on, "custom_event", custom_event_data="turn_on_bedroom_table_switch")
     self.listen_event(self.on_fake_light_off, "custom_event", custom_event_data="turn_off_bedroom_table_switch")
     self.listen_state(self.on_switch_off, "switch.bedroom_table_plug", new="off", old="on")
+    self.listen_state(self.on_light_change, "input_boolean.bedroom_table_lamp")
 
 
   def on_power_change(self, entity, attribute, old, new, kwargs):
@@ -18,9 +19,14 @@ class Table(Base):
       return
     if float(new) > 9 and self.get_delta_ts(self.turned_off_ts) > 3:
       self.turn_on_entity("input_boolean.bedroom_table_lamp")
-      self.turn_on_entity("light.ha_template_individual_bedroom_table")
     else:
       self.turn_off_entity("input_boolean.bedroom_table_lamp")
+
+
+  def on_light_change(self, entity, attribute, old, new, kwargs):
+    if new == "on":
+      self.turn_on_entity("light.ha_template_individual_bedroom_table")
+    else:
       self.turn_off_entity("light.ha_template_individual_bedroom_table")
 
 
