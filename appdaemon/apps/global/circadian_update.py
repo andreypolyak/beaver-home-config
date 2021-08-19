@@ -1,8 +1,8 @@
 from base import Base
 import math
 
-DELAY = 120
-SAT_STEP = 2
+DELAY = 90
+SAT_STEP = 1
 MAX_LUX = 200
 MIN_LUX = 0
 # From 06:00 to 12:00 decrease saturation by maximum 20% (100% max saturation at 6, 80% at 9, 100% at 12)
@@ -17,7 +17,7 @@ class CircadianUpdate(Base):
     super().initialize()
     self.changed_ts = 0
     self.listen_state(self.on_lights_off, "light.ha_group_all")
-    self.run_every(self.process, "now+300", 60)
+    self.run_every(self.process, "now+300", 30)
 
 
   def process(self, kwargs):
@@ -25,7 +25,6 @@ class CircadianUpdate(Base):
     if new_saturation is None:
       self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
       new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
-    kelvin = self.calculate_kelvin(new_saturation)
     old_saturation = self.get_int_state("input_number.circadian_saturation")
     if self.is_entity_on("light.ha_group_all"):
       if abs(new_saturation - old_saturation) > SAT_STEP:
@@ -34,7 +33,7 @@ class CircadianUpdate(Base):
         elif new_saturation < old_saturation:
           new_saturation = old_saturation - SAT_STEP
     if new_saturation != old_saturation:
-      self.set_saturation(new_saturation, kelvin)
+      self.set_saturation(new_saturation)
 
 
   def calculate_saturation(self):
@@ -77,18 +76,13 @@ class CircadianUpdate(Base):
     return morning_coeff
 
 
-  def calculate_kelvin(self, saturation):
-    kelvin = 6500 - saturation * ((6500 - 2000) / 100)
-    return kelvin
-
-  def set_saturation(self, new_saturation, kelvin):
+  def set_saturation(self, new_saturation):
     if new_saturation == self.get_int_state("input_number.circadian_saturation"):
       return
     if self.is_entity_on("light.ha_group_all") and self.get_delta_ts(self.changed_ts) < DELAY:
       return
     self.changed_ts = self.get_now_ts()
     self.set_value("input_number.circadian_saturation", new_saturation)
-    self.set_value("input_number.circadian_kelvin", kelvin)
 
 
   def on_lights_off(self, entity, attribute, old, new, kwargs):

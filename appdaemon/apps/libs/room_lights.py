@@ -613,7 +613,8 @@ class RoomLights(Base):
       color["mode"] = "hs_color"
       color["value"] = [30, saturation]
     elif isinstance(input_color, str) and input_color == "auto" and self.color_mode == "cct":
-      kelvin = self.get_int_state("input_number.circadian_kelvin")
+      saturation = self.get_int_state("input_number.circadian_saturation")
+      kelvin = 6500 - saturation * ((6500 - 2000) / 100)
       color["mode"] = "kelvin"
       color["value"] = kelvin
     elif isinstance(input_color, list) and len(input_color) == 3:

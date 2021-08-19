@@ -12,6 +12,7 @@ cards:
       - type: entities
         entities:
           - input_boolean.circadian_update
+          - input_number.circadian_saturation
           - input_number.transition
           - input_boolean.christmas_season
       - type: custom:button-card
@@ -29,7 +30,7 @@ cards:
           method: entity_id
       - type: custom:button-card
         template: header
-        name: Circadian
+        name: Automatic Colors
       - type: custom:auto-entities
         show_empty: false
         card:

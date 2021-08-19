@@ -6,14 +6,6 @@ circadian_saturation:
   mode: box
   icon: mdi:theme-light-dark
 
-circadian_kelvin:
-  name: Circadian Kelvin
-  min: 2000
-  max: 6500
-  step: 1
-  mode: box
-  icon: mdi:theme-light-dark
-
 transition:
   name: Light Transition
   min: 0
