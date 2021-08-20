@@ -170,8 +170,6 @@ class LivingRoomLights(RoomLights):
     living_scene = self.get_living_scene()
     if living_scene in ["dumb", "light_cinema", "dark_cinema", "party"]:
       return f"{living_scene}_scene"
-    if self.is_person_inside():
-      return "person_inside"
     if not self.is_auto_lights():
       return "auto_lights_off"
     return None
