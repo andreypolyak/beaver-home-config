@@ -6,6 +6,7 @@ esphome:
   name: $hostname
   platform: ESP8266
   board: d1_mini
+  esp8266_restore_from_flash: true
 
 wifi:
   ssid: !secret esphome_wifi_ssid
@@ -33,3 +34,27 @@ switch:
     on_turn_on:
       - delay: 500ms
       - switch.turn_off: bathroom_freshener
+      - number.set:
+          id: freshener_counter
+          value: !lambda |-
+            return ((id(freshener_counter).state)+1);
+      - component.update: freshener_counter 
+  - platform: template
+    name: Reset Freshener Counter
+    id: reset_freshener_counter
+    turn_on_action:
+      - number.set:
+          id: freshener_counter
+          value: 0
+      - component.update: freshener_counter 
+
+number:
+  - platform: template
+    name: Freshener Counter
+    id: freshener_counter
+    restore_value: true
+    update_interval: 30s
+    min_value: 0
+    max_value: 1000
+    step: 1
+    optimistic: true
