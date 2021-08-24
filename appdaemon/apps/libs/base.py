@@ -99,6 +99,10 @@ class Base(hass.Hass):
   def get_delta_ts(self, ts):
     return self.get_now_ts() - ts
 
+
+  def update_entity(self, entity):
+    self.call_service("homeassistant/update_entity", entity_id=entity)
+
 # Scenes
 
   def set_scene(self, zone, scene):
