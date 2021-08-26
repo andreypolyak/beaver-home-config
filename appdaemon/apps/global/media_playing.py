@@ -1,13 +1,12 @@
 from base import Base
 
 
-class IsMediaPlaying(Base):
+class MediaPlaying(Base):
 
   def initialize(self):
     super().initialize()
     self.handles = {}
-    self.sonos_devices = []
-    self.find_all_sonos_devices()
+    self.sonos_devices = self.get_all_sonos_devices()
     for sonos_device in self.sonos_devices:
       self.handles[sonos_device] = None
       self.listen_state(self.on_sonos_change, sonos_device)
@@ -17,12 +16,13 @@ class IsMediaPlaying(Base):
     self.run_every(self.check_state, "now", 120)
 
 
-  def find_all_sonos_devices(self):
-    self.sonos_devices = []
+  def get_all_sonos_devices(self):
+    sonos_devices = []
     for media_player in self.get_state("media_player"):
       if "sonos" in media_player:
         sonos_device = media_player.replace("media_player.", "")
-        self.sonos_devices.append(sonos_device)
+        sonos_devices.append(sonos_device)
+    return sonos_devices
 
 
   def on_tv_change(self, entity, attribute, old, new, kwargs):
@@ -53,7 +53,7 @@ class IsMediaPlaying(Base):
 
 
   def check_tv_state(self):
-    if self.get_living_scene() == "party":
+    if self.living_scene == "party":
       return
     if self.is_entity_on("binary_sensor.living_room_tv"):
       self.turn_on_entity("input_boolean.living_room_tv_playing")
@@ -64,7 +64,7 @@ class IsMediaPlaying(Base):
 
 
   def check_sonos_state(self, entity):
-    if self.get_living_scene() == "party":
+    if self.living_scene == "party":
       return
     sonos_state = self.get_state(f"media_player.{entity}")
     device = entity.replace("media_player.", "")

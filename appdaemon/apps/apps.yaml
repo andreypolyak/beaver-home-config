@@ -252,11 +252,6 @@ ha_count_updates:
   class: HaCountUpdates
   global_dependencies: base
 
-is_media_playing:
-  module: is_media_playing
-  class: IsMediaPlaying
-  global_dependencies: base
-
 light_delay:
   module: light_delay
   class: LightDelay
@@ -273,6 +268,11 @@ location:
 media_control:
   module: media_control
   class: MediaControl
+  global_dependencies: base
+
+media_playing:
+  module: media_playing
+  class: MediaPlaying
   global_dependencies: base
 
 media_volume:
