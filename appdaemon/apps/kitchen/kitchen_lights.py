@@ -63,9 +63,9 @@ class KitchenLights(RoomLights):
   def on_day(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT")
-    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new, set_cooldown=True)
@@ -80,13 +80,13 @@ class KitchenLights(RoomLights):
   def on_night(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset("OFF")
-    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       else:
         self.set_preset_or_restore("NIGHT", min_delay=True)
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
@@ -114,9 +114,9 @@ class KitchenLights(RoomLights):
   def on_party(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK", min_delay=True)
-    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("DARK", min_delay=True)
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("DARK", new, min_delay=True, set_cooldown=True)
@@ -131,9 +131,9 @@ class KitchenLights(RoomLights):
   def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT_CINEMA")
-    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("BRIGHT_CINEMA")
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("BRIGHT_CINEMA")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT_CINEMA", new, min_delay=True, set_cooldown=True)
@@ -148,9 +148,9 @@ class KitchenLights(RoomLights):
   def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK", min_delay=True)
-    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("DARK", min_delay=True)
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("DARK", min_delay=True)
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("DARK", new, min_delay=True, set_cooldown=True)
@@ -169,10 +169,11 @@ class KitchenLights(RoomLights):
       return False
 
 
-  def should_turn_off_by_timer(self):
-    if self.get_living_scene() == "dumb":
+  @property
+  def reason_to_keep_light(self):
+    if self.living_scene == "dumb":
       return "dumb_scene"
-    if not self.is_auto_lights():
+    if not self.auto_lights:
       return "auto_lights_off"
     if (
       self.is_entity_on("binary_sensor.kitchen_chair_1_occupancy")

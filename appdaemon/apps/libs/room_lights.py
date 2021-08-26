@@ -5,18 +5,6 @@ FADE_DURATION = 60
 COOLDOWN_DELAY = 60
 
 
-# CHANGE: remove state from all signatures
-# CHANGE: create "OFF" preset
-# CHANGE: turn_off_all to set_preset("OFF")
-# CHANGE: light_toggle to toggle_preset
-# CHANGE: overwrite_scene to toggle_brightness(new, set_day=True)
-# CHANGE: night_scene_light_toggle to toggle_preset(set_day=True)
-# CHANGE: use set_cooldown in set_preset for switches and remove mode
-# CHANGE: remove is_door_open
-# CHANGE: differentiate switch and virtual_switch
-
-# TODO: logging
-
 class RoomLights(Base):
 
   def room_init(self):
@@ -48,9 +36,7 @@ class RoomLights(Base):
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
     self.listen_state(self.__on_set_auto_lights, f"input_boolean.auto_lights_{self.room}")
 
-
 # Public room light control
-
 
   def set_preset(self, preset_name, min_delay=False, save_preset=True, set_cooldown=False):
     self.log(f"Set {preset_name} preset with following parameters: min_delay={min_delay}, "
@@ -111,9 +97,7 @@ class RoomLights(Base):
       self.__toggle_min_brightness()
     self.handle = self.run_in(self.__allow_button_hold, 3)
 
-
 # Control light set
-
 
   def __unfade(self):
     light_set = self.read_storage("state", attribute="lights")
@@ -254,9 +238,7 @@ class RoomLights(Base):
     else:
       self.__set_features(brightness=3)
 
-
 # Control lights
-
 
   def __set_light(self, light_name, light, circadian=False, fade=False):
     if light["state"]:
@@ -291,9 +273,7 @@ class RoomLights(Base):
     self.log(f"Turn off {light_name} with args: {kwargs}")
     self.turn_off_entity(f"light.{light_name}", **kwargs)
 
-
 # Control timers
-
 
   def __set_light_timer(self):
     if self.is_entity_on(f"input_boolean.{self.zone}_zone_min_delay"):
@@ -332,12 +312,10 @@ class RoomLights(Base):
     self.timer_cancel(f"light_cooldown_{self.room}")
     self.write_storage("state", False, attribute="cooldown")
 
-
 # Timer callbacks
 
-
   def __on_light_timer_finish(self, event_name, data, kwargs):
-    reason = self.should_turn_off_by_timer()
+    reason = self.reason_to_keep_light
     if reason:
       self.__set_light_timer()
       self.log(f"Lights were not faded because of: {reason}")
@@ -348,7 +326,7 @@ class RoomLights(Base):
   def __on_faded_timer_finish(self, event_name, data, kwargs):
     self.write_storage("state", False, attribute="max_delay")
     self.write_storage("state", False, attribute="faded")
-    reason = self.should_turn_off_by_timer()
+    reason = self.reason_to_keep_light
     if reason:
       self.log(f"Lights were not turned off because of: {reason}")
       self.__unfade()
@@ -359,9 +337,7 @@ class RoomLights(Base):
   def __on_cooldown_timer_finish(self, event_name, data, kwargs):
     self.write_storage("state", False, attribute="cooldown")
 
-
 # Callbacks
-
 
   def __on_scene(self, entity, attribute, old, new, kwargs):
     self.__set_default_params()
@@ -372,14 +348,14 @@ class RoomLights(Base):
     if callable(func):
       res = func(old, mode, new=new, old=old, entity=entity)
       if res is not False:
-        self.write_to_log(old, mode, entity, new, old)
+        self.__write_to_log(old=old, mode=mode, entity=entity, new=new)
     func_name = f"on_{new}"
     func = getattr(self, func_name, None)
     mode = "new_scene"
     if callable(func):
       res = func(new, mode, new=new, old=old, entity=entity)
       if res is not False:
-        self.write_to_log(new, mode, entity, new, old)
+        self.__write_to_log(new=new, mode=mode, entity=entity, old=old)
 
 
   def __on_sensor(self, entity, attribute, old, new, kwargs):
@@ -393,7 +369,7 @@ class RoomLights(Base):
     if callable(func):
       res = func(scene, mode, new=new, old=old, entity=entity)
       if res is not False:
-        self.write_to_log(scene, mode, entity, new, old)
+        self.__write_to_log(scene=scene, mode=mode, entity=entity, new=new, old=old)
 
 
   def __on_switch(self, entity, attribute, old, new, kwargs):
@@ -413,7 +389,7 @@ class RoomLights(Base):
     if callable(func):
       res = func(scene, mode, new=new, old=old, entity=entity)
       if res is not False:
-        self.write_to_log(scene, mode, entity, new, old)
+        self.__write_to_log(scene=scene, mode=mode, entity=entity, new=new, old=old)
 
 
   def __on_virtual_switch(self, event_name, data, kwargs):
@@ -431,7 +407,7 @@ class RoomLights(Base):
     if callable(func):
       res = func(scene, mode, new=operation, entity=entity)
       if res is not False:
-        self.write_to_log(scene, mode, entity, operation, None)
+        self.__write_to_log(scene=scene, mode=mode, entity=entity, operation=operation)
 
 
   def __on_individual_virtual_switch(self, event_name, data, kwargs):
@@ -482,47 +458,29 @@ class RoomLights(Base):
     light_set = self.read_storage("state", attribute="lights")
     self.__set_light_set(light_set, circadian=True)
 
+# Properties
 
-# Public helpers
-
-
-  def is_cover_active(self):
+  @property
+  def cover_active(self):
     entity = f"input_boolean.{self.room}_cover_active"
     if self.entity_exists(entity) and self.is_entity_on(entity):
       return True
     return False
 
 
-  def write_to_log(self, scene, mode, entity, new, old):
-    # TODO: redo in future?
-    log_str = "Room trigger: "
-    if scene:
-      log_str += f"scene={scene}"
-    if mode:
-      log_str += f", mode={mode}"
-    if entity:
-      log_str += f", entity={entity}"
-    if new:
-      log_str += f", new={new}"
-    if old:
-      log_str += f", old={old}"
-    self.log(log_str)
-
-
-  def is_person_inside(self):
-    is_person_inside = False
+  @property
+  def person_inside(self):
     entity = f"input_boolean.person_inside_{self.room}"
     if self.entity_exists(entity) and self.is_entity_on(entity):
-      is_person_inside = True
-    return is_person_inside
+      return True
+    return False
 
 
-  def is_auto_lights(self):
+  @property
+  def auto_lights(self):
     return self.read_storage("state", attribute="auto_lights")
 
-
-# Private helpers
-
+# Helpers
 
   def __build_light_set_from_preset(self, preset_name):
     light_set = {}
@@ -654,3 +612,10 @@ class RoomLights(Base):
     self.write_storage("state", self.is_timer_active(f"light_faded_{self.room}"), attribute="faded")
     self.write_storage("state", self.is_timer_active(f"light_cooldown_{self.room}"), attribute="cooldown")
     self.write_storage("state", self.is_entity_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")
+
+
+  def __write_to_log(self, **kwargs):
+    log_str = "Room trigger with params: "
+    for arg_name, arg_value in kwargs.items():
+      log_str += f"{arg_name}={arg_value}, "
+    self.log(log_str[:-2])

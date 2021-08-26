@@ -80,7 +80,7 @@ class AC(Base):
       change_reason = "balcony_temperature < 15"
       new_ac_state = False
 
-    if self.get_living_scene() == "away":
+    if self.living_scene == "away":
       change_reason = "away scene"
       new_ac_state = False
 

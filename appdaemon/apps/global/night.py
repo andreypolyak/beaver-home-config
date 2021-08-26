@@ -27,9 +27,9 @@ class Night(Base):
     night_in_sleeping_ts = self.read_storage("night_in_sleeping_ts")
     day_in_living_ts = self.read_storage("day_in_living_ts")
     if (
-      self.get_sleeping_scene() == "night"
-      and self.get_living_scene() == "day"
-      and self.is_all_lights_off()
+      self.sleeping_scene == "night"
+      and self.living_scene == "day"
+      and self.all_lights_off
       and self.get_delta_ts(night_in_sleeping_ts) <= 1200
       and self.get_delta_ts(day_in_living_ts) > 1200
     ):
@@ -39,20 +39,21 @@ class Night(Base):
     elif (
       "sleeping_scene" in entity
       and new == "day"
-      and self.get_living_scene() == "night"
+      and self.living_scene == "night"
     ):
       self.log("Turning day scene in living zone because day scene was turned on in sleeping zone")
       self.set_living_scene("day")
     elif (
       "living_scene" in entity
       and new == "night"
-      and self.get_sleeping_scene() == "day"
+      and self.sleeping_scene == "day"
     ):
       self.log("Turning night scene in sleeping zone because night scene was turned on in living zone")
       self.set_sleeping_scene("night")
 
 
-  def is_all_lights_off(self):
+  @property
+  def all_lights_off(self):
     for room in LIVING_ZONE_ROOMS:
       if self.is_entity_on(f"light.ha_template_room_{room}"):
         return False

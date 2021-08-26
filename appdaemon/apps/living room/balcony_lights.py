@@ -40,15 +40,9 @@ class BalconyLights(RoomLights):
   def on_day(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT")
-    elif (
-      mode in ["door_sensor", "illuminance_sensor"]
-      and new == "on"
-      and self.is_auto_lights()
-      and self.is_balcony_dark()
-      and self.is_balcony_door_open()
-    ):
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("BRIGHT")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.is_auto_lights():
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -59,15 +53,9 @@ class BalconyLights(RoomLights):
   def on_night(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
         self.set_preset("OFF")
-    elif (
-      mode in ["door_sensor", "illuminance_sensor"]
-      and new == "on"
-      and self.is_auto_lights()
-      and self.is_balcony_dark()
-      and self.is_balcony_door_open()
-    ):
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.is_auto_lights():
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -85,15 +73,9 @@ class BalconyLights(RoomLights):
   def on_party(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK")
-    elif (
-      mode in ["door_sensor", "illuminance_sensor"]
-      and new == "on"
-      and self.is_auto_lights()
-      and self.is_balcony_dark()
-      and self.is_balcony_door_open()
-    ):
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.is_auto_lights():
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -104,15 +86,9 @@ class BalconyLights(RoomLights):
   def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT")
-    elif (
-      mode in ["door_sensor", "illuminance_sensor"]
-      and new == "on"
-      and self.is_auto_lights()
-      and self.is_balcony_dark()
-      and self.is_balcony_door_open()
-    ):
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("BRIGHT")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.is_auto_lights():
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -123,15 +99,9 @@ class BalconyLights(RoomLights):
   def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK")
-    elif (
-      mode in ["door_sensor", "illuminance_sensor"]
-      and new == "on"
-      and self.is_auto_lights()
-      and self.is_balcony_dark()
-      and self.is_balcony_door_open()
-    ):
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.is_auto_lights():
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -146,13 +116,21 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def should_turn_off_by_timer(self):
+  @property
+  def reason_to_keep_light(self):
     return None
 
 
-  def is_balcony_dark(self):
+  @property
+  def balcony_dark(self):
     return self.is_entity_on("binary_sensor.balcony_dark")
 
 
-  def is_balcony_door_open(self):
+  @property
+  def balcony_door_open(self):
     return self.is_entity_on("binary_sensor.living_room_balcony_door")
+
+
+  @property
+  def should_turn_on(self):
+    return self.auto_lights and self.balcony_dark and self.balcony_door_open

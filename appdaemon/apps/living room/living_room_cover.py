@@ -68,7 +68,7 @@ class LivingRoomCover(Base):
 
 
   def on_balcony_door_open(self, entity, attribute, old, new, kwargs):
-    if self.is_cover_closed():
+    if self.cover_closed:
       self.write_storage("was_closed", True)
     else:
       self.write_storage("was_closed", False)
@@ -76,7 +76,7 @@ class LivingRoomCover(Base):
 
 
   def on_balcony_door_close(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() in ["away", "night", "light_cinema", "dark_cinema", "party"]:
+    if self.living_scene in ["away", "night", "light_cinema", "dark_cinema", "party"]:
       self.log("Balcony door closed. Closing cover because of the current living scene")
       self.close_living_room_cover()
     elif self.read_storage("was_closed"):
@@ -97,7 +97,8 @@ class LivingRoomCover(Base):
     self.open_cover("living_room_cover")
 
 
-  def is_cover_closed(self):
+  @property
+  def cover_closed(self):
     if self.is_entity_on("input_boolean.living_room_cover_active"):
       self.log("Cover not closed because it's active")
       return False

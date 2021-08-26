@@ -58,7 +58,7 @@ class RestartLights(Base):
     if len(failed_lights) == 0:
       self.log(f"{switch} reset will not be performed because no unavailable light were found")
       return
-    if self.get_living_scene() == "away":
+    if self.living_scene == "away":
       self.log(f"{switch} quiet reset because scene is away")
       self.reset(switch)
       self.run_in(self.turn_off_all, 10)
@@ -81,5 +81,5 @@ class RestartLights(Base):
 
 
   def turn_off_all(self, kwargs):
-    if self.get_living_scene() == "away":
+    if self.living_scene == "away":
       self.turn_off_entity("light.ha_group_all")

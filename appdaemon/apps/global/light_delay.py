@@ -10,12 +10,12 @@ class LightDelay(Base):
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() in ["dark_cinema", "party", "night"]:
+    if self.living_scene in ["dark_cinema", "party", "night"]:
       self.turn_on_entity("input_boolean.living_zone_min_delay")
       self.turn_on_entity("input_boolean.sleeping_zone_min_delay")
     else:
       self.turn_off_entity("input_boolean.living_zone_min_delay")
-      if self.get_sleeping_scene() == "night":
+      if self.sleeping_scene == "night":
         self.turn_on_entity("input_boolean.sleeping_zone_min_delay")
       else:
         self.turn_off_entity("input_boolean.sleeping_zone_min_delay")

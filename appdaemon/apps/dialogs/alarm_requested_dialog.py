@@ -25,7 +25,7 @@ class AlarmRequestedDialog(YandexDialog):
 
 
   def step_initial_alarm(self, data):
-    alarms = self.get_alarms()
+    alarms = self.alarms
     if len(alarms) == 0:
       text = "На какое время установить будильник?"
       self.continue_dialog(text, "alarm_finish")
@@ -50,7 +50,8 @@ class AlarmRequestedDialog(YandexDialog):
     self.finish_dialog(text)
 
 
-  def get_alarms(self):
+  @property
+  def alarms(self):
     alarms = []
     for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}"):

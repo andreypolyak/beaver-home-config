@@ -21,8 +21,7 @@ class Vacuum(Base):
 
 
   def on_nearest_person_location_change(self, entity, attribute, old, new, kwargs):
-    vacuum_state = self.get_vacuum_state()
-    if vacuum_state == "done_charging" and self.is_anyone_near_home():
+    if self.vacuum_state == "done_charging" and self.anyone_near_home:
       self.go_to_bin()
 
 
@@ -34,7 +33,7 @@ class Vacuum(Base):
         self.get_state("vacuum.rockrobo") == "docked"
         and self.get_delta_ts(timestamp) > 21600
         and day != int(self.datetime().strftime("%d"))
-        and self.get_vacuum_state() == "idle"
+        and self.vacuum_state == "idle"
     ):
       if self.is_entity_off("input_boolean.vacuum_auto"):
         self.timer_start("vacuum_disabled", 3600)
@@ -59,7 +58,7 @@ class Vacuum(Base):
 
 
   def on_vacuum_returning(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_state() == "cleaning" and self.is_anyone_near_home():
+    if self.vacuum_state == "cleaning" and self.anyone_near_home:
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
       self.set_vacuum_auto_clean_state("done_charging")
@@ -67,25 +66,25 @@ class Vacuum(Base):
 
 
   def on_vacuum_error(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_state() == "cleaning":
+    if self.vacuum_state == "cleaning":
       self.log("Vacuum cleaning ended with error")
       self.set_vacuum_auto_clean_state("error")
       self.set_vacuum_last_cleaned_ts()
 
 
   def on_vacuum_idle(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_state() == "cleaning":
+    if self.vacuum_state == "cleaning":
       self.log("Vacuum hanged up")
       self.set_vacuum_auto_clean_state("error")
       self.set_vacuum_last_cleaned_ts()
 
 
   def on_vacuum_docked(self, entity, attribute, old, new, kwargs):
-    if self.get_vacuum_state() == "cleaning":
+    if self.vacuum_state == "cleaning":
       self.log("Vacuum cleaning finished")
       self.set_vacuum_last_cleaned_ts()
       self.set_vacuum_auto_clean_state("done_charging")
-      if self.is_anyone_near_home():
+      if self.anyone_near_home:
         self.go_to_bin()
     else:
       self.set_vacuum_auto_clean_state("idle")
@@ -110,9 +109,11 @@ class Vacuum(Base):
     self.select_option("vacuum_state", state)
 
 
-  def get_vacuum_state(self):
+  @property
+  def vacuum_state(self):
     return self.get_state("input_select.vacuum_state")
 
 
-  def is_anyone_near_home(self):
+  @property
+  def anyone_near_home(self):
     return self.get_state("input_select.nearest_person_location") in ["home", "downstairs", "yard"]

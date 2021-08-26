@@ -20,8 +20,6 @@ class BedroomWindow(RoomWindow):
     balcony_temperature = self.get_float_state(self.balcony_temperature_sensor)
     if co2 is None or temperature is None or balcony_temperature is None:
       return (None, None)
-    person_sitting_near = self.is_person_sitting_near()
-    is_alarm_soon = self.is_alarm_soon()
 
     position = 100
     reason = "default state"
@@ -35,9 +33,9 @@ class BedroomWindow(RoomWindow):
       else:
         position = round((co2 - 400) * 0.133) + 20
 
-    if person_sitting_near and balcony_temperature < 5:
+    if self.person_sits_near and balcony_temperature < 5:
       position -= 10
-      reason += ", person_sitting_near"
+      reason += ", person_sits_near"
 
     if balcony_temperature < -5:
       position -= 30
@@ -61,24 +59,25 @@ class BedroomWindow(RoomWindow):
 
     if (
       self.now_is_between("20:00:00", "04:00:00")
-      and self.get_sleeping_scene() == "day"
+      and self.sleeping_scene == "day"
       and self.is_entity_off(f"light.ha_group_{self.room}")
       and balcony_temperature > -5
     ):
       position += 40
       reason += ", preparation for night"
 
-    if self.get_sleeping_scene() == "night" and balcony_temperature > -5:
+    if self.sleeping_scene == "night" and balcony_temperature > -5:
       position += 20
       reason += ", sleeping_scene = night"
-      if is_alarm_soon:
+      if self.alarm_soon:
         position = 100
         reason = "alarm soon"
 
     return (position, reason)
 
 
-  def is_alarm_soon(self):
+  @property
+  def alarm_soon(self):
     for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_off(f"input_boolean.alarm_{person_name}"):
         continue

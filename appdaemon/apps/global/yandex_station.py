@@ -48,7 +48,7 @@ class YandexStation(Base):
     if old == "BUSY":
       return
     active_room = self.get_state("input_select.last_active_yandex_station")
-    if self.is_dialog_active() and active_room in entity:
+    if self.dialog_active and active_room in entity:
       self.cancel_handle(self.handle)
       self.handle = self.run_in(self.exit_dialog, 1, entity=entity)
 
@@ -56,7 +56,7 @@ class YandexStation(Base):
   def exit_dialog(self, kwargs):
     entity = kwargs["entity"]
     active_room = self.get_state("input_select.last_active_yandex_station")
-    if self.is_dialog_active() and active_room in entity:
+    if self.dialog_active and active_room in entity:
       self.volume_set(entity, 0)
       self.turn_off_entity(entity)
       self.set_value("input_text.active_dialog", "")
@@ -66,7 +66,7 @@ class YandexStation(Base):
     entity_picture = self.get_state(entity, attribute="entity_picture")
     self.log("Stop music from Yandex Station")
     self.media_pause(entity)
-    if ALARM_DIALOG_PLAYLIST_ID in entity_picture and not self.is_dialog_active():
+    if ALARM_DIALOG_PLAYLIST_ID in entity_picture and not self.dialog_active:
       self.fire_event("alarm_dialog")
 
 
@@ -107,5 +107,6 @@ class YandexStation(Base):
       self.turn_off_entity(entity)
 
 
-  def is_dialog_active(self):
+  @property
+  def dialog_active(self):
     return self.get_state("input_text.active_dialog") != ""

@@ -22,7 +22,7 @@ class BedNightSwitch(Base):
         self.fire_event("yandex_speak_text", text=text, room="bedroom")
       return
     if new == "on":
-      if self.get_sleeping_scene() != "night":
+      if self.sleeping_scene != "night":
         self.log("Turning night mode in Bedroom")
         self.fire_event("close_bedroom_cover")
         self.set_sleeping_scene("night")

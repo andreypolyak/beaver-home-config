@@ -5,8 +5,8 @@ class RoomWindow(Base):
 
   def room_init(self):
     super().initialize()
-    self.handle = None
     self.init_storage("room_window", f"{self.room}_handle_ts", 0)
+    self.handle = None
     self.set_max_speed({})
     self.listen_state(self.on_scene_change, f"input_select.{self.zone}_scene")
     self.listen_state(self.on_window_stopped, f"sensor.{self.room}_window", new="STOPPED")
@@ -130,7 +130,8 @@ class RoomWindow(Base):
       self.timer_start(f"window_{self.room}_freeze", 1200)
 
 
-  def is_person_sitting_near(self):
+  @property
+  def person_sits_near(self):
     for sensor in self.occupancy_sensors:
       if self.is_entity_on(sensor):
         return True

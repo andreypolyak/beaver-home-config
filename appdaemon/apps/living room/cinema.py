@@ -61,7 +61,7 @@ class Cinema(Base):
     universal_tv_source = self.get_state("input_select.current_universal_tv_source")
     if (
       self.get_state("media_player.living_room_apple_tv") == "paused"
-      and self.get_living_scene() == "dark_cinema"
+      and self.living_scene == "dark_cinema"
       and self.get_delta_ts(dark_cinema_turned_on_ts) > 5
       and media_played_ever_in_session
       and universal_tv_source == "apple_tv"
@@ -79,7 +79,7 @@ class Cinema(Base):
 
     if (
       apple_tv["state"] == "playing"
-      and self.get_living_scene() != "dark_cinema"
+      and self.living_scene != "dark_cinema"
       and self.is_entity_on("input_boolean.cinema_session")
       and self.get_delta_ts(dark_cinema_turned_off_ts) < 1800
     ):
@@ -87,7 +87,7 @@ class Cinema(Base):
       self.turn_on_scene("dark_cinema")
     elif (
       apple_tv["state"] == "playing"
-      and self.get_living_scene() != "dark_cinema"
+      and self.living_scene != "dark_cinema"
       and self.is_entity_on("input_boolean.cinema_session")
       and self.get_delta_ts(dark_cinema_turned_off_ts) >= 1800
     ):
@@ -95,7 +95,7 @@ class Cinema(Base):
       self.turn_off_entity("input_boolean.cinema_session")
     elif (
       apple_tv["state"] not in ["playing", "paused"]
-      and self.get_living_scene() == "dark_cinema"
+      and self.living_scene == "dark_cinema"
       and self.get_delta_ts(dark_cinema_turned_on_ts) > 5
       and universal_tv_source == "apple_tv"
     ):
@@ -105,7 +105,7 @@ class Cinema(Base):
       apple_tv["state"] == "playing"
       and "app_id" in apple_tv["attributes"] and "cncrt" in apple_tv["attributes"]["app_id"]
       and "media_duration" in apple_tv["attributes"] and float(apple_tv["attributes"]["media_duration"]) > 3600
-      and self.get_living_scene() == "light_cinema"
+      and self.living_scene == "light_cinema"
       and not auto_cinema_session_disabled
     ):
       self.log("Movie is being watched, turn on dark cinema scene")
@@ -119,7 +119,7 @@ class Cinema(Base):
 
 
   def on_tv_turned_on(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() in ["dark_cinema", "party"]:
+    if self.living_scene in ["dark_cinema", "party"]:
       return
     self.turn_on_scene("light_cinema")
     actions = [{"action": "DARK_CINEMA_TURN_ON", "title": "🌑 Turn on dark cinema scene", "destructive": True}]
@@ -133,7 +133,7 @@ class Cinema(Base):
     self.write_storage("data", False, attribute="media_played_ever_in_session")
     self.write_storage("data", False, attribute="auto_cinema_session_disabled")
     if (
-      self.get_living_scene() in ["light_cinema", "dark_cinema"]
+      self.living_scene in ["light_cinema", "dark_cinema"]
       and self.get_delta_ts(dark_cinema_turned_on_ts) > 5
     ):
       self.turn_on_scene("day")

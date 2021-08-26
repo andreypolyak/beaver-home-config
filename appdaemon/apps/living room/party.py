@@ -19,13 +19,13 @@ class Party(Base):
 
 
   def on_tv_source(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() == "party":
+    if self.living_scene == "party":
       source = self.get_state("input_select.party_source")
       self.select_source("living_room_sonos", source)
 
 
   def on_party_tv_on(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() == "party":
+    if self.living_scene == "party":
       if self.is_entity_off("binary_sensor.living_room_tv"):
         self.log("TV was turned off, turning it on for party")
         self.tv_was_on = False
@@ -51,7 +51,7 @@ class Party(Base):
 
 
   def on_update_party_source(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() == "party" and new != old:
+    if self.living_scene == "party" and new != old:
       source = self.get_state("input_select.party_source")
       self.select_source("living_room_sonos", source)
 

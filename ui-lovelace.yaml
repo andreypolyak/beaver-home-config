@@ -25,4 +25,4 @@ views:
   - !include /config/lovelace/views/settings_consumption.yaml
   - !include /config/lovelace/views/settings_logging.yaml
 
-# Updated at: 2021-07-05 12:45:55.972089+03:00
+# Updated at: 2021-08-25 10:41:32.539442+03:00

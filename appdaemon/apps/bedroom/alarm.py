@@ -40,12 +40,11 @@ class Alarm(Base):
   def finish_alarm(self, event_name, data, kwargs):
     self.log("Alarm finished")
     transition = self.get_float_state("input_number.transition")
-    hs_color = self.get_hs_color()
     self.turn_off_entity(f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handles()
     self.media_pause("bedroom_sonos")
     self.sonos_restore("bedroom_sonos")
-    self.turn_on_entity("light.group_bedroom_color", brightness=254, transition=transition, hs_color=hs_color)
+    self.turn_on_entity("light.group_bedroom_color", brightness=254, transition=transition, hs_color=self.hs_color)
     self.turn_on_entity("light.bedroom_wardrobe", brightness=254, transition=transition)
     self.run_in(self.turn_on_day_scene, 1)
     self.turn_off_entity("light.group_bedroom_bed", transition=transition)
@@ -55,11 +54,10 @@ class Alarm(Base):
 
   def action_1(self, kwargs):
     self.log("Alarm action 1")
-    hs_color = self.get_hs_color()
     self.sonos_snapshot("bedroom_sonos")
     self.media_pause("bedroom_sonos")
     self.sonos_unjoin("bedroom_sonos")
-    self.turn_on_entity("light.bedroom_bed_led", brightness=254, hs_color=hs_color)
+    self.turn_on_entity("light.bedroom_bed_led", brightness=254, hs_color=self.hs_color)
 
 
   def action_60(self, kwargs):
@@ -70,9 +68,8 @@ class Alarm(Base):
 
   def action_170(self, kwargs):
     self.log("Alarm action 170")
-    hs_color = self.get_hs_color()
     self.volume_set("bedroom_sonos", 0.24)
-    self.turn_on_entity("light.group_bedroom_top", brightness=1, hs_color=hs_color)
+    self.turn_on_entity("light.group_bedroom_top", brightness=1, hs_color=self.hs_color)
     self.turn_on_entity("light.bedroom_wardrobe", brightness=1)
     self.open_cover("bedroom_cover")
 
@@ -111,7 +108,8 @@ class Alarm(Base):
     self.handles = []
 
 
-  def get_hs_color(self):
+  @property
+  def hs_color(self):
     saturation = self.get_int_state("input_number.circadian_saturation")
     hs_color = [30, saturation]
     return hs_color

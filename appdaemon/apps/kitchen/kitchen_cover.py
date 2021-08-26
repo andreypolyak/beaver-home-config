@@ -5,6 +5,7 @@ class KitchenCover(Base):
 
   def initialize(self):
     super().initialize()
+    self.handle = None
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
     self.listen_event(self.on_close_cover, "close_kitchen_cover")
     self.listen_event(self.on_partly_open_cover, "partly_open_kitchen_cover")
@@ -13,7 +14,6 @@ class KitchenCover(Base):
         self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
     self.listen_state(self.on_cinema_session_off, "input_boolean.cinema_session", new="off")
     self.listen_state(self.on_cover_change, "cover.kitchen_cover", attribute="current_position")
-    self.handle = None
 
 
   def on_cover_change(self, entity, attribute, old, new, kwargs):
@@ -27,12 +27,12 @@ class KitchenCover(Base):
 
 
   def on_cinema_session_off(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() not in ["night", "away", "party"]:
+    if self.living_scene not in ["night", "away", "party"]:
       self.open_cover()
 
 
   def on_motion(self, entity, attribute, old, new, kwargs):
-    if self.get_living_scene() == "night" and self.get_cover_position() == 0:
+    if self.living_scene == "night" and self.cover_position == 0:
       self.partly_open_cover()
 
 
@@ -58,25 +58,20 @@ class KitchenCover(Base):
 
 
   def close_cover(self):
-    if self.get_cover_position() != 0:
+    if self.cover_position != 0:
       self.set_cover_position("kitchen_cover", 0)
-      return True
-    return False
 
 
   def open_cover(self):
-    if self.get_cover_position() != 100:
+    if self.cover_position != 100:
       self.set_cover_position("kitchen_cover", 100)
-      return True
-    return False
 
 
   def partly_open_cover(self):
-    if self.get_cover_position() != 15:
+    if self.cover_position != 15:
       self.set_cover_position("kitchen_cover", 15)
-      return True
-    return False
 
 
-  def get_cover_position(self):
+  @property
+  def cover_position(self):
     return self.get_state("cover.kitchen_cover", attribute="current_position")

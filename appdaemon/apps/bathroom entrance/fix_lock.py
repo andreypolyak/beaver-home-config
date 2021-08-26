@@ -5,8 +5,8 @@ class FixLock(Base):
 
   def initialize(self):
     super().initialize()
-    default = {"change_ts": None, "is_locked": False}
-    self.init_storage("notify_lock", "data", default)
+    self.init_storage("notify_lock", "change_ts", None)
+    self.init_storage("notify_lock", "is_locked", False)
     self.expected_state = None
     self.handle = None
     service_data = {"entity_id": "lock.entrance_lock"}
@@ -17,27 +17,27 @@ class FixLock(Base):
 
   def on_lock_change(self, entity, attribute, old, new, kwargs):
     if new == "unlocked":
-      self.write_storage("data", False, attribute="is_locked")
+      self.write_storage("is_locked", False)
       self.log("Lock was unlocked")
       if old == "unknown":
         return
-      self.write_storage("data", self.get_now_ts(), attribute="change_ts")
+      self.write_storage("change_ts", self.get_now_ts())
       if self.expected_state == "unlocked":
         self.expected_state = None
     elif new == "locked":
-      self.write_storage("data", True, attribute="is_locked")
+      self.write_storage("is_locked", True)
       self.log("Lock was locked")
       if old == "unknown":
         return
-      self.write_storage("data", self.get_now_ts(), attribute="change_ts")
+      self.write_storage("change_ts", self.get_now_ts())
       if self.expected_state == "locked":
         self.expected_state = None
 
 
   def on_lock_service(self, event_name, data, kwargs):
     self.cancel_handle(self.handle)
-    change_ts = self.read_storage("data", attribute="change_ts")
-    is_locked = self.read_storage("data", attribute="is_locked")
+    change_ts = self.read_storage("change_ts")
+    is_locked = self.read_storage("is_locked")
     service = data["service"]
     self.log(f"{service} service was requested")
     if change_ts is None or self.get_delta_ts(change_ts) < 5:

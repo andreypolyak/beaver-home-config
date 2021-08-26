@@ -44,7 +44,7 @@ class Weight(Base):
     (voice_message, message) = self.build_messages(person, weight)
     if person_phone:
       self.send_push(person_name, message, "weight", sound="Calypso.caf", url=self.build_url(weight))
-    if self.get_sleeping_scene() != "night":
+    if self.sleeping_scene != "night":
       self.fire_event("yandex_speak_text", text=voice_message, room="bedroom")
 
 

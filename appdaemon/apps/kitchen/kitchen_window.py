@@ -20,7 +20,6 @@ class KitchenWindow(RoomWindow):
     balcony_temperature = self.get_float_state(self.balcony_temperature_sensor)
     if co2 is None or temperature is None or balcony_temperature is None:
       return (None, None)
-    person_sitting_near = self.is_person_sitting_near()
     scene_last_changed_str = self.get_state("input_boolean.scene_living_night", attribute="last_changed")
     scene_last_changed = self.convert_utc(scene_last_changed_str).timestamp()
 
@@ -36,9 +35,9 @@ class KitchenWindow(RoomWindow):
       else:
         position = round((co2 - 400) * 0.133) + 20
 
-    if person_sitting_near and balcony_temperature < 5:
+    if self.person_sits_near and balcony_temperature < 5:
       position -= 10
-      reason += ", person_sitting_near"
+      reason += ", person_sits_near"
 
     if balcony_temperature < -5:
       position -= 30
@@ -66,11 +65,11 @@ class KitchenWindow(RoomWindow):
 
     if (
       self.get_delta_ts(scene_last_changed) < 3600
-      and self.get_living_scene() == "day"
+      and self.living_scene == "day"
       and balcony_temperature < 5
-      and person_sitting_near
+      and self.person_sits_near
     ):
       position = 0
-      reason = "person_sitting_near after night"
+      reason = "person_sits_near after night"
 
     return (position, reason)

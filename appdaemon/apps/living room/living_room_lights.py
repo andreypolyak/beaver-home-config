@@ -73,9 +73,9 @@ class LivingRoomLights(RoomLights):
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
-    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new, set_cooldown=True)
@@ -93,13 +93,13 @@ class LivingRoomLights(RoomLights):
         self.set_preset("DARK")
       else:
         self.set_preset("OFF")
-    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.is_auto_lights():
+    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       else:
         self.set_preset_or_restore("DARK", min_delay=True)
-    elif mode == "back_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       if self.is_entity_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
@@ -166,17 +166,18 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def should_turn_off_by_timer(self):
-    living_scene = self.get_living_scene()
+  @property
+  def reason_to_keep_light(self):
+    living_scene = self.living_scene
     if living_scene in ["dumb", "light_cinema", "dark_cinema", "party"]:
       return f"{living_scene}_scene"
-    if not self.is_auto_lights():
+    if not self.auto_lights:
       return "auto_lights_off"
     return None
 
 
   def restore_lights(self, kwargs):
-    living_scene = self.get_living_scene()
+    living_scene = self.living_scene
     if living_scene in ["day", "dumb"]:
       self.set_preset("BRIGHT")
     elif living_scene in ["night", "party"]:

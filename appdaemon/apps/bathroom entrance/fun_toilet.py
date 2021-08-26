@@ -35,7 +35,7 @@ class FunToilet(Base):
 
   def start_playback(self):
     if (
-      self.get_living_scene()
+      self.living_scene
       and self.now_is_between("07:00:00", "10:00:00")
       and self.is_entity_on("input_boolean.fun_toilet")
       and randrange(100) < 10

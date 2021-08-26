@@ -121,11 +121,13 @@ class Base(hass.Hass):
     return self.get_state(f"input_select.{zone}_scene")
 
 
-  def get_living_scene(self):
+  @property
+  def living_scene(self):
     return self.get_state("input_select.living_scene")
 
 
-  def get_sleeping_scene(self):
+  @property
+  def sleeping_scene(self):
     return self.get_state("input_select.sleeping_scene")
 
 # Datetime

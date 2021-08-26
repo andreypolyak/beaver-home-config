@@ -75,7 +75,7 @@ class AlarmManager(Base):
 
 
   def on_alarm_on(self, entity, attribute, old, new, kwargs):
-    if self.get_sleeping_scene() != "night":
+    if self.sleeping_scene != "night":
       self.set_sleeping_scene("night")
     person_name = self.get_person_names(entity=entity)[0]
     self.log(f"{person_name.capitalize()}'s alarm turned on")
@@ -99,11 +99,11 @@ class AlarmManager(Base):
 
   def ring_alarm(self, kwargs):
     person_name = kwargs["person_name"]
-    if not self.get_person_name_alarm_ringing() and self.get_sleeping_scene() == "night":
+    if not self.get_person_name_alarm_ringing() and self.sleeping_scene == "night":
       self.log(f"{person_name.capitalize()}'s alarm is ringing")
       self.turn_on_entity("input_boolean.alarm_ringing")
       self.fire_event("custom_event", custom_event_data=f"start_alarm_{person_name}")
-    elif self.get_sleeping_scene() != "night":
+    elif self.sleeping_scene != "night":
       self.log(f"{person_name.capitalize()}'s alarm is not ringing because night scene is not turned on")
       self.turn_off_entity(f"input_boolean.alarm_{person_name}")
     else:

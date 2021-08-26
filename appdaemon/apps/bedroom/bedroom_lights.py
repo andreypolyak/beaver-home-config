@@ -71,10 +71,10 @@ class BedroomLights(RoomLights):
     elif (
       mode in ["motion_sensor", "floor_motion_sensor", "door_sensor", "bed_sensor", "chair_sensor"]
       and new == "on"
-      and self.is_auto_lights()
+      and self.auto_lights
     ):
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "table_motion_sensor" and new == "on" and not self.is_cover_active() and self.is_auto_lights():
+    elif mode == "table_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new, set_cooldown=True)
@@ -95,7 +95,7 @@ class BedroomLights(RoomLights):
       mode == "floor_motion_sensor"
       and new == "on"
       and self.is_entity_off("input_boolean.alarm_ringing")
-      and self.is_auto_lights()
+      and self.auto_lights
     ):
       self.set_preset("DARK", min_delay=True)
     elif mode in ["switch", "theo_switch"] and new in ["toggle", "on", "off"]:
@@ -124,23 +124,24 @@ class BedroomLights(RoomLights):
       return False
 
 
-  def should_turn_off_by_timer(self):
-    if self.get_sleeping_scene() == "dumb":
+  @property
+  def reason_to_keep_light(self):
+    if self.sleeping_scene == "dumb":
       return "dumb_scene"
     if self.is_entity_on("input_boolean.alarm_ringing"):
       return "alarm_ringing"
-    if self.is_person_inside() and self.get_sleeping_scene() != "night":
+    if self.person_inside and self.sleeping_scene != "night":
       return "person_inside"
-    if not self.is_auto_lights():
+    if not self.auto_lights:
       return "auto_lights_off"
     if (
-      self.get_sleeping_scene() == "night"
+      self.sleeping_scene == "night"
       and self.is_entity_on("binary_sensor.bedroom_wardrobe_door")
     ):
       return "wardrobe_open"
     if (
       self.is_entity_on("binary_sensor.bedroom_bed_occupied")
-      and self.get_sleeping_scene() != "night"
+      and self.sleeping_scene != "night"
     ):
       return "bed_occupied"
     if self.is_entity_on("binary_sensor.bedroom_chair_occupancy"):

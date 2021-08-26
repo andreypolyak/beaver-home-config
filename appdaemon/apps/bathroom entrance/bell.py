@@ -21,7 +21,7 @@ class Bell(Base):
     if new not in ["single", "double", "hold"]:
       return
     if not self.is_code(new) and self.get_delta_ts(self.last_ringed_ts) > 5:
-      self.bell_ring()
+      self.ring_bell()
 
 
   def is_code(self, new):
@@ -46,17 +46,17 @@ class Bell(Base):
     return True
 
 
-  def bell_ring(self):
+  def ring_bell(self):
     self.last_ringed_ts = self.get_now_ts()
-    living_scene = self.get_living_scene()
+    living_scene = self.living_scene
     # Pause TV
     if self.get_state("media_player.living_room_apple_tv") == "playing" and living_scene != "party":
       self.media_pause("living_room_apple_tv")
     # Bell sound
     if living_scene != "night":
-      self.ring_on_sonos("living_room")
+      self.play_sound("living_room")
       if self.is_entity_off("binary_sensor.bathroom_door"):
-        self.ring_on_sonos("bathroom")
+        self.play_sound("bathroom")
     # Push notifications
     self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
     # Lights
@@ -69,7 +69,7 @@ class Bell(Base):
       self.run_in(self.restore_light, 1)
 
 
-  def ring_on_sonos(self, room):
+  def play_sound(self, room):
     entity = f"media_player.{room}_sonos"
     url = self.args["bell_sound_url"]
     self.sonos_snapshot(entity)

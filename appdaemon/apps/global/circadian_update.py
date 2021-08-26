@@ -21,7 +21,7 @@ class CircadianUpdate(Base):
 
 
   def process(self, kwargs):
-    new_saturation = self.calculate_saturation()
+    new_saturation = self.saturation
     if new_saturation is None:
       self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
       new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
@@ -36,7 +36,8 @@ class CircadianUpdate(Base):
       self.set_saturation(new_saturation)
 
 
-  def calculate_saturation(self):
+  @property
+  def saturation(self):
     lux = self.get_int_state("sensor.balcony_illuminance")
     if lux is None:
       self.log("Can't read balcony illuminance value")
@@ -54,11 +55,12 @@ class CircadianUpdate(Base):
       return 100
     else:
       saturation = int(math.ceil((MAX_LUX - lux) / ((MAX_LUX - MIN_LUX) / (100 / SAT_STEP - 1)))) * SAT_STEP
-      saturation = saturation * self.calculate_morning_coeff()
+      saturation = saturation * self.morning_coeff
       return saturation
 
 
-  def calculate_morning_coeff(self):
+  @property
+  def morning_coeff(self):
     midnight = self.parse_datetime("00:00:00", aware=True)
     now = self.get_now()
     seconds = (now - midnight).seconds

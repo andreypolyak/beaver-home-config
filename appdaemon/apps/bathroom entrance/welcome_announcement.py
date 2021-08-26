@@ -15,7 +15,7 @@ class WelcomeAnnouncement(Base):
 
 
   def on_door_open(self, entity, attribute, old, new, kwargs):
-    if self.get_delta_ts(self.scene_change_ts) < 600 or self.get_living_scene() == "away":
+    if self.get_delta_ts(self.scene_change_ts) < 600 or self.living_scene == "away":
       self.run_in(self.notify, 5)
       self.scene_change_ts = 0
 

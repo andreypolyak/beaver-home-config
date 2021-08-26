@@ -20,7 +20,7 @@ class BedOccupiedDialog(YandexDialog):
 
   def on_bedroom_occupied(self, entity, attribute, old, new, kwargs):
     if (
-      self.get_sleeping_scene() == "day"
+      self.sleeping_scene == "day"
       and self.dialog_allowed
       and self.get_delta_ts(self.occupied_ts) > 120
       and self.now_is_between("20:00:00", "10:00:00")
@@ -58,7 +58,7 @@ class BedOccupiedDialog(YandexDialog):
       self.cancel_dialog()
       return
     self.set_sleeping_scene("night")
-    alarms = self.get_alarms()
+    alarms = self.alarms
     if len(alarms) == 0:
       text = "Включаю ночной режим! Вы хотите установить будильник?"
       self.continue_dialog(text, "alarm_time")
@@ -99,7 +99,8 @@ class BedOccupiedDialog(YandexDialog):
     self.finish_dialog(text)
 
 
-  def get_alarms(self):
+  @property
+  def alarms(self):
     alarms = []
     for person_name in self.get_person_names(with_alarm=True):
       if self.is_entity_on(f"input_boolean.alarm_{person_name}"):

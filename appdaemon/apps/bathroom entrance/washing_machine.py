@@ -22,7 +22,7 @@ class WashingMachine(Base):
     power_int = self.get_float_state(new)
     if power_int is None:
       return
-    if power_int > 100 and self.get_status() == "empty" and self.get_delta_ts(self.last_changed) >= 120:
+    if power_int > 100 and self.status == "empty" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
       self.set_status("washing")
 
@@ -31,7 +31,7 @@ class WashingMachine(Base):
     power_int = self.get_float_state(new)
     if power_int is None:
       return
-    if power_int > 80 and self.get_status() == "full" and self.get_delta_ts(self.last_changed) >= 120:
+    if power_int > 80 and self.status == "full" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
       self.set_status("washing")
 
@@ -40,13 +40,13 @@ class WashingMachine(Base):
     power_int = self.get_float_state(new)
     if power_int is None:
       return
-    if power_int < 10 and self.get_status() == "washing" and self.get_delta_ts(self.last_changed) >= 120:
+    if power_int < 10 and self.status == "washing" and self.get_delta_ts(self.last_changed) >= 120:
       self.last_changed = self.get_now_ts()
       self.set_status("full")
 
 
   def on_door_change(self, entity, attribute, old, new, kwargs):
-    if new == "on" and self.get_status() != "empty":
+    if new == "on" and self.status != "empty":
       self.log("Setting Empty state")
       self.set_status("empty")
 
@@ -56,17 +56,18 @@ class WashingMachine(Base):
 
 
   def notify_on_full(self):
-    if self.get_sleeping_scene() not in ["night", "away"]:
+    if self.sleeping_scene not in ["night", "away"]:
       self.send_push("home_or_none", "👖 Clothes are done", "washing_machine", sound="Bloom.caf", min_delta=3600)
 
 
   def action(self, kwargs):
-    if self.get_status() == "full":
+    if self.status == "full":
       self.notify_on_full()
 
 
-  def get_status(self):
-    self.get_state("input_select.washing_machine_status")
+  @property
+  def status(self):
+    return self.get_state("input_select.washing_machine_status")
 
 
   def set_status(self, status):
