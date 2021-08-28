@@ -85,7 +85,7 @@ class LivingRoomCover(Base):
 
 
   def close_living_room_cover(self):
-    if self.is_entity_off("binary_sensor.living_room_balcony_door"):
+    if self.entity_is_off("binary_sensor.living_room_balcony_door"):
       self.log("Close cover")
       self.close_cover("living_room_cover")
     else:
@@ -99,7 +99,7 @@ class LivingRoomCover(Base):
 
   @property
   def cover_closed(self):
-    if self.is_entity_on("input_boolean.living_room_cover_active"):
+    if self.entity_is_on("input_boolean.living_room_cover_active"):
       self.log("Cover not closed because it's active")
       return False
     if self.get_state("cover.living_room_cover") == "open":

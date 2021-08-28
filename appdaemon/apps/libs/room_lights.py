@@ -276,7 +276,7 @@ class RoomLights(Base):
 # Control timers
 
   def __set_light_timer(self):
-    if self.is_entity_on(f"input_boolean.{self.zone}_zone_min_delay"):
+    if self.entity_is_on(f"input_boolean.{self.zone}_zone_min_delay"):
       delay = self.min_delay
     elif self.read_storage("state", attribute="max_delay"):
       delay = self.max_delay
@@ -450,7 +450,7 @@ class RoomLights(Base):
 
   def __on_circadian_change(self, entity, attribute, old, new, kwargs):
     if (
-      self.is_entity_off("input_boolean.circadian_update")
+      self.entity_is_off("input_boolean.circadian_update")
       or self.read_storage("state", attribute="color") != "auto"
       or self.get_scene(self.zone) not in ["day", "light_cinema"]
     ):
@@ -463,7 +463,7 @@ class RoomLights(Base):
   @property
   def cover_active(self):
     entity = f"input_boolean.{self.room}_cover_active"
-    if self.entity_exists(entity) and self.is_entity_on(entity):
+    if self.entity_exists(entity) and self.entity_is_on(entity):
       return True
     return False
 
@@ -471,7 +471,7 @@ class RoomLights(Base):
   @property
   def person_inside(self):
     entity = f"input_boolean.person_inside_{self.room}"
-    if self.entity_exists(entity) and self.is_entity_on(entity):
+    if self.entity_exists(entity) and self.entity_is_on(entity):
       return True
     return False
 
@@ -601,7 +601,7 @@ class RoomLights(Base):
       "faded": self.is_timer_active(f"light_faded_{self.room}"),
       "cooldown": self.is_timer_active(f"light_cooldown_{self.room}"),
       "color": "auto",
-      "auto_lights": self.is_entity_on(f"input_boolean.auto_lights_{self.room}"),
+      "auto_lights": self.entity_is_on(f"input_boolean.auto_lights_{self.room}"),
       "max_delay": False
     }
     state["lights"] = self.__build_light_set_from_preset("BRIGHT")
@@ -611,7 +611,7 @@ class RoomLights(Base):
   def __sync_state(self):
     self.write_storage("state", self.is_timer_active(f"light_faded_{self.room}"), attribute="faded")
     self.write_storage("state", self.is_timer_active(f"light_cooldown_{self.room}"), attribute="cooldown")
-    self.write_storage("state", self.is_entity_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")
+    self.write_storage("state", self.entity_is_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")
 
 
   def __write_to_log(self, **kwargs):

@@ -16,7 +16,7 @@ class NotifyZigbeeOtaUpdate(Base):
     for entity in self.get_state("binary_sensor"):
       if not entity.endswith("_update_available"):
         continue
-      if self.is_entity_off(entity):
+      if self.entity_is_off(entity):
         entity_update_states[entity] = False
         continue
       if entity not in entity_update_states or entity_update_states[entity] is False:

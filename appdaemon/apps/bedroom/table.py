@@ -36,7 +36,7 @@ class Table(Base):
 
   def on_fake_light_off(self, event_name, data, kwargs):
     self.turned_off_ts = self.get_now_ts()
-    if self.is_entity_on("light.bedroom_table"):
+    if self.entity_is_on("light.bedroom_table"):
       self.turn_off_entity("input_boolean.bedroom_table_lamp")
       self.turn_off_entity("light.ha_template_individual_bedroom_table")
       self.turn_off_entity("switch.bedroom_table_plug")

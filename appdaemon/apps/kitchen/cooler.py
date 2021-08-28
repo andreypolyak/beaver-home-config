@@ -13,7 +13,7 @@ class Cooler(Base):
   def on_change(self, entity, attribute, old, new, kwargs):
     persons_not_home = self.get_state("input_select.nearest_person_location") == "not_home"
     living_scene = self.living_scene
-    is_lights_off = self.is_entity_off("light.ha_group_kitchen")
+    is_lights_off = self.entity_is_off("light.ha_group_kitchen")
     if (living_scene == "away" and persons_not_home) or (living_scene == "night" and is_lights_off):
       self.turn_off_entity("switch.kitchen_cooler_plug")
     else:

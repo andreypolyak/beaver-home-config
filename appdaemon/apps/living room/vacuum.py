@@ -35,7 +35,7 @@ class Vacuum(Base):
         and day != int(self.datetime().strftime("%d"))
         and self.vacuum_state == "idle"
     ):
-      if self.is_entity_off("input_boolean.vacuum_auto"):
+      if self.entity_is_off("input_boolean.vacuum_auto"):
         self.timer_start("vacuum_disabled", 3600)
         self.log("Vacuum auto clean is turned off")
         return

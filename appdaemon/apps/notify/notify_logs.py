@@ -84,7 +84,7 @@ class NotifyLogs(Base):
     for item in APPDAEMON_BLACKLIST:
       if item in message:
         is_banned = True
-    if not is_banned and self.is_entity_on("input_boolean.log_ad"):
+    if not is_banned and self.entity_is_on("input_boolean.log_ad"):
       ts_formatted = ts.strftime("%Y-%m-%D %H:%M:%S.%f")
       message = f"{ts_formatted} {level} {app_name} {message[:1000]}"
       self.send_to_bot(message)
@@ -96,13 +96,13 @@ class NotifyLogs(Base):
     for item in HA_BLACKLIST:
       if item in message:
         is_banned = True
-    if not is_banned and self.is_entity_on("input_boolean.log_ha"):
+    if not is_banned and self.entity_is_on("input_boolean.log_ha"):
       self.send_to_bot(message)
 
 
   def on_zigbee_log(self, event_name, data, kwargs):
     message = data["text"]
-    if "error" in message and self.is_entity_on("input_boolean.log_z2m"):
+    if "error" in message and self.entity_is_on("input_boolean.log_z2m"):
       self.send_to_bot(message)
 
 

@@ -37,7 +37,7 @@ class FunToilet(Base):
     if (
       self.living_scene
       and self.now_is_between("07:00:00", "10:00:00")
-      and self.is_entity_on("input_boolean.fun_toilet")
+      and self.entity_is_on("input_boolean.fun_toilet")
       and randrange(100) < 10
     ):
       self.media_pause("bathroom_sonos")

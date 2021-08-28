@@ -80,7 +80,7 @@ class Cinema(Base):
     if (
       apple_tv["state"] == "playing"
       and self.living_scene != "dark_cinema"
-      and self.is_entity_on("input_boolean.cinema_session")
+      and self.entity_is_on("input_boolean.cinema_session")
       and self.get_delta_ts(dark_cinema_turned_off_ts) < 1800
     ):
       self.log("Apple TV is now playing, turn on dark cinema scene")
@@ -88,7 +88,7 @@ class Cinema(Base):
     elif (
       apple_tv["state"] == "playing"
       and self.living_scene != "dark_cinema"
-      and self.is_entity_on("input_boolean.cinema_session")
+      and self.entity_is_on("input_boolean.cinema_session")
       and self.get_delta_ts(dark_cinema_turned_off_ts) >= 1800
     ):
       self.log("Cinema session expired")
@@ -140,7 +140,7 @@ class Cinema(Base):
 
 
   def on_cinema_session_turned_off(self, entity, attribute, old, new, kwargs):
-    if self.is_entity_on("binary_sensor.living_room_tv"):
+    if self.entity_is_on("binary_sensor.living_room_tv"):
       self.write_storage("data", True, attribute="auto_cinema_session_disabled")
 
 
@@ -150,5 +150,5 @@ class Cinema(Base):
 
 
   def turn_on_tv(self):
-    if self.is_entity_off("binary_sensor.living_room_tv"):
+    if self.entity_is_off("binary_sensor.living_room_tv"):
       self.call_service("script/tv_turn_on")

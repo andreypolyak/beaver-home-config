@@ -81,13 +81,13 @@ class KitchenLights(RoomLights):
     if mode == "new_scene":
       self.set_preset("OFF")
     elif mode in ["motion_sensor", "door_sensor", "chair_sensor"] and new == "on" and self.auto_lights:
-      if self.is_entity_on("binary_sensor.night_scene_enough"):
+      if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       else:
         self.set_preset_or_restore("NIGHT", min_delay=True)
     elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
-      if self.is_entity_on("binary_sensor.night_scene_enough"):
+      if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       else:
@@ -176,8 +176,8 @@ class KitchenLights(RoomLights):
     if not self.auto_lights:
       return "auto_lights_off"
     if (
-      self.is_entity_on("binary_sensor.kitchen_chair_1_occupancy")
-      or self.is_entity_on("binary_sensor.kitchen_chair_2_occupancy")
+      self.entity_is_on("binary_sensor.kitchen_chair_1_occupancy")
+      or self.entity_is_on("binary_sensor.kitchen_chair_2_occupancy")
     ):
       return "chair_occupied"
     return None

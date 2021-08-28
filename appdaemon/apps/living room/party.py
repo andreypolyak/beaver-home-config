@@ -26,7 +26,7 @@ class Party(Base):
 
   def on_party_tv_on(self, entity, attribute, old, new, kwargs):
     if self.living_scene == "party":
-      if self.is_entity_off("binary_sensor.living_room_tv"):
+      if self.entity_is_off("binary_sensor.living_room_tv"):
         self.log("TV was turned off, turning it on for party")
         self.tv_was_on = False
         self.turn_on_entity("script.party_tv_start_and_turn_on_tv")

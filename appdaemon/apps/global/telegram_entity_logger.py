@@ -48,7 +48,7 @@ class TelegramEntityLogger(Base):
       text = f"New state: {str(new)}"
     else:
       text = f"{entity}: {old}→{new}"
-    if self.is_entity_on("input_boolean.log_entities"):
+    if self.entity_is_on("input_boolean.log_entities"):
       self.send_to_bot(text)
 
 

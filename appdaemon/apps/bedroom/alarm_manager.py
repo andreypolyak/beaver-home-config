@@ -39,7 +39,7 @@ class AlarmManager(Base):
 
 
   def on_living_zone_motion(self, entity, attribute, old, new, kwargs):
-    if self.get_delta_ts(self.sleeping_zone_motion_ts) < 60 and self.is_entity_on("binary_sensor.bedroom_door"):
+    if self.get_delta_ts(self.sleeping_zone_motion_ts) < 60 and self.entity_is_on("binary_sensor.bedroom_door"):
       self.motion_occured()
 
 
@@ -50,7 +50,7 @@ class AlarmManager(Base):
     other_alarms_turned_on = False
     for other_person_name in self.get_person_names(except_person_name=person_name, with_alarm=True):
       self.turn_off_entity("input_boolean.alarm_ringing")
-      if self.is_entity_on(f"input_boolean.alarm_{other_person_name}"):
+      if self.entity_is_on(f"input_boolean.alarm_{other_person_name}"):
         other_alarms_turned_on = True
     if other_alarms_turned_on:
       self.log(f"Motion occured when {person_name.capitalize()}'s alarm was ringing. "
@@ -66,7 +66,7 @@ class AlarmManager(Base):
   def on_alarm_off(self, entity, attribute, old, new, kwargs):
     person_name = self.get_person_names(entity=entity)[0]
     self.log(f"{person_name.capitalize()}'s alarm turned off")
-    if self.is_entity_on(f"input_boolean.alarm_{person_name}_ringing"):
+    if self.entity_is_on(f"input_boolean.alarm_{person_name}_ringing"):
       self.log(f"{person_name.capitalize()}'s alarm is ringing and will be cancelled because alarm was turned off")
       self.turn_off_entity("input_boolean.alarm_ringing")
       self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
@@ -89,8 +89,8 @@ class AlarmManager(Base):
 
 
   def update_alarm_time(self, person_name):
-    if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
-      if self.is_entity_on(f"input_boolean.alarm_{person_name}_ringing"):
+    if self.entity_is_on(f"input_boolean.alarm_{person_name}"):
+      if self.entity_is_on(f"input_boolean.alarm_{person_name}_ringing"):
         self.log(f"{person_name.capitalize()}'s alarm is ringing and will be cancelled because new alarm time was set")
         self.turn_off_entity("input_boolean.alarm_ringing")
         self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
@@ -127,7 +127,7 @@ class AlarmManager(Base):
   def get_person_name_alarm_ringing(self):
     ringing = None
     for person_name in self.get_person_names(with_alarm=True):
-      if self.is_entity_on(f"input_boolean.alarm_{person_name}_ringing"):
+      if self.entity_is_on(f"input_boolean.alarm_{person_name}_ringing"):
         ringing = person_name
     return ringing
 
@@ -151,12 +151,12 @@ class AlarmManager(Base):
 
 
   def on_night_scene(self, entity, attribute, old, new, kwargs):
-    if self.is_entity_on("binary_sensor.bedroom_yandex_station_active"):
+    if self.entity_is_on("binary_sensor.bedroom_yandex_station_active"):
       return
     alarms = []
     text = "Спокойной ночи! "
     for person_name in self.get_person_names(with_alarm=True):
-      if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
+      if self.entity_is_on(f"input_boolean.alarm_{person_name}"):
         alarms.append(self.get_state(f"input_datetime.alarm_{person_name}")[:-3])
     if len(alarms) == 0:
       text += "Будильник не установлен!"
@@ -170,7 +170,7 @@ class AlarmManager(Base):
   def allow_snooze_if_alarms_off(self):
     all_alarms_off = True
     for person_name in self.get_person_names(with_alarm=True):
-      if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
+      if self.entity_is_on(f"input_boolean.alarm_{person_name}"):
         all_alarms_off = False
     if all_alarms_off:
       self.turn_on_entity("input_boolean.alarm_snooze_allowed")

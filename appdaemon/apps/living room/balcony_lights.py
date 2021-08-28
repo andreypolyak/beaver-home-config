@@ -123,12 +123,12 @@ class BalconyLights(RoomLights):
 
   @property
   def balcony_dark(self):
-    return self.is_entity_on("binary_sensor.balcony_dark")
+    return self.entity_is_on("binary_sensor.balcony_dark")
 
 
   @property
   def balcony_door_open(self):
-    return self.is_entity_on("binary_sensor.living_room_balcony_door")
+    return self.entity_is_on("binary_sensor.living_room_balcony_door")
 
 
   @property

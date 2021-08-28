@@ -62,7 +62,7 @@ class Freshener(Base):
     if self.get_delta_ts(last_spray_ts) < 600:
       self.log("Spray cancelled because it occured recently")
       return
-    if self.is_entity_on("binary_sensor.bathroom_door"):
+    if self.entity_is_on("binary_sensor.bathroom_door"):
       self.log("Spray")
       self.turn_on_entity("switch.bathroom_freshener")
       self.write_storage("last_spray_ts", self.get_now_ts())

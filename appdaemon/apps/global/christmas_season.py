@@ -16,7 +16,7 @@ class ChristmasSeason(Base):
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
-    christmas_season = self.is_entity_on("input_boolean.christmas_season")
+    christmas_season = self.entity_is_on("input_boolean.christmas_season")
     if christmas_season and self.living_scene not in ["night", "light_cinema", "dark_cinema", "dumb"]:
       self.turn_on_all()
     else:

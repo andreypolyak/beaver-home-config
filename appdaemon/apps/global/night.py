@@ -55,6 +55,6 @@ class Night(Base):
   @property
   def all_lights_off(self):
     for room in LIVING_ZONE_ROOMS:
-      if self.is_entity_on(f"light.ha_template_room_{room}"):
+      if self.entity_is_on(f"light.ha_template_room_{room}"):
         return False
     return True

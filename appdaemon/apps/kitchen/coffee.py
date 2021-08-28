@@ -27,13 +27,13 @@ class Coffee(Base):
 
   def on_all_away(self, entity, attribute, old, new, kwargs):
     self.timer_cancel("coffee")
-    if self.is_entity_on("switch.kitchen_coffee_plug"):
+    if self.entity_is_on("switch.kitchen_coffee_plug"):
       self.log("Turning off coffee because everyone left")
       self.turn_off_entity("switch.kitchen_coffee_plug")
 
 
   def on_lid_open(self, entity, attribute, old, new, kwargs):
-    if self.is_entity_on("switch.kitchen_coffee_plug"):
+    if self.entity_is_on("switch.kitchen_coffee_plug"):
       self.log("Turning off coffee because lid was opened")
       self.timer_cancel("coffee")
       self.turn_off_entity("switch.kitchen_coffee_plug")
@@ -50,8 +50,8 @@ class Coffee(Base):
 
 
   def on_alarm_ringing(self, entity, attribute, old, new, kwargs):
-    is_coffee_prepared = self.is_entity_on("input_boolean.coffee_prepared")
-    is_lid_closed = self.is_entity_off("binary_sensor.kitchen_coffee_door")
+    is_coffee_prepared = self.entity_is_on("input_boolean.coffee_prepared")
+    is_lid_closed = self.entity_is_off("binary_sensor.kitchen_coffee_door")
     if is_coffee_prepared and is_lid_closed:
       self.turn_on_coffee()
 

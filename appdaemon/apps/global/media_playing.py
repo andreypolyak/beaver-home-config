@@ -55,7 +55,7 @@ class MediaPlaying(Base):
   def check_tv_state(self):
     if self.living_scene == "party":
       return
-    if self.is_entity_on("binary_sensor.living_room_tv"):
+    if self.entity_is_on("binary_sensor.living_room_tv"):
       self.turn_on_entity("input_boolean.living_room_tv_playing")
       self.turn_off_entity("input_boolean.living_room_sonos_playing")
       return
@@ -68,7 +68,7 @@ class MediaPlaying(Base):
       return
     sonos_state = self.get_state(f"media_player.{entity}")
     device = entity.replace("media_player.", "")
-    if sonos_state == "playing" and device == "living_room_sonos" and self.is_entity_on("binary_sensor.living_room_tv"):
+    if sonos_state == "playing" and device == "living_room_sonos" and self.entity_is_on("binary_sensor.living_room_tv"):
       return
     if sonos_state == "playing":
       self.log(f"Device {device} is playing")

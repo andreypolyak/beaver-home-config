@@ -40,9 +40,9 @@ class PersonInside(Base):
     room_name = kwargs["room_name"]
     room = ROOMS[room_name]
     door = room["door"]
-    if self.is_entity_off(f"binary_sensor.{door}"):
+    if self.entity_is_off(f"binary_sensor.{door}"):
       self.turn_on_entity(f"input_boolean.person_inside_{room_name}")
-    elif self.is_entity_on(f"binary_sensor.{door}"):
+    elif self.entity_is_on(f"binary_sensor.{door}"):
       self.turn_off_entity(f"input_boolean.person_inside_{room_name}")
 
 

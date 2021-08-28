@@ -92,22 +92,22 @@ class AC(Base):
       change_reason = "AC was manually turned off"
       new_ac_state = False
 
-    if self.is_entity_on("binary_sensor.living_room_balcony_door"):
+    if self.entity_is_on("binary_sensor.living_room_balcony_door"):
       change_reason = "balcony door is open"
       new_ac_state = False
 
-    if new_ac_state and self.is_entity_off("binary_sensor.living_room_ac_door"):
+    if new_ac_state and self.entity_is_off("binary_sensor.living_room_ac_door"):
       self.cancel_handle(self.turn_off_handle)
       self.log(f"AC was turned on because: {change_reason}")
       self.turn_on_ac()
-    elif not new_ac_state and self.is_entity_on("binary_sensor.living_room_ac_door"):
+    elif not new_ac_state and self.entity_is_on("binary_sensor.living_room_ac_door"):
       self.log(f"AC will be turned off because: {change_reason}")
       if not self.timer_running(self.turn_off_handle):
         self.turn_off_handle = self.run_in(self.turn_off_ac, 15)
 
 
   def on_manual_toggle(self, event_name, data, kwargs):
-    if self.is_entity_on("binary_sensor.living_room_ac_door"):
+    if self.entity_is_on("binary_sensor.living_room_ac_door"):
       self.manual_off()
     else:
       self.manual_on()
@@ -148,9 +148,9 @@ class AC(Base):
     self.cancel_handle(self.check_handle)
     is_on = "is_on" in kwargs and kwargs["is_on"]
     is_off = "is_on" in kwargs and not kwargs["is_on"]
-    if is_on and self.is_entity_off("binary_sensor.living_room_ac_door"):
+    if is_on and self.entity_is_off("binary_sensor.living_room_ac_door"):
       self.log("AC turned on (fix)")
       self.turn_on_entity("script.ac_turn_on")
-    elif is_off and self.is_entity_on("binary_sensor.living_room_ac_door"):
+    elif is_off and self.entity_is_on("binary_sensor.living_room_ac_door"):
       self.log("AC turned off (fix)")
       self.turn_on_entity("script.ac_turn_off")

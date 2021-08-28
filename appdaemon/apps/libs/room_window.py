@@ -67,7 +67,7 @@ class RoomWindow(Base):
     if (
       (ignore_debounce or self.get_delta_ts(handle_ts) > 60)
       and not is_timer_freeze_on
-      and self.is_entity_on(f"input_boolean.auto_window_{self.room}")
+      and self.entity_is_on(f"input_boolean.auto_window_{self.room}")
     ):
       self.write_storage(f"{self.room}_handle_ts", self.get_now_ts())
       self.process()
@@ -133,6 +133,6 @@ class RoomWindow(Base):
   @property
   def person_sits_near(self):
     for sensor in self.occupancy_sensors:
-      if self.is_entity_on(sensor):
+      if self.entity_is_on(sensor):
         return True
     return False

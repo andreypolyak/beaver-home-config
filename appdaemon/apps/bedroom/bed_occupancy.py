@@ -17,9 +17,9 @@ class BedOccupancy(Base):
     if self.sleeping_scene != "night" or self.living_scene == "night":
       return
     for sensor in SENSORS:
-      if self.is_entity_on(f"binary_sensor.{sensor}"):
+      if self.entity_is_on(f"binary_sensor.{sensor}"):
         return
-    if self.is_entity_off("binary_sensor.bedroom_door"):
+    if self.entity_is_off("binary_sensor.bedroom_door"):
       return
     self.log(f"Turning on day scene in sleeping zone because {entity} state changed")
     self.set_sleeping_scene("day")

@@ -94,7 +94,7 @@ class BedroomLights(RoomLights):
     elif (
       mode == "floor_motion_sensor"
       and new == "on"
-      and self.is_entity_off("input_boolean.alarm_ringing")
+      and self.entity_is_off("input_boolean.alarm_ringing")
       and self.auto_lights
     ):
       self.set_preset("DARK", min_delay=True)
@@ -128,7 +128,7 @@ class BedroomLights(RoomLights):
   def reason_to_keep_light(self):
     if self.sleeping_scene == "dumb":
       return "dumb_scene"
-    if self.is_entity_on("input_boolean.alarm_ringing"):
+    if self.entity_is_on("input_boolean.alarm_ringing"):
       return "alarm_ringing"
     if self.person_inside and self.sleeping_scene != "night":
       return "person_inside"
@@ -136,14 +136,14 @@ class BedroomLights(RoomLights):
       return "auto_lights_off"
     if (
       self.sleeping_scene == "night"
-      and self.is_entity_on("binary_sensor.bedroom_wardrobe_door")
+      and self.entity_is_on("binary_sensor.bedroom_wardrobe_door")
     ):
       return "wardrobe_open"
     if (
-      self.is_entity_on("binary_sensor.bedroom_bed_occupied")
+      self.entity_is_on("binary_sensor.bedroom_bed_occupied")
       and self.sleeping_scene != "night"
     ):
       return "bed_occupied"
-    if self.is_entity_on("binary_sensor.bedroom_chair_occupancy"):
+    if self.entity_is_on("binary_sensor.bedroom_chair_occupancy"):
       return "chair_occupied"
     return None

@@ -58,13 +58,13 @@ class Base(hass.Hass):
     return state
 
 
-  def is_entity_on(self, entity: str):
+  def entity_is_on(self, entity: str):
     if self.get_state(entity) == "on":
       return True
     return False
 
 
-  def is_entity_off(self, entity: str):
+  def entity_is_off(self, entity: str):
     if self.get_state(entity) != "on":
       return True
     return False

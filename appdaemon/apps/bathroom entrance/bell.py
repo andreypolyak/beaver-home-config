@@ -55,7 +55,7 @@ class Bell(Base):
     # Bell sound
     if living_scene != "night":
       self.play_sound("living_room")
-      if self.is_entity_off("binary_sensor.bathroom_door"):
+      if self.entity_is_off("binary_sensor.bathroom_door"):
         self.play_sound("bathroom")
     # Push notifications
     self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")

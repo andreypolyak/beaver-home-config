@@ -59,7 +59,7 @@ class KitchenWindow(RoomWindow):
       position -= 10
       reason += ", temperature < 22"
 
-    if self.is_entity_on("binary_sensor.kitchen_vent"):
+    if self.entity_is_on("binary_sensor.kitchen_vent"):
       position += 40
       reason += ", vent on"
 

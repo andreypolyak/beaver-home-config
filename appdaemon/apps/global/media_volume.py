@@ -104,7 +104,7 @@ class MediaVolume(Base):
 
   def is_playing_now(self, entities):
     for entity in entities:
-      if self.is_entity_on(entity):
+      if self.entity_is_on(entity):
         return True
     return False
 

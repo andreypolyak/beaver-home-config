@@ -54,6 +54,6 @@ class AlarmRequestedDialog(YandexDialog):
   def alarms(self):
     alarms = []
     for person_name in self.get_person_names(with_alarm=True):
-      if self.is_entity_on(f"input_boolean.alarm_{person_name}"):
+      if self.entity_is_on(f"input_boolean.alarm_{person_name}"):
         alarms.append(self.get_state(f"input_datetime.alarm_{person_name}")[:-3])
     return alarms

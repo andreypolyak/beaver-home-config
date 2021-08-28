@@ -98,7 +98,7 @@ class BathroomEntranceLights(RoomLights):
       elif not self.bathroom_door_open:
         self.set_preset_if_on("NIGHT", min_delay=True)
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
-      if self.is_entity_on("binary_sensor.night_scene_enough"):
+      if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       elif self.bathroom_door_open:
@@ -198,4 +198,4 @@ class BathroomEntranceLights(RoomLights):
 
   @property
   def bathroom_door_open(self):
-    return self.is_entity_on("binary_sensor.bathroom_door")
+    return self.entity_is_on("binary_sensor.bathroom_door")

@@ -85,12 +85,12 @@ class Lock(Base):
 
 
   def lock_door(self, kwargs):
-    if self.get_state("lock.entrance_lock") == "unlocked" and self.is_entity_off("binary_sensor.entrance_door"):
+    if self.get_state("lock.entrance_lock") == "unlocked" and self.entity_is_off("binary_sensor.entrance_door"):
       self.log("Locking the door")
       self.call_service("lock/lock", entity_id="lock.entrance_lock")
 
 
   def unlock_door(self):
-    if self.get_state("lock.entrance_lock") == "locked" and self.is_entity_off("binary_sensor.entrance_door"):
+    if self.get_state("lock.entrance_lock") == "locked" and self.entity_is_off("binary_sensor.entrance_door"):
       self.log("Unlocking the door")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")

@@ -26,7 +26,7 @@ class CircadianUpdate(Base):
       self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
       new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
     old_saturation = self.get_int_state("input_number.circadian_saturation")
-    if self.is_entity_on("light.ha_group_all"):
+    if self.entity_is_on("light.ha_group_all"):
       if abs(new_saturation - old_saturation) > SAT_STEP:
         if new_saturation > old_saturation:
           new_saturation = old_saturation + SAT_STEP
@@ -81,7 +81,7 @@ class CircadianUpdate(Base):
   def set_saturation(self, new_saturation):
     if new_saturation == self.get_int_state("input_number.circadian_saturation"):
       return
-    if self.is_entity_on("light.ha_group_all") and self.get_delta_ts(self.changed_ts) < DELAY:
+    if self.entity_is_on("light.ha_group_all") and self.get_delta_ts(self.changed_ts) < DELAY:
       return
     self.changed_ts = self.get_now_ts()
     self.set_value("input_number.circadian_saturation", new_saturation)

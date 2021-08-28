@@ -60,7 +60,7 @@ class BedroomWindow(RoomWindow):
     if (
       self.now_is_between("20:00:00", "04:00:00")
       and self.sleeping_scene == "day"
-      and self.is_entity_off(f"light.ha_group_{self.room}")
+      and self.entity_is_off(f"light.ha_group_{self.room}")
       and balcony_temperature > -5
     ):
       position += 40
@@ -79,7 +79,7 @@ class BedroomWindow(RoomWindow):
   @property
   def alarm_soon(self):
     for person_name in self.get_person_names(with_alarm=True):
-      if self.is_entity_off(f"input_boolean.alarm_{person_name}"):
+      if self.entity_is_off(f"input_boolean.alarm_{person_name}"):
         continue
       alarm_time = self.parse_datetime(self.get_state(f"input_datetime.alarm_{person_name}"), aware=True)
       current_time = self.get_now()

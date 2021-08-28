@@ -49,7 +49,7 @@ class Fridge(Base):
 
   def alert(self, kwargs):
     self.cancel_handle(self.handle)
-    if self.is_entity_on("binary_sensor.kitchen_freezer_door"):
+    if self.entity_is_on("binary_sensor.kitchen_freezer_door"):
       text = "Внимание! Дверь морозилки не закрыта!"
       self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
       self.send_push("home_or_all", "🧊 Freezer isn't closed!", "fridge", is_critical=True)
