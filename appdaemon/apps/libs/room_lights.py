@@ -254,9 +254,9 @@ class RoomLights(Base):
         kwargs["transition"] = 2
       else:
         kwargs["transition"] = self.get_float_state("input_number.transition")
-    if "brightness" in light:
+    if "brightness" in light and not circadian:
       kwargs["brightness"] = light["brightness"]
-    if self.__is_feature_supported(light_name, "color"):
+    if self.__is_feature_supported(light_name, "color") and not fade:
       color = self.__get_color(self.read_storage("state", attribute="color"))
       kwargs[color["mode"]] = color["value"]
     self.log(f"Turn on {light_name} with args: {kwargs}")
