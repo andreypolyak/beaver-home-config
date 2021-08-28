@@ -457,6 +457,12 @@ notify_arrival:
     - storage
     - push
 
+notify_bt_state:
+  module: notify_bt_state
+  class: NotifyBtState
+  global_dependencies: base
+  dependencies: push
+
 notify_core_update:
   module: notify_core_update
   class: NotifyCoreUpdate

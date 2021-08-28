@@ -94,6 +94,17 @@ cards:
             - entity_id: input_select.katya_location
       - type: custom:button-card
         template: header
+        name: BT Discrepancies
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: history-graph
+        filter:
+          include:
+            - entity_id: binary_sensor.bt_*_discrepancy
+            - entity_id: sensor.bt_*_discrepancy_3_hours
+      - type: custom:button-card
+        template: header
         name: Other Trackers
       - type: custom:auto-entities
         show_empty: false

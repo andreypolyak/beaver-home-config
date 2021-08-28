@@ -105,3 +105,37 @@
           and states("sensor.hacs_updates")|int == 0
           and states("input_number.zigbee_ota_updates")|int == 0
         }}
+
+- platform: template
+  sensors:
+    bt_entrance_discrepancy:
+      friendly_name: BT Entrance Discrepancy
+      value_template: >
+        {% if
+            states("device_tracker.wifi_andrey_iphone_11_pro_max")
+            != states("device_tracker.bt_entrance_andrey_iphone_11_pro_max")
+          or
+            states("device_tracker.wifi_katya_iphone_12_pro_max")
+            != states("device_tracker.bt_entrance_katya_iphone_12_pro_max")
+        -%}
+          on
+        {%- else -%}
+          off
+        {%- endif %}
+
+- platform: template
+  sensors:
+    bt_kitchen_discrepancy:
+      friendly_name: BT Kitchen Discrepancy
+      value_template: >
+        {% if
+            states("device_tracker.wifi_andrey_iphone_11_pro_max")
+            != states("device_tracker.bt_kitchen_andrey_iphone_11_pro_max")
+          or
+            states("device_tracker.wifi_katya_iphone_12_pro_max")
+            != states("device_tracker.bt_kitchen_katya_iphone_12_pro_max")
+        -%}
+          on
+        {%- else -%}
+          off
+        {%- endif %}

@@ -67,3 +67,21 @@
           {{ (proximity / 1000)|int }} km
         {% endif %}
       friendly_name: Katya Display Location
+
+- platform: history_stats
+  name: BT Entrance Discrepancy 3 Hours
+  entity_id: binary_sensor.bt_entrance_discrepancy
+  state: "on"
+  type: time
+  duration:
+    hours: 3
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: BT Kitchen Discrepancy 3 Hours
+  entity_id: binary_sensor.bt_kitchen_discrepancy
+  state: "on"
+  type: time
+  duration:
+    hours: 3
+  end: "{{ now() }}"
