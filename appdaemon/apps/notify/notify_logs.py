@@ -57,7 +57,10 @@ HA_BLACKLIST = [
   "Error retrieving proxied image from",
   "File \"/config/custom_components/sauresha/sensor.py\", line 266, in current_controller_info",
   "custom_components.hacs",
-  "<class 'homeassistant.components.mqtt.light.schema_json.MqttLightJson'>) took "
+  "<class 'homeassistant.components.mqtt.light.schema_json.MqttLightJson'>) took ",
+  "https://yandex.ru/pogoda/maps/nowcast",
+  "homeassistant.components.command_line.sensor",
+  "is taking over 10 seconds"
 ]
 
 
