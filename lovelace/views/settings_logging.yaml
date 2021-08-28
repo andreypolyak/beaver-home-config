@@ -73,9 +73,35 @@ cards:
             custom_event_data2: entities_with_attr
       - type: custom:button-card
         template: header
-        name: Notifications
+        name: Mute Notifications
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: input_boolean.*_mute_push
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Last Notifications
       - type: logbook
         entities:
           - input_text.last_notification
         hours_to_show: 24
+      - type: custom:button-card
+        template: header
+        name: Notification Timestamps
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: input_datetime.*_last_push
+        sort:
+          method: entity_id
       - !include /config/lovelace/elements/footer.yaml

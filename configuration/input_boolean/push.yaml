@@ -1,0 +1,119 @@
+bell_mute_push:
+  name: Bell Mute Push
+  icon: mdi:bell-off
+
+lock_repair_mute_push:
+  name: Lock Repair Mute Push
+  icon: mdi:bell-off
+
+lock_mute_push:
+  name: Lock Mute Push
+  icon: mdi:bell-off
+
+washing_machine_mute_push:
+  name: Washing Machine Mute Push
+  icon: mdi:bell-off
+
+leak_mute_push:
+  name: Leak Mute Push
+  icon: mdi:bell-off
+
+weight_mute_push:
+  name: Weight Mute Push
+  icon: mdi:bell-off
+
+restart_lights_mute_push:
+  name: Restart Lights Mute Push
+  icon: mdi:bell-off
+
+fridge_mute_push:
+  name: Fridge Mute Push
+  icon: mdi:bell-off
+
+cinema_mute_push:
+  name: Cinema Mute Push
+  icon: mdi:bell-off
+
+addon_update_mute_push:
+  name: Addon Update Mute Push
+  icon: mdi:bell-off
+
+air_quality_mute_push:
+  name: Air Quality Mute Push
+  icon: mdi:bell-off
+
+app_error_mute_push:
+  name: App Error Mute Push
+  icon: mdi:bell-off
+
+notify_arrival_mute_push:
+  name: Notify Arrival Mute Push
+  icon: mdi:bell-off
+
+core_update_mute_push:
+  name: Core Update Mute Push
+  icon: mdi:bell-off
+
+hacs_update_mute_push:
+  name: HACS Update Mute Push
+  icon: mdi:bell-off
+
+low_battery_mute_push:
+  name: Low Battery Mute Push
+  icon: mdi:bell-off
+
+new_entity_mute_push:
+  name: New Entity Mute Push
+  icon: mdi:bell-off
+
+os_update_mute_push:
+  name: OS Update Mute Push
+  icon: mdi:bell-off
+
+persistent_mute_push:
+  name: Persistent Mute Push
+  icon: mdi:bell-off
+
+pi_state_mute_push:
+  name: Pi State Mute Push
+  icon: mdi:bell-off
+
+plant_mute_push:
+  name: Plant Mute Push
+  icon: mdi:bell-off
+
+rain_mute_push:
+  name: Rain Mute Push
+  icon: mdi:bell-off
+
+appdaemon_restart_mute_push:
+  name: AppDaemon Restart Mute Push
+  icon: mdi:bell-off
+
+ha_config_error_mute_push:
+  name: HA Config Mute Push
+  icon: mdi:bell-off
+
+temperature_mute_push:
+  name: Temperature Mute Push
+  icon: mdi:bell-off
+
+unavailable_entity_mute_push:
+  name: Unavailable Entity Mute Push
+  icon: mdi:bell-off
+
+available_entity_mute_push:
+  name: Available Entity Mute Push
+  icon: mdi:bell-off
+
+z2m_state_mute_push:
+  name: Z2M State Mute Push
+  icon: mdi:bell-off
+
+bt_state_mute_push:
+  name: BT State Mute Push
+  icon: mdi:bell-off
+
+zigbee_update_mute_push:
+  name: Zigbee Update Mute Push
+  icon: mdi:bell-off

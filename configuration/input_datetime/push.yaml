@@ -1,0 +1,179 @@
+bell_last_push:
+  name: Bell Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+lock_repair_last_push:
+  name: Lock Repair Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+lock_last_push:
+  name: Lock Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+washing_machine_last_push:
+  name: Washing Machine Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+leak_last_push:
+  name: Leak Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+weight_last_push:
+  name: Weight Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+restart_lights_last_push:
+  name: Restart Lights Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+fridge_last_push:
+  name: Fridge Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+cinema_last_push:
+  name: Cinema Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+addon_update_last_push:
+  name: Addon Update Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+air_quality_last_push:
+  name: Air Quality Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+app_error_last_push:
+  name: App Error Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+notify_arrival_last_push:
+  name: Notify Arrival Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+core_update_last_push:
+  name: Core Update Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+hacs_update_last_push:
+  name: HACS Update Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+low_battery_last_push:
+  name: Low Battery Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+new_entity_last_push:
+  name: New Entity Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+os_update_last_push:
+  name: OS Update Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+persistent_last_push:
+  name: Persistent Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+pi_state_last_push:
+  name: Pi State Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+plant_last_push:
+  name: Plant Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+rain_last_push:
+  name: Rain Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+appdaemon_restart_last_push:
+  name: AppDaemon Restart Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+ha_config_error_last_push:
+  name: HA Config Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+temperature_last_push:
+  name: Temperature Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+unavailable_entity_last_push:
+  name: Unavailable Entity Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+available_entity_last_push:
+  name: Available Entity Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+z2m_state_last_push:
+  name: Z2M State Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+bt_state_last_push:
+  name: BT State Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline
+
+zigbee_update_last_push:
+  name: Zigbee Update Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline

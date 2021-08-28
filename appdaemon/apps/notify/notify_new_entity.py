@@ -58,7 +58,7 @@ class NotifyNewEntity(Base):
   def send_notification(self, kwargs):
     if len(self.new_entities) > 0:
       message = self.build_message(self.new_entities)
-      self.send_push("admin", message, "new", sound="Tweet.caf", url="/lovelace/settings_entities")
+      self.send_push("admin", message, "new_entity", sound="Tweet.caf", url="/lovelace/settings_entities")
     self.new_entities = []
 
 

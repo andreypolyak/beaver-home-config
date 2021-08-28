@@ -22,11 +22,11 @@ class NotifyPiState(Base):
     is_notified = self.read_storage(f"{room}_notified")
     if new == "unavailable" and is_notified:
       message = f"🍓 {room_name} Raspberry Pi is offline"
-      self.send_push("admin", message, "pi", sound="Alert.caf", url="/lovelace/settings")
+      self.send_push("admin", message, "pi_state", sound="Alert.caf", url="/lovelace/settings")
       self.write_storage(f"{room}_notified", False)
     elif old == "unavailable" and new != "unknown" and not is_notified:
       message = f"🍓 {room_name} Raspberry Pi is online"
-      self.send_push("admin", message, "pi", sound="Alert.caf", url="/lovelace/settings")
+      self.send_push("admin", message, "pi_state", sound="Alert.caf", url="/lovelace/settings")
       self.write_storage(f"{room}_notified", True)
 
 

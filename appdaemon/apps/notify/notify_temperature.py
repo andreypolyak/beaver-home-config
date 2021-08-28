@@ -21,4 +21,4 @@ class NotifyTemperature(Base):
     room = entity.replace("sensor.", "").replace("_temperature", "").replace("_", " ")
     message = f"🥶 Too cold in the {room} ({temperature}°C)!"
     url = "/lovelace/settings_climate"
-    self.send_push("home_or_all", message, "air_quality", sound="Choo_Choo.caf", min_delta=600, url=url)
+    self.send_push("home_or_all", message, "temperature", sound="Choo_Choo.caf", min_delta=600, url=url)

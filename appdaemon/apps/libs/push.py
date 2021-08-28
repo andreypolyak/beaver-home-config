@@ -58,11 +58,18 @@ class Push(Base):
   def __process_notification(self, params):
     person_name = params["person_name"]
     category = params["category"]
+    entity = f"input_boolean.{category}_mute_push"
+    if self.entity_exists(entity) and self.entity_is_on(entity):
+      self.log(f"Notification with params: {params} was muted")
+      return
     attribute = f"{category}_{person_name}"
     res = self.__send_push_notification(params)
     if res:
       self.__send_telegram_notification(params)
       self.__update_ha_sensor(params)
+      entity = f"input_datetime.{category}_last_push"
+      if self.entity_exists(entity):
+        self.set_current_datetime(entity)
       failed = self.read_storage("failed", attribute="all")
       try:
         del failed[attribute]

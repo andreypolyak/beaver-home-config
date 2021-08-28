@@ -11,7 +11,7 @@ homeassistant: !include configuration/homeassistant.yaml
 http: !include configuration/http.yaml
 influxdb: !include configuration/influxdb.yaml
 input_boolean: !include_dir_merge_named configuration/input_boolean
-input_datetime: !include configuration/input_datetime.yaml
+input_datetime: !include_dir_merge_named configuration/input_datetime
 input_number: !include_dir_merge_named configuration/input_number
 input_select: !include configuration/input_select.yaml
 input_text: !include configuration/input_text.yaml

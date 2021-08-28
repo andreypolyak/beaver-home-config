@@ -109,7 +109,7 @@ class NotifyUnavailable(Base):
     if len(notify_objs) > 0:
       self.log(f"Send notification about unavailable entities: {notify_objs}")
       message = self.build_unavailable_message(notify_objs)
-      self.send_push("admin", message, "unavailable", sound="Noir.caf", url="/lovelace/settings_entities")
+      self.send_push("admin", message, "unavailable_entity", sound="Noir.caf", url="/lovelace/settings_entities")
 
 
   def send_available_notifications(self):
@@ -125,7 +125,7 @@ class NotifyUnavailable(Base):
     if len(notify_objs) > 0:
       self.log(f"Send notification about available entities: {notify_objs}")
       message = self.build_available_message(notify_objs)
-      self.send_push("admin", message, "available", sound="Fanfare.caf", url="/lovelace/settings_entities")
+      self.send_push("admin", message, "available_entity", sound="Fanfare.caf", url="/lovelace/settings_entities")
     for entity in self.available_entities:
       del self.saved_entities[entity]
 
