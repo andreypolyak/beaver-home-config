@@ -53,7 +53,7 @@ class BathroomEntranceLights(RoomLights):
         "group_bathroom_top": {"state": True, "brightness": 254},
         "group_entrance_top": {"state": False},
         "group_entrance_mirror": {"state": True, "brightness": 3},
-        "bathroom_mirror": {"state": False}
+        "bathroom_mirror": {"state": True}
       },
       "DARK_ENTRANCE_BRIGHT_BATHROOM": {
         "group_bathroom_top": {"state": True, "brightness": 254},
