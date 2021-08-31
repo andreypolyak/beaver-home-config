@@ -44,31 +44,31 @@ states:
             color: rgb(255, 255, 255)
             variables:
               room: balcony
-              kelvin: 6500
+              kelvin: 3575
           - type: custom:button-card
             template: light_color_kelvin
             color: rgb(255, 239, 225)
             variables:
               room: balcony
-              kelvin: 5600
+              kelvin: 3260
           - type: custom:button-card
             template: light_color_kelvin
             color: rgb(255, 222, 195)
             variables:
               room: balcony
-              kelvin: 4700
+              kelvin: 2945
           - type: custom:button-card
             template: light_color_kelvin
             color: rgb(255, 201, 157)
             variables:
               room: balcony
-              kelvin: 3800
+              kelvin: 2630
           - type: custom:button-card
             template: light_color_kelvin
             color: rgb(255, 174, 103)
             variables:
               room: balcony
-              kelvin: 2900
+              kelvin: 2315
           - type: custom:button-card
             template: light_color_kelvin
             color: rgb(255, 137, 14)
