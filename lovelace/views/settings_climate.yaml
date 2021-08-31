@@ -100,8 +100,8 @@ cards:
           - switch.ac
           - script.ac_turn_on
           - script.ac_turn_off
-          - timer.ac_no_auto_on
-          - timer.ac_no_auto_off
+          - timer.ac_turn_off_disabled
+          - timer.ac_turn_on_disabled
           - binary_sensor.living_room_ac_door
       - type: custom:button-card
         template: header
