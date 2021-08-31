@@ -63,3 +63,7 @@
   friendly_name: Bathroom Toilet Vibration
 '0x00124b002241f552':
   friendly_name: Entrance Plant Stonehenge
+'0x00158d0006d3948f':
+  friendly_name: Bathroom Sink Meter Leak
+'0x00158d0006d2dd11':
+  friendly_name: Bathroom Sink Floor Leak

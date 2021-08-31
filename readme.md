@@ -71,7 +71,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - 12x Aqara human body movement and illuminance sensor (RTCGQ11LM) — [hacked](https://community.smartthings.com/t/making-xiaomi-motion-sensor-a-super-motion-sensor/139806) to have 5 seconds occupancy timeout
 - 7x Aqara temperature, humidity and pressure sensor (WSDCGQ11LM)
 - 10x Aqara door & window contact sensor (MCCGQ11LM)
-- 7x Aqara water leak sensor (SJCGQ11LM) — 4 of which I'm using as actual water leak sensors and 3 as a chair occupancy sensor together with [this](https://aliexpress.com/item/4000151259805.html) pressure sensor
+- 10x Aqara water leak sensor (SJCGQ11LM) — 7 of which I'm using as actual water leak sensors and 3 as a chair occupancy sensor together with [this](https://aliexpress.com/item/4000151259805.html) pressure sensor
 - MiJia light intensity sensor (GZCGQ01LM)
 - Aqara vibration sensor (DJT11LM) — used to monitor toilet flush
 
