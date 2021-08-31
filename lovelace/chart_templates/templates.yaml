@@ -49,6 +49,7 @@ co2:
     - name: CO2
       yaxis_id: co2
       float_precision: 0
+      fill_raw: last
       color: "#f6d2a9"
       color_threshold:
         - color: "#f6d2a9"
@@ -81,6 +82,7 @@ temperature:
     - name: Humidity
       yaxis_id: humidity
       float_precision: 0
+      fill_raw: last
       color: "#85c4c9"
       color_threshold:
         - color: "#d1eeea"
@@ -100,6 +102,7 @@ temperature:
     - name: Temperature
       yaxis_id: temperature
       float_precision: 1
+      fill_raw: last
       color: "#de8a5a"
       color_threshold:
         - color: "#008080"
