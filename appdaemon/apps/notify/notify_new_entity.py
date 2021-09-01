@@ -23,6 +23,7 @@ class NotifyNewEntity(Base):
         if entity in saved_all_entities:
           continue
         self.handle_new_entity(entity)
+        self.fire_event("new_entity")
     self.write_storage("all_entities", all_entities)
 
 

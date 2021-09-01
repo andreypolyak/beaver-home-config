@@ -13,6 +13,7 @@ class TelegramEntityLogger(Base):
       self.init_storage("telegram_entity_logger", mode, [])
       self.handles[mode] = []
     self.listen_event(self.on_entities_change, "entity_registry_updated")
+    self.listen_event(self.on_entities_change, "new_entity")
     self.listen_event(self.on_entities_change, "call_service", domain="input_select", service="reload")
     self.listen_event(self.on_logged_entity_add, "custom_event", custom_event_data="logged_entity_add")
     self.listen_event(self.on_logged_entity_remove, "custom_event", custom_event_data="logged_entity_remove")
