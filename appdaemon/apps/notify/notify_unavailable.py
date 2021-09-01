@@ -80,9 +80,9 @@ class NotifyUnavailable(Base):
       if entity_state != "unavailable":
         self.available_entities.append(entity)
         continue
-      if self.get_delta_ts(entity_obj["ts"]) < 180:
+      if self.get_delta_ts(entity_obj["ts"]) < 480:
         continue
-      if self.get_delta_ts(entity_obj["ts"]) >= 180 and self.get_delta_ts(entity_obj["ts"]) < 300:
+      if self.get_delta_ts(entity_obj["ts"]) >= 480 and self.get_delta_ts(entity_obj["ts"]) < 600:
         self.possible_notify_entities.append(entity)
         continue
       self.unavailable_entities_len += 1
@@ -116,9 +116,10 @@ class NotifyUnavailable(Base):
     notify_objs = []
     for available_entity in self.available_entities:
       if available_entity in self.saved_entities and self.saved_entities[available_entity]["notified"]:
-        device_name = self.get_device_name(available_entity)
-        if device_name:
-          notify_objs.append(device_name)
+        if self.get_device_name(available_entity):
+          notify_objs.append(self.get_device_name(available_entity))
+        elif self.friendly_name(available_entity):
+          notify_objs.append(self.friendly_name(available_entity))
         else:
           notify_objs.append(available_entity)
     notify_objs = list(set(notify_objs))
