@@ -50,9 +50,9 @@ class Coffee(Base):
 
 
   def on_alarm_ringing(self, entity, attribute, old, new, kwargs):
-    is_coffee_prepared = self.entity_is_on("input_boolean.coffee_prepared")
-    is_lid_closed = self.entity_is_off("binary_sensor.kitchen_coffee_door")
-    if is_coffee_prepared and is_lid_closed:
+    coffee_prepared = self.entity_is_on("input_boolean.coffee_prepared")
+    lid_closed = self.entity_is_off("binary_sensor.kitchen_coffee_door")
+    if coffee_prepared and lid_closed:
       self.turn_on_coffee()
 
 

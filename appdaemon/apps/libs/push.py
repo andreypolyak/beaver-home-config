@@ -14,7 +14,7 @@ class Push(Base):
     self.listen_event(self.__on_ha_log, "system_log_event")
 
 
-  def send(self, to, message, category, sound="none", is_critical=False, min_delta=None,
+  def send(self, to, message, category, sound="none", critical=False, min_delta=None,
            url=None, ios_category=None, actions=None):
     persons = self.__get_person_list(to)
     for person in persons:
@@ -31,7 +31,7 @@ class Push(Base):
         "message": message,
         "category": category,
         "sound": sound,
-        "is_critical": is_critical,
+        "critical": critical,
         "url": url,
         "actions": actions
       }
@@ -89,13 +89,13 @@ class Push(Base):
     tries = 2
     for i in range(tries):
       start_ts = self.get_now_ts()
-      is_error = False
+      error_occured = False
       try:
         self.call_service(f"notify/mobile_app_{person_phone}", message=message, data=ha_notification_properties)
       except:
-        is_error = True
+        error_occured = True
       finish_ts = self.get_now_ts()
-      if is_error or (finish_ts - start_ts) > 10 or (finish_ts > self.last_mobile_app_error_ts > start_ts):
+      if error_occured or (finish_ts - start_ts) > 10 or (finish_ts > self.last_mobile_app_error_ts > start_ts):
         if i < tries - 1:
           continue
         else:
@@ -167,7 +167,7 @@ class Push(Base):
       "apns_headers": {"apns-collapse-id": params["category"]},
       "push": {"sound": params["sound"]}
     }
-    if params["is_critical"]:
+    if params["critical"]:
       properties["push"]["sound"] = {"name": "default", "critical": 1, "volume": 1.0}
     for param in ["url", "actions"]:
       if params[param]:

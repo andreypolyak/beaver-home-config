@@ -60,15 +60,15 @@ class RoomLights(Base):
 
   def set_preset_or_restore(self, preset_name, min_delay=False):
     self.log(f"Set {preset_name} preset or restore lights with following parameters: min_delay={min_delay}")
-    is_faded = self.read_storage("state", attribute="faded")
+    faded = self.read_storage("state", attribute="faded")
     are_all_lights_off = self.__is_light_off()
-    is_cooldown = self.read_storage("state", attribute="cooldown")
-    if is_faded:
+    cooldown_active = self.read_storage("state", attribute="cooldown")
+    if faded:
       self.__unfade()
     elif not are_all_lights_off:
       # Or set_preset instead of set light timer?
       self.__set_light_timer()
-    elif not is_cooldown:
+    elif not cooldown_active:
       self.set_preset(preset_name, min_delay=min_delay)
 
 
@@ -152,12 +152,12 @@ class RoomLights(Base):
       self.write_storage("state", color, attribute="color")
     light_set = self.read_storage("state", attribute="lights")
     are_all_lights_off = self.__is_light_off()
-    is_faded = self.read_storage("state", attribute="faded")
+    faded = self.read_storage("state", attribute="faded")
     for light_name, light in light_set.items():
-      if are_all_lights_off or light["state"] or is_faded:
+      if are_all_lights_off or light["state"] or faded:
         light_set[light_name]["state"] = True
-      is_brightness_supported = self.__is_feature_supported(light_name, "brightness")
-      if brightness is not None and is_brightness_supported and light_set[light_name]["state"]:
+      brightness_supported = self.__is_feature_supported(light_name, "brightness")
+      if brightness is not None and brightness_supported and light_set[light_name]["state"]:
         light_set[light_name]["brightness"] = brightness
     self.__set_light_set(light_set)
 
@@ -185,8 +185,8 @@ class RoomLights(Base):
 
   def __individual_virtual_switch(self, light_name, command):
     # TODO: optimize and do in one step
-    is_faded = self.read_storage("state", attribute="faded")
-    if is_faded:
+    faded = self.read_storage("state", attribute="faded")
+    if faded:
       self.__unfade()
     light_set = self.read_storage("state", attribute="lights")
     light = light_set[light_name]
@@ -212,14 +212,14 @@ class RoomLights(Base):
         max_brightness = light["brightness"]
     if self.color_mode == "rgb":
       color = [30, 33]
-      is_right_color = self.read_storage("state", attribute="color") == color
+      same_color_active = self.read_storage("state", attribute="color") == color
     elif self.color_mode == "cct":
       color = 4700
-      is_right_color = self.read_storage("state", attribute="color") == color
+      same_color_active = self.read_storage("state", attribute="color") == color
     else:
       color = None
-      is_right_color = True
-    if max_brightness == 254 and is_right_color:
+      same_color_active = True
+    if max_brightness == 254 and same_color_active:
       self.write_storage("state", "auto", attribute="color")
       preset_name = self.read_storage("state", attribute="preset_name")
       self.set_preset(preset_name, save_preset=False)
@@ -359,7 +359,7 @@ class RoomLights(Base):
 
 
   def __on_sensor(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new):
+    if self.is_invalid(new):
       return
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
@@ -599,8 +599,8 @@ class RoomLights(Base):
     state = {
       "lights": {},
       "preset_name": "BRIGHT",
-      "faded": self.is_timer_active(f"light_faded_{self.room}"),
-      "cooldown": self.is_timer_active(f"light_cooldown_{self.room}"),
+      "faded": self.timer_is_active(f"light_faded_{self.room}"),
+      "cooldown": self.timer_is_active(f"light_cooldown_{self.room}"),
       "color": "auto",
       "auto_lights": self.entity_is_on(f"input_boolean.auto_lights_{self.room}"),
       "max_delay": False
@@ -610,8 +610,8 @@ class RoomLights(Base):
 
 
   def __sync_state(self):
-    self.write_storage("state", self.is_timer_active(f"light_faded_{self.room}"), attribute="faded")
-    self.write_storage("state", self.is_timer_active(f"light_cooldown_{self.room}"), attribute="cooldown")
+    self.write_storage("state", self.timer_is_active(f"light_faded_{self.room}"), attribute="faded")
+    self.write_storage("state", self.timer_is_active(f"light_cooldown_{self.room}"), attribute="cooldown")
     self.write_storage("state", self.entity_is_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")
 
 

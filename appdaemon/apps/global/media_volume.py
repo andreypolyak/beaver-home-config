@@ -78,7 +78,7 @@ class MediaVolume(Base):
     for media_player_name, media_player in MEDIA_PLAYERS.items():
       if zone != media_player["zone"]:
         continue
-      if self.is_playing_now(media_player["check_if_playing"]):
+      if self.playing_now(media_player["check_if_playing"]):
         continue
       volume_level = self.get_default_volume(media_player, new)
       self.log(f"Scene in {zone.capitalize()} zone changed to: {new}. "
@@ -93,7 +93,7 @@ class MediaVolume(Base):
           continue
         zone = media_player["zone"]
         scene = self.get_scene(zone)
-        if self.is_playing_now(media_player["check_if_playing"]):
+        if self.playing_now(media_player["check_if_playing"]):
           return
         volume_level = self.get_default_volume(media_player, scene)
         self.log(f"{media_player_name} stopped playing. "
@@ -102,7 +102,7 @@ class MediaVolume(Base):
         return
 
 
-  def is_playing_now(self, entities):
+  def playing_now(self, entities):
     for entity in entities:
       if self.entity_is_on(entity):
         return True

@@ -51,7 +51,7 @@ class Lock(Base):
         {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
       ]
       message = "🔓 Lock not fully closed!"
-      self.send_push("home_or_all", message, "lock", is_critical=True, actions=actions)
+      self.send_push("home_or_all", message, "lock", critical=True, actions=actions)
 
 
   def on_ios_lock(self, event_name, data, kwargs):

@@ -36,4 +36,4 @@ class WaterLeak(Base):
     sensor_ru = sensor["ru"]
     text = f"Внимание! Обнаружена вода {sensor_ru}!"
     self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
-    self.send_push("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", is_critical=True)
+    self.send_push("home_or_all", f"💧 Water leak under {sensor_en}!", "leak", critical=True)

@@ -19,12 +19,12 @@ class NotifyPiState(Base):
       return
     room = self.get_room_from_entity(entity)
     room_name = room.replace("_", " ").capitalize()
-    is_notified = self.read_storage(f"{room}_notified")
-    if new == "unavailable" and is_notified:
+    notified = self.read_storage(f"{room}_notified")
+    if new == "unavailable" and notified:
       message = f"🍓 {room_name} Raspberry Pi is offline"
       self.send_push("admin", message, "pi_state", sound="Alert.caf", url="/lovelace/settings")
       self.write_storage(f"{room}_notified", False)
-    elif old == "unavailable" and new != "unknown" and not is_notified:
+    elif old == "unavailable" and new != "unknown" and not notified:
       message = f"🍓 {room_name} Raspberry Pi is online"
       self.send_push("admin", message, "pi_state", sound="Alert.caf", url="/lovelace/settings")
       self.write_storage(f"{room}_notified", True)

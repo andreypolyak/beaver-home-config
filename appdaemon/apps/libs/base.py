@@ -85,7 +85,7 @@ class Base(hass.Hass):
     self.call_service(f"{domain}/turn_off", entity_id=entity, **kwargs)
 
 
-  def is_bad(self, value):
+  def is_invalid(self, value):
     if value in ["unavailable", "unknown", "None", ""]:
       return True
     return False
@@ -166,7 +166,7 @@ class Base(hass.Hass):
     self.call_service("timer/cancel", entity_id=entity)
 
 
-  def is_timer_active(self, entity):
+  def timer_is_active(self, entity):
     if "timer." not in entity:
       entity = f"timer.{entity}"
     if self.get_state(entity) == "active":

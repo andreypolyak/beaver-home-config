@@ -42,8 +42,8 @@ class AC(Base):
     if living_room_temperature is None or living_room_humidity is None or balcony_temperature is None:
       return
 
-    is_ac_turn_off_disabled = self.is_timer_active("ac_turn_off_disabled")
-    is_ac_turn_on_disabled = self.is_timer_active("ac_turn_on_disabled")
+    ac_turn_off_disabled = self.timer_is_active("ac_turn_off_disabled")
+    ac_turn_on_disabled = self.timer_is_active("ac_turn_on_disabled")
 
     new_ac_state = False
     change_reason = ""
@@ -84,11 +84,11 @@ class AC(Base):
       change_reason = "away scene"
       new_ac_state = False
 
-    if is_ac_turn_off_disabled:
+    if ac_turn_off_disabled:
       change_reason = "AC was manually turned on"
       new_ac_state = True
 
-    if is_ac_turn_on_disabled:
+    if ac_turn_on_disabled:
       change_reason = "AC was manually turned off"
       new_ac_state = False
 
@@ -134,23 +134,22 @@ class AC(Base):
   def turn_on_ac(self):
     self.turn_on_entity("script.ac_turn_on")
     self.cancel_handle(self.check_handle)
-    self.check_handle = self.run_in(self.check_state, 10, is_on=True)
+    self.check_handle = self.run_in(self.check_state, 10, expected_state=True)
 
 
   def turn_off_ac(self, kwargs):
     self.log("Turning off AC")
     self.turn_on_entity("script.ac_turn_off")
     self.cancel_handle(self.check_handle)
-    self.check_handle = self.run_in(self.check_state, 10, is_on=False)
+    self.check_handle = self.run_in(self.check_state, 10, expected_state=False)
 
 
   def check_state(self, kwargs):
+    expected_state = kwargs["expected_state"]
     self.cancel_handle(self.check_handle)
-    is_on = "is_on" in kwargs and kwargs["is_on"]
-    is_off = "is_on" in kwargs and not kwargs["is_on"]
-    if is_on and self.entity_is_off("binary_sensor.living_room_ac_door"):
-      self.log("AC turned on (fix)")
+    if expected_state and self.entity_is_off("binary_sensor.living_room_ac_door"):
+      self.log("Turn on AC one more time")
       self.turn_on_entity("script.ac_turn_on")
-    elif is_off and self.entity_is_on("binary_sensor.living_room_ac_door"):
-      self.log("AC turned off (fix)")
+    elif not expected_state and self.entity_is_on("binary_sensor.living_room_ac_door"):
+      self.log("Turn off AC one more time")
       self.turn_on_entity("script.ac_turn_off")

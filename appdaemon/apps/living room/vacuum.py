@@ -39,7 +39,7 @@ class Vacuum(Base):
         self.timer_start("vacuum_disabled", 3600)
         self.log("Vacuum auto clean is turned off")
         return
-      if self.is_timer_active("vacuum_disabled"):
+      if self.timer_is_active("vacuum_disabled"):
         self.log("Vacuum cleaning disabled for one hour")
         return
       self.log("Starting automatical vacuum cleaning")

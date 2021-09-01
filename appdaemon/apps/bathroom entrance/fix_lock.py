@@ -6,7 +6,7 @@ class FixLock(Base):
   def initialize(self):
     super().initialize()
     self.init_storage("notify_lock", "change_ts", None)
-    self.init_storage("notify_lock", "is_locked", False)
+    self.init_storage("notify_lock", "locked", False)
     self.expected_state = None
     self.handle = None
     service_data = {"entity_id": "lock.entrance_lock"}
@@ -17,7 +17,7 @@ class FixLock(Base):
 
   def on_lock_change(self, entity, attribute, old, new, kwargs):
     if new == "unlocked":
-      self.write_storage("is_locked", False)
+      self.write_storage("locked", False)
       self.log("Lock was unlocked")
       if old == "unknown":
         return
@@ -25,7 +25,7 @@ class FixLock(Base):
       if self.expected_state == "unlocked":
         self.expected_state = None
     elif new == "locked":
-      self.write_storage("is_locked", True)
+      self.write_storage("locked", True)
       self.log("Lock was locked")
       if old == "unknown":
         return
@@ -37,15 +37,15 @@ class FixLock(Base):
   def on_lock_service(self, event_name, data, kwargs):
     self.cancel_handle(self.handle)
     change_ts = self.read_storage("change_ts")
-    is_locked = self.read_storage("is_locked")
+    locked = self.read_storage("locked")
     service = data["service"]
     self.log(f"{service} service was requested")
     if change_ts is None or self.get_delta_ts(change_ts) < 5:
       return
-    if service == "lock" and not is_locked:
+    if service == "lock" and not locked:
       self.expected_state = "locked"
       self.handle = self.run_in(self.check_lock_new_state, 10, expected="locked")
-    elif service == "unlock" and is_locked:
+    elif service == "unlock" and locked:
       self.expected_state = "unlocked"
       self.handle = self.run_in(self.check_lock_new_state, 10, expected="unlocked")
 

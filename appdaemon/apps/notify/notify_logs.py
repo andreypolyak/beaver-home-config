@@ -80,11 +80,11 @@ class NotifyLogs(Base):
 
 
   def on_appdaemon_log(self, app_name, ts, level, log_type, message, kwargs):
-    is_banned = False
+    blacklisted = False
     for item in APPDAEMON_BLACKLIST:
       if item in message:
-        is_banned = True
-    if not is_banned and self.entity_is_on("input_boolean.log_ad"):
+        blacklisted = True
+    if not blacklisted and self.entity_is_on("input_boolean.log_ad"):
       ts_formatted = ts.strftime("%Y-%m-%D %H:%M:%S.%f")
       message = f"{ts_formatted} {level} {app_name} {message[:1000]}"
       self.send_to_bot(message)
@@ -92,11 +92,11 @@ class NotifyLogs(Base):
 
   def on_ha_log(self, event_name, data, kwargs):
     message = str(data)
-    is_banned = False
+    blacklisted = False
     for item in HA_BLACKLIST:
       if item in message:
-        is_banned = True
-    if not is_banned and self.entity_is_on("input_boolean.log_ha"):
+        blacklisted = True
+    if not blacklisted and self.entity_is_on("input_boolean.log_ha"):
       self.send_to_bot(message)
 
 

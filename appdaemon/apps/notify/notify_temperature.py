@@ -11,7 +11,7 @@ class NotifyTemperature(Base):
 
 
   def on_change(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new):
+    if self.is_invalid(new):
       return
     if "freezer" in entity or "fridge" in entity:
       return

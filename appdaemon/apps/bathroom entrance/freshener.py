@@ -23,7 +23,7 @@ class Freshener(Base):
 
 
   def on_flush(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new):
+    if self.is_invalid(new):
       return
     last_flush_ts = self.read_storage("last_flush_ts")
     flush_delta = self.get_delta_ts(last_flush_ts)

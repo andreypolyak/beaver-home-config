@@ -20,11 +20,11 @@ class Bell(Base):
       return
     if new not in ["single", "double", "hold"]:
       return
-    if not self.is_code(new) and self.get_delta_ts(self.last_ringed_ts) > 5:
+    if not self.check_code(new) and self.get_delta_ts(self.last_ringed_ts) > 5:
       self.ring_bell()
 
 
-  def is_code(self, new):
+  def check_code(self, new):
     code = str(self.args["code"])
     button_code = "1"
     if new == "double":

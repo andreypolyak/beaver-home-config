@@ -15,7 +15,7 @@ class Table(Base):
 
 
   def on_power_change(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new):
+    if self.is_invalid(new):
       return
     if float(new) > 9 and self.get_delta_ts(self.turned_off_ts) > 3:
       self.turn_on_entity("input_boolean.bedroom_table_lamp")

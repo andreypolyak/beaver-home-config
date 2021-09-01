@@ -13,7 +13,7 @@ class NotifyRain(Base):
 
   def on_change(self, entity, attribute, old, new, kwargs):
     person_name = entity.replace("sensor.", "").replace("_yandex_rain", "")
-    if self.is_bad(new) or self.get_state(f"input_text.{person_name}_rain") == new:
+    if self.is_invalid(new) or self.get_state(f"input_text.{person_name}_rain") == new:
       return
     self.set_value(f"input_text.{person_name}_rain", new)
     if new == "В ближайшие 2 часа осадков не ожидается":

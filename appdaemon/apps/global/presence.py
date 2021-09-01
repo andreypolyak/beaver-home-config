@@ -40,7 +40,7 @@ class Presence(Base):
 
 
   def on_activity(self, entity, attribute, old, new, kwargs):
-    if self.is_bad(new) or self.living_scene != "away":
+    if self.is_invalid(new) or self.living_scene != "away":
       return
     self.log(f"Change scene to Day because activity occured on: {entity}")
     self.set_living_scene("day")

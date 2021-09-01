@@ -63,10 +63,10 @@ class RoomWindow(Base):
     ignore_debounce = kwargs["ignore_debounce"]
     self.cancel_handle(self.handle)
     handle_ts = self.read_storage(f"{self.room}_handle_ts")
-    is_timer_freeze_on = self.is_timer_active(f"window_{self.room}_freeze")
+    freeze_timer_is_active = self.timer_is_active(f"window_{self.room}_freeze")
     if (
       (ignore_debounce or self.get_delta_ts(handle_ts) > 60)
-      and not is_timer_freeze_on
+      and not freeze_timer_is_active
       and self.entity_is_on(f"input_boolean.auto_window_{self.room}")
     ):
       self.write_storage(f"{self.room}_handle_ts", self.get_now_ts())
