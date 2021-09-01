@@ -15,23 +15,18 @@
 '0x00158d00044cfa40':
   friendly_name: Bedroom Bed Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d000465b970':
   friendly_name: Bedroom Temperature
 '0x00158d000485f2ff':
   friendly_name: Bedroom Floor Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d0002329fcc':
   friendly_name: Bedroom Door
-  retain: true
 '0x00158d00044522f7':
   friendly_name: Bedroom Wardrobe Door
-  retain: true
 '0x00158d0004110b29':
   friendly_name: Bedroom Table Motion
   occupancy_timeout: 5
-  retain: true
 '0x680ae2fffec333ac':
   friendly_name: Bedroom Bed Night Switch
   legacy: false

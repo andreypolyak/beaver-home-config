@@ -31,39 +31,30 @@
 '0x00158d0005413bde':
   friendly_name: Living Room Back Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d000466004f':
   friendly_name: Kitchen Temperature
 '0x00158d00042cbe22':
   friendly_name: Kitchen Coffee Door
-  retain: true
 '0x00158d00044c93df':
   friendly_name: Kitchen Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d00044b6dee':
   friendly_name: Living Room Balcony Door
-  retain: true
 '0x00158d00049ff878':
   friendly_name: Living Room AC Door
-  retain: true
 '0x00158d00041d5dad':
   friendly_name: Storage Room Door
-  retain: true
 '0x00158d00040c40e6':
   friendly_name: Living Room Middle Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d0004202970':
   friendly_name: Living Room Front Motion
   occupancy_timeout: 5
-  retain: true
 '0x680ae2fffe80bf07':
   friendly_name: Kitchen Cover
 '0x00158d000421cd77':
   friendly_name: Kitchen Table Motion
   occupancy_timeout: 5
-  retain: true
 '0x00158d0004605125':
   friendly_name: Balcony Temperature
 '0x00158d00045c2aa6':
