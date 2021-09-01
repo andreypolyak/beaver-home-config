@@ -66,9 +66,15 @@ class MediaPlaying(Base):
   def check_sonos_state(self, entity):
     if self.living_scene == "party":
       return
-    sonos_state = self.get_state(f"media_player.{entity}")
+    sonos = self.get_state(f"media_player.{entity}", attribute="all")
+    sonos_state = sonos["state"]
     device = entity.replace("media_player.", "")
-    if sonos_state == "playing" and device == "living_room_sonos" and self.entity_is_on("binary_sensor.living_room_tv"):
+    if (
+      sonos_state == "playing"
+      and device == "living_room_sonos"
+      and "source" in sonos["attributes"]
+      and sonos["attributes"]["source"] == "TV"
+    ):
       return
     if sonos_state == "playing":
       self.log(f"Device {device} is playing")
