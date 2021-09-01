@@ -11,15 +11,15 @@ states:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
-            entity: cover.living_room_cover
+            entity: cover.living_room_template_cover
             template: cover_open
             variables:
-              room: living_room
+              name: living_room_template_cover
           - type: custom:button-card
-            entity: cover.living_room_cover
+            entity: cover.living_room_template_cover
             template: cover_close
             variables:
-              room: living_room
+              name: living_room_template_cover
   hide_devices_details:
     type: horizontal-stack
     cards: []

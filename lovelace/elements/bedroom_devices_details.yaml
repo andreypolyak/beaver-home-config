@@ -42,17 +42,18 @@ states:
             entity: cover.bedroom_cover
             template: cover_open
             variables:
-              room: bedroom
+              name: bedroom_cover
           - type: custom:button-card
             entity: cover.bedroom_cover
             template: bedroom_cover_ventilation
             variables:
-              room: bedroom
+              name: bedroom_cover
+              position: 15
           - type: custom:button-card
             entity: cover.bedroom_cover
             template: cover_close
             variables:
-              room: bedroom
+              name: bedroom_cover
   hide_devices_details:
     type: horizontal-stack
     cards: []

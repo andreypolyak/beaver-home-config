@@ -13,13 +13,13 @@ class KitchenCover(Base):
       if binary_sensor.endswith("_motion") and "bedroom" not in binary_sensor:
         self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
     self.listen_state(self.on_cinema_session_off, "input_boolean.cinema_session", new="off")
-    self.listen_state(self.on_cover_change, "cover.kitchen_cover", attribute="current_position")
+    self.listen_state(self.on_cover_change, "cover.kitchen_cover", attribute="position")
 
 
   def on_cover_change(self, entity, attribute, old, new, kwargs):
     self.cancel_handle(self.handle)
     self.turn_on_entity("input_boolean.kitchen_cover_active")
-    self.handle = self.run_in(self.turn_off_cover_active, 10)
+    self.handle = self.run_in(self.turn_off_cover_active, 3)
 
 
   def turn_off_cover_active(self, kwargs):
@@ -74,4 +74,4 @@ class KitchenCover(Base):
 
   @property
   def cover_position(self):
-    return self.get_state("cover.kitchen_cover", attribute="current_position")
+    return self.get_state("cover.kitchen_cover", attribute="position")

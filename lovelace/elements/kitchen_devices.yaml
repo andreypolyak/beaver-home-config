@@ -5,6 +5,7 @@ cards:
     template: cover_device
     variables:
       room: kitchen
+      name: kitchen_cover
   - type: custom:button-card
     entity: cover.kitchen_window
     template: window_device

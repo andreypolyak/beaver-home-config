@@ -128,3 +128,9 @@
   friendly_name: Kitchen Plant Sonic
 '0x00158d0006d39420':
   friendly_name: Kitchen Input Leak
+'0x00158d0006ba65d9':
+  friendly_name: Living Room Cover Open Door
+  debounce: 1
+'0x00158d0006ba6332':
+  friendly_name: Living Room Cover Closed Door
+  debounce: 1

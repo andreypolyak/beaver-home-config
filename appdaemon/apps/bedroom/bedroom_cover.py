@@ -10,14 +10,14 @@ class BedroomCover(Base):
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
     self.listen_event(self.on_close_cover, "close_bedroom_cover")
     self.listen_state(self.on_cinema_session_off, "input_boolean.cinema_session", new="off")
-    self.listen_state(self.on_cover_change, "cover.bedroom_cover", attribute="current_position")
+    self.listen_state(self.on_cover_change, "cover.bedroom_cover", attribute="position")
     self.run_every(self.check_comfortable, "now", 60)
 
 
   def check_comfortable(self, kwargs):
     if self.sleeping_scene != "night":
       return
-    if self.is_timer_active("cover_bedroom_freeze"):
+    if self.timer_is_active("cover_bedroom_freeze"):
       self.log("Freeze timer is active")
     elif self.uncomfortable:
       self.log("Uncomfortable condition during night")
@@ -30,7 +30,7 @@ class BedroomCover(Base):
   def on_cover_change(self, entity, attribute, old, new, kwargs):
     self.cancel_handle(self.handle)
     self.turn_on_entity("input_boolean.bedroom_cover_active")
-    self.handle = self.run_in(self.turn_off_cover_active, 10)
+    self.handle = self.run_in(self.turn_off_cover_active, 3)
 
 
   def turn_off_cover_active(self, kwargs):
@@ -102,7 +102,7 @@ class BedroomCover(Base):
 
   @property
   def cover_position(self):
-    return self.get_state("cover.bedroom_cover", attribute="current_position")
+    return self.get_state("cover.bedroom_cover", attribute="position")
 
 
   def set_timer_freeze(self):

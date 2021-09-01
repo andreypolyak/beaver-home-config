@@ -1,10 +1,11 @@
 type: horizontal-stack
 cards:
   - type: custom:button-card
-    entity: cover.living_room_cover
+    entity: cover.living_room_template_cover
     template: cover_device
     variables:
       room: living_room
+      name: living_room_template_cover
   - type: custom:button-card
     template: base_icon
     entity: switch.ac

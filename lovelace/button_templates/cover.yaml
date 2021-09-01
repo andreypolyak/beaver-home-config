@@ -6,7 +6,7 @@ cover_device:
     - input_boolean.living_room_cover_active
   icon: >
     [[[
-      if (states["cover." + variables.room + "_cover"].attributes.position < 100) {
+      if (states["cover." + variables.name].attributes.current_position < 100) {
         return "mdi:blinds";
       } else {
         return "mdi:blinds-open";
@@ -29,6 +29,7 @@ cover_device:
       color: var(--paper-card-background-color)
   variables:
     room: ""
+    name: ""
 
 cover_base:
   show_label: false
@@ -42,90 +43,67 @@ cover_open:
   template: cover_base
   tap_action:
     action: call-service
-    service: cover.set_cover_position
+    service: cover.open_cover
     service_data:
       entity_id: >
-        [[[ return "cover." + variables.room + "_cover"; ]]]
-      position: 100
+        [[[ return "cover." + variables.name; ]]]
     haptic: success
   state:
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position == 100; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position == 100; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position != 100; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position != 100; ]]]
       operator: template
       color: var(--paper-card-background-color)
   name: Open
   variables:
-    room: ""
+    name: ""
 
 cover_close:
   template: cover_base
   tap_action:
     action: call-service
-    service: cover.set_cover_position
+    service: cover.close_cover
     service_data:
       entity_id: >
-        [[[ return "cover." + variables.room + "_cover"; ]]]
-      position: 0
+        [[[ return "cover." + variables.name; ]]]
     haptic: success
   state:
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position == 0; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position == 0; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position != 0; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position != 0; ]]]
       operator: template
       color: var(--paper-card-background-color)
   name: Close
   variables:
-    room: ""
+    name: ""
 
-kitchen_cover_ventilation:
+cover_ventilation:
   template: cover_base
   tap_action:
     action: call-service
     service: cover.set_cover_position
     service_data:
       entity_id: >
-        [[[ return "cover." + variables.room + "_cover"; ]]]
-      position: 30
+        [[[ return "cover." + variables.name; ]]]
+      position: >
+        [[[ return variables.position; ]]]
     haptic: success
   state:
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position == 30; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position == variables.position; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
     - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position != 30; ]]]
+        [[[ return states["cover." + variables.name].attributes.current_position != variables.position; ]]]
       operator: template
       color: var(--paper-card-background-color)
   name: Ventilation
   variables:
-    room: ""
-
-bedroom_cover_ventilation:
-  template: cover_base
-  tap_action:
-    action: call-service
-    service: cover.set_cover_position
-    service_data:
-      entity_id: >
-        [[[ return "cover." + variables.room + "_cover" ]]]
-      position: 15
-    haptic: success
-  state:
-    - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position == 15; ]]]
-      operator: template
-      color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["cover." + variables.room + "_cover"].attributes.position != 15; ]]]
-      operator: template
-      color: var(--paper-card-background-color)
-  name: Ventilation
-  variables:
-    room: ""
+    name: ""
+    position: ""

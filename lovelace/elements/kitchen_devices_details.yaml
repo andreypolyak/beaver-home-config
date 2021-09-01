@@ -42,17 +42,18 @@ states:
             entity: cover.kitchen_cover
             template: cover_open
             variables:
-              room: kitchen
+              name: kitchen_cover
           - type: custom:button-card
             entity: cover.kitchen_cover
-            template: kitchen_cover_ventilation
+            template: cover_ventilation
             variables:
-              room: kitchen
+              name: kitchen_cover
+              position: 30
           - type: custom:button-card
             entity: cover.kitchen_cover
             template: cover_close
             variables:
-              room: kitchen
+              name: kitchen_cover
   hide_devices_details:
     type: horizontal-stack
     cards: []

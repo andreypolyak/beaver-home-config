@@ -1,0 +1,45 @@
+- platform: template
+  covers:
+    living_room_template_cover:
+      device_class: curtain
+      friendly_name: Living Room Template Cover
+      position_template: >
+        {% if is_state("binary_sensor.living_room_cover_closed_door", "off") %}
+          0
+        {% elif is_state("binary_sensor.living_room_cover_open_door", "off") %}
+          100
+        {% else %}
+          50
+        {% endif %}
+      value_template: >
+        {% if is_state("binary_sensor.living_room_cover_closed_door", "off") %}
+          closed
+        {% elif is_state("binary_sensor.living_room_cover_open_door", "off") %}
+          open
+        {% elif as_timestamp(states.binary_sensor.living_room_cover_closed_door.last_changed)
+                >= as_timestamp(states.binary_sensor.living_room_cover_open_door.last_changed) %}
+          opening
+        {% elif as_timestamp(states.binary_sensor.living_room_cover_closed_door.last_changed)
+                < as_timestamp(states.binary_sensor.living_room_cover_open_door.last_changed) %}
+          closing
+        {% else %}
+          unavailable
+        {% endif %}
+      open_cover:
+        service: cover.open_cover
+        target:
+          entity_id: cover.living_room_cover
+      close_cover:
+        service: cover.close_cover
+        target:
+          entity_id: cover.living_room_cover
+      stop_cover:
+        service: cover.stop_cover
+        target:
+          entity_id: cover.living_room_cover
+      set_cover_position:
+        service: cover.set_cover_position
+        target:
+          entity_id: cover.living_room_cover
+        data:
+          position: "{{position}}"

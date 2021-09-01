@@ -24,7 +24,7 @@ filter:
     - input_boolean.scene_living_dumb
     - input_boolean.scene_living_dark_cinema
     - input_boolean.scene_living_party
-    - cover.living_room_cover
+    - cover.living_room_template_cover
     - script.find_iphone_andrey
     - script.find_iphone_katya
     - lock.entrance_lock
@@ -144,7 +144,7 @@ entity_config:
     room: Гостинная
     name: Сделай фоточку
 
-  cover.living_room_cover:
+  cover.living_room_template_cover:
     room: Гостинная
     name: Шторы
 
