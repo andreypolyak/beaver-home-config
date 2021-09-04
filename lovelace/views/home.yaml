@@ -8,46 +8,38 @@ cards:
       - type: custom:button-card
         template: header
         name: Living Zone Scenes
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: living_scene
-            icon: mdi:white-balance-sunny
-            variables:
-              scene: day
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: living_scene
-            icon: mdi:weather-night
-            variables:
-              scene: night
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: living_scene
-            icon: mdi:camera-off
-            variables:
-              scene: dumb
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: living_scene
-            icon: mdi:movie-filter-outline
-            variables:
-              scene: light_cinema
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: cinema_scene
-            icon: mdi:movie-outline
-            variables:
-              scene: dark_cinema
-          - type: custom:button-card
-            entity: input_select.living_scene
-            template: living_scene
-            icon: mdi:party-popper
-            variables:
-              scene: party
+      - type: conditional
+        conditions:
+          - entity: input_select.living_scene
+            state_not: light_cinema
+          - entity: input_select.living_scene
+            state_not: dark_cinema
+          - entity: input_select.living_scene
+            state_not: party
+        card:
+          type: custom:swipe-card
+          start_card: 1
+          parameters:
+            spaceBetween: 8
+          cards:
+            !include /config/lovelace/elements/home_living_scenes.yaml
+      - type: conditional
+        conditions:
+          - entity: input_select.living_scene
+            state_not: day
+          - entity: input_select.living_scene
+            state_not: night
+          - entity: input_select.living_scene
+            state_not: dumb
+          - entity: input_select.living_scene
+            state_not: away
+        card:
+          type: custom:swipe-card
+          start_card: 2
+          parameters:
+            spaceBetween: 8
+          cards:
+            !include /config/lovelace/elements/home_living_scenes.yaml
       - type: custom:button-card
         template: header
         name: Sleeping Zone Scenes
@@ -140,8 +132,6 @@ cards:
         conditions:
           - entity: input_select.living_scene
             state: away
-          - entity: lock.entrance_lock
-            state: unlocked
         card:
           type: vertical-stack
           cards:
@@ -154,6 +144,18 @@ cards:
           type: vertical-stack
           cards:
             - !include /config/lovelace/elements/alarm.yaml
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.show_forecast
+            state: "on"
+        card:
+          type: vertical-stack
+          cards:
+            - type: custom:button-card
+              template: header
+              name: Forecast
+            - type: weather-forecast
+              entity: weather.home_hourly
       - type: conditional
         conditions:
           - entity: binary_sensor.vacuum_active
