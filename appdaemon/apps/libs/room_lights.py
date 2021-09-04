@@ -56,6 +56,8 @@ class RoomLights(Base):
     are_all_lights_off = self.__is_light_off()
     if not are_all_lights_off:
       self.set_preset(preset_name, min_delay=min_delay)
+    else:
+      self.write_storage("state", preset_name, attribute="preset_name")
 
 
   def set_preset_or_restore(self, preset_name, min_delay=False):
@@ -196,9 +198,12 @@ class RoomLights(Base):
       light["state"] = False
     else:
       light["state"] = not light["state"]
+    preset_name = self.read_storage("state", attribute="preset_name")
     if light["state"] and "brightness" in self.lights[light_name]:
       if "brightness" in light_set[light_name]:
         light["brightness"] = light_set[light_name]["brightness"]
+      elif "brightness" in self.presets[preset_name][light_name]:
+        light["brightness"] = self.presets[preset_name][light_name]["brightness"]
       else:
         light["brightness"] = 3
     light_set[light_name] = light
