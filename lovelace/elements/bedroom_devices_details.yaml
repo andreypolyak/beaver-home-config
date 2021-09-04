@@ -45,7 +45,7 @@ states:
               name: bedroom_cover
           - type: custom:button-card
             entity: cover.bedroom_cover
-            template: bedroom_cover_ventilation
+            template: cover_ventilation
             variables:
               name: bedroom_cover
               position: 15
