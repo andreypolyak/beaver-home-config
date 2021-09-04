@@ -44,7 +44,7 @@ class BathroomEntranceLights(RoomLights):
         "bathroom_mirror": {"state": False}
       },
       "DARK": {
-        "group_bathroom_top": {"state": True, "brightness": 3},
+        "group_bathroom_top": {"state": True, "brightness": 254},
         "group_entrance_top": {"state": True, "brightness": 3},
         "group_entrance_mirror": {"state": True, "brightness": 3},
         "bathroom_mirror": {"state": False}
@@ -159,18 +159,46 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
+  # def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
+  #   if mode == "new_scene":
+  #     if old == "away":
+  #       self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+  #     else:
+  #       self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+  #   elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+  #     self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+  #   elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.auto_lights:
+  #     self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+  #   elif mode == "virtual_switch":
+  #     self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
+  #   else:
+  #     return False
+
+
   def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
-      if old == "away":
-        self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-      else:
-        self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+      if self.bathroom_door_open and old == "away":
+        self.set_preset("DARK", min_delay=True)
+      elif not self.bathroom_door_open and old == "away":
+        self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM")
+      elif self.bathroom_door_open:
+        self.set_preset_if_on("DARK", min_delay=True)
+      elif not self.bathroom_door_open:
+        self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM")
     elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
-      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-    elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.auto_lights:
-      self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
+      if self.bathroom_door_open:
+        self.set_preset_or_restore("DARK", min_delay=True)
+      else:
+        self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM")
+    elif mode == "bathroom_door_sensor" and new == "off" and self.auto_lights:
+      self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM")
+    elif mode == "bathroom_door_sensor" and new == "on" and self.auto_lights:
+      self.set_preset_if_on("DARK", min_delay=True)
     elif mode == "virtual_switch":
-      self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
+      if self.bathroom_door_open:
+        self.toggle_preset("DARK", new)
+      else:
+        self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new)
     else:
       return False
 
