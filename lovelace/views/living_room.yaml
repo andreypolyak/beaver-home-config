@@ -44,8 +44,4 @@ cards:
         template: header
         name: Speakers
       - !include /config/lovelace/elements/living_room_sonos.yaml
-      - type: custom:button-card
-        template: header
-        name: Climate
-      - !include /config/lovelace/elements/living_room_climate.yaml
       - !include /config/lovelace/elements/footer.yaml

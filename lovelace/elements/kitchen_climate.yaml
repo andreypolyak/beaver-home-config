@@ -1,7 +1,0 @@
-type: vertical-stack
-cards:
-  - type: custom:apexcharts-card
-    config_templates: temperature
-    series:
-      - entity: sensor.kitchen_humidity
-      - entity: sensor.kitchen_temperature

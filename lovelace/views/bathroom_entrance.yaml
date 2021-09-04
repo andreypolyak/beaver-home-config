@@ -25,8 +25,4 @@ cards:
         template: header
         name: Speakers
       - !include /config/lovelace/elements/bathroom_entrance_sonos.yaml
-      - type: custom:button-card
-        template: header
-        name: Climate
-      - !include /config/lovelace/elements/bathroom_entrance_climate.yaml
       - !include /config/lovelace/elements/footer.yaml
