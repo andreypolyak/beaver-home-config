@@ -3,8 +3,6 @@ mode: yaml
 resources:
   - url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
     type: module
-  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-    type: module
   - url: /hacsfiles/button-card/button-card.js
     type: module
   - url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js
@@ -28,4 +26,6 @@ resources:
   - url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js
     type: module
   - url: /hacsfiles/hass-hue-icons/hass-hue-icons.js
+    type: module
+  - url: /hacsfiles/swipe-card/swipe-card.js
     type: module
