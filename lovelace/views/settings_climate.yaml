@@ -63,16 +63,6 @@ cards:
             name: Bedroom
       - type: custom:button-card
         template: header
-        name: Windows
-      - type: custom:apexcharts-card
-        config_templates: base
-        series:
-          - entity: sensor.kitchen_window_target_position
-            name: Kitchen
-          - entity: sensor.bedroom_window_target_position
-            name: Bedroom
-      - type: custom:button-card
-        template: header
         name: Temperature
       - type: custom:apexcharts-card
         config_templates: base_big
@@ -89,22 +79,6 @@ cards:
             name: Balcony
       - type: custom:button-card
         template: header
-        name: Weather
-      - type: weather-forecast
-        entity: weather.home_hourly
-      - type: custom:button-card
-        template: header
-        name: AC
-      - type: entities
-        entities:
-          - switch.ac
-          - script.ac_turn_on
-          - script.ac_turn_off
-          - timer.ac_turn_off_disabled
-          - timer.ac_turn_on_disabled
-          - binary_sensor.living_room_ac_door
-      - type: custom:button-card
-        template: header
         name: Humidity
       - type: custom:apexcharts-card
         config_templates: base_big
@@ -119,6 +93,27 @@ cards:
             name: Bedroom
           - entity: sensor.balcony_humidity
             name: Balcony
+      - type: custom:button-card
+        template: header
+        name: AC
+      - type: entities
+        entities:
+          - switch.ac
+          - script.ac_turn_on
+          - script.ac_turn_off
+          - timer.ac_turn_off_disabled
+          - timer.ac_turn_on_disabled
+          - binary_sensor.living_room_ac_door
+      - type: custom:button-card
+        template: header
+        name: Windows
+      - type: custom:apexcharts-card
+        config_templates: base
+        series:
+          - entity: sensor.kitchen_window_target_position
+            name: Kitchen
+          - entity: sensor.bedroom_window_target_position
+            name: Bedroom
       - type: custom:button-card
         template: header
         name: Window Settings
