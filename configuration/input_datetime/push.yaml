@@ -177,3 +177,9 @@ zigbee_update_last_push:
   has_date: true
   has_time: true
   icon: mdi:clock-outline
+
+forecast_last_push:
+  name: Forecast Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline

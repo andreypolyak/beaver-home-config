@@ -8,6 +8,7 @@ class Base(hass.Hass):
     self.storage = self.get_app("storage")
     self.persons = self.get_app("persons")
     self.push = self.get_app("push")
+    self.forecast = self.get_app("forecast")
     self.storage_namespace = ""
 
 # Logs
@@ -281,6 +282,11 @@ class Base(hass.Hass):
 
   def send_push(self, *args, **kwargs):
     self.push.send(*args, **kwargs)
+
+# Forecast
+
+  def get_forecast(self, *args, **kwargs):
+    return self.forecast.get_forecast(*args, **kwargs)
 
 # Persons
 

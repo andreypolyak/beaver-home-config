@@ -28,6 +28,11 @@ push:
     - storage
   chat_id: !secret appdaemon_push_chat_id
 
+forecast:
+  module: forecast
+  class: Forecast
+  global_dependencies: base
+
 #
 # Required on Restart
 #
@@ -142,12 +147,14 @@ alarm_andrey:
   module: alarm
   class: Alarm
   global_dependencies: base
+  dependencies: forecast
   person_name: andrey
 
 alarm_katya:
   module: alarm
   class: Alarm
   global_dependencies: base
+  dependencies: forecast
   person_name: katya
 
 alarm_manager:
@@ -470,6 +477,14 @@ notify_core_update:
   dependencies:
     - push
     - storage
+
+notify_forecast:
+  module: notify_forecast
+  class: NotifyForecast
+  global_dependencies: base
+  dependencies:
+    - push
+    - forecast
 
 notify_hacs_update:
   module: notify_hacs_update

@@ -117,3 +117,7 @@ bt_state_mute_push:
 zigbee_update_mute_push:
   name: Zigbee Update Mute Push
   icon: mdi:bell-off
+
+forecast_mute_push:
+  name: Forecast Mute Push
+  icon: mdi:bell-off

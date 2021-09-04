@@ -19,8 +19,18 @@
           or states("input_select.living_scene") == "night"
           or states("input_boolean.alarm_andrey") == "on"
           or states("input_boolean.alarm_katya") == "on"
-          or now().hour >= 22
-          or now().hour <= 5
+          or (now().hour >= 22 and now().hour <= 5)
+        }}
+
+- platform: template
+  sensors:
+    show_forecast:
+      friendly_name: Show Forecast Card
+      value_template: >
+        {{
+          states("input_select.living_scene") != "away"
+          and now().hour >= 7
+          and now().hour <= 10
         }}
 
 - platform: template
