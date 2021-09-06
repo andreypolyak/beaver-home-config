@@ -5,9 +5,9 @@ class LightDelay(Base):
 
   def initialize(self):
     super().initialize()
-    self.listen_state(self.on_change, "input_select.living_scene", immediate=True)
-    self.listen_state(self.on_change, "input_select.sleeping_scene")
-    self.listen_state(self.on_change, "binary_sensor.bedroom_door")
+    self.listen_state(self.on_scene_change, "input_select.living_scene", immediate=True)
+    self.listen_state(self.on_scene_change, "input_select.sleeping_scene")
+    self.listen_state(self.on_scene_change, "binary_sensor.bedroom_door")
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
