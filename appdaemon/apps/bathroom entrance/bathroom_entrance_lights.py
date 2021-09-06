@@ -159,22 +159,6 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  # def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
-  #   if mode == "new_scene":
-  #     if old == "away":
-  #       self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-  #     else:
-  #       self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-  #   elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
-  #     self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-  #   elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.auto_lights:
-  #     self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-  #   elif mode == "virtual_switch":
-  #     self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
-  #   else:
-  #     return False
-
-
   def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
     if mode == "new_scene":
       if self.bathroom_door_open and old == "away":
@@ -205,7 +189,7 @@ class BathroomEntranceLights(RoomLights):
 
   def on_away(self, scene, mode, new=None, old=None, entity=None):
     if mode == "virtual_switch":
-      self.set_preset("OFF")
+      self.toggle_on_away()
     else:
       return False
 

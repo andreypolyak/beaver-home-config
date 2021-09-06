@@ -45,7 +45,7 @@ class RoomLights(Base):
       self.write_storage("state", preset_name, attribute="preset_name")
     light_set = self.__build_light_set_from_preset(preset_name)
     self.__set_light_set(light_set)
-    if self.__is_light_off() and set_cooldown:
+    if self.__is_light_off and set_cooldown:
       self.__set_cooldown_timer()
     else:
       self.__cancel_cooldown_timer()
@@ -53,8 +53,7 @@ class RoomLights(Base):
 
   def set_preset_if_on(self, preset_name, min_delay=False):
     self.log(f"Set {preset_name} preset if lights on with following parameters: min_delay={min_delay}")
-    are_all_lights_off = self.__is_light_off()
-    if not are_all_lights_off:
+    if not self.__is_light_off:
       self.set_preset(preset_name, min_delay=min_delay)
     else:
       self.write_storage("state", preset_name, attribute="preset_name")
@@ -63,11 +62,10 @@ class RoomLights(Base):
   def set_preset_or_restore(self, preset_name, min_delay=False):
     self.log(f"Set {preset_name} preset or restore lights with following parameters: min_delay={min_delay}")
     faded = self.read_storage("state", attribute="faded")
-    are_all_lights_off = self.__is_light_off()
     cooldown_active = self.read_storage("state", attribute="cooldown")
     if faded:
       self.__unfade()
-    elif not are_all_lights_off:
+    elif not self.__is_light_off:
       # Or set_preset instead of set light timer?
       self.__set_light_timer()
     elif not cooldown_active:
@@ -77,8 +75,7 @@ class RoomLights(Base):
   def toggle_preset(self, preset_name, command, min_delay=False, set_day=False, set_cooldown=False):
     self.log(f"Toggle {preset_name} preset with following parameters: command={command}, min_delay={min_delay}, "
              f"set_day={set_day}, set_cooldown={set_cooldown}")
-    are_all_lights_off = self.__is_light_off()
-    if command == "off" or (not are_all_lights_off and command == "toggle"):
+    if command == "off" or (not self.__is_light_off and command == "toggle"):
       self.set_preset("OFF", save_preset=False, set_cooldown=set_cooldown)
       return
     self.set_preset(preset_name, min_delay=min_delay)
@@ -98,6 +95,14 @@ class RoomLights(Base):
     elif command == "brightness_down":
       self.__toggle_min_brightness()
     self.handle = self.run_in(self.__allow_button_hold, 3)
+
+
+  def toggle_on_away(self):
+    if self.__is_light_off:
+      self.set_scene(self.zone, "day")
+      self.set_preset("BRIGHT")
+    else:
+      self.set_preset("OFF", save_preset=False)
 
 # Control light set
 
@@ -153,10 +158,9 @@ class RoomLights(Base):
     if color is not None:
       self.write_storage("state", color, attribute="color")
     light_set = self.read_storage("state", attribute="lights")
-    are_all_lights_off = self.__is_light_off()
     faded = self.read_storage("state", attribute="faded")
     for light_name, light in light_set.items():
-      if are_all_lights_off or light["state"] or faded:
+      if self.__is_light_off or light["state"] or faded:
         light_set[light_name]["state"] = True
       brightness_supported = self.__is_feature_supported(light_name, "brightness")
       if brightness is not None and brightness_supported and light_set[light_name]["state"]:
@@ -177,8 +181,7 @@ class RoomLights(Base):
       self.__set_light(light_name, light, circadian=circadian)
     if circadian:
       return
-    are_all_lights_off = self.__is_light_off()
-    if are_all_lights_off:
+    if self.__is_light_off:
       self.__set_default_params()
       self.__cancel_light_timer()
     else:
@@ -560,6 +563,7 @@ class RoomLights(Base):
     return False
 
 
+  @property
   def __is_light_off(self):
     for light in self.read_storage("state", attribute="lights").values():
       if light["state"]:

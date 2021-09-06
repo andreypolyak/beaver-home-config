@@ -119,7 +119,7 @@ class BedroomLights(RoomLights):
 
   def on_away(self, scene, mode, new=None, old=None, entity=None):
     if mode == "virtual_switch":
-      self.set_preset("OFF")
+      self.toggle_on_away()
     else:
       return False
 
