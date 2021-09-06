@@ -1,28 +1,23 @@
 type: vertical-stack
 cards:
-  - type: conditional
-    conditions:
-      - entity: input_select.current_universal_tv_source
-        state: apple_tv
-    card:
-      type: custom:mini-media-player
-      entity: media_player.universal_apple_tv
-      artwork: material
-      name: Apple TV
-      toggle_power: false
-      hide:
-        icon: true
-  - type: conditional
-    conditions:
-      - entity: input_select.current_universal_tv_source
-        state: playstation_4
-    card:
-      type: custom:mini-media-player
-      entity: media_player.universal_playstation_4
-      artwork: material
-      name: PlayStation 4
-      hide:
-        icon: true
+  - type: custom:state-switch
+    entity: input_select.current_universal_tv_source
+    states:
+      apple_tv:
+        type: custom:mini-media-player
+        entity: media_player.universal_apple_tv
+        artwork: material
+        name: Apple TV
+        toggle_power: false
+        hide:
+          icon: true
+      playstation_4:
+        type: custom:mini-media-player
+        entity: media_player.universal_playstation_4
+        artwork: material
+        name: PlayStation 4
+        hide:
+          icon: true
   - type: horizontal-stack
     cards:
       - type: custom:button-card

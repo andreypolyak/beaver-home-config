@@ -8,38 +8,29 @@ cards:
       - type: custom:button-card
         template: header
         name: Living Zone Scenes
-      - type: conditional
-        conditions:
-          - entity: input_select.living_scene
-            state_not: light_cinema
-          - entity: input_select.living_scene
-            state_not: dark_cinema
-          - entity: input_select.living_scene
-            state_not: party
-        card:
-          type: custom:swipe-card
-          start_card: 1
-          parameters:
-            spaceBetween: 8
-          cards:
-            !include /config/lovelace/elements/home_living_scenes.yaml
-      - type: conditional
-        conditions:
-          - entity: input_select.living_scene
-            state_not: day
-          - entity: input_select.living_scene
-            state_not: night
-          - entity: input_select.living_scene
-            state_not: dumb
-          - entity: input_select.living_scene
-            state_not: away
-        card:
-          type: custom:swipe-card
-          start_card: 2
-          parameters:
-            spaceBetween: 8
-          cards:
-            !include /config/lovelace/elements/home_living_scenes.yaml
+      - type: custom:state-switch
+        entity: template
+        template: >
+          {% if states("input_select.living_scene") in ["day", "night", "dumb", "away"] %}
+            first
+          {% else %}
+            second
+          {% endif %}
+        states:
+          first:
+            type: custom:swipe-card
+            start_card: 1
+            parameters:
+              spaceBetween: 8
+            cards:
+              !include /config/lovelace/elements/home_living_scenes.yaml
+          second:
+            type: custom:swipe-card
+            start_card: 2
+            parameters:
+              spaceBetween: 8
+            cards:
+              !include /config/lovelace/elements/home_living_scenes.yaml
       - type: custom:button-card
         template: header
         name: Sleeping Zone Scenes
@@ -120,130 +111,126 @@ cards:
             template: home_page_climate
             variables:
               room: balcony
-      - type: conditional
-        conditions:
-          - entity: input_boolean.guest_mode
-            state: "on"
-        card:
-          type: entities
-          entities:
-            - input_boolean.guest_mode
-      - type: conditional
-        conditions:
-          - entity: input_select.living_scene
-            state: away
-        card:
-          type: vertical-stack
-          cards:
-            - !include /config/lovelace/elements/lock.yaml
-      - type: conditional
-        conditions:
-          - entity: binary_sensor.show_alarm
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - !include /config/lovelace/elements/alarm.yaml
-      - type: conditional
-        conditions:
-          - entity: binary_sensor.show_forecast
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Forecast
-            - type: weather-forecast
-              entity: weather.home_hourly
-      - type: conditional
-        conditions:
-          - entity: binary_sensor.vacuum_active
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Vacuum
-            - !include /config/lovelace/elements/vacuum.yaml
-      - type: conditional
-        conditions:
-          - entity: input_select.living_scene
-            state: party
-        card: !include /config/lovelace/elements/party.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.living_room_sonos_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Living Room Speakers
-            - !include /config/lovelace/elements/living_room_sonos.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.living_room_tv_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: TV
-            - !include /config/lovelace/elements/tv.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.bathroom_sonos_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Bathroom Speakers
-            - !include /config/lovelace/elements/bathroom_entrance_sonos.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.kitchen_sonos_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Kitchen Speakers
-            - !include /config/lovelace/elements/kitchen_sonos.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.bedroom_sonos_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Bedroom Speakers
-            - !include /config/lovelace/elements/bedroom_sonos.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.sonos_move_playing
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - type: custom:button-card
-              template: header
-              name: Balcony Speakers
-            - !include /config/lovelace/elements/balcony_sonos.yaml
-      - type: conditional
-        conditions:
-          - entity: input_boolean.christmas_season
-            state: "on"
-        card:
-          type: vertical-stack
-          cards:
-            - !include /config/lovelace/elements/christmas_season.yaml
+      - type: custom:state-switch
+        entity: input_boolean.guest_mode
+        states:
+          "on":
+            type: entities
+            entities:
+              - input_boolean.guest_mode
+      - type: custom:state-switch
+        entity: input_select.living_scene
+        states:
+          away:
+            type: vertical-stack
+            cards:
+              - !include /config/lovelace/elements/lock.yaml
+      - type: custom:state-switch
+        entity: binary_sensor.show_alarm
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - !include /config/lovelace/elements/alarm.yaml
+      - type: custom:state-switch
+        entity: binary_sensor.show_forecast
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Forecast
+              - type: weather-forecast
+                entity: weather.home_hourly
+      - type: custom:state-switch
+        entity: binary_sensor.vacuum_active
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Vacuum
+              - !include /config/lovelace/elements/vacuum.yaml
+      - type: custom:state-switch
+        entity: input_select.living_scene
+        states:
+          party:
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Party Control
+              - !include /config/lovelace/elements/party.yaml
+      - type: custom:state-switch
+        entity: input_boolean.living_room_sonos_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Living Room Speakers
+              - !include /config/lovelace/elements/living_room_sonos.yaml
+      - type: custom:state-switch
+        entity: input_boolean.living_room_tv_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: TV
+              - !include /config/lovelace/elements/tv.yaml
+      - type: custom:state-switch
+        entity: input_boolean.bathroom_sonos_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Bathroom Speakers
+              - !include /config/lovelace/elements/bathroom_entrance_sonos.yaml
+      - type: custom:state-switch
+        entity: input_boolean.kitchen_sonos_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Kitchen Speakers
+              - !include /config/lovelace/elements/kitchen_sonos.yaml
+      - type: custom:state-switch
+        entity: input_boolean.bedroom_sonos_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Bedroom Speakers
+              - !include /config/lovelace/elements/bedroom_sonos.yaml
+      - type: custom:state-switch
+        entity: input_boolean.sonos_move_playing
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Balcony Speakers
+              - !include /config/lovelace/elements/balcony_sonos.yaml
+      - type: custom:state-switch
+        entity: input_boolean.christmas_season
+        states:
+          "on":
+            type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Christmas 🎄
+              - !include /config/lovelace/elements/christmas_season.yaml
       - !include /config/lovelace/elements/footer.yaml
