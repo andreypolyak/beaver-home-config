@@ -1,0 +1,61 @@
+- platform: command_line
+  name: Katya Home to Work Commute Raw
+  command: >
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{states.zone.home.attributes.latitude}}%2C{{states.zone.home.attributes.longitude}}~{{states.zone.adidas.attributes.latitude}}%2C{{states.zone.adidas.attributes.longitude}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
+  scan_interval: 120
+  value_template: >
+    {% if value == "unknown" or value == "" -%}
+      unavailable
+    {%- else -%}
+      {{value}}
+    {%- endif %}
+
+- platform: template
+  sensors:
+    katya_home_to_work_commute:
+      value_template: >
+        {% set hours = 0 %}
+        {% set minutes = 0 %}
+        {% set raw = states("sensor.katya_home_to_work_commute_raw")%}
+        {% if "мин" in raw and "ч" in raw %}
+          {% set hours = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+          {% set minutes = raw|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int %}
+        {% elif "ч" in raw %}
+          {% set hours = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+        {% elif "мин" in raw %}
+          {% set minutes = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+        {% endif %}
+        {{ hours * 60 + minutes}}
+      friendly_name: Katya Home to Work Commute
+      unit_of_measurement: min
+
+- platform: command_line
+  name: Katya Work to Home Commute Raw
+  command: >
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{states.zone.adidas.attributes.latitude}}%2C{{states.zone.adidas.attributes.longitude}}~{{states.zone.home.attributes.latitude}}%2C{{states.zone.home.attributes.longitude}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
+  scan_interval: 120
+  value_template: >
+    {% if value == "unknown" or value == "" -%}
+      unavailable
+    {%- else -%}
+      {{value}}
+    {%- endif %}
+
+- platform: template
+  sensors:
+    katya_work_to_home_commute:
+      value_template: >
+        {% set hours = 0 %}
+        {% set minutes = 0 %}
+        {% set raw = states("sensor.katya_work_to_home_commute_raw")%}
+        {% if "мин" in raw and "ч" in raw %}
+          {% set hours = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+          {% set minutes = raw|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int %}
+        {% elif "ч" in raw %}
+          {% set hours = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+        {% elif "мин" in raw %}
+          {% set minutes = raw|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+        {% endif %}
+        {{ hours * 60 + minutes}}
+      friendly_name: Katya Work to Home Commute
+      unit_of_measurement: min
