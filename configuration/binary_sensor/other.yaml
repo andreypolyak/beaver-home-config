@@ -127,11 +127,11 @@
           or
             states("device_tracker.wifi_katya_iphone_12_pro_max")
             != states("device_tracker.bt_entrance_katya_iphone_12_pro_max")
-        -%}
+        %}
           on
-        {%- else -%}
+        {% else %}
           off
-        {%- endif %}
+        {% endif %}
 
 - platform: template
   sensors:
@@ -144,8 +144,8 @@
           or
             states("device_tracker.wifi_katya_iphone_12_pro_max")
             != states("device_tracker.bt_kitchen_katya_iphone_12_pro_max")
-        -%}
+        %}
           on
-        {%- else -%}
+        {% else %}
           off
-        {%- endif %}
+        {% endif %}
