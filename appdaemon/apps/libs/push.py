@@ -15,7 +15,7 @@ class Push(Base):
 
 
   def send(self, to, message, category, sound="none", critical=False, min_delta=None,
-           url=None, ios_category=None, actions=None):
+           url=None, ios_category=None, actions=None, image=None):
     persons = self.__get_person_list(to)
     for person in persons:
       person_name = person["name"]
@@ -33,7 +33,8 @@ class Push(Base):
         "sound": sound,
         "critical": critical,
         "url": url,
-        "actions": actions
+        "actions": actions,
+        "image": image
       }
       self.__process_notification(params)
 
@@ -169,7 +170,7 @@ class Push(Base):
     }
     if params["critical"]:
       properties["push"]["sound"] = {"name": "default", "critical": 1, "volume": 1.0}
-    for param in ["url", "actions"]:
+    for param in ["url", "actions", "image"]:
       if params[param]:
         properties[param] = params[param]
     return properties

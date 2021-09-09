@@ -58,7 +58,10 @@ class Bell(Base):
       if self.entity_is_off("binary_sensor.bathroom_door"):
         self.play_sound("bathroom")
     # Push notifications
-    self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf")
+    image = "/api/camera_proxy/camera.entrance_door_camera"
+    url = "/lovelace/bathroom_entrance"
+    actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
+    self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf", image=image, url=url, actions=actions)
     # Lights
     entity = "light.entrance_cloakroom"
     if living_scene in ["day", "light_cinema"]:
