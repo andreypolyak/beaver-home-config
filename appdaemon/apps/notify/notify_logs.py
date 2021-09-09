@@ -60,7 +60,8 @@ HA_BLACKLIST = [
   "<class 'homeassistant.components.mqtt.light.schema_json.MqttLightJson'>) took ",
   "https://yandex.ru/pogoda/maps/nowcast",
   "homeassistant.components.command_line.sensor",
-  "is taking over 10 seconds"
+  "is taking over 10 seconds",
+  "frontend.js.latest"
 ]
 
 
