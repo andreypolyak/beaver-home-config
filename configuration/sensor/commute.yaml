@@ -5,19 +5,16 @@
   scan_interval: 120
   unit_of_measurement: min
   value_template: >
-    {% set hours = 0 %}
-    {% set minutes = 0 %}
     {% if "мин" in value and "ч" in value %}
-      {% set hours = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
-      {% set minutes = value|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int * 60 +
+         value|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int }}
     {% elif "ч" in value %}
-      {% set hours = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int * 60 }}
     {% elif "мин" in value %}
-      {% set minutes = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int }}
     {% else %}
       unavailable
     {% endif %}
-    {{ hours * 60 + minutes}}
 
 - platform: command_line
   name: Katya Work to Home Commute
@@ -26,16 +23,13 @@
   scan_interval: 120
   unit_of_measurement: min
   value_template: >
-    {% set hours = 0 %}
-    {% set minutes = 0 %}
     {% if "мин" in value and "ч" in value %}
-      {% set hours = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
-      {% set minutes = value|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int * 60 +
+         value|regex_findall_index(find="\d+.", index=1, ignorecase=False)|int }}
     {% elif "ч" in value %}
-      {% set hours = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int * 60 }}
     {% elif "мин" in value %}
-      {% set minutes = value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int %}
+      {{ value|regex_findall_index(find="\d+.", index=0, ignorecase=False)|int }}
     {% else %}
       unavailable
     {% endif %}
-    {{ hours * 60 + minutes}}
