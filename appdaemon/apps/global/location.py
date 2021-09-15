@@ -12,6 +12,7 @@ class Location(Base):
       person_phone = person["phone"]
       self.listen_state(self.on_tracker_change, f"device_tracker.wifi_{person_phone}")
       self.listen_state(self.on_tracker_change, f"device_tracker.ha_{person_phone}")
+      self.listen_state(self.on_tracker_change, f"device_tracker.bt_{person_phone}")
       self.listen_state(self.on_tracker_change, f"proximity.ha_{person_name}_home")
       self.listen_state(self.on_location_change, f"input_select.{person_name}_location")
       self.update_person_location(person)
