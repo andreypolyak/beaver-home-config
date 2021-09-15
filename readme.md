@@ -167,7 +167,7 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 - [HACS](https://github.com/hacs/integration) — install custom integrations and cards
 - [Integration Saures controllers with HA](https://github.com/volshebniks/sauresha) — get consumption data from [Saures](https://www.saures.ru) cloud
 - [WebRTC Camera](https://github.com/AlexxIT/WebRTC) — view camera stream almost in real-time from Lovelace
-- [Yandex Dialogs](https://github.com/AlexxIT/YandexDialogs) — 
+- [Yandex Dialogs](https://github.com/AlexxIT/YandexDialogs) — create conversation based scenarios for Yandex Stations
 - [Yandex Smart Home](https://github.com/dmitry-k/yandex_smart_home) — control Home Assistant from Yandex Stations
 - [Yandex.Station](https://github.com/AlexxIT/YandexStation) — control Yandex Stations from Home Assistant
 - [Личный кабинет Интер РАО (Энергосбыт)](https://github.com/alryaz/hass-lkcomu-interrao) — send electricity stats to local energy supplier
