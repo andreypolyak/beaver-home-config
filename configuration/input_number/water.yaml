@@ -1,4 +1,4 @@
-cold_water_tariff:
+tariff_water_cold:
   name: Cold Water Tariff
   min: 0
   max: 1000
@@ -6,7 +6,7 @@ cold_water_tariff:
   mode: box
   icon: mdi:water
 
-hot_water_tariff:
+tariff_water_hot:
   name: Hot Water Tariff
   min: 0
   max: 1000

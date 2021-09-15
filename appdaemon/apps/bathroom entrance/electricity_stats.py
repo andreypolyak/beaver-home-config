@@ -1,4 +1,5 @@
 from base import Base
+from datetime import datetime
 
 TIMES = ["08:00:00", "09:00:00", "10:00:00"]
 
@@ -16,14 +17,19 @@ class ElectricityStats(Base):
     if self.date().day < 16 or self.date().day > 21:
       return
     indications = []
-    meter_attributes = self.get_state(meter_entity, attribute="all")["attributes"]
+    last_indications_date = self.get_state(meter_entity, attribute="last_indications_date")
+    last_indications_month = datetime.strptime(last_indications_date, "%Y-%m-%d").strftime("%m")
+    current_month = self.get_now().strftime("%m")
+    if last_indications_month == current_month:
+      return
     for tariff in range(1, 4):
-      attribute = f"zone_t{tariff}_period_indication"
-      if attribute not in meter_attributes or attribute is not None:
-        return
       indication = self.get_int_state(f"sensor.saures_electricity_t{tariff}")
       if indication is None:
         return
       indications.append(indication)
-    service = "lkcomu_interrao/push_indications"
-    self.call_service(service, indications=indications, notification=True, entity_id=meter_entity)
+    args = {
+      "indications": indications,
+      "notification": True,
+      "entity_id": meter_entity
+    }
+    self.call_service("lkcomu_interrao/push_indications", args)

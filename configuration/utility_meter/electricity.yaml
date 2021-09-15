@@ -1,59 +1,59 @@
-electricity_t1_monthly:
-  name: Electricity T1 Monthly
+meter_monthly_electricity_t1:
+  name: Meter Monthly Electricity T1
   source: sensor.saures_electricity_t1
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-electricity_t1_daily:
-  name: Electricity T1 Daily
+meter_daily_electricity_t1:
+  name: Meter Daily Electricity T1
   source: sensor.saures_electricity_t1
   cycle: daily
   offset:
     hours: 8
 
-electricity_t2_monthly:
-  name: Electricity T2 Monthly
+meter_monthly_electricity_t2:
+  name: Meter Monthly Electricity T2
   source: sensor.saures_electricity_t2
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-electricity_t2_daily:
-  name: Electricity T2 Daily
+meter_daily_electricity_t2:
+  name: Meter Daily Electricity T2
   source: sensor.saures_electricity_t2
   cycle: daily
   offset:
     hours: 8
 
-electricity_t3_monthly:
-  name: Electricity T3 Monthly
+meter_monthly_electricity_t3:
+  name: Meter Monthly Electricity T3
   source: sensor.saures_electricity_t3
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-electricity_t3_daily:
-  name: Electricity T3 Daily
+meter_daily_electricity_t3:
+  name: Meter Daily Electricity T3
   source: sensor.saures_electricity_t3
   cycle: daily
   offset:
     hours: 8
 
-electricity_total_monthly:
-  name: Electricity Total Monthly
-  source: sensor.saures_electricity_total
+meter_monthly_electricity:
+  name: Meter Monthly Electricity
+  source: sensor.saures_electricity
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-electricity_total_daily:
-  name: Electricity Total Daily
-  source: sensor.saures_electricity_total
+meter_daily_electricity:
+  name: Meter Daily Electricity
+  source: sensor.saures_electricity
   cycle: daily
   offset:
     hours: 8

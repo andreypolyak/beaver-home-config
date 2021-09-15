@@ -40,7 +40,7 @@
     saures_water_cold:
       value_template: >
         {{ states("sensor.sauresha_cold_water") }}
-      friendly_name: Saures Cold Water
+      friendly_name: Cold Water Saures
       unit_of_measurement: m³
 
 - platform: template
@@ -48,15 +48,18 @@
     saures_water_hot:
       value_template: >
         {{ states("sensor.sauresha_hot_water") }}
-      friendly_name: Saures Hot Water
+      friendly_name: Hot Water Saures
       unit_of_measurement: m³
 
 - platform: template
   sensors:
-    saures_water_total:
+    saures_water:
       value_template: >
-        {{ states("sensor.saures_water_cold")|float + states("sensor.saures_water_hot")|float }}
-      friendly_name: Saures Total Water 
+        {{
+          states("sensor.saures_water_cold")|float
+          + states("sensor.saures_water_hot")|float
+        }}
+      friendly_name: Water Saures
       unit_of_measurement: m³
 
 - platform: template
@@ -64,7 +67,7 @@
     saures_electricity_t1:
       value_template: >
         {{ state_attr("sensor.sauresha_electricity", "t1") }}
-      friendly_name: Saures T1 Electricity
+      friendly_name: T1 Electricity Saures
       unit_of_measurement: kWh
 
 - platform: template
@@ -72,7 +75,7 @@
     saures_electricity_t2:
       value_template: >
         {{ state_attr("sensor.sauresha_electricity", "t2") }}
-      friendly_name: Saures T2 Electricity
+      friendly_name: T2 Electricity Saures
       unit_of_measurement: kWh
 
 - platform: template
@@ -80,17 +83,17 @@
     saures_electricity_t3:
       value_template: >
         {{ state_attr("sensor.sauresha_electricity", "t3") }}
-      friendly_name: Saures T3 Electricity
+      friendly_name: T3 Electricity Saures
       unit_of_measurement: kWh
 
 - platform: template
   sensors:
-    saures_electricity_total:
+    saures_electricity:
       value_template: >
         {{
           states("sensor.saures_electricity_t1")|float
           + states("sensor.saures_electricity_t2")|float
           + states("sensor.saures_electricity_t3")|float
         }}
-      friendly_name: Saures Total Electricity
+      friendly_name: Electricity Saures
       unit_of_measurement: kWh

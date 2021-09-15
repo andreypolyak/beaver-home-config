@@ -1,4 +1,4 @@
-t1_electricity_tariff:
+tariff_electricity_t1:
   name: T1 Electricity Tariff
   min: 0
   max: 1000
@@ -6,7 +6,7 @@ t1_electricity_tariff:
   mode: box
   icon: mdi:flash
 
-t2_electricity_tariff:
+tariff_electricity_t2:
   name: T2 Electricity Tariff
   min: 0
   max: 1000
@@ -14,7 +14,7 @@ t2_electricity_tariff:
   mode: box
   icon: mdi:flash
 
-t3_electricity_tariff:
+tariff_electricity_t3:
   name: T3 Electricity Tariff
   min: 0
   max: 1000

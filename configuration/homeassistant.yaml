@@ -5,61 +5,68 @@ customize:
   person.katya:
     entity_picture: /local/katya-round.png
 
-  sensor.water_cold_monthly:
-    friendly_name: Cold
-    unit_of_measurement: m³
+  sensor.saures_water_cold:
+    state_class: total_increasing
 
-  sensor.water_cold_daily:
-    friendly_name: Cold
-    unit_of_measurement: m³
+  sensor.saures_water_hot:
+    state_class: total_increasing
 
-  sensor.water_hot_monthly:
-    friendly_name: Hot
-    unit_of_measurement: m³
+  sensor.saures_water:
+    state_class: total_increasing
 
-  sensor.water_hot_daily:
-    friendly_name: Hot
-    unit_of_measurement: m³
+  sensor.saures_electricity:
+    state_class: total_increasing
 
-  sensor.water_total_monthly:
-    friendly_name: Total
-    unit_of_measurement: m³
+  sensor.saures_electricity_t1:
+    state_class: total_increasing
 
-  sensor.water_total_daily:
-    friendly_name: Total
-    unit_of_measurement: m³
+  sensor.saures_electricity_t2:
+    state_class: total_increasing
 
-  sensor.electricity_t1_monthly:
-    friendly_name: T1
-    unit_of_measurement: kWh
+  sensor.saures_electricity_t3:
+    state_class: total_increasing
 
-  sensor.electricity_t1_daily:
-    friendly_name: T1
-    unit_of_measurement: kWh
+  sensor.meter_monthly_electricity_t1:
+    friendly_name: T1 Electricity Monthly Meter
 
-  sensor.electricity_t2_monthly:
-    friendly_name: T2
-    unit_of_measurement: kWh
+  sensor.meter_daily_electricity_t1:
+    friendly_name: T1 Electricity Daily Meter
 
-  sensor.electricity_t2_daily:
-    friendly_name: T2
-    unit_of_measurement: kWh
+  sensor.meter_monthly_electricity_t2:
+    friendly_name: T2 Electricity Monthly Meter
 
-  sensor.electricity_t3_monthly:
-    friendly_name: T3
-    unit_of_measurement: kWh
+  sensor.meter_daily_electricity_t2:
+    friendly_name: T2 Electricity Daily Meter
 
-  sensor.electricity_t3_daily:
-    friendly_name: T3
-    unit_of_measurement: kWh
+  sensor.meter_monthly_electricity_t3:
+    friendly_name: T3 Electricity Monthly Meter
 
-  sensor.electricity_total_monthly:
-    friendly_name: Total
-    unit_of_measurement: kWh
+  sensor.meter_daily_electricity_t3:
+    friendly_name: T3 Electricity Daily Meter
 
-  sensor.electricity_total_daily:
-    friendly_name: Total
-    unit_of_measurement: kWh
+  sensor.meter_monthly_electricity:
+    friendly_name: Electricity Monthly Meter
+
+  sensor.meter_daily_electricity:
+    friendly_name: Electricity Daily Meter
+
+  sensor.meter_monthly_water_cold:
+    friendly_name: Cold Water Monthly Meter
+
+  sensor.meter_daily_water_cold:
+    friendly_name: Cold Water Daily Meter
+
+  sensor.meter_monthly_water_hot:
+    friendly_name: Hot Water Monthly Meter
+
+  sensor.meter_daily_water_hot:
+    friendly_name: Hot Water Daily Meter
+
+  sensor.meter_monthly_water:
+    friendly_name: Water Monthly Meter
+
+  sensor.meter_daily_water:
+    friendly_name: Water Daily Meter
 
 customize_glob:
   "binary_sensor.*occupancy*":

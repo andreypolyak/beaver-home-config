@@ -1,44 +1,44 @@
-water_cold_monthly:
-  name: Water Cold Monthly
+meter_monthly_water_cold:
+  name: Meter Monthly Water Cold
   source: sensor.saures_water_cold
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-water_cold_daily:
-  name: Water Cold Daily
+meter_daily_water_cold:
+  name: Meter Daily Water Cold
   source: sensor.saures_water_cold
   cycle: daily
   offset:
     hours: 8
 
-water_hot_monthly:
-  name: Water Hot Monthly
+meter_monthly_water_hot:
+  name: Meter Monthly Water Hot
   source: sensor.saures_water_hot
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-water_hot_daily:
-  name: Water Hot Daily
+meter_daily_water_hot:
+  name: Meter Daily Water Hot
   source: sensor.saures_water_hot
   cycle: daily
   offset:
     hours: 8
 
-water_total_monthly:
-  name: Water Total Monthly
-  source: sensor.saures_water_total
+meter_monthly_water:
+  name: Meter Monthly Water
+  source: sensor.saures_water
   cycle: monthly
   offset:
     days: 16
     hours: 8
 
-water_total_daily:
-  name: Water Total Daily
-  source: sensor.saures_water_total
+meter_daily_water:
+  name: Meter Daily Water
+  source: sensor.saures_water
   cycle: daily
   offset:
     hours: 8
