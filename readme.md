@@ -158,6 +158,46 @@ As you can see the [button cards](https://github.com/custom-cards/button-card) a
 
 I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/google_dark_theme).
 
+## Software
+
+### Custom Integrations
+
+- [adaptive_lighting](https://github.com/basnijholt/adaptive-lighting) — get circadian light sensor which shows color temperature for cureent time of a day based on the sun position. I use this sensor in automations as a backup if MiJia light intensity sensor (GZCGQ01LM) will be unavailable
+- [deepstack face custom integration](https://github.com/robmarkcole/HASS-Deepstack-face) — recognize faces from camera stream
+- [Favicon changer](https://github.com/thomasloven/hass-favicon) — change Home Assistant favicon
+- [HACS](https://github.com/hacs/integration) — install custom integrations and cards
+- [Integration Saures controllers with HA](https://github.com/volshebniks/sauresha) — get consumption data from [Saures](https://www.saures.ru) cloud
+- [WebRTC Camera](https://github.com/AlexxIT/WebRTC) — view camera stream almost in real-time from Lovelace
+- [Yandex Dialogs](https://github.com/AlexxIT/YandexDialogs) — 
+- [Yandex Smart Home](https://github.com/dmitry-k/yandex_smart_home) — control Home Assistant from Yandex Stations
+- [Yandex.Station](https://github.com/AlexxIT/YandexStation) — control Yandex Stations from Home Assistant
+- [Личный кабинет Интер РАО (Энергосбыт)](https://github.com/alryaz/hass-lkcomu-interrao) — send electricity stats to local energy supplier
+
+### Add-ons
+
+- [AdGuard Home](https://github.com/hassio-addons/addon-adguard-home) — run local DNS server to block ads and trackers
+- [AppDaemon 4](https://github.com/hassio-addons/addon-appdaemon) — run Python powered automations
+- [Duck DNS](https://github.com/home-assistant/hassio-addons/tree/master/duckdns) — get remote access to Home Assitant using dynamic DNS service
+- [ESPHome](https://esphome.io/) — build firmwares for ESP boards
+- [File editor](https://github.com/home-assistant/hassio-addons/tree/master/configurator) — edit configuration files on a mobile
+- [Glances](https://github.com/hassio-addons/addon-glances) — monitor system (rarely used)
+- [Grafana](https://github.com/hassio-addons/addon-grafana) — monitor entity states stored on InfluxDB and logs stored in Loki
+- [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) — automatically backup Home Assistant configuration
+- [InfluxDB](https://github.com/hassio-addons/addon-influxdb) — long-term store entity states
+- [Loki](https://github.com/mdegat01/addon-loki) — store logs sent from Promtail
+- [MariaDB](https://github.com/home-assistant/hassio-addons/tree/master/mariadb) — SQL database for Home Assistant recorder
+- [Mosquitto broker](https://github.com/home-assistant/hassio-addons/tree/master/mosquitto) — MQTT broker
+- [motionEye](https://github.com/hassio-addons/addon-motioneye) — network video recorder
+- [NGINX Home Assistant SSL proxy](https://github.com/home-assistant/hassio-addons/tree/master/nginx_proxy) — proxy HTTP config pages for Roborock and Drivent into Home Assistant
+- [phpMyAdmin](https://github.com/hassio-addons/addon-phpmyadmin) — UI for MariaDB
+- [Portainer](https://github.com/hassio-addons/addon-portainer) — run and control Docker containers
+- [Promtail](https://github.com/mdegat01/addon-promtail) — gather Docker logs from all add-ons and containers and store them in Loki to later view in Grafana
+- [SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh) — SSH access to Home Assistant
+- [Valetudo Mapper](https://github.com/Poeschl/Hassio-Addons/tree/master/valetudo-mapper) — generate Valetudo map
+- [Visual Studio Code](https://github.com/hassio-addons/addon-vscode) — edit configuration files on a laptop or desktop
+- [WireGuard](https://github.com/hassio-addons/addon-wireguard) — VPN access to home network
+- [Zigbee2mqtt](https://github.com/zigbee2mqtt/hassio-zigbee2mqtt/tree/master/zigbee2mqtt) — control and organize Zigbee network. I have multiple copies of this add-on for all Zigbee networks that I have, using [Github action](https://github.com/andreypolyak/zigbee2mqtt-multi-addon-action) that I wrote
+
 ## Automations
 
 [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) is used for automations. I find it much more powerful and easier to develop and support than YAML automations and Node-RED.
