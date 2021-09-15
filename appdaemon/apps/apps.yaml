@@ -88,6 +88,11 @@ bell:
     - persons
     - push
 
+camera:
+  module: camera
+  class: Camera
+  global_dependencies: base
+
 electricity_stats:
   module: electricity_stats
   class: ElectricityStats

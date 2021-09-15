@@ -125,6 +125,7 @@ cards:
             type: vertical-stack
             cards:
               - !include /config/lovelace/elements/lock.yaml
+              - !include /config/lovelace/elements/bathroom_entrance_camera.yaml
       - type: custom:state-switch
         entity: binary_sensor.show_alarm
         states:

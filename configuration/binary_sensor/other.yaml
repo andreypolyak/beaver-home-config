@@ -149,3 +149,21 @@
         {% else %}
           off
         {% endif %}
+
+- platform: template
+  sensors:
+    entrance_door_camera_motion:
+      friendly_name: Entrance Door Camera Motion
+      device_class: motion
+      value_template: >
+        {{ is_state("input_boolean.entrance_door_camera_motion_detected", "on") }}
+
+- platform: mqtt
+  name: Entrance Door Bell
+  state_topic: zigbee2mqtt_entrance/Entrance Door Bell
+  value_template: >
+    {% if value_json.action in ["single", "hold"] %}
+      ON
+    {% else %}
+      OFF
+    {% endif %}

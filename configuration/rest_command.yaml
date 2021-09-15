@@ -17,3 +17,7 @@ kitchen_window_25:
 
 kitchen_window_100:
   url: !secret rest_command_kitchen_window_100
+
+camera_snapshot:
+  url: !secret rest_command_camera_snapshot_url
+  method: POST

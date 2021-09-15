@@ -2,6 +2,7 @@ adaptive_lighting: !include configuration/adaptive_lighting.yaml
 api:
 automation: !include configuration/automation.yaml
 binary_sensor: !include_dir_merge_list configuration/binary_sensor
+camera: !include configuration/camera.yaml
 cover: !include configuration/cover.yaml
 default_config:
 favicon: !include configuration/favicon.yaml
@@ -9,7 +10,9 @@ ffmpeg:
 frontend: !include configuration/frontend.yaml
 group: !include configuration/group.yaml
 homeassistant: !include configuration/homeassistant.yaml
+homekit: !include configuration/homekit.yaml
 http: !include configuration/http.yaml
+image_processing: !include configuration/image_processing.yaml
 influxdb: !include configuration/influxdb.yaml
 input_boolean: !include_dir_merge_named configuration/input_boolean
 input_datetime: !include_dir_merge_named configuration/input_datetime

@@ -1,0 +1,13 @@
+- platform: deepstack_face
+  ip_address: !secret image_processing_ip_address
+  port: !secret image_processing_port
+  timeout: 5
+  detect_only: False
+  save_file_folder: /share/deepstack/snapshots
+  save_timestamped_file: True
+  save_faces: True
+  save_faces_folder: /share/deepstack/faces
+  show_boxes: True
+  source:
+    - entity_id: camera.entrance_door_camera
+      name: Entrance Door Camera

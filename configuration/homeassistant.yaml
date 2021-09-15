@@ -74,3 +74,7 @@ customize_glob:
 
 auth_mfa_modules:
   - type: totp
+
+media_dirs:
+  motioneye: /share/motioneye
+  deepstack: /share/deepstack
