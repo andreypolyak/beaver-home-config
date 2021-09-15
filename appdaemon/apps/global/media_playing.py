@@ -53,22 +53,23 @@ class MediaPlaying(Base):
 
 
   def check_tv_state(self):
+    self.cancel_handle(self.handles["living_room_tv"])
     if self.living_scene == "party":
       return
     if self.entity_is_on("binary_sensor.living_room_tv"):
       self.turn_on_entity("input_boolean.living_room_tv_playing")
       self.turn_off_entity("input_boolean.living_room_sonos_playing")
       return
-    self.cancel_handle(self.handles["living_room_tv"])
     self.handles["living_room_tv"] = self.run_in(self.set_not_playing, 60, device="living_room_tv")
 
 
   def check_sonos_state(self, entity):
-    if self.living_scene == "party":
-      return
     sonos = self.get_state(f"media_player.{entity}", attribute="all")
     sonos_state = sonos["state"]
     device = entity.replace("media_player.", "")
+    self.cancel_handle(self.handles[device])
+    if self.living_scene == "party":
+      return
     if (
       sonos_state == "playing"
       and device == "living_room_sonos"
@@ -78,9 +79,7 @@ class MediaPlaying(Base):
       return
     if sonos_state == "playing":
       self.log(f"Device {device} is playing")
-      self.cancel_handle(self.handles[device])
       self.turn_on_entity(f"input_boolean.{device}_playing")
     elif sonos_state == "paused":
       self.log(f"Device {device} is paused")
-      self.cancel_handle(self.handles[device])
       self.handles[device] = self.run_in(self.set_not_playing, 60, device=device)
