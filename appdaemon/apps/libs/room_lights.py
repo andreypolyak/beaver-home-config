@@ -267,6 +267,8 @@ class RoomLights(Base):
     if self.__is_feature_supported(light_name, "color") and not fade:
       color = self.__get_color(self.read_storage("state", attribute="color"))
       kwargs[color["mode"]] = color["value"]
+    elif circadian and not self.__is_feature_supported(light_name, "color"):
+      return
     self.log(f"Turn on {light_name} with args: {kwargs}")
     self.turn_on_entity(f"light.{light_name}", **kwargs)
 
