@@ -16,20 +16,20 @@ header:
     name:
       - justify-self: start
 
-header_show_lights:
+header_show_light_details:
   template: header
   name: Lights (+)
   tap_action:
     action: navigate
-    navigation_path: "#show_lights_details"
+    navigation_path: "#show_light_details"
     haptic: success
 
-header_hide_lights:
+header_hide_light_details:
   template: header
   name: Lights (−)
   tap_action:
     action: navigate
-    navigation_path: "#hide_lights_details"
+    navigation_path: "#hide_light_details"
     haptic: success
 
 header_show_devices:

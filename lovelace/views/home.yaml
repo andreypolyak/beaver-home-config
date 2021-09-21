@@ -89,28 +89,26 @@ cards:
             icon: mdi:pine-tree
             variables:
               room: balcony
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            template: home_page_climate
-            variables:
-              room: bathroom
-          - type: custom:button-card
-            template: home_page_climate
-            variables:
-              room: living_room
-          - type: custom:button-card
-            template: home_page_climate
-            variables:
-              room: kitchen
-          - type: custom:button-card
-            template: home_page_climate
-            variables:
-              room: bedroom
-          - type: custom:button-card
-            template: home_page_climate
-            variables:
-              room: balcony
+      - type: custom:state-switch
+        entity: hash
+        default: hide_light_details
+        states:
+          show_bathroom_entrance_light_details: !include /config/lovelace/elements/bathroom_entrance_light_details.yaml
+          show_living_room_light_details: !include /config/lovelace/elements/living_room_light_details.yaml
+          show_kitchen_light_details: !include /config/lovelace/elements/kitchen_light_details.yaml
+          show_bedroom_light_details: !include /config/lovelace/elements/bedroom_light_details.yaml
+          show_balcony_light_details: !include /config/lovelace/elements/balcony_light_details.yaml
+          hide_light_details: !include /config/lovelace/elements/empty.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_light_details
+        states:
+          show_bathroom_entrance_light_details: !include /config/lovelace/elements/empty.yaml
+          show_living_room_light_details: !include /config/lovelace/elements/empty.yaml
+          show_kitchen_light_details: !include /config/lovelace/elements/empty.yaml
+          show_bedroom_light_details: !include /config/lovelace/elements/empty.yaml
+          show_balcony_light_details: !include /config/lovelace/elements/empty.yaml
+          hide_light_details: !include /config/lovelace/elements/home_climate.yaml
       - type: custom:state-switch
         entity: input_boolean.guest_mode
         states:
@@ -119,9 +117,9 @@ cards:
             entities:
               - input_boolean.guest_mode
       - type: custom:state-switch
-        entity: input_select.living_scene
+        entity: binary_sensor.show_camera
         states:
-          away:
+          "on":
             type: vertical-stack
             cards:
               - !include /config/lovelace/elements/lock.yaml

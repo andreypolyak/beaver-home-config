@@ -91,13 +91,6 @@ cinema_scene:
 home_page_light:
   template: base_icon
   triggers_update: all
-  double_tap_action:
-    action: call-service
-    service: input_boolean.toggle
-    service_data:
-      entity_id: >
-        [[[ return "input_boolean.auto_lights_" + variables.room; ]]]
-    haptic: success
   tap_action:
     action: call-service
     service: script.fire_custom_event
@@ -105,14 +98,52 @@ home_page_light:
       custom_event_data: >
         [[[ return variables.room + "_virtual_switch_room_toggle"; ]]]
     haptic: success
+  # hold_action:
+  #   action: call-service
+  #   service: script.fire_custom_event
+  #   service_data:
+  #     custom_event_data: >
+  #       [[[ return variables.room + "_toggle_max_brightness"; ]]]
+  #   haptic: success
+  # double_tap_action:
+  #   action: call-service
+  #   service: input_boolean.toggle
+  #   service_data:
+  #     entity_id: >
+  #       [[[ return "input_boolean.auto_lights_" + variables.room; ]]]
+  #   haptic: success
   hold_action:
-    action: call-service
-    service: script.fire_custom_event
-    service_data:
-      custom_event_data: >
-        [[[ return variables.room + "_toggle_max_brightness"; ]]]
+    action: navigate
+    navigation_path: >
+      [[[
+        if (window.location.hash && window.location.hash.includes("show")) {
+          return "#hide_light_details";
+        } else {
+          return "#show_" + variables.room + "_light_details";
+        }
+      ]]] 
+    haptic: success
+  double_tap_action:
+    action: navigate
+    navigation_path: >
+      [[[
+        if (window.location.hash == "#show_" + variables.room + "_light_details") {
+          return "#hide_light_details";
+        } else {
+          return "#show_" + variables.room + "_light_details";
+        }
+      ]]] 
     haptic: success
   styles:
+    card:
+      - border: >
+          [[[
+            if (window.location.hash == "#show_" + variables.room + "_light_details") {
+              return "solid 3px var(--primary-text-color)";
+            } else {
+              return "";
+            }
+          ]]]
     custom_fields:
       lock:
         - position: absolute

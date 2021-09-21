@@ -5,18 +5,7 @@ cards:
   - type: vertical-stack
     cards:
       - !include /config/lovelace/elements/navigation.yaml
-      - type: custom:state-switch
-        entity: hash
-        default: hide_lights_details
-        states:
-          hide_lights_details:
-            type: custom:button-card
-            template: header_show_lights
-          show_lights_details:
-            type: custom:button-card
-            template: header_hide_lights
-      - !include /config/lovelace/elements/outside_lights.yaml
-      - !include /config/lovelace/elements/outside_lights_details.yaml
+      - !include /config/lovelace/elements/balcony_light_section.yaml
       - type: custom:button-card
         template: header
         name: Speakers

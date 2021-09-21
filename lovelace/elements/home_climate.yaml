@@ -1,0 +1,22 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    template: home_page_climate
+    variables:
+      room: bathroom
+  - type: custom:button-card
+    template: home_page_climate
+    variables:
+      room: living_room
+  - type: custom:button-card
+    template: home_page_climate
+    variables:
+      room: kitchen
+  - type: custom:button-card
+    template: home_page_climate
+    variables:
+      room: bedroom
+  - type: custom:button-card
+    template: home_page_climate
+    variables:
+      room: balcony

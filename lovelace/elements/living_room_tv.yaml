@@ -7,6 +7,4 @@ cards:
     states:
       show_tv_details:
         !include /config/lovelace/elements/tv_details.yaml
-      hide_tv_details:
-        type: horizontal-stack
-        cards: []
+      hide_tv_details: !include /config/lovelace/elements/empty.yaml

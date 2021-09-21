@@ -167,3 +167,20 @@
     {% else %}
       OFF
     {% endif %}
+
+- platform: template
+  sensors:
+    entrance_door_bell_1_minute:
+      friendly_name: Entrance Door Bell 1 Minute
+      value_template: >
+        {{ states("sensor.entrance_door_bell_1_minute")|int > 0 }}
+
+- platform: template
+  sensors:
+    show_camera:
+      friendly_name: Show Camera Card
+      value_template: >
+        {{
+          states("input_select.living_scene") == "away"
+          or states("binary_sensor.entrance_door_bell_1_minute") == "on"
+        }}

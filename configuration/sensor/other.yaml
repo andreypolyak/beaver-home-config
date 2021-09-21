@@ -51,3 +51,12 @@
         {{ state_attr("weather.home", "wind_speed")|float }}
       friendly_name: Wind Speed
       unit_of_measurement: km/h
+
+- platform: history_stats
+  name: Entrance Door Bell 1 Minute
+  entity_id: binary_sensor.entrance_door_bell
+  state: "on"
+  type: count
+  duration:
+    minutes: 1
+  end: "{{ now() }}"

@@ -48,18 +48,6 @@ cards:
                 secondary_info: last-changed
       - type: custom:button-card
         template: header
-        name: Vibration Sensors
-      - type: custom:auto-entities
-        show_empty: false
-        card:
-          type: entities
-        filter:
-          include:
-            - entity_id: sensor.*vibration
-              options:
-                secondary_info: last-changed
-      - type: custom:button-card
-        template: header
         name: Leak Sensors
       - type: custom:auto-entities
         show_empty: false

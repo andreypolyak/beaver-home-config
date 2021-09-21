@@ -54,6 +54,4 @@ states:
             template: cover_close
             variables:
               name: bedroom_cover
-  hide_devices_details:
-    type: horizontal-stack
-    cards: []
+  hide_devices_details: !include /config/lovelace/elements/empty.yaml
