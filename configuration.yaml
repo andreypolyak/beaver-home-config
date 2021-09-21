@@ -3,16 +3,18 @@ api:
 automation: !include configuration/automation.yaml
 binary_sensor: !include_dir_merge_list configuration/binary_sensor
 camera: !include configuration/camera.yaml
+config:
 cover: !include configuration/cover.yaml
-default_config:
+dhcp:
 favicon: !include configuration/favicon.yaml
 ffmpeg:
 frontend: !include configuration/frontend.yaml
 group: !include configuration/group.yaml
+history:
 homeassistant: !include configuration/homeassistant.yaml
 homekit: !include configuration/homekit.yaml
 http: !include configuration/http.yaml
-image_processing: !include configuration/image_processing.yaml
+image:
 influxdb: !include configuration/influxdb.yaml
 input_boolean: !include_dir_merge_named configuration/input_boolean
 input_datetime: !include_dir_merge_named configuration/input_datetime
@@ -20,18 +22,27 @@ input_number: !include_dir_merge_named configuration/input_number
 input_select: !include configuration/input_select.yaml
 input_text: !include configuration/input_text.yaml
 light: !include_dir_merge_list configuration/light
+logbook:
 logger: !include configuration/logger.yaml
 lovelace: !include configuration/lovelace.yaml
+map:
 media_player: !include configuration/media_player.yaml
+media_source:
+mobile_app:
 mqtt: !include configuration/mqtt.yaml
+my:
 notify: !include configuration/notify.yaml
 panel_iframe: !include configuration/panel_iframe.yaml
+person:
 proximity: !include configuration/proximity.yaml
 recorder: !include configuration/recorder.yaml
 rest_command: !include configuration/rest_command.yaml
 script: !include_dir_merge_named configuration/script
 sensor: !include_dir_merge_list configuration/sensor
 shell_command: !include configuration/shell_command.yaml
+ssdp:
+stream:
+sun:
 system_health:
 system_log: !include configuration/system_log.yaml
 switch: !include configuration/switch.yaml
@@ -39,7 +50,10 @@ telegram_bot: !include configuration/telegram_bot.yaml
 timer: !include configuration/timer.yaml
 tts: !include configuration/tts.yaml
 updater:
+usb:
 utility_meter: !include_dir_merge_named configuration/utility_meter
+webhook:
 yandex_smart_home: !include configuration/yandex_smart_home.yaml
 yandex_station: !include configuration/yandex_station.yaml
+zeroconf:
 zone: !include configuration/zone.yaml
