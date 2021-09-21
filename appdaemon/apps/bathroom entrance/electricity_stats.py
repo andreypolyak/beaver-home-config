@@ -27,9 +27,9 @@ class ElectricityStats(Base):
       if indication is None:
         return
       indications.append(indication)
-    args = {
+    kwargs = {
       "indications": indications,
       "notification": True,
       "entity_id": meter_entity
     }
-    self.call_service("lkcomu_interrao/push_indications", args)
+    self.call_service("lkcomu_interrao/push_indications", **kwargs)
