@@ -77,4 +77,3 @@ auth_mfa_modules:
 
 media_dirs:
   motioneye: /share/motioneye
-  deepstack: /share/deepstack

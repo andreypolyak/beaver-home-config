@@ -37,20 +37,3 @@
     service: input_boolean.turn_off
     data:
       entity_id: input_boolean.entrance_door_camera_motion_detected
-
-- alias: Scan until Motion Ends
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.entrance_door_camera_motion
-      to: "on"
-  mode: single
-  action:
-    - repeat:
-        sequence:
-          - service: image_processing.scan
-            target:
-              entity_id: image_processing.entrance_door_camera
-        until:
-          - condition: state
-            entity_id: binary_sensor.entrance_door_camera_motion
-            state: "off"

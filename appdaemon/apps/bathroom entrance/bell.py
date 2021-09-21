@@ -47,6 +47,7 @@ class Bell(Base):
 
 
   def ring_bell(self):
+    self.call_service("rest_command/camera_snapshot")
     self.last_ringed_ts = self.get_now_ts()
     living_scene = self.living_scene
     # Pause TV
@@ -60,7 +61,10 @@ class Bell(Base):
     # Push notifications
     image = "/api/camera_proxy/camera.entrance_door_camera"
     url = "/lovelace/bathroom_entrance"
-    actions = [{"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True}]
+    actions = [
+      {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
+      {"action": "URI", "title": "👀 Watch the latest motion", "destructive": True, "uri": "/media-browser/motioneye"}
+    ]
     self.send_push("home_or_all", "🔔 Ding-Dong", "bell", sound="Anticipate.caf", image=image, url=url, actions=actions)
     # Lights
     entity = "light.entrance_cloakroom"
