@@ -52,6 +52,7 @@ tts: !include configuration/tts.yaml
 updater:
 usb:
 utility_meter: !include_dir_merge_named configuration/utility_meter
+weather: !include configuration/weather.yaml
 webhook:
 yandex_smart_home: !include configuration/yandex_smart_home.yaml
 yandex_station: !include configuration/yandex_station.yaml

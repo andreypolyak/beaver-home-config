@@ -1,0 +1,16 @@
+- platform: template
+  name: Home Hourly Next Forecast
+  condition_template: >
+    {{ states("weather.home_hourly") }}
+  temperature_template: >
+    {{ state_attr("weather.home_hourly", "temperature") }}
+  humidity_template: >
+    {{ state_attr("weather.home_hourly", "humidity") }}
+  pressure_template: >
+    {{ state_attr("weather.home_hourly", "pressure") }}
+  wind_speed_template: >
+    {{ state_attr("weather.home_hourly", "wind_speed") }}
+  wind_bearing_template: >
+    {{ state_attr("weather.home_hourly", "wind_bearing") }}
+  forecast_template: >
+    {{ state_attr("weather.home_hourly", "forecast")[5:] }}
