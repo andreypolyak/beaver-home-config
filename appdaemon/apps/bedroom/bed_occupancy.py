@@ -21,6 +21,8 @@ class BedOccupancy(Base):
         return
     if self.entity_is_off("binary_sensor.bedroom_door"):
       return
+    if self.entity_is_on("input_boolean.alarm_ringing"):
+      return
     self.log(f"Turning on day scene in sleeping zone because {entity} state changed")
     self.set_sleeping_scene("day")
 

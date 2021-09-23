@@ -27,6 +27,7 @@ class AlarmManager(Base):
 
     self.listen_event(self.snooze_alarm, event="custom_event", custom_event_data="snooze_alarm")
     self.listen_state(self.on_night_scene, "input_select.sleeping_scene", new="night")
+    self.listen_state(self.on_day_scene, "input_select.sleeping_scene", new="day", old="night")
     self.allow_snooze_if_alarms_off()
 
 
@@ -35,20 +36,24 @@ class AlarmManager(Base):
 
 
   def on_bedroom_door_open(self, entity, attribute, old, new, kwargs):
-    self.motion_occured()
+    self.stop_alarm()
+
+
+  def on_day_scene(self, entity, attribute, old, new, kwargs):
+    self.stop_alarm()
 
 
   def on_living_zone_motion(self, entity, attribute, old, new, kwargs):
     if (
-      self.get_delta_ts(self.sleeping_zone_motion_ts) < 180
+      self.get_delta_ts(self.sleeping_zone_motion_ts) < 10
       and self.entity_is_on("binary_sensor.bedroom_door")
-      and self.entity_is_off("binary_sensor.bedroom_bed_occupancy")
-      and self.entity_is_off("binary_sensor.bedroom_theo_bed_occupancy")
+      and self.entity_is_off("binary_sensor.bedroom_bed_occupancy_real_time")
+      and self.entity_is_off("binary_sensor.bedroom_theo_bed_occupancy_real_time")
     ):
-      self.motion_occured()
+      self.stop_alarm()
 
 
-  def motion_occured(self):
+  def stop_alarm(self):
     person_name = self.get_person_name_alarm_ringing()
     if not person_name:
       return

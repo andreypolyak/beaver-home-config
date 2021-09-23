@@ -39,7 +39,7 @@ sensor:
 binary_sensor:
   - platform: template
     name: $name
-    id: person
+    id: bed_occupancy
     lambda: |-
       if (id(top_sensor).state <= 3 or id(bottom_sensor).state <= 3) {
         return true;
@@ -48,3 +48,13 @@ binary_sensor:
       }
     filters:
       - delayed_off: 10s
+
+  - platform: template
+    name: $name Real Time
+    id: bed_occupancy_real_time
+    lambda: |-
+      if (id(top_sensor).state <= 3 or id(bottom_sensor).state <= 3) {
+        return true;
+      } else {
+        return false;
+      }

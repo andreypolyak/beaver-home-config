@@ -51,9 +51,12 @@ sensor:
 binary_sensor:
   - platform: template
     name: $name Left Person
-    id: left_person
+    id: bed_occupancy_left_person
     lambda: |-
-      if (id(left_top_sensor).state <= 3 or id(left_bottom_sensor).state <= 3) {
+      if (
+        id(left_top_sensor).state <= 3
+        or id(left_bottom_sensor).state <= 3
+      ) {
         return true;
       } else {
         return false;
@@ -63,9 +66,12 @@ binary_sensor:
 
   - platform: template
     name: $name Right Person
-    id: right_person
+    id: bed_occupancy_right_person
     lambda: |-
-      if (id(right_top_sensor).state <= 3 or id(right_bottom_sensor).state <= 3) {
+      if (
+        id(right_top_sensor).state <= 3
+        or id(right_bottom_sensor).state <= 3
+      ) {
         return true;
       } else {
         return false;
@@ -75,13 +81,28 @@ binary_sensor:
 
   - platform: template
     name: $name
-    id: any
+    id: bed_occupancy_any_person
     lambda: |-
-      if (id(left_person).state ||
-          id(right_person).state) {
+      if (
+        id(bed_occupancy_left_person).state
+        or id(bed_occupancy_right_person).state
+      ) {
         return true;
       } else {
         return false;
       }
     filters:
       - delayed_off: 10s
+
+  - platform: template
+    name: $name Real Time
+    id: bed_occupancy_real_time
+    lambda: |-
+      if (
+        id(left_top_sensor).state <= 3 or id(left_bottom_sensor).state <= 3
+        or id(right_top_sensor).state <= 3 or id(right_bottom_sensor).state <= 3
+      ) {
+        return true;
+      } else {
+        return false;
+      }
