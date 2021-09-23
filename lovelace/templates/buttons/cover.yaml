@@ -1,0 +1,53 @@
+cover_device:
+  template: base_icon
+  triggers_update:
+    - input_boolean.bedroom_cover_active
+    - input_boolean.kitchen_cover_active
+    - input_boolean.living_room_cover_active
+  icon: >
+    [[[
+      if (states["cover." + variables.name].attributes.current_position < 100) {
+        return "mdi:blinds";
+      } else {
+        return "mdi:blinds-open";
+      }
+    ]]]
+  hold_action:
+    action: more-info
+    haptic: success
+  tap_action:
+    action: call-service
+    service: >
+      [[[
+        if (states["cover." + variables.name].attributes.current_position == 100) {
+          return "cover.close_cover";
+        } else {
+          return "cover.open_cover";
+        }
+      ]]]
+    service_data:
+      entity_id: >
+        [[[ return "cover." + variables.name; ]]]
+    haptic: success
+  state:
+    - value: >
+        [[[ return states["input_boolean." + variables.room + "_cover_active"].state == "on"; ]]]
+      operator: template
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return states["input_boolean." + variables.room + "_cover_active"].state != "on"; ]]]
+      operator: template
+      color: var(--paper-card-background-color)
+  styles:
+    custom_fields:
+      position:
+        - position: absolute
+        - right: 8px
+        - top: 4px
+        - font-size: 12px
+  custom_fields:
+    position: >
+      [[[ return Math.round(states["cover." + variables.room + "_cover"].attributes.position) + "%"; ]]]
+  variables:
+    room: ""
+    name: ""

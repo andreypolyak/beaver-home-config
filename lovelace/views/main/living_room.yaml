@@ -1,0 +1,28 @@
+path: living_room
+title: Living Room
+icon: mdi:television-classic
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/living_room/light_section.yaml
+      - type: custom:button-card
+        template: header
+        name: Devices
+      - !include /config/lovelace/elements/living_room/devices.yaml
+      - type: custom:state-switch
+        entity: hash
+        default: hide_tv_details
+        states:
+          hide_tv_details:
+            type: custom:button-card
+            template: header_show_tv
+          show_tv_details:
+            type: custom:button-card
+            template: header_hide_tv
+      - !include /config/lovelace/elements/living_room/tv.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/living_room/sonos.yaml
+      - !include /config/lovelace/elements/other/footer.yaml

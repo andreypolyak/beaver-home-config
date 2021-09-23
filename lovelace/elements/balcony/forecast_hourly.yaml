@@ -1,0 +1,37 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    template: header
+    name: Forecast
+  - type: weather-forecast
+    entity: weather.home_hourly
+    show_forecast: false
+    style: |
+      ha-card {
+        padding-bottom: 0px !important;
+      }
+  - type: custom:swipe-card
+    start_card: 1
+    parameters:
+      spaceBetween: 8
+    cards:
+      - type: weather-forecast
+        entity: weather.home_hourly
+        style: |
+          ha-card {
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+          }
+          .content {
+            display: none !important;
+          }
+      - type: weather-forecast
+        entity: weather.home_hourly_next_forecast
+        style: |
+          ha-card {
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+          }
+          .content {
+            display: none !important;
+          }

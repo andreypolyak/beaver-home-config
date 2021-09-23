@@ -1,0 +1,56 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    template: home_page_light
+    entity: light.ha_template_room_bathroom_entrance
+    icon: mdi:paper-roll
+    variables:
+      room: bathroom_entrance
+    styles:
+      custom_fields:
+        arrow:
+          - position: absolute
+          - left: 0px
+          - top: 24px
+          - font-size: 18px
+    custom_fields:
+      arrow: >
+        [[[
+          return `<ha-icon icon="mdi:chevron-left" style="width: 18px; height: 18px;"></ha-icon>`;
+        ]]]
+  - type: custom:button-card
+    template: home_page_light
+    entity: light.ha_template_room_living_room
+    icon: mdi:television-classic
+    variables:
+      room: living_room
+  - type: custom:button-card
+    template: home_page_light
+    entity: light.ha_template_room_kitchen
+    icon: mdi:noodles
+    variables:
+      room: kitchen
+  - type: custom:button-card
+    template: home_page_light
+    entity: light.ha_template_room_bedroom
+    icon: mdi:bed
+    variables:
+      room: bedroom
+  - type: custom:button-card
+    template: home_page_light
+    entity: light.ha_template_room_balcony
+    icon: mdi:pine-tree
+    variables:
+      room: balcony
+    styles:
+      custom_fields:
+        arrow:
+          - position: absolute
+          - right: 0px
+          - top: 24px
+          - font-size: 18px
+    custom_fields:
+      arrow: >
+        [[[
+          return `<ha-icon icon="mdi:chevron-right" style="width: 18px; height: 18px;"></ha-icon>`;
+        ]]]

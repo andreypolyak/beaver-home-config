@@ -1,0 +1,19 @@
+type: vertical-stack
+cards:
+  - type: custom:state-switch
+    entity: hash
+    default: hide_light_details
+    states:
+      hide_light_details:
+        type: custom:button-card
+        template: header_show_light_details
+      show_light_details:
+        type: custom:button-card
+        template: header_hide_light_details
+  - !include /config/lovelace/elements/bathroom_entrance/light_devices.yaml
+  - type: custom:state-switch
+    entity: hash
+    default: hide_light_details
+    states:
+      show_light_details: !include /config/lovelace/elements/bathroom_entrance/light_details.yaml
+      hide_light_details: !include /config/lovelace/elements/other/empty.yaml

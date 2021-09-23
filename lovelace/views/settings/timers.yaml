@@ -1,0 +1,23 @@
+path: settings_timers
+title: Timer Settings
+icon: mdi:timer-outline
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/navigation/settings.yaml
+      - type: custom:button-card
+        template: header
+        name: Timers
+      - type: horizontal-stack
+        cards:
+          - type: custom:auto-entities
+            show_empty: false
+            card:
+              type: entities
+            filter:
+              include:
+                - entity_id: timer.*
+            sort:
+              method: entity_id
+      - !include /config/lovelace/elements/other/footer.yaml

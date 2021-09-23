@@ -1,0 +1,18 @@
+path: bathroom_entrance
+title: Bathroom and Entrance
+icon: mdi:paper-roll
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/bathroom_entrance/light_section.yaml
+      - type: custom:button-card
+        template: header
+        name: Devices
+      - !include /config/lovelace/elements/bathroom_entrance/devices.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/bathroom_entrance/sonos.yaml
+      - !include /config/lovelace/elements/bathroom_entrance/camera.yaml
+      - !include /config/lovelace/elements/other/footer.yaml

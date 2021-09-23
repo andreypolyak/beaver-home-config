@@ -1,0 +1,17 @@
+path: kitchen
+title: Kitchen
+icon: mdi:noodles
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/kitchen/light_section.yaml
+      - type: custom:button-card
+        template: header
+        name: Devices
+      - !include /config/lovelace/elements/kitchen/devices.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/kitchen/sonos.yaml
+      - !include /config/lovelace/elements/other/footer.yaml

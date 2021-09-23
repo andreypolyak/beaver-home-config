@@ -1,0 +1,20 @@
+path: outside
+title: Outside
+icon: mdi:pine-tree
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/balcony/light_section.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/balcony/sonos.yaml
+      - !include /config/lovelace/elements/balcony/forecast_hourly.yaml
+      - !include /config/lovelace/elements/balcony/forecast_daily.yaml
+      - type: custom:button-card
+        template: header
+        name: Sun
+      - type: custom:sun-card
+        darkMode: true
+        timeFormat: 24h

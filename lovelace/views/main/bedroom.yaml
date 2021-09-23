@@ -1,0 +1,18 @@
+path: bedroom
+title: Bedroom
+icon: mdi:bed
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/bedroom/light_section.yaml
+      - type: custom:button-card
+        template: header
+        name: Devices
+      - !include /config/lovelace/elements/bedroom/devices.yaml
+      - type: custom:button-card
+        template: header
+        name: Speakers
+      - !include /config/lovelace/elements/bedroom/sonos.yaml
+      - !include /config/lovelace/elements/bedroom/alarm.yaml
+      - !include /config/lovelace/elements/other/footer.yaml

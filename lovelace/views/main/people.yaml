@@ -1,0 +1,83 @@
+path: people
+title: People
+icon: mdi:account-multiple
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - type: custom:button-card
+        template: header
+        name: People
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: person.andrey
+            template: person
+            triggers_update: all
+            variables:
+              person: andrey
+              phone: andrey_iphone_11_pro_max
+          - type: custom:button-card
+            entity: person.katya
+            template: person
+            triggers_update: all
+            variables:
+              person: katya
+              phone: katya_iphone_12_pro_max
+          - type: custom:button-card
+            template: base_icon
+            entity: script.update_location
+            styles:
+              card:
+                - height: 100px
+            icon: mdi:update
+            hold_action:
+              action: more-info
+              entity: script.update_location
+              haptic: success
+            tap_action:
+              action: call-service
+              service: script.update_location
+              haptic: success
+      - type: map
+        entities:
+          - person.andrey
+          - person.katya
+        hours_to_show: 24
+        dark_mode: true
+      - type: custom:button-card
+        template: header
+        name: Weight
+      - type: custom:apexcharts-card
+        config_templates: weight
+        series:
+          - entity: input_number.andrey_weight
+          - entity: input_number.katya_weight
+          - entity: input_number.theo_weight
+      - type: custom:button-card
+        template: header
+        name: Andrey History
+      - type: history-graph
+        entities:
+          - entity: input_select.andrey_location
+            name: Location
+          - entity: device_tracker.ha_andrey_iphone_11_pro_max
+            name: HA
+          - entity: device_tracker.wifi_andrey_iphone_11_pro_max
+            name: Wi-Fi
+          - entity: device_tracker.bt_andrey_iphone_11_pro_max
+            name: BT
+      - type: custom:button-card
+        template: header
+        name: Katya History
+      - type: history-graph
+        entities:
+          - entity: input_select.katya_location
+            name: Location
+          - entity: device_tracker.ha_katya_iphone_12_pro_max
+            name: HA
+          - entity: device_tracker.wifi_katya_iphone_12_pro_max
+            name: Wi-Fi
+          - entity: device_tracker.bt_katya_iphone_12_pro_max
+            name: BT
+      - !include /config/lovelace/elements/other/footer.yaml

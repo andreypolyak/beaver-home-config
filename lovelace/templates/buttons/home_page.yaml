@@ -1,0 +1,266 @@
+scene:
+  template: base_icon
+  state:
+    - value: >
+        [[[ return variables.scene; ]]]
+      operator: "=="
+      color: var(--paper-item-icon-active-color)
+    - value: >
+        [[[ return variables.scene; ]]]
+      operator: "!="
+      color: var(--paper-card-background-color)
+  variables:
+    scene: ""
+
+living_scene:
+  template: scene
+  tap_action:
+    action: call-service
+    service: input_select.select_option
+    haptic: success
+    service_data:
+      entity_id: input_select.living_scene
+      option: >
+        [[[ return variables.scene; ]]]
+  hold_action:
+    action: call-service
+    service: input_select.select_option
+    haptic: success
+    service_data:
+      entity_id: input_select.living_scene
+      option: away
+    confirmation:
+      text: >
+        [[[ return "❗ Are you sure you want to turn on away scene?"; ]]]
+  variables:
+    scene: ""
+
+sleeping_scene:
+  template: scene
+  tap_action:
+    action: call-service
+    service: input_select.select_option
+    haptic: success
+    service_data:
+      entity_id: input_select.sleeping_scene
+      option: >
+        [[[ return variables.scene; ]]]
+  hold_action:
+    action: call-service
+    service: input_select.select_option
+    haptic: success
+    service_data:
+      entity_id: input_select.sleeping_scene
+      option: away
+    confirmation:
+      text: >
+        [[[ return "❗ Are you sure you want to turn on away scene?"; ]]]
+  variables:
+    scene: ""
+
+cinema_scene:
+  template: living_scene
+  double_tap_action:
+    action: call-service
+    service: input_boolean.toggle
+    service_data:
+      entity_id: input_boolean.cinema_session
+    haptic: success
+  styles:
+    custom_fields:
+      session:
+        - position: absolute
+        - right: 4px
+        - top: 4px
+        - font-size: 14px
+  custom_fields:
+    session: >
+      [[[
+        if (
+          states["input_boolean.cinema_session"].state == "on"
+          && states["input_select.living_scene"].state != variables.scene
+        ) {
+          return `<ha-icon icon="mdi:play" style="width: 14px; height: 14px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+  variables:
+    scene: ""
+
+home_page_light:
+  template: base_icon
+  triggers_update: all
+  tap_action:
+    action: call-service
+    service: script.fire_custom_event
+    service_data:
+      custom_event_data: >
+        [[[ return variables.room + "_virtual_switch_room_toggle"; ]]]
+    haptic: success
+  hold_action:
+    action: navigate
+    navigation_path: >
+      [[[
+        if (window.location.hash && window.location.hash.includes("show")) {
+          return "#hide_light_details";
+        } else {
+          return "#show_" + variables.room + "_light_details";
+        }
+      ]]] 
+    haptic: success
+  double_tap_action:
+    action: navigate
+    navigation_path: >
+      [[[
+        if (window.location.hash == "#show_" + variables.room + "_light_details") {
+          return "#hide_light_details";
+        } else {
+          return "#show_" + variables.room + "_light_details";
+        }
+      ]]] 
+    haptic: success
+  styles:
+    card:
+      - border: >
+          [[[
+            if (window.location.hash == "#show_" + variables.room + "_light_details") {
+              return "solid 3px DarkGray";
+            } else {
+              return "";
+            }
+          ]]]
+    custom_fields:
+      lock:
+        - position: absolute
+        - right: 0px
+        - top: 4px
+        - font-size: 12px
+  custom_fields:
+    lock: >
+      [[[
+        if (states["input_boolean.auto_lights_" + variables.room].state === "off") {
+          return `<ha-icon icon="mdi:lock-outline" style="width: 12px; height: 12px;"></ha-icon>`;
+        } else {
+          return "";
+        }
+      ]]]
+  variables:
+    room: ""
+
+home_page_climate:
+  triggers_update: all
+  color: var(--primary-background-color)
+  color_type: label-card
+  show_label: false
+  show_name: false
+  show_icon: false
+  tap_action:
+    action: navigate
+    navigation_path: /lovelace/settings_climate
+    haptic: success
+  styles:
+    card:
+      - height: 64px
+      - box-shadow: none
+    custom_fields:
+      temperature:
+        - position: absolute
+        - left: 4px
+        - top: 4px
+        - font-size: 12px
+      humidity:
+        - position: absolute
+        - left: 4px
+        - top: 18px
+        - font-size: 12px
+      window:
+        - position: absolute
+        - left: 4px
+        - top: 32px
+        - font-size: 12px
+      co2:
+        - position: absolute
+        - left: 4px
+        - top: 46px
+        - font-size: 12px
+  custom_fields:
+    temperature: >
+      [[[
+        if (
+          variables.room == "balcony"
+          && states["weather.home"] && states["weather.home"].attributes
+          && states["weather.home"].attributes.temperature
+        ) {
+          return `<ha-icon icon="mdi:thermometer" style="width: 12px; height: 12px;"></ha-icon>`
+            + " " + Math.round(states["sensor." + variables.room + "_temperature"].state) + "°/"
+            + Math.round(states["weather.home"].attributes.temperature) + "°";
+        } else {
+          return `<ha-icon icon="mdi:thermometer" style="width: 12px; height: 12px;"></ha-icon>`
+            + " " + Math.round(states["sensor." + variables.room + "_temperature"].state) + "°";
+        }
+      ]]]
+    humidity: >
+      [[[
+        return `<ha-icon icon="mdi:water-percent" style="width: 12px; height: 12px;"> </ha-icon>`
+          + " " + Math.round(states["sensor." + variables.room + "_humidity"].state) + "%";
+      ]]]
+    window: >
+      [[[
+        if ("sensor." + variables.room + "_window_target_position" in states) {
+          return `<ha-icon icon="mdi:window-closed-variant" style="width: 12px; height: 12px;"></ha-icon>`
+            + " " + Math.round(states["sensor." + variables.room + "_window_target_position"].state) + "%";
+        } else {
+          return " ";
+        }
+      ]]]
+    co2: >
+      [[[
+        if ("sensor." + variables.room + "_co2" in states) {
+          return `<ha-icon icon="mdi:molecule-co2" style="width: 12px; height: 12px;"></ha-icon>`
+            + " " + Math.round(states["sensor." + variables.room + "_co2"].state) + "ppm";
+        } else {
+          return " ";
+        }
+      ]]]
+  variables:
+    room: ""
+
+home_page_climate_co2:
+  template: home_page_climate
+  styles:
+    custom_fields:
+      temperature:
+        - position: absolute
+        - left: 4px
+        - top: 4px
+        - font-size: 12px
+      humidity:
+        - position: absolute
+        - left: 4px
+        - top: 18px
+        - font-size: 12px
+      co2:
+        - position: absolute
+        - left: 4px
+        - top: 32px
+        - font-size: 12px
+  custom_fields:
+    temperature: >
+      [[[
+        return `<ha-icon icon="mdi:thermometer" style="width: 12px; height: 12px;"></ha-icon>`
+          + " " + Math.round(states["sensor." + variables.room + "_temperature"].state) + "°";
+      ]]]
+    humidity: >
+      [[[
+        return `<ha-icon icon="mdi:water-percent" style="width: 12px; height: 12px;"></ha-icon>`
+          + " " + Math.round(states["sensor." + variables.room + "_humidity"].state) + "%";
+      ]]]
+    co2: >
+      [[[
+        return `<ha-icon icon="mdi:molecule-co2" style="width: 12px; height: 12px;"></ha-icon>`
+          + " " + Math.round(states["sensor." + variables.room + "_co2"].state) + "ppm";
+      ]]]
+  variables:
+    room: ""
+

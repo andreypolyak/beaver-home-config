@@ -1,0 +1,131 @@
+path: settings_lights
+title: Light Settings
+icon: mdi:timer-outline
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/navigation/settings.yaml
+      - type: custom:button-card
+        template: header
+        name: Light Control
+      - type: entities
+        entities:
+          - input_boolean.circadian_update
+          - input_number.circadian_saturation
+          - input_number.transition
+          - input_boolean.christmas_season
+      - type: custom:button-card
+        template: header
+        name: Disable Motion
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: input_boolean.auto_lights_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Automatic Colors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: input_boolean.auto_colors_*
+        sort:
+          method: entity_id
+      - type: custom:apexcharts-card
+        config_templates: base
+        graph_span: 24hours
+        series:
+          - entity: sensor.circadian_saturation
+            name: Adaptive
+          - entity: input_number.circadian_saturation
+            name: Own
+      - type: custom:button-card
+        template: header
+        name: HA Group Lights
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: light.ha_group_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: HA Template Room Lights
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: light.ha_template_room_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: HA Template Individual Lights
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: light.ha_template_individual_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Zigbee Group Lights
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: light.group_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Other Lights
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: light.*
+          exclude:
+            - entity_id: light.ha_*
+            - entity_id: light.group_*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: Switches
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: switch.*
+      - !include /config/lovelace/elements/other/footer.yaml

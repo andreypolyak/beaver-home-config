@@ -1,0 +1,20 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: input_select.sleeping_scene
+    template: sleeping_scene
+    icon: mdi:white-balance-sunny
+    variables:
+      scene: day
+  - type: custom:button-card
+    entity: input_select.sleeping_scene
+    template: sleeping_scene
+    icon: mdi:weather-night
+    variables:
+      scene: night
+  - type: custom:button-card
+    entity: input_select.sleeping_scene
+    template: sleeping_scene
+    icon: mdi:camera-off
+    variables:
+      scene: dumb

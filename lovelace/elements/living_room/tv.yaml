@@ -1,0 +1,9 @@
+type: vertical-stack
+cards:
+  - !include /config/lovelace/elements/living_room/tv_source.yaml
+  - type: custom:state-switch
+    entity: hash
+    default: hide_tv_details
+    states:
+      show_tv_details: !include /config/lovelace/elements/living_room/tv_remote.yaml
+      hide_tv_details: !include /config/lovelace/elements/other/empty.yaml

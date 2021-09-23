@@ -1,0 +1,60 @@
+path: home
+title: Home
+icon: mdi:home
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - type: custom:button-card
+        template: header
+        name: Living Zone Scenes
+      - !include /config/lovelace/elements/home/living_scenes.yaml
+      - type: custom:button-card
+        template: header
+        name: Sleeping Zone Scenes
+      - !include /config/lovelace/elements/home/sleeping_scenes.yaml
+      - type: custom:swipe-card
+        start_card: 2
+        parameters:
+          spaceBetween: 8
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Windows
+              - !include /config/lovelace/elements/home/windows.yaml
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Lights
+              - !include /config/lovelace/elements/home/lights.yaml
+              - type: custom:state-switch
+                entity: hash
+                default: hide_light_details
+                states:
+                  show_bathroom_entrance_light_details: !include /config/lovelace/elements/bathroom_entrance/light_details.yaml
+                  show_living_room_light_details: !include /config/lovelace/elements/living_room/light_details.yaml
+                  show_kitchen_light_details: !include /config/lovelace/elements/kitchen/light_details.yaml
+                  show_bedroom_light_details: !include /config/lovelace/elements/bedroom/light_details.yaml
+                  show_balcony_light_details: !include /config/lovelace/elements/balcony/light_details.yaml
+                  hide_light_details: !include /config/lovelace/elements/other/empty.yaml
+              - type: custom:state-switch
+                entity: hash
+                default: hide_light_details
+                states:
+                  show_bathroom_entrance_light_details: !include /config/lovelace/elements/other/empty.yaml
+                  show_living_room_light_details: !include /config/lovelace/elements/other/empty.yaml
+                  show_kitchen_light_details: !include /config/lovelace/elements/other/empty.yaml
+                  show_bedroom_light_details: !include /config/lovelace/elements/other/empty.yaml
+                  show_balcony_light_details: !include /config/lovelace/elements/other/empty.yaml
+                  hide_light_details: !include /config/lovelace/elements/home/climate.yaml
+          - type: vertical-stack
+            cards:
+              - type: custom:button-card
+                template: header
+                name: Covers
+              - !include /config/lovelace/elements/home/covers.yaml
+      - !include /config/lovelace/elements/home/conditions.yaml
+      - !include /config/lovelace/elements/other/footer.yaml

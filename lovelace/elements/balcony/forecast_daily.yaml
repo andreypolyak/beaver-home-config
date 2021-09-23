@@ -1,0 +1,9 @@
+type: weather-forecast
+entity: weather.home
+style: |
+  ha-card {
+    padding-top: 0px !important;
+  }
+  .content {
+    display: none !important;
+  }

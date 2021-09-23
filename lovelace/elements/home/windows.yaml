@@ -1,0 +1,26 @@
+type: horizontal-stack
+cards:
+  - type: custom:button-card
+    entity: cover.kitchen_window
+    template: window_device
+    icon: mdi:noodles
+    variables:
+      room: kitchen
+  - type: custom:button-card
+    entity: cover.bedroom_window
+    template: window_device
+    icon: mdi:bed
+    variables:
+      room: bedroom
+    styles:
+      custom_fields:
+        arrow:
+          - position: absolute
+          - right: 0px
+          - top: 24px
+          - font-size: 18px
+    custom_fields:
+      arrow: >
+        [[[
+          return `<ha-icon icon="mdi:chevron-right" style="width: 18px; height: 18px;"></ha-icon>`;
+        ]]]

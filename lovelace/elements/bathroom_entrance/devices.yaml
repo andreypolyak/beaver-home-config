@@ -1,0 +1,52 @@
+type: horizontal-stack
+cards:
+  - !include /config/lovelace/elements/bathroom_entrance/lock.yaml
+  - type: custom:button-card
+    template: base_icon
+    entity: switch.bathroom_fan
+    icon: mdi:fan
+    hold_action:
+      action: more-info
+      haptic: success
+    tap_action:
+      action: toggle
+      haptic: success
+  - type: custom:button-card
+    template: base_icon
+    entity: switch.bathroom_freshener
+    icon: mdi:air-horn
+    hold_action:
+      action: more-info
+      haptic: success
+    tap_action:
+      action: toggle
+      haptic: success
+  - type: custom:button-card
+    template: base_icon
+    entity: input_select.washing_machine_status
+    icon: >
+      [[[
+        if (entity.state === "washing")
+          return "mdi:washing-machine";
+        else if (entity.state === "full")
+          return "mdi:washing-machine-alert";
+        else
+          return "mdi:washing-machine-off";
+      ]]]
+    state:
+      - value: >
+          [[[ return entity.state == "full" ]]]
+        operator: template
+        color: var(--paper-item-icon-active-color)
+      - value: >
+          [[[ return entity.state != "full" ]]]
+        operator: template
+        color: var(--paper-card-background-color)
+    hold_action:
+      action: more-info
+      haptic: success
+  - type: custom:button-card
+    template: vacuum_device
+    entity: input_select.vacuum_room_cleaning
+    variables:
+      room: bathroom_entrance
