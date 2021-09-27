@@ -19,22 +19,14 @@ class Cinema(Base):
     self.listen_state(self.on_cinema_session_turned_off, "input_boolean.cinema_session", new="off", old="on")
     self.listen_state(self.on_apple_tv_change, "media_player.living_room_apple_tv", attribute="all")
     self.listen_state(self.on_living_scene_change, "input_select.living_scene")
-    motion_sensors = self.find_motion_sensors()
-    for motion_sensor in motion_sensors:
-      self.listen_state(self.on_motion, motion_sensor, new="on", old="off")
 
-
-  def find_motion_sensors(self):
-    motion_sensors = []
     for binary_sensor in self.get_state("binary_sensor"):
       if (
         binary_sensor.endswith("_motion")
-        and not binary_sensor.startswith("binary_sensor.bedroom")
-        and not binary_sensor.endswith("living_room_front_motion")
-        and not binary_sensor.endswith("living_room_middle_motion")
+        and ("kitchen" in binary_sensor or "bathroom" in binary_sensor or "entrance" in binary_sensor)
+        and "camera" not in binary_sensor
       ):
-        motion_sensors.append(binary_sensor)
-    return motion_sensors
+        self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
 
 
   def on_living_scene_change(self, entity, attribute, old, new, kwargs):
