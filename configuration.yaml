@@ -1,7 +1,7 @@
 adaptive_lighting: !include configuration/adaptive_lighting.yaml
 api:
 automation: !include configuration/automation.yaml
-binary_sensor: !include_dir_merge_list configuration/binary_sensor
+binary_sensor: !include configuration/binary_sensor.yaml
 camera: !include configuration/camera.yaml
 config:
 cover: !include configuration/cover.yaml
@@ -47,6 +47,7 @@ system_health:
 system_log: !include configuration/system_log.yaml
 switch: !include configuration/switch.yaml
 telegram_bot: !include configuration/telegram_bot.yaml
+template: !include_dir_merge_list configuration/template
 timer: !include configuration/timer.yaml
 tts: !include configuration/tts.yaml
 updater:
