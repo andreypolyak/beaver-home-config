@@ -1,0 +1,26 @@
+- binary_sensor:
+
+    - name: Show Alarm Card
+      state: >
+        {{
+          states("input_select.sleeping_scene") == "night"
+          or states("input_select.living_scene") == "night"
+          or states("input_boolean.alarm_andrey") == "on"
+          or states("input_boolean.alarm_katya") == "on"
+          or (now().hour >= 22 and now().hour <= 5)
+        }}
+
+    - name: Show Forecast Card
+      state: >
+        {{
+          states("input_select.living_scene") != "away"
+          and now().hour >= 7
+          and now().hour <= 10
+        }}
+
+    - name: Show Camera Card
+      state: >
+        {{
+          states("input_select.living_scene") == "away"
+          or states("binary_sensor.entrance_door_bell_1_minute") == "on"
+        }}

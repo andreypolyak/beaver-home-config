@@ -1,7 +1,7 @@
-- platform: template
-  sensors:
-    andrey_geocoded_location:
-      value_template: >
+- sensor:
+
+    - name: Andrey Geocoded Location
+      state: >
         {% set admin_area = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Administrative Area") %}
         {% set locality = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Locality") %}
         {% set sub_locality = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Sub Locality") %}
@@ -12,12 +12,9 @@
         {% else %}
           {{ admin_area }}, {{ locality }}, {{ name }}
         {% endif %}
-      friendly_name: Andrey Geocoded Location
 
-- platform: template
-  sensors:
-    katya_geocoded_location:
-      value_template: >
+    - name: Katya Geocoded Location
+      state: >
         {% set admin_area = state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Administrative Area") %}
         {% set locality = state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Locality") %}
         {% set sub_locality = state_attr("sensor.katya_iphone_12_pro_max_geocoded_location", "Sub Locality") %}
@@ -28,12 +25,9 @@
         {% else %}
           {{ admin_area }}, {{ locality }}, {{ name }}
         {% endif %}
-      friendly_name: Katya Geocoded Location
 
-- platform: template
-  sensors:
-    andrey_display_location:
-      value_template: >
+    - name: Andrey Display Location
+      state: >
         {% set location = states("input_select.andrey_location") %}
         {% set zone = states("device_tracker.ha_andrey_iphone_11_pro_max") %}
         {% set proximity = states("proximity.ha_andrey_home")|int %}
@@ -47,12 +41,9 @@
         {% else %}
           {{ (proximity / 1000)|int }} km
         {% endif %}
-      friendly_name: Andrey Display Location
 
-- platform: template
-  sensors:
-    katya_display_location:
-      value_template: >
+    - name: Katya Display Location
+      state: >
         {% set location = states("input_select.katya_location") %}
         {% set zone = states("device_tracker.ha_katya_iphone_12_pro_max") %}
         {% set proximity = states("proximity.ha_katya_home")|int %}
@@ -66,22 +57,3 @@
         {% else %}
           {{ (proximity / 1000)|int }} km
         {% endif %}
-      friendly_name: Katya Display Location
-
-- platform: history_stats
-  name: BT Entrance Discrepancy 3 Hours
-  entity_id: binary_sensor.bt_entrance_discrepancy
-  state: "on"
-  type: time
-  duration:
-    hours: 3
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: BT Kitchen Discrepancy 3 Hours
-  entity_id: binary_sensor.bt_kitchen_discrepancy
-  state: "on"
-  type: time
-  duration:
-    hours: 3
-  end: "{{ now() }}"

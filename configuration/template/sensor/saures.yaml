@@ -1,0 +1,55 @@
+- sensor:
+
+    - name: Saures Water Counter Battery
+      state: >
+        {{ state_attr("sensor.sauresha_contr_saures_water", "battery_level") }}
+      unit_of_measurement: "%"
+      device_class: battery
+
+    - name: Saures Electricity Counter Battery
+      state: >
+        {{ state_attr("sensor.sauresha_contr_saures_electricity", "battery_level") }}
+      unit_of_measurement: "%"
+      device_class: battery
+
+    - name: Saures Water Cold
+      state: >
+        {{ states("sensor.sauresha_cold_water") }}
+      unit_of_measurement: m³
+
+    - name: Saures Water Hot
+      state: >
+        {{ states("sensor.sauresha_hot_water") }}
+      unit_of_measurement: m³
+
+    - name: Saures Water
+      state: >
+        {{
+          states("sensor.saures_water_cold")|float
+          + states("sensor.saures_water_hot")|float
+        }}
+      unit_of_measurement: m³
+
+    - name: Saures Electricity T1
+      state: >
+        {{ state_attr("sensor.sauresha_electricity", "t1") }}
+      unit_of_measurement: kWh
+
+    - name: Saures Electricity T2
+      state: >
+        {{ state_attr("sensor.sauresha_electricity", "t2") }}
+      unit_of_measurement: kWh
+
+    - name: Saures Electricity T3
+      state: >
+        {{ state_attr("sensor.sauresha_electricity", "t3") }}
+      unit_of_measurement: kWh
+
+    - name: Saures Electricity
+      state: >
+        {{
+          states("sensor.saures_electricity_t1")|float
+          + states("sensor.saures_electricity_t2")|float
+          + states("sensor.saures_electricity_t3")|float
+        }}
+      unit_of_measurement: kWh

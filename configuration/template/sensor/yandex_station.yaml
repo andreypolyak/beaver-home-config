@@ -1,21 +1,17 @@
-- platform: template
-  sensors:
-    living_room_yandex_station_connection:
-      value_template: >
+- sensor:
+
+    - name: Living Room Yandex Station Connection
+      state: >
         {% if state_attr("media_player.living_room_yandex_station", "connection_class") == "assumed" %}
           unavailable
         {% else %}
           ok
         {% endif %}
-      friendly_name: Living Room Yandex Station Connection
 
-- platform: template
-  sensors:
-    bedroom_yandex_station_connection:
-      value_template: >
+    - name: Bedroom Yandex Station Connection
+      state: >
         {% if state_attr("media_player.bedroom_yandex_station", "connection_class") == "assumed" %}
           unavailable
         {% else %}
           ok
         {% endif %}
-      friendly_name: Bedroom Yandex Station Connection

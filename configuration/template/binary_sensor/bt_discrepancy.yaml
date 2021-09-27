@@ -1,0 +1,29 @@
+- binary_sensor:
+
+    - name: BT Entrance Discrepancy
+      state: >
+        {% if
+            states("device_tracker.wifi_andrey_iphone_11_pro_max")
+            != states("device_tracker.bt_entrance_andrey_iphone_11_pro_max")
+          or
+            states("device_tracker.wifi_katya_iphone_12_pro_max")
+            != states("device_tracker.bt_entrance_katya_iphone_12_pro_max")
+        %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    - name: BT Kitchen Discrepancy
+      state: >
+        {% if
+            states("device_tracker.wifi_andrey_iphone_11_pro_max")
+            != states("device_tracker.bt_kitchen_andrey_iphone_11_pro_max")
+          or
+            states("device_tracker.wifi_katya_iphone_12_pro_max")
+            != states("device_tracker.bt_kitchen_katya_iphone_12_pro_max")
+        %}
+          on
+        {% else %}
+          off
+        {% endif %}

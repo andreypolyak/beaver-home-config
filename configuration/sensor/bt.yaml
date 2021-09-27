@@ -41,3 +41,21 @@
   entity_ids:
     - sensor.bt_entrance_katya_iphone_12_pro_max_confidence
     - sensor.bt_kitchen_katya_iphone_12_pro_max_confidence
+
+- platform: history_stats
+  name: BT Entrance Discrepancy 3 Hours
+  entity_id: binary_sensor.bt_entrance_discrepancy
+  state: "on"
+  type: time
+  duration:
+    hours: 3
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: BT Kitchen Discrepancy 3 Hours
+  entity_id: binary_sensor.bt_kitchen_discrepancy
+  state: "on"
+  type: time
+  duration:
+    hours: 3
+  end: "{{ now() }}"

@@ -1,0 +1,11 @@
+- sensor:
+
+    - name: Washing Machine Plug Median Power
+      state: >
+        {{ state_attr("sensor.washing_machine_statistics", "median") }}
+      unit_of_measurement: W
+
+    - name: Washing Machine Plug Max Power
+      state: >
+        {{ state_attr("sensor.washing_machine_statistics", "max_value") }}
+      unit_of_measurement: W

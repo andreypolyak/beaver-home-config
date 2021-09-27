@@ -1,0 +1,32 @@
+- sensor:
+
+    - name: Supervisor Updates
+      state: >
+        {%
+          if state_attr("sensor.supervisor_info", "current_version")
+          != state_attr("sensor.supervisor_info", "newest_version")
+        %}
+          1
+        {% else %}
+          0
+        {% endif %}
+
+    - name: OS Updates
+      state: >
+        {% if state_attr("sensor.os_info", "current_version") != state_attr("sensor.os_info", "newest_version") %}
+          1
+        {% else %}
+          0
+        {% endif %}
+
+    - name: Addons Supervisor OS Updates
+      state: >
+        {{
+          states("sensor.supervisor_info")|int
+          + states("sensor.supervisor_updates")|int
+          + states("sensor.os_updates")|int
+        }}
+
+    - name: HACS Updates
+      state: >
+        {{ states("sensor.hacs") }}

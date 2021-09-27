@@ -1,0 +1,17 @@
+- binary_sensor:
+
+    - name: Living Room Yandex Station Active
+      state: >
+        {{
+          (state_attr("media_player.living_room_yandex_station", "alice_state") != None
+          and state_attr("media_player.living_room_yandex_station", "alice_state") != "IDLE")
+          or states("input_text.active_dialog") != ""
+        }}
+
+    - name: Bedroom Yandex Station Active
+      state: >
+        {{
+          (state_attr("media_player.bedroom_yandex_station", "alice_state") != None
+          and state_attr("media_player.bedroom_yandex_station", "alice_state") != "IDLE")
+          or states("input_text.active_dialog") != ""
+        }}

@@ -1,154 +1,115 @@
-- platform: template
-  sensors:
-    price_monthly_water_cold:
-      friendly_name: Cold Water Monthly Price
-      icon_template: mdi:water-pump
-      unit_of_measurement: Rub
-      value_template: >
+- sensor:
+
+    - name: Price Monthly Water Cold
+      state: >
         {{
           (states("sensor.meter_monthly_water_cold")|float
           * states("input_number.tariff_water_cold")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_water_cold:
-      friendly_name: Cold Water Daily Price
-      icon_template: mdi:water-pump
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Water Cold
+      state: >
         {{
           (states("sensor.meter_daily_water_cold")|float
           * states("input_number.tariff_water_cold")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_water_hot:
-      friendly_name: Hot Water Monthly Price
-      icon_template: mdi:water-pump
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Water Hot
+      state: >
         {{
           (states("sensor.meter_monthly_water_hot")|float
           * states("input_number.tariff_water_hot")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_water_hot:
-      friendly_name: Hot Water Daily Price
-      icon_template: mdi:water-pump
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Water Hot
+      state: >
         {{
           (states("sensor.meter_daily_water_hot")|float
           * states("input_number.tariff_water_hot")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_water:
-      friendly_name: Water Monthly Price
-      icon_template: mdi:water-pump
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Water
+      state: >
         {{
           (states("sensor.meter_monthly_water_cold")|float * states("input_number.tariff_water_cold")|float
           + states("sensor.meter_monthly_water_hot")|float * states("input_number.tariff_water_hot")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_water:
-      friendly_name: Water Daily Price
-      icon_template: mdi:water-pump
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Water
+      state: >
         {{
           (states("sensor.meter_daily_water_cold")|float * states("input_number.tariff_water_cold")|float
           + states("sensor.meter_daily_water_hot")|float * states("input_number.tariff_water_hot")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_electricity_t1:
-      friendly_name: T1 Electricity Monthly Price
-      icon_template: mdi:flash
+      icon: mdi:water-pump
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Electricity T1
+      state: >
         {{
           (states("sensor.meter_monthly_electricity_t1")|float
           * states("input_number.tariff_electricity_t1")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_electricity_t1:
-      friendly_name: T1 Electricity Daily Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Electricity T1
+      state: >
         {{
           (states("sensor.meter_daily_electricity_t1")|float
           * states("input_number.tariff_electricity_t1")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_electricity_t2:
-      friendly_name: T2 Electricity Monthly Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Electricity T2
+      state: >
         {{
           (states("sensor.meter_monthly_electricity_t2")|float
           * states("input_number.tariff_electricity_t2")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_electricity_t2:
-      friendly_name: T2 Electricity Daily Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Electricity T2
+      state: >
         {{
           (states("sensor.meter_daily_electricity_t2")|float
           * states("input_number.tariff_electricity_t2")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_electricity_t3:
-      friendly_name: T3 Electricity Monthly Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Electricity T3
+      state: >
         {{
           (states("sensor.meter_monthly_electricity_t3")|float
           * states("input_number.tariff_electricity_t3")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_electricity_t3:
-      friendly_name: T3 Electricity Daily Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Electricity T3
+      state: >
         {{
-          (states("sensor.meter_daily_electricity_t3")|float
-          * states("input_number.tariff_electricity_t3")|float)|round(2)
+          (states("sensor.meter_daily_electricity_t2")|float
+          * states("input_number.tariff_electricity_t2")|float)|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_electricity:
-      friendly_name: Electricity Monthly Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Electricity
+      state: >
         {{
           (
             states("sensor.meter_monthly_electricity_t1")|float * states("input_number.tariff_electricity_t1")|float
@@ -156,14 +117,11 @@
             + states("sensor.meter_monthly_electricity_t3")|float * states("input_number.tariff_electricity_t3")|float
           )|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_daily_electricity:
-      friendly_name: Electricity Daily Price
-      icon_template: mdi:flash
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Electricity
+      state: >
         {{
           (
             states("sensor.meter_daily_electricity_t1")|float * states("input_number.tariff_electricity_t1")|float
@@ -171,21 +129,17 @@
             + states("sensor.meter_daily_electricity_t3")|float * states("input_number.tariff_electricity_t3")|float
           )|round(2)
         }}
-
-- platform: template
-  sensors:
-    price_monthly_utility:
-      friendly_name: Utility Monthly Price
-      icon_template: mdi:gauge
+      icon: mdi:flash
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Monthly Utility
+      state: >
         {{ states("sensor.price_monthly_water")|float + states("sensor.price_monthly_electricity")|float }}
-
-- platform: template
-  sensors:
-    price_daily_utility:
-      friendly_name: Utility Daily Price
-      icon_template: mdi:gauge
+      icon: mdi:gauge
       unit_of_measurement: Rub
-      value_template: >
+
+    - name: Price Daily Utility
+      state: >
         {{ states("sensor.price_daily_water")|float + states("sensor.price_daily_electricity")|float }}
+      icon: mdi:gauge
+      unit_of_measurement: Rub

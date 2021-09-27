@@ -1,0 +1,19 @@
+- sensor:
+
+    - name: Sun Elevation
+      state: >
+        {{ state_attr("sun.sun", "elevation") }}
+
+    - name: Circadian Saturation
+      state: >
+        {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
+          100
+        {% else %}
+          {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
+        {% endif %}
+      unit_of_measurement: "%"
+
+    - name: Wind Speed
+      state: >
+        {{ state_attr("weather.home", "wind_speed")|float }}
+      unit_of_measurement: km/h

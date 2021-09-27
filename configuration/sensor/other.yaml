@@ -1,30 +1,11 @@
 - platform: uptime
   name: uptime
 
-- platform: template
-  sensors:
-    sun_elevation:
-      value_template: >
-        {{ state_attr("sun.sun", "elevation") }}
-      friendly_name: Sun Elevation
-
 - platform: mqtt
   state_topic: valetudo/rockrobo/state
   json_attributes_topic: valetudo/rockrobo/map_data_parsed
   name: rockrobo_map
   value_template: OK
-
-- platform: template
-  sensors:
-    circadian_saturation:
-      value_template: >
-        {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
-          100
-        {% else %}
-          {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
-        {% endif %}
-      friendly_name: Circadian Saturation
-      unit_of_measurement: "%"
 
 - platform: history_stats
   name: Night Scene in Living Zone 12 Hours
@@ -44,14 +25,6 @@
     hours: 1
   end: "{{ now() }}"
 
-- platform: template
-  sensors:
-    wind_speed:
-      value_template: >
-        {{ state_attr("weather.home", "wind_speed")|float }}
-      friendly_name: Wind Speed
-      unit_of_measurement: km/h
-
 - platform: history_stats
   name: Entrance Door Bell 1 Minute
   entity_id: binary_sensor.entrance_door_bell
@@ -60,3 +33,30 @@
   duration:
     minutes: 1
   end: "{{ now() }}"
+
+- platform: statistics
+  name: Washing Machine Statistics
+  entity_id: sensor.bathroom_washing_machine_plug_power
+  sampling_size: 180
+  precision: 0
+  max_age:
+    minutes: 3
+
+- platform: sauresha
+  email: !secret sensor_saures_email
+  password: !secret sensor_saures_password
+  flat_id: !secret sensor_saures_flat_id
+  controllers:
+    !secret sensor_saures_controller_sn_electricity:
+      name: saures_electricity
+    !secret sensor_saures_controller_sn_water:
+      name: saures_water
+  counters:
+    !secret sensor_saures_counter_sn_cold:
+      name: cold_water
+    !secret sensor_saures_counter_sn_hot:
+      name: hot_water
+    !secret sensor_saures_counter_sn_electricity:
+      name: electricity
+  scan_interval:
+    minutes: 60
