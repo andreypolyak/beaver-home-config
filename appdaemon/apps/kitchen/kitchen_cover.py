@@ -10,7 +10,7 @@ class KitchenCover(Base):
     self.listen_event(self.on_close_cover, "close_kitchen_cover")
     self.listen_event(self.on_partly_open_cover, "partly_open_kitchen_cover")
     for binary_sensor in self.get_state("binary_sensor"):
-      if binary_sensor.endswith("_motion") and "bedroom" not in binary_sensor:
+      if binary_sensor.endswith("_motion") and ("kitchen" in binary_sensor or "living_room" in binary_sensor):
         self.listen_state(self.on_motion, binary_sensor, new="on", old="off")
     self.listen_state(self.on_cinema_session_off, "input_boolean.cinema_session", new="off")
     self.listen_state(self.on_cover_change, "cover.kitchen_cover", attribute="position")
@@ -37,7 +37,9 @@ class KitchenCover(Base):
 
 
   def on_living_scene_change(self, entity, attribute, old, new, kwargs):
-    if new == "away":
+    if new == "dumb":
+      return
+    elif new == "away":
       self.partly_open_cover()
     elif new == "party":
       self.close_cover()

@@ -72,6 +72,8 @@ class MediaVolume(Base):
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
+    if new == "dumb":
+      return
     zone = "living"
     if "sleeping" in entity:
       zone = "sleeping"

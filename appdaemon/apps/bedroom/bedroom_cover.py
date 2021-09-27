@@ -46,7 +46,9 @@ class BedroomCover(Base):
 
 
   def on_sleeping_scene_change(self, entity, attribute, old, new, kwargs):
-    if new == "night":
+    if new == "dumb":
+      return
+    elif new == "night":
       if self.uncomfortable:
         self.partly_open_cover()
       else:
@@ -62,6 +64,8 @@ class BedroomCover(Base):
 
 
   def on_living_scene_change(self, entity, attribute, old, new, kwargs):
+    if new == "dumb":
+      return
     if new == "party":
       self.close_cover()
     elif new == "dark_cinema":

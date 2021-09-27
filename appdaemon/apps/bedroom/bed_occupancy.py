@@ -8,7 +8,6 @@ class BedOccupancy(Base):
   def initialize(self):
     for sensor in SENSORS:
       self.listen_state(self.on_change, f"binary_sensor.{sensor}", new="off", old="on")
-    self.listen_state(self.on_change, "input_select.living_scene", old="night")
     self.listen_state(self.on_change, "binary_sensor.bedroom_door")
     self.listen_state(self.on_theo_bed_occupancy, "binary_sensor.bedroom_theo_bed_occupancy", new="on", old="off")
 
@@ -21,9 +20,9 @@ class BedOccupancy(Base):
         return
     if self.entity_is_off("binary_sensor.bedroom_door"):
       return
-    if self.entity_is_on("input_boolean.alarm_ringing"):
+    elif self.entity_is_on("input_boolean.alarm_ringing"):
       return
-    self.log(f"Turning on day scene in sleeping zone because {entity} state changed")
+    self.log("Turning on day scene in sleeping zone because beds are not occupied")
     self.set_sleeping_scene("day")
 
 
