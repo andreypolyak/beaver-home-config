@@ -602,7 +602,6 @@ class RoomLights(Base):
 
   def __set_default_params(self):
     self.write_storage("state", "auto", attribute="color")
-    self.write_storage("state", True, attribute="auto_lights")
     self.write_storage("state", False, attribute="max_delay")
 
 
@@ -621,9 +620,16 @@ class RoomLights(Base):
 
 
   def __sync_state(self):
-    self.write_storage("state", self.timer_is_active(f"light_faded_{self.room}"), attribute="faded")
-    self.write_storage("state", self.timer_is_active(f"light_cooldown_{self.room}"), attribute="cooldown")
-    self.write_storage("state", self.entity_is_on(f"input_boolean.auto_lights_{self.room}"), attribute="auto_lights")
+    if self.read_storage("state", attribute="faded") and not self.timer_is_active(f"light_faded_{self.room}"):
+      self.__set_faded_timer()
+    elif not self.__is_light_off and not self.timer_is_active(f"light_{self.room}"):
+      self.__set_light_timer()
+    if self.read_storage("state", attribute="cooldown") and not self.timer_is_active(f"light_cooldown_{self.room}"):
+      self.__set_cooldown_timer()
+    if self.read_storage("state", attribute="auto_lights"):
+      self.turn_on_entity(f"input_boolean.auto_lights_{self.room}")
+    else:
+      self.turn_off_entity(f"input_boolean.auto_lights_{self.room}")
 
 
   def __write_to_log(self, **kwargs):
