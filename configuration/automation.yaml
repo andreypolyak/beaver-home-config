@@ -19,21 +19,3 @@
           sound: none
         apns_headers:
           apns-collapse-id: restart
-
-- alias: Motioneye Entrance Door Camera Motion Started
-  trigger:
-    platform: webhook
-    webhook_id: motioneye-entrance-door-camera-started
-  action:
-    service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.entrance_door_camera_motion_detected
-
-- alias: Motioneye Entrance Door Camera Motion Ended
-  trigger:
-    platform: webhook
-    webhook_id: motioneye-entrance-door-camera-ended
-  action:
-    service: input_boolean.turn_off
-    data:
-      entity_id: input_boolean.entrance_door_camera_motion_detected

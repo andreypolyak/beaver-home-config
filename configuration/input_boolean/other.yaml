@@ -47,7 +47,3 @@ guest_mode:
 fun_toilet:
   name: Fun Toilet
   icon: mdi:paper-roll
-
-entrance_door_camera_motion_detected:
-  name: Entrance Door Camera Motion Detected
-  icon: mdi:motion-sensor
