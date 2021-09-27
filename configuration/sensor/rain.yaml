@@ -1,13 +1,13 @@
 - platform: command_line
   name: Andrey Yandex Rain
   command: >
-    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{states.device_tracker.ha_andrey_iphone_11_pro_max.attributes.latitude}}&lon={{states.device_tracker.ha_andrey_iphone_11_pro_max.attributes.longitude}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{state_attr("device_tracker.ha_andrey_iphone_11_pro_max", "latitude")}}&lon={{state_attr("device_tracker.ha_andrey_iphone_11_pro_max", "longitude")}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
   scan_interval: 120
   value_template: "{{value}}"
 
 - platform: command_line
   name: Katya Yandex Rain
   command: >
-    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{states.device_tracker.ha_katya_iphone_12_pro_max.attributes.latitude}}&lon={{states.device_tracker.ha_katya_iphone_12_pro_max.attributes.longitude}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/pogoda/maps/nowcast?lat={{state_attr("device_tracker.ha_katya_iphone_12_pro_max", "latitude")}}&lon={{state_attr("device_tracker.ha_katya_iphone_12_pro_max", "longitude")}}" -O /dev/stdout | sed 's/>/>\n/g' | grep "weather-maps-fact__nowcast-alert" -A1 | tail -1 | sed 's/<\/div>//g' | sed 's|.*\. ||'
   scan_interval: 120
   value_template: "{{value}}"

@@ -1,7 +1,7 @@
 - platform: command_line
   name: Katya Home to Work Commute
   command: >
-    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{states.zone.home.attributes.latitude}}%2C{{states.zone.home.attributes.longitude}}~{{states.zone.adidas.attributes.latitude}}%2C{{states.zone.adidas.attributes.longitude}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{state_attr("zone.home", "latitude")}}%2C{{state_attr("zone.home", "longitude")}}~{{state_attr("zone.adidas", "latitude")}}%2C{{state_attr("zone.adidas", "longitude")}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
   scan_interval: 120
   unit_of_measurement: min
   value_template: >
@@ -19,7 +19,7 @@
 - platform: command_line
   name: Katya Work to Home Commute
   command: >
-    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{states.zone.adidas.attributes.latitude}}%2C{{states.zone.adidas.attributes.longitude}}~{{states.zone.home.attributes.latitude}}%2C{{states.zone.home.attributes.longitude}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
+    wget -q --user-agent='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' "https://yandex.ru/maps/213/moscow/?mode=routes&rtext={{state_attr("zone.adidas", "latitude")}}%2C{{state_attr("zone.adidas", "longitude")}}~{{state_attr("zone.home", "latitude")}}%2C{{state_attr("zone.home", "longitude")}}&rtt=auto" -O /dev/stdout | sed 's/>/>\n/g' | grep 'class="auto-route-snippet-view__route-title-primary"' -A1 | sed -n 2p | sed 's/<\/div>//g'
   scan_interval: 120
   unit_of_measurement: min
   value_template: >
