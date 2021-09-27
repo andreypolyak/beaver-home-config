@@ -1,6 +1,8 @@
 from base import Base
 from datetime import timedelta
 
+SNOOZE_MINUTES = 15
+
 
 class AlarmManager(Base):
 
@@ -125,7 +127,7 @@ class AlarmManager(Base):
     person_name = self.get_person_name_alarm_ringing()
     if person_name:
       self.log("Alarm snoozed")
-      alarm_time = (self.get_now() + timedelta(minutes=10)).strftime("%H:%M:00")
+      alarm_time = (self.get_now() + timedelta(minutes=SNOOZE_MINUTES)).strftime("%H:%M:00")
       self.set_time(f"input_datetime.alarm_{person_name}", alarm_time)
 
 
