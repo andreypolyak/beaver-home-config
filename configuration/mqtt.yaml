@@ -2,3 +2,9 @@ discovery: true
 broker: !secret mqtt_broker
 username: !secret mqtt_username
 password: !secret mqtt_password
+birth_message:
+  topic: homeassistant/status
+  payload: online
+will_message:
+  topic: homeassistant/status
+  payload: offline
