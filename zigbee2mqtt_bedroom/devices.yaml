@@ -4,6 +4,7 @@
   friendly_name: Bedroom CO2
 '0x000d6f0013679e20':
   friendly_name: Bedroom Table Plug
+  retain: true
 '0xec1bbdfffeb1c4e4':
   friendly_name: Bedroom Bed 2
 '0xbc33acfffe00a44d':
@@ -18,12 +19,14 @@
 '0x00158d000465b970':
   friendly_name: Bedroom Temperature
 '0x00158d000485f2ff':
-  friendly_name: Bedroom Floor Motion
+  friendly_name: Bedroom Floor Top Motion
   occupancy_timeout: 5
 '0x00158d0002329fcc':
   friendly_name: Bedroom Door
+  retain: true
 '0x00158d00044522f7':
   friendly_name: Bedroom Wardrobe Door
+  retain: true
 '0x00158d0004110b29':
   friendly_name: Bedroom Table Motion
   occupancy_timeout: 5
@@ -54,3 +57,6 @@
   legacy: false
 '0x84fd27fffec23e73':
   friendly_name: Bedroom Bed LED
+'0x00158d00040c40e6':
+  friendly_name: Bedroom Floor Bottom Motion
+  occupancy_timeout: 5

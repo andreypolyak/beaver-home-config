@@ -69,6 +69,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - 4x ZigBee DIYRuz [Plant Sensors](https://diyruz.github.io/posts/flower/)
 - 2x DIY [bed occupancy sensor](https://github.com/eoncire/HA_bed_presence) — uses ESP32 and film pressure sensors, ESPHome firmware
 - 12x Aqara human body movement and illuminance sensor (RTCGQ11LM) — [hacked](https://community.smartthings.com/t/making-xiaomi-motion-sensor-a-super-motion-sensor/139806) to have 5 seconds occupancy timeout
+- Aqara high precision motion sensor (RTCGQ13LM)
 - 7x Aqara temperature, humidity and pressure sensor (WSDCGQ11LM)
 - 12x Aqara door & window contact sensor (MCCGQ11LM)
 - 10x Aqara water leak sensor (SJCGQ11LM) — 7 of which I'm using as actual water leak sensors and 3 as a chair occupancy sensor together with [this](https://aliexpress.com/item/4000151259805.html) pressure sensor
@@ -127,7 +128,7 @@ I'm building the mobile-only dashboard with the idea to have as low click and sc
 
 </details>
 
-I don't like how the header bar looks on the mobile, so it's hidden with CSS and instead the row of [button cards](https://github.com/custom-cards/button-card) is used for navigation (see [lovelace/elements/navigation.yaml](lovelace/elements/navigation.yaml)).
+I don't like how the header bar looks on the mobile, so it's hidden with CSS and instead the row of [button cards](https://github.com/custom-cards/button-card) is used for navigation (see [lovelace/elements/navigation/main.yaml](https://github.com/andreypolyak/beaver-home-config/blob/master/lovelace/elements/navigation/main.yaml)).
 
 There are 7 main pages on the dashboard:
 - home — scene selection, light controls, climate details all over the place
@@ -153,7 +154,7 @@ And 13 additional pages are accessible from the settings page:
 - consumption — daily and monthly electricity and water consumption (don't like the current state, need to redo)
 - logging — Telegram logging controls, incl. entity logging UI which is used to send Telegram updates on each entity state change
 
-As you can see the [button cards](https://github.com/custom-cards/button-card) are used a lot in the Lovelace UI and instead of having options specified for each button card [templates](https://github.com/custom-cards/button-card/blob/master/README.md#configuration-templates) are used (see [lovelace/templates/buttons.yaml](lovelace/templates/buttons.yaml)). Templates are also used for [ApexCharts cards](https://github.com/RomRider/apexcharts-card) (see [lovelace/templates/charts.yaml](lovelace/templates/charts.yaml)).
+As you can see the [button cards](https://github.com/custom-cards/button-card) are used a lot in the Lovelace UI and instead of having options specified for each button card [templates](https://github.com/custom-cards/button-card/blob/master/README.md#configuration-templates) are used (see [lovelace/templates/buttons](https://github.com/andreypolyak/beaver-home-config/tree/master/lovelace/templates/buttons)). Templates are also used for [ApexCharts cards](https://github.com/RomRider/apexcharts-card) (see [lovelace/templates/charts](https://github.com/andreypolyak/beaver-home-config/tree/master/lovelace/templates/charts)).
 
 I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/google_dark_theme).
 

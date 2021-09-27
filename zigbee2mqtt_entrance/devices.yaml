@@ -4,8 +4,10 @@
   friendly_name: Bathroom Mirror
 '0x000d6f0013364669':
   friendly_name: Bathroom Washing Machine Plug
+  retain: true
 '0x00158d0004448945':
   friendly_name: Entrance Door
+  retain: true
 '0x00158d000283bd95':
   friendly_name: Entrance Door Bell
   legacy: false
@@ -19,10 +21,12 @@
   occupancy_timeout: 5
 '0x00158d00041d0cd1':
   friendly_name: Bathroom Door
+  retain: true
 '0x00158d0004210b51':
   friendly_name: Bathroom Temperature
 '0x00158d000232ce4d':
   friendly_name: Bathroom Washing Machine Door
+  retain: true
 '0x00158d000242c6a6':
   friendly_name: Bathroom Washing Machine Leak
 '0x00158d0004467dba':

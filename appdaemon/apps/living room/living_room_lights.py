@@ -7,13 +7,13 @@ class LivingRoomLights(RoomLights):
     self.zone = "living"
     self.room = "living_room"
     self.color_mode = "rgb"
-    self.delay = 1200
-    self.max_delay = 1800
+    self.delay = 240
+    self.max_delay = 600
     self.min_delay = 30
     self.sensors = [
       ("binary_sensor.living_room_front_motion", "motion_sensor"),
       ("binary_sensor.living_room_back_motion", "back_motion_sensor"),
-      ("binary_sensor.living_room_middle_motion", "motion_sensor"),
+      ("binary_sensor.living_room_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "door_sensor"),
       ("binary_sensor.bedroom_door", "door_sensor")
     ]

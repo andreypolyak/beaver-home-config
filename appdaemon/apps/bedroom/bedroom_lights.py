@@ -13,7 +13,8 @@ class BedroomLights(RoomLights):
     self.sensors = [
       ("binary_sensor.bedroom_bed_motion", "motion_sensor"),
       ("binary_sensor.bedroom_table_motion", "table_motion_sensor"),
-      ("binary_sensor.bedroom_floor_motion", "floor_motion_sensor"),
+      ("binary_sensor.bedroom_floor_top_motion", "floor_motion_sensor"),
+      ("binary_sensor.bedroom_floor_bottom_motion", "floor_motion_sensor"),
       ("binary_sensor.bedroom_door", "door_sensor"),
       ("binary_sensor.bedroom_chair_occupancy", "chair_sensor"),
       ("binary_sensor.bedroom_bed_occupancy", "bed_sensor"),

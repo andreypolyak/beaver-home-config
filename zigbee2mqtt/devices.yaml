@@ -22,6 +22,7 @@
   friendly_name: Kitchen Top 3
 '0x000d6f0010dd0c84':
   friendly_name: Living Room TV Plug
+  retain: true
 '0x00158d00040c6454':
   friendly_name: Living Room Cover
 '0x000d6f0013663a33':
@@ -35,18 +36,19 @@
   friendly_name: Kitchen Temperature
 '0x00158d00042cbe22':
   friendly_name: Kitchen Coffee Door
+  retain: true
 '0x00158d00044c93df':
   friendly_name: Kitchen Motion
   occupancy_timeout: 5
 '0x00158d00044b6dee':
   friendly_name: Living Room Balcony Door
+  retain: true
 '0x00158d00049ff878':
   friendly_name: Living Room AC Door
+  retain: true
 '0x00158d00041d5dad':
   friendly_name: Storage Room Door
-'0x00158d00040c40e6':
-  friendly_name: Living Room Middle Motion
-  occupancy_timeout: 5
+  retain: true
 '0x00158d0004202970':
   friendly_name: Living Room Front Motion
   occupancy_timeout: 5
@@ -105,6 +107,7 @@
   friendly_name: Kitchen Plant Sid
 '0x00158d00045cc45b':
   friendly_name: Kitchen Freezer Door
+  retain: true
 '0x00158d0004850370':
   friendly_name: Kitchen Fridge Temperature
 '0x00158d00048502d0':
@@ -122,6 +125,10 @@
 '0x00158d0006ba65d9':
   friendly_name: Living Room Cover Open Door
   debounce: 1
+  retain: true
 '0x00158d0006ba6332':
   friendly_name: Living Room Cover Closed Door
   debounce: 1
+  retain: true
+'0x04cf8cdf3c8a85e8':
+  friendly_name: Living Room Center Motion

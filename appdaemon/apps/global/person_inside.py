@@ -12,7 +12,8 @@ ROOMS = {
     "sensors": [
       "bedroom_bed_motion",
       "bedroom_table_motion",
-      "bedroom_floor_motion",
+      "bedroom_floor_top_motion",
+      "bedroom_floor_bottom_motion",
       "bedroom_bed_occupancy",
       "bedroom_theo_bed_occupancy",
       "bedroom_chair_occupancy"
