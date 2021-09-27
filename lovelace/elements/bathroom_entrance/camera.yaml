@@ -1,7 +1,2 @@
-type: vertical-stack
-cards:
-  - type: custom:button-card
-    template: header
-    name: Camera
-  - type: custom:webrtc-camera
-    entity: camera.entrance_door_camera
+type: custom:webrtc-camera
+entity: camera.entrance_door_camera

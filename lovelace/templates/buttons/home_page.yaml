@@ -102,7 +102,7 @@ home_page_light:
     action: navigate
     navigation_path: >
       [[[
-        if (window.location.hash && window.location.hash.includes("show")) {
+        if (window.location.hash && window.location.hash == "#show_" + variables.room + "_light_details") {
           return "#hide_light_details";
         } else {
           return "#show_" + variables.room + "_light_details";
@@ -110,16 +110,11 @@ home_page_light:
       ]]] 
     haptic: success
   double_tap_action:
-    action: navigate
-    navigation_path: >
-      [[[
-        if (window.location.hash == "#show_" + variables.room + "_light_details") {
-          return "#hide_light_details";
-        } else {
-          return "#show_" + variables.room + "_light_details";
-        }
-      ]]] 
-    haptic: success
+    action: call-service
+    service: input_boolean.toggle
+    service_data:
+      entity_id: >
+        [[[ return "input_boolean.auto_lights_" + variables.room ]]]
   styles:
     card:
       - border: >

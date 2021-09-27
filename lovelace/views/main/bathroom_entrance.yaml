@@ -14,5 +14,8 @@ cards:
         template: header
         name: Speakers
       - !include /config/lovelace/elements/bathroom_entrance/sonos.yaml
+      - type: custom:button-card
+        template: header
+        name: Camera
       - !include /config/lovelace/elements/bathroom_entrance/camera.yaml
       - !include /config/lovelace/elements/other/footer.yaml

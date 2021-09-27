@@ -1,8 +1,5 @@
 type: vertical-stack
 cards:
-  - type: custom:button-card
-    template: header
-    name: Forecast
   - type: weather-forecast
     entity: weather.home_hourly
     show_forecast: false

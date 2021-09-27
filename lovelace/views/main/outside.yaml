@@ -10,6 +10,9 @@ cards:
         template: header
         name: Speakers
       - !include /config/lovelace/elements/balcony/sonos.yaml
+      - type: custom:button-card
+        template: header
+        name: Forecast
       - !include /config/lovelace/elements/balcony/forecast_hourly.yaml
       - !include /config/lovelace/elements/balcony/forecast_daily.yaml
       - type: custom:button-card

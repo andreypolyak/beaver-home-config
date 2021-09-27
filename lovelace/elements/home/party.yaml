@@ -1,8 +1,5 @@
 type: vertical-stack
 cards:
-  - type: custom:button-card
-    template: header
-    name: Party
   - type: horizontal-stack
     cards:
       - type: custom:button-card

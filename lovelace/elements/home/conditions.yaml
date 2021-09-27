@@ -8,26 +8,35 @@ cards:
         entities:
           - input_boolean.guest_mode
   - type: custom:state-switch
-    entity: binary_sensor.show_camera
+    entity: binary_sensor.show_camera_card
     states:
       "on":
         type: vertical-stack
         cards:
+          - type: custom:button-card
+            template: header
+            name: Lock
           - !include /config/lovelace/elements/bathroom_entrance/lock.yaml
+          - type: custom:button-card
+            template: header
+            name: Camera
           - !include /config/lovelace/elements/bathroom_entrance/camera.yaml
   - type: custom:state-switch
-    entity: binary_sensor.show_alarm
+    entity: binary_sensor.show_alarm_card
     states:
       "on":
         type: vertical-stack
         cards:
           - !include /config/lovelace/elements/bedroom/alarm.yaml
   - type: custom:state-switch
-    entity: binary_sensor.show_forecast
+    entity: binary_sensor.show_forecast_card
     states:
       "on":
         type: vertical-stack
         cards:
+          - type: custom:button-card
+            template: header
+            name: Forecast
           - !include /config/lovelace/elements/balcony/forecast_hourly.yaml
   - type: custom:state-switch
     entity: binary_sensor.vacuum_active
