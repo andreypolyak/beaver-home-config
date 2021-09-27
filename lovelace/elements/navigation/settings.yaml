@@ -75,8 +75,8 @@ cards:
           name: settings_consumption
       - type: custom:button-card
         template: navigation
-        icon: mdi:math-log
+        icon: mdi:bell-outline
         variables:
-          name: settings_logging
+          name: settings_notifications
     # - type: custom:button-card
     #   color_type: blank-card

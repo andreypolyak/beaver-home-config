@@ -1,6 +1,6 @@
-path: settings_logging
-title: Logging Settings
-icon: mdi:math-log
+path: settings_notifications
+title: Notifications Settings
+icon: mdi:bell-outline
 cards:
   - type: vertical-stack
     cards:
@@ -8,13 +8,13 @@ cards:
       - !include /config/lovelace/elements/navigation/settings.yaml
       - type: custom:button-card
         template: header
-        name: Logging
+        name: Logs Notifications
       - type: entities
         entities:
-          - input_boolean.log_ad
-          - input_boolean.log_ha
-          - input_boolean.log_entities
-          - input_boolean.log_z2m
+          - input_boolean.notify_appdaemon_logs
+          - input_boolean.notify_home_assistant_logs
+          - input_boolean.notify_zigbee2mqtt_logs
+          - input_boolean.notify_entity_changes
       - type: custom:button-card
         template: header
         name: Log New Entity

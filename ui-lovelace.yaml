@@ -23,6 +23,6 @@ views:
   - !include /config/lovelace/views/settings/climate.yaml
   - !include /config/lovelace/views/settings/media.yaml
   - !include /config/lovelace/views/settings/consumption.yaml
-  - !include /config/lovelace/views/settings/logging.yaml
+  - !include /config/lovelace/views/settings/notifications.yaml
 
-# Updated at: 2021-09-23 12:59:15.607554+03:00
+# Updated at: 2021-09-27 21:30:08.440384+03:00

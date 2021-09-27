@@ -1,19 +1,19 @@
 # Logs
 
-log_entities:
-  name: Log Entities
+notify_entity_changes:
+  name: Notify Entities Changes
   icon: mdi:hexagon-multiple-outline
 
-log_ha:
-  name: Log Home Assistant
+notify_home_assistant_logs:
+  name: Notify Home Assistant Logs
   icon: mdi:home-assistant
 
-log_ad:
-  name: Log AppDaemon
+notify_appdaemon_logs:
+  name: Notify AppDaemon Logs
   icon: mdi:robot
 
-log_z2m:
-  name: Log Zigbee2mqtt
+notify_zigbee2mqtt_logs:
+  name: Notify Zigbee2mqtt Logs
   icon: mdi:zigbee
 
 # Running

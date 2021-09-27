@@ -85,7 +85,7 @@ class NotifyLogs(Base):
     for item in APPDAEMON_BLACKLIST:
       if item in message:
         blacklisted = True
-    if not blacklisted and self.entity_is_on("input_boolean.log_ad"):
+    if not blacklisted and self.entity_is_on("input_boolean.notify_appdaemon_logs"):
       ts_formatted = ts.strftime("%Y-%m-%D %H:%M:%S.%f")
       message = f"{ts_formatted} {level} {app_name} {message[:1000]}"
       self.send_to_bot(message)
@@ -97,13 +97,13 @@ class NotifyLogs(Base):
     for item in HA_BLACKLIST:
       if item in message:
         blacklisted = True
-    if not blacklisted and self.entity_is_on("input_boolean.log_ha"):
+    if not blacklisted and self.entity_is_on("input_boolean.notify_home_assistant_logs"):
       self.send_to_bot(message)
 
 
   def on_zigbee_log(self, event_name, data, kwargs):
     message = data["text"]
-    if "error" in message and self.entity_is_on("input_boolean.log_z2m"):
+    if "error" in message and self.entity_is_on("input_boolean.notify_zigbee2mqtt_logs"):
       self.send_to_bot(message)
 
 

@@ -64,7 +64,7 @@ cards:
             entity: input_number.logged_entities
             variables:
               entity: input_number.logged_entities
-              path: /lovelace/settings_logging
+              path: /lovelace/settings_notifications
           - type: custom:button-card
             template: numeric_label
             name: New
