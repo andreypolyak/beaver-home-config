@@ -39,7 +39,7 @@ cards:
             name: Forecast
           - !include /config/lovelace/elements/balcony/forecast_hourly.yaml
   - type: custom:state-switch
-    entity: binary_sensor.vacuum_active
+    entity: binary_sensor.show_vacuum_card
     states:
       "on":
         type: vertical-stack

@@ -47,11 +47,12 @@ cards:
               room: bedroom
       - type: custom:button-card
         template: header
-        name: Vacuum Parameters
+        name: Parameters
       - type: entities
         entities:
           - entity: input_select.vacuum_state
           - entity: input_datetime.vacuum_last_cleaned
+          - entity: input_select.vacuum_room_cleaning
       - type: custom:button-card
         template: header
         name: History

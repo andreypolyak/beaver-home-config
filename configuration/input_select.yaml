@@ -35,7 +35,7 @@ living_scene:
   icon: mdi:table-furniture
 
 vacuum_room_cleaning:
-  name: Vacuum Cleaning Room
+  name: Vacuum Room Cleaning
   options:
     - none
     - all

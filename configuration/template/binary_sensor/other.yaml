@@ -23,13 +23,6 @@
       state: >
         {{ states("sensor.kitchen_vent_plug_power")|float > 60 }}
 
-    - name: Vacuum Active
-      state: >
-        {{
-          states("vacuum.roborock") != "docked"
-          or states("input_select.vacuum_state") != "idle"
-        }}
-
     - name: Entrance Door Bell 1 Minute
       state: >
         {{ states("sensor.entrance_door_bell_1_minute")|int > 0 }}

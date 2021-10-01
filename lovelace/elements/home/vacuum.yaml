@@ -23,7 +23,7 @@ cards:
         entity: vacuum.roborock
         name: >
           [[[
-            return states["vacuum.roborock"].state[0].toUpperCase() + states["vacuum.roborock"].state.substring(1);
+            return states["vacuum.roborock"].state.charAt(0).toUpperCase() + states["vacuum.roborock"].state.slice(1);
           ]]]
         tap_action:
           action: more-info

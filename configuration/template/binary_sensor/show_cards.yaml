@@ -24,3 +24,10 @@
           states("input_select.living_scene") == "away"
           or states("binary_sensor.entrance_door_bell_1_minute") == "on"
         }}
+
+    - name: Show Vacuum Card
+      state: >
+        {{
+          states("vacuum.roborock") != "docked"
+          or states("input_select.vacuum_state") != "idle"
+        }}
