@@ -113,8 +113,7 @@ cards:
         cards:
           - type: custom:button-card
             template: restart_z2m
-            triggers_update:
-              - binary_sensor.zigbee2mqtt_state
+            entity: binary_sensor.zigbee2mqtt_state
             name: Main
             variables:
               name: Zigbee2mqtt
@@ -122,8 +121,7 @@ cards:
               addon_short_name: zigbee2mqtt
           - type: custom:button-card
             template: restart_z2m
-            triggers_update:
-              - binary_sensor.zigbee2mqtt_entrance_state
+            entity: binary_sensor.zigbee2mqtt_entrance_state
             name: Entrance
             variables:
               name: Zigbee2mqtt Entrance
@@ -131,8 +129,7 @@ cards:
               addon_short_name: zigbee2mqtt_entrance
           - type: custom:button-card
             template: restart_z2m
-            triggers_update:
-              - binary_sensor.zigbee2mqtt_bedroom_state
+            entity: binary_sensor.zigbee2mqtt_bedroom_state
             name: Bedroom
             variables:
               name: Zigbee2mqtt Bedroom
@@ -140,8 +137,7 @@ cards:
               addon_short_name: zigbee2mqtt_bedroom
           - type: custom:button-card
             template: restart_z2m
-            triggers_update:
-              - binary_sensor.zigbee2mqtt_switches_state
+            entity: binary_sensor.zigbee2mqtt_switches_state
             name: Switches
             variables:
               name: Zigbee2mqtt Switches

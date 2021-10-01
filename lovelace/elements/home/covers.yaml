@@ -13,12 +13,12 @@ cards:
           - position: absolute
           - left: 0px
           - top: 24px
-          - font-size: 18px
+          - width: 18px
+          - height: 18px
+          - font-size: 0px
     custom_fields:
       arrow: >
-        [[[
-          return `<ha-icon icon="mdi:chevron-left" style="width: 18px; height: 18px;"></ha-icon>`;
-        ]]]
+        [[[ return `<ha-icon icon="mdi:chevron-left"/>`; ]]]
   - type: custom:button-card
     entity: cover.kitchen_cover
     template: cover_device

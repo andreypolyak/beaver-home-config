@@ -23,7 +23,7 @@ vacuum_control:
   tap_action:
     action: call-service
     service: >
-      [[[ return "vacuum." + variables.service; ]]]
+      [[[ return `vacuum.${variables.service}`; ]]]
     service_data:
       entity_id: vacuum.roborock
     haptic: success
@@ -76,7 +76,7 @@ vacuum_room:
           if (entity.state === variables.room) {
             return "script.vacuum_stop";
           } else {
-            return "script.vacuum_clean_" + variables.room;
+            return `script.vacuum_clean_${variables.room}`;
           }
         ]]]
     haptic: success
@@ -107,7 +107,7 @@ vacuum_device:
           if (entity.state === variables.room) {
             return "script.vacuum_stop";
           } else {
-            return "script.vacuum_clean_" + variables.room;
+            return `script.vacuum_clean_${variables.room}`;
           }
         ]]]
     haptic: success

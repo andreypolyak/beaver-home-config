@@ -7,15 +7,13 @@ navigation:
       value: >
         [[[ return window.location.pathname.split("/").slice(-1)[0].includes(variables.name); ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[ return !window.location.pathname.split("/").slice(-1)[0].includes(variables.name); ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   color_type: card
   tap_action:
     action: navigate
     navigation_path: >
-      [[[ return "/lovelace/" + variables.name; ]]]
+      [[[ return `/lovelace/${variables.name}`; ]]]
     haptic: success
   styles:
     icon:
@@ -33,16 +31,17 @@ navigation_settings:
       attention:
         - position: absolute
         - right: 2px
-        - top: -4px
+        - top: 2px
+        - width: 10px
+        - height: 10px
+        - font-size: 0px
   custom_fields:
     attention: >
       [[[
         if (states["binary_sensor.system_healthy"].state == "off") {
-          return `<ha-icon icon="mdi:alert-circle-outline" style="width: 10px; height: 10px;"></ha-icon>`;
+          return `<ha-icon icon="mdi:alert-circle-outline"/>`;
         } else if (states["binary_sensor.system_up_to_date"].state == "off") {
-          return `<ha-icon icon="mdi:download-circle-outline" style="width: 10px; height: 10px;"></ha-icon>`;
-        } else {
-          return "";
+          return `<ha-icon icon="mdi:download-circle-outline"/>`;
         }
       ]]]
   variables:
@@ -57,15 +56,13 @@ navigation_equal:
       value: >
         [[[ return window.location.pathname.split("/").slice(-1)[0] == variables.name; ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[ return !window.location.pathname.split("/").slice(-1)[0] != variables.name; ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   color_type: card
   tap_action:
     action: navigate
     navigation_path: >
-      [[[ return "/lovelace/" + variables.name; ]]]
+      [[[ return `/lovelace/${variables.name}`; ]]]
     haptic: success
   styles:
     icon:

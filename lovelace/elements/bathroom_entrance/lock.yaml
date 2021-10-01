@@ -20,6 +20,5 @@ state:
   - value: locked
     operator: "!="
     color: var(--paper-item-icon-active-color)
-  - value: locked
-    operator: "=="
+  - operator: default
     color: var(--paper-card-background-color)

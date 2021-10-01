@@ -6,7 +6,7 @@ cover_device:
     - input_boolean.living_room_cover_active
   icon: >
     [[[
-      if (states["cover." + variables.name].attributes.current_position < 100) {
+      if (states[`cover.${variables.name}`].attributes.current_position < 100) {
         return "mdi:blinds";
       } else {
         return "mdi:blinds-open";
@@ -19,7 +19,7 @@ cover_device:
     action: call-service
     service: >
       [[[
-        if (states["cover." + variables.name].attributes.current_position == 100) {
+        if (states[`cover.${variables.name}`].attributes.current_position == 100) {
           return "cover.close_cover";
         } else {
           return "cover.open_cover";
@@ -27,16 +27,14 @@ cover_device:
       ]]]
     service_data:
       entity_id: >
-        [[[ return "cover." + variables.name; ]]]
+        [[[ return `cover.${variables.name}`; ]]]
     haptic: success
   state:
     - value: >
-        [[[ return states["input_boolean." + variables.room + "_cover_active"].state == "on"; ]]]
+        [[[ return states[`input_boolean.${variables.room}_cover_active`].state == "on"; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["input_boolean." + variables.room + "_cover_active"].state != "on"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   styles:
     custom_fields:
@@ -47,7 +45,7 @@ cover_device:
         - font-size: 12px
   custom_fields:
     position: >
-      [[[ return Math.round(states["cover." + variables.room + "_cover"].attributes.position) + "%"; ]]]
+      [[[ return Math.round(states[`cover.${variables.room}_cover`].attributes.position) + "%"; ]]]
   variables:
     room: ""
     name: ""

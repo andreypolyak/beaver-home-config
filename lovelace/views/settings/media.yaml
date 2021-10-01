@@ -88,6 +88,9 @@ cards:
           runtime: false
         tts:
           platform: alice
+      - type: custom:button-card
+        template: header
+        name: Party Control
       - !include /config/lovelace/elements/home/party.yaml
       - type: custom:button-card
         template: header

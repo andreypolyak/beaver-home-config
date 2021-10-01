@@ -7,12 +7,11 @@ cards:
         entity: input_select.living_scene
         icon: mdi:power
         state:
-            - value: party
-              operator: "=="
-              color: var(--paper-item-icon-active-color)
-            - value: party
-              operator: "!="
-              color: var(--paper-card-background-color)
+          - value: party
+            operator: "=="
+            color: var(--paper-item-icon-active-color)
+          - operator: default
+            color: var(--paper-card-background-color)
         tap_action:
           action: call-service
           service: input_select.select_option

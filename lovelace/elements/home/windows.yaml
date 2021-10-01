@@ -18,9 +18,9 @@ cards:
           - position: absolute
           - right: 0px
           - top: 24px
-          - font-size: 18px
+          - width: 18px
+          - height: 18px
+          - font-size: 0px
     custom_fields:
       arrow: >
-        [[[
-          return `<ha-icon icon="mdi:chevron-right" style="width: 18px; height: 18px;"></ha-icon>`;
-        ]]]
+        [[[ return `<ha-icon icon="mdi:chevron-right"/>`; ]]]

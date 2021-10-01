@@ -12,12 +12,12 @@ cards:
           - position: absolute
           - left: 0px
           - top: 24px
-          - font-size: 18px
+          - width: 18px
+          - height: 18px
+          - font-size: 0px
     custom_fields:
       arrow: >
-        [[[
-          return `<ha-icon icon="mdi:chevron-left" style="width: 18px; height: 18px;"></ha-icon>`;
-        ]]]
+        [[[ return `<ha-icon icon="mdi:chevron-left"/>`; ]]]
   - type: custom:button-card
     template: home_page_light
     entity: light.ha_template_room_living_room
@@ -48,9 +48,9 @@ cards:
           - position: absolute
           - right: 0px
           - top: 24px
-          - font-size: 18px
+          - width: 18px
+          - height: 18px
+          - font-size: 0px
     custom_fields:
       arrow: >
-        [[[
-          return `<ha-icon icon="mdi:chevron-right" style="width: 18px; height: 18px;"></ha-icon>`;
-        ]]]
+        [[[ return `<ha-icon icon="mdi:chevron-right"/>`; ]]]

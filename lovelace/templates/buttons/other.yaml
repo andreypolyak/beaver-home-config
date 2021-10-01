@@ -7,7 +7,7 @@ alarm:
   show_name: false
   icon: >
       [[[
-        if (states["input_boolean.alarm_" + variables.name].state === "on") {
+        if (states[`input_boolean.alarm_${variables.name}`].state === "on") {
           return "mdi:alarm";
         } else {
           return "mdi:alarm-off";
@@ -18,12 +18,12 @@ alarm:
     service: input_boolean.toggle
     service_data:
       entity_id: >
-        [[[ return "input_boolean.alarm_" + variables.name; ]]]
+        [[[ return `input_boolean.alarm_${variables.name}`; ]]]
     haptic: success
   hold_action:
     action: more-info
     entity: >
-      [[[ return "input_boolean.alarm_" + variables.name; ]]]
+      [[[ return `input_boolean.alarm_${variables.name}`; ]]]
     haptic: success
   styles:
     card:
@@ -34,18 +34,13 @@ alarm:
 
 config:
   template: base
-  color: auto
   color_type: card
   tap_action:
     action: navigate
     navigation_path: >
         [[[ return variables.url; ]]]
     haptic: success
-  state:
-    - value: >
-        [[[ return 1 == 1; ]]]
-      operator: template
-      color: var(--paper-card-background-color)
+  color: var(--paper-card-background-color)
   variables:
     url: ""
 
@@ -66,7 +61,7 @@ tv_remote:
     service: switch.turn_on
     service_data:
       entity_id: >
-        [[[ return "switch.ir_tv_" + variables.command; ]]]
+        [[[ return `switch.ir_tv_${variables.command}`; ]]]
     haptic: success
   variables:
     command: ""
@@ -75,7 +70,7 @@ tv_remote_compact:
   tap_action:
     action: call-service
     service: >
-      [[[ return "script." + variables.command; ]]]
+      [[[ return `script.${variables.command}`; ]]]
     haptic: success
   styles:
     card:

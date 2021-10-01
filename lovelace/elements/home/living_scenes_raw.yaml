@@ -24,12 +24,12 @@
             - position: absolute
             - right: 0px
             - top: 24px
-            - font-size: 18px
+            - width: 18px
+            - height: 18px
+            - font-size: 0px
       custom_fields:
         arrow: >
-          [[[
-            return `<ha-icon icon="mdi:chevron-right" style="width: 18px; height: 18px;"></ha-icon>`;
-          ]]]
+          [[[ return `<ha-icon icon="mdi:chevron-right"/>`; ]]]
 - type: horizontal-stack
   cards:
     - type: custom:button-card
@@ -42,14 +42,14 @@
         custom_fields:
           arrow:
             - position: absolute
-            - left: 0px
+            - right: 0px
             - top: 24px
-            - font-size: 18px
+            - width: 18px
+            - height: 18px
+            - font-size: 0px
       custom_fields:
         arrow: >
-          [[[
-            return `<ha-icon icon="mdi:chevron-left" style="width: 18px; height: 18px;"></ha-icon>`;
-          ]]]
+          [[[ return `<ha-icon icon="mdi:chevron-left"/>`; ]]]
     - type: custom:button-card
       entity: input_select.living_scene
       template: cinema_scene

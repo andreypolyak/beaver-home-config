@@ -2,7 +2,7 @@ restart:
   template: base
   confirmation:
     text: >
-      [[[ return "❗ Are you sure you want to restart " + variables.name + "?"; ]]]
+      [[[ return `❗ Are you sure you want to restart ${variables.name}?`; ]]]
   variables:
     name: ""
 
@@ -14,16 +14,14 @@ restart_pi:
   tap_action:
     action: call-service
     service: >
-        [[[ return "shell_command.restart_rpi_" + variables.pi_item; ]]]
+        [[[ return `shell_command.restart_rpi_${variables.pi_item}`; ]]]
     haptic: success
   state:
     - value: >
-        [[[ return states["sensor.rpi_temp_rpi_" + variables.pi_item].state == "unavailable"; ]]]
+        [[[ return states[`sensor.rpi_temp_rpi_${variables.pi_item}`].state == "unavailable"; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["sensor.rpi_temp_rpi_" + variables.pi_item].state != "unavailable"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     name: ""
@@ -42,13 +40,10 @@ restart_z2m:
         [[[ return variables.addon_item; ]]]
     haptic: success
   state:
-    - value: >
-        [[[ return states["binary_sensor." + variables.addon_short_name + "_state"].state != "on"; ]]]
-      operator: template
+    - value: "on"
+      operator: "!="
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["binary_sensor." + variables.addon_short_name + "_state"].state == "on"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     name: ""
@@ -60,18 +55,15 @@ restart_system:
   color: auto
   color_type: card
   state:
-    - value: >
-        [[[ return states["input_boolean." + variables.short_name + "_running"].state != "on"; ]]]
-      operator: template
+    - value: "on"
+      operator: "!="
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["input_boolean." + variables.short_name + "_running"].state == "on"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   tap_action:
     action: call-service
     service: >
-      [[[ return "script.restart_" + variables.short_name; ]]]
+      [[[ return `script.restart_${variables.short_name}`; ]]]
     haptic: success
   variables:
     short_name: ""

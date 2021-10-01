@@ -34,13 +34,10 @@ cards:
           return "mdi:washing-machine-off";
       ]]]
     state:
-      - value: >
-          [[[ return entity.state == "full" ]]]
-        operator: template
+      - value: full
+        operator: "=="
         color: var(--paper-item-icon-active-color)
-      - value: >
-          [[[ return entity.state != "full" ]]]
-        operator: template
+      - operator: default
         color: var(--paper-card-background-color)
     hold_action:
       action: more-info

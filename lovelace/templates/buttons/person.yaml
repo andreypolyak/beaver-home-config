@@ -6,28 +6,25 @@ person:
   hold_action:
     action: more-info
     entity: >
-      [[[ return "person." + variables.person; ]]]
+      [[[ return `person.${variables.person}`; ]]]
     haptic: success
   tap_action:
     action: call-service
     service: >
-      [[[ return "script.find_iphone_" + variables.person; ]]]
+      [[[ return `script.find_iphone_${variables.person}`; ]]]
     haptic: success
   confirmation:
     text: >
       [[[
-        return "❗ Are you sure you want to find "
-          + variables.person.charAt(0).toUpperCase()
-          + variables.person.slice(1) + "'s phone?";
+        const name = variables.person.charAt(0).toUpperCase() + variables.person.slice(1);
+        return `❗ Are you sure you want to find ${name}'s phone?`;
       ]]]
   state:
     - value: >
-        [[[ return states["input_select." + variables.person + "_location"].state == "home"; ]]]
+        [[[ return states[`input_select.${variables.person}_location`].state == "home"; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["input_select." + variables.person + "_location"].state != "home"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   styles:
     card:
@@ -39,24 +36,30 @@ person:
     custom_fields:
       battery:
         - position: absolute
-        - right: 4px
-        - top: 8px
+        - right: 8px
+        - top: 4px
         - font-size: 12px
       wifi:
         - position: absolute
-        - right: 4px
+        - right: 8px
         - top: 20px
-        - font-size: 14px
+        - width: 14px
+        - height: 14px
+        - font-size: 0px
       bt:
         - position: absolute
-        - right: 4px
+        - right: 8px
         - top: 36px
-        - font-size: 14px
+        - width: 14px
+        - height: 14px
+        - font-size: 0px
       activity:
         - position: absolute
-        - left: 4px
-        - top: 8px
-        - font-size: 12px
+        - left: 8px
+        - top: 6px
+        - width: 14px
+        - height: 14px
+        - font-size: 0px
       location:
         - position: absolute
         - width: 100%
@@ -78,49 +81,42 @@ person:
   custom_fields:
     battery: >
       [[[
-        if (states["sensor." + variables.phone + "_battery_state"].state == "Not Charging") {
-          return states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%";
+        const battery_level = states[`device_tracker.ha_${variables.phone}`].attributes.battery_level;
+        if (
+          states[`sensor.${variables.phone}_battery_state`].state == "Not Charging"
+          || parseInt(battery_level) == 100
+        ) {
+          return `${battery_level}%`;
         } else {
-          return `<ha-icon icon="mdi:battery-charging"
-            style="width: 12px; height: 12px; position: relative; top: -2px;">
-            </ha-icon>` +
-            states["device_tracker.ha_" + variables.phone].attributes.battery_level + "%";
+          return `↯ ${battery_level}%`;
         }
       ]]]
     wifi: >
       [[[
-        if (states["device_tracker.wifi_" + variables.phone].state == "home") {
-          return `<ha-icon icon="mdi:wifi" style="width: 14px; height: 14px;"></ha-icon>`;
-        } else {
-          return "";
+        if (states[`device_tracker.wifi_${variables.phone}`].state == "home") {
+          return `<ha-icon icon="mdi:wifi"/>`;
         }
       ]]]
     bt: >
       [[[
-        if (states["device_tracker.bt_" + variables.phone].state == "home") {
-          return `<ha-icon icon="mdi:bluetooth" style="width: 14px; height: 14px;"></ha-icon>`;
-        } else {
-          return "";
+        if (states[`device_tracker.bt_${variables.phone}`].state == "home") {
+          return `<ha-icon icon="mdi:bluetooth"/>`;
         }
       ]]]
     activity: >
       [[[
-        if (states["sensor." + variables.phone + "_activity"].state == "Walking") {
-          return `<ha-icon icon="mdi:walk" style="width: 14px; height: 14px;"></ha-icon>`;
-        } else if (states["sensor." + variables.phone + "_activity"].state == "Automotive") {
-          return `<ha-icon icon="mdi:car" style="width: 14px; height: 14px;"></ha-icon>`;
-        } else {
-          return "";
+        if (states[`sensor.${variables.phone}_activity`].state == "Walking") {
+          return `<ha-icon icon="mdi:walk"/>`;
+        } else if (states[`sensor.${variables.phone}_activity`].state == "Running") {
+          return `<ha-icon icon="mdi:run"/>`;
+        } else if (states[`sensor.${variables.phone}_activity`].state == "Automotive") {
+          return `<ha-icon icon="mdi:car"/>`;
         }
       ]]]
     location: >
-      [[[
-        return states["sensor." + variables.person + "_display_location"].state;
-      ]]]
+      [[[ return states[`sensor.${variables.person}_display_location`].state; ]]]
     geocoded_location: >
-      [[[
-        return states["sensor." + variables.person + "_geocoded_location"].state;
-      ]]]
+      [[[ return states[`sensor.${variables.person}_geocoded_location`].state; ]]]
   variables:
     person: ""
     phone: ""

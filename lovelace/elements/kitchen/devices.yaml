@@ -25,14 +25,14 @@ cards:
       action: toggle
       haptic: success
     styles:
-      grid:
-        - position: relative
       custom_fields:
         status:
           - position: absolute
           - right: 8px
-          - top: 8px
-          - font-size: 14px
+          - top: 6px
+          - width: 14px
+          - height: 14px
+          - font-size: 0px
     custom_fields:
       status: >
         [[[
@@ -40,9 +40,9 @@ cards:
             (states["input_boolean.alarm_andrey"].state == "on" || states["input_boolean.alarm_katya"].state == "on")
             & states["input_boolean.coffee_prepared"].state == "on"
           )
-            return `<ha-icon icon="mdi:alarm" style="width: 14px; height: 14px;"></ha-icon>`;
+            return `<ha-icon icon="mdi:alarm"/>`;
           else if (states["input_boolean.coffee_prepared"].state == "on")
-            return `<ha-icon icon="mdi:checkbox-marked-circle" style="width: 14px; height: 14px;"></ha-icon>`;
+            return `<ha-icon icon="mdi:checkbox-marked-circle"/>`;
         ]]]
   - type: custom:button-card
     template: vacuum_device

@@ -3,14 +3,14 @@ individual_virtual_switch:
   hold_action:
     action: more-info
     entity: >
-      [[[ return "light." + variables.light_name; ]]]
+      [[[ return `light.${variables.light_name}`; ]]]
     haptic: success
   tap_action:
     action: call-service
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.light_name + "_virtual_switch_individual_toggle"; ]]]
+        [[[ return `variables.light_name${_virtual_switch_individual_toggle}`; ]]]
     haptic: success
   variables:
     light_name: ""
@@ -22,13 +22,13 @@ individual_virtual_switch_with_room_icon:
       room:
         - position: absolute
         - right: 8px
-        - bottom: 8px
-        - font-size: 14px
+        - top: 6px
+        - width: 14px
+        - height: 14px
+        - font-size: 0px
   custom_fields:
     room: >
-      [[[
-        return `<ha-icon icon="` + variables.room_icon + `" style="width: 14px; height: 14px;"></ha-icon>`;
-      ]]]
+      [[[ return `<ha-icon icon="${variables.room_icon}"/>`; ]]]
   variables:
     light_name: ""
     room_icon: ""
@@ -41,7 +41,7 @@ brightness:
   hold_action:
     action: more-info
     entity: >
-      [[[ return "light.ha_group_" + variables.room; ]]]
+      [[[ return `light.ha_group_${variables.room}`; ]]]
     haptic: success
   tap_action:
     action: call-service
@@ -66,16 +66,10 @@ brightness_1:
     - operator: template
       value: >
         [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness < 11;
+          return states[`light.ha_group_${variables.room}`].attributes.brightness < 11;
         ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness >= 11;
-        ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   styles:
     card:
@@ -91,18 +85,11 @@ brightness_25:
     - operator: template
       value: >
         [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness >= 11
-            && states["light.ha_group_" + variables.room].attributes.brightness < 95;
+          return states[`light.ha_group_${variables.room}`].attributes.brightness >= 11
+            && states[`light.ha_group_${variables.room}`].attributes.brightness < 95;
         ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && (states["light.ha_group_" + variables.room].attributes.brightness < 11
-            || states["light.ha_group_" + variables.room].attributes.brightness >= 95);
-        ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
@@ -115,18 +102,11 @@ brightness_50:
     - operator: template
       value: >
         [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness >= 95
-            && states["light.ha_group_" + variables.room].attributes.brightness < 159;
+          return states[`light.ha_group_${variables.room}`].attributes.brightness >= 95
+            && states[`light.ha_group_${variables.room}`].attributes.brightness < 159;
         ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && (states["light.ha_group_" + variables.room].attributes.brightness < 95
-            || states["light.ha_group_" + variables.room].attributes.brightness >= 159);
-        ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
@@ -139,18 +119,11 @@ brightness_75:
     - operator: template
       value: >
         [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness >= 159
-            && states["light.ha_group_" + variables.room].attributes.brightness < 243;
+          return states[`light.ha_group_${variables.room}`].attributes.brightness >= 159
+            && states[`light.ha_group_${variables.room}`].attributes.brightness < 243;
         ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && (states["light.ha_group_" + variables.room].attributes.brightness < 159
-            || states["light.ha_group_" + variables.room].attributes.brightness >= 243);
-        ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
@@ -163,16 +136,10 @@ brightness_100:
     - operator: template
       value: >
         [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness >= 243;
+          return states[`light.ha_group_${variables.room}`].attributes.brightness >= 243;
         ]]]
       color: var(--paper-item-icon-active-color)
-    - operator: template
-      value: >
-        [[[
-          return states["light.ha_group_" + variables.room].attributes
-            && states["light.ha_group_" + variables.room].attributes.brightness < 243;
-        ]]]
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
@@ -196,7 +163,7 @@ light_color_rgb:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.room + "_set_manual_color"; ]]]
+        [[[ return `${variables.room}_set_manual_color`; ]]]
       custom_event_data2: >
         [[[ return variables.rgb; ]]]
   variables:
@@ -213,9 +180,9 @@ light_color_hs:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.room + "_set_manual_color"; ]]]
+        [[[ return `${variables.room}_set_manual_color`; ]]]
       custom_event_data2: >
-        [[[ return "(30," + variables.saturation + ")"; ]]]
+        [[[ return `(30,${variables.saturation})`; ]]]
   variables:
     saturation: ""
     room: ""
@@ -228,7 +195,7 @@ light_color_kelvin:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.room + "_set_manual_color"; ]]]
+        [[[ return `${variables.room}_set_manual_color`; ]]]
       custom_event_data2: >
         [[[ return variables.kelvin; ]]]
   variables:
@@ -244,7 +211,7 @@ light_color_auto:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.room + "_set_auto_color"; ]]]
+        [[[ return `${variables.room}_set_auto_color`; ]]]
   styles:
     card:
       - border: solid 2px var(--primary-text-color)
@@ -258,7 +225,7 @@ auto_lights:
   show_icon: true
   icon: >
     [[[
-      if (states["input_boolean.auto_lights_" + variables.room].state == "on") {
+      if (states[`input_boolean.auto_lights_${variables.room}`].state == "on") {
         return "mdi:motion-sensor";
       } else {
         return "mdi:motion-sensor-off";

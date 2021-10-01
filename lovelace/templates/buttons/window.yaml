@@ -14,7 +14,7 @@ window_device:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return variables.room + "_window"; ]]]
+        [[[ return `${variables.room}_window`; ]]]
       custom_event_data2: toggle
     haptic: success
   double_tap_action:
@@ -22,7 +22,7 @@ window_device:
     service: input_boolean.toggle
     service_data:
       entity_id: >
-        [[[ return "input_boolean.auto_window_" + variables.room; ]]]
+        [[[ return `input_boolean.auto_window_${variables.room}`; ]]]
     haptic: success
   styles:
     custom_fields:
@@ -34,26 +34,26 @@ window_device:
       auto:
         - position: absolute
         - left: 8px
-        - top: 4px
-        - font-size: 12px
+        - top: 6px
+        - width: 14px
+        - height: 14px
+        - font-size: 0px
   state:
     - value: >
-        [[[ return states["sensor." + variables.room + "_window"].state != "STOPPED"; ]]]
+        [[[ return states[`sensor.${variables.room}_window`].state != "STOPPED"; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return states["sensor." + variables.room + "_window"].state == "STOPPED"; ]]]
-      operator: template
+    - operator: default
       color: var(--paper-card-background-color)
   custom_fields:
     position: >
-      [[[ return Math.round(states["sensor." + variables.room + "_window_target_position"].state) + "%"; ]]]
+      [[[ return Math.round(states[`sensor.${variables.room}_window_target_position`].state) + "%"; ]]]
     auto: >
       [[[
-        if (states["input_boolean.auto_window_" + variables.room].state == "on") {
+        if (states[`input_boolean.auto_window_${variables.room}`].state == "on") {
           return "";
         } else {
-          return `<ha-icon icon="mdi:lock-outline" style="width: 14px; height: 14px;"></ha-icon>`;
+          return `<ha-icon icon="mdi:lock-outline"/>`;
         }
       ]]]
   variables:
