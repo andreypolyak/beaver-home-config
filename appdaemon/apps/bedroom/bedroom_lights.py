@@ -7,8 +7,8 @@ class BedroomLights(RoomLights):
     self.zone = "sleeping"
     self.room = "bedroom"
     self.color_mode = "rgb"
-    self.delay = 300
-    self.max_delay = 720
+    self.delay = 240
+    self.max_delay = 600
     self.min_delay = 30
     self.sensors = [
       ("binary_sensor.bedroom_bed_motion", "motion_sensor"),
