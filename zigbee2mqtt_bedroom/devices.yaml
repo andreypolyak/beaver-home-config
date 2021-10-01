@@ -2,6 +2,7 @@
   friendly_name: Bedroom Bed 1
 '0x00124b001d3a456b':
   friendly_name: Bedroom CO2
+  retain: true
 '0x000d6f0013679e20':
   friendly_name: Bedroom Table Plug
   retain: true
@@ -18,6 +19,7 @@
   occupancy_timeout: 5
 '0x00158d000465b970':
   friendly_name: Bedroom Temperature
+  retain: true
 '0x00158d000485f2ff':
   friendly_name: Bedroom Floor Top Motion
   occupancy_timeout: 5

@@ -24,6 +24,7 @@
   retain: true
 '0x00158d0004210b51':
   friendly_name: Bathroom Temperature
+  retain: true
 '0x00158d000232ce4d':
   friendly_name: Bathroom Washing Machine Door
   retain: true

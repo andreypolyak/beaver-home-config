@@ -1,5 +1,6 @@
 '0x00124b001ed155c9':
   friendly_name: Living Room CO2
+  retain: true
 '0xccccccfffec378ad':
   friendly_name: Storage Room 1
 '0x14b457fffe372c4e':
@@ -34,6 +35,7 @@
   occupancy_timeout: 5
 '0x00158d000466004f':
   friendly_name: Kitchen Temperature
+  retain: true
 '0x00158d00042cbe22':
   friendly_name: Kitchen Coffee Door
   retain: true
@@ -59,8 +61,10 @@
   occupancy_timeout: 5
 '0x00158d0004605125':
   friendly_name: Balcony Temperature
+  retain: true
 '0x00158d00045c2aa6':
   friendly_name: Living Room Temperature
+  retain: true
 '0xec1bbdfffe2421b5':
   friendly_name: Living Room Backup Switch
   debounce: 0.2
@@ -91,6 +95,7 @@
   friendly_name: Kitchen Top 1
 '0x04cf8cdf3c787700':
   friendly_name: Balcony Illuminance
+  retain: true
 '0xec1bbdfffe3bd4cc':
   friendly_name: Living Room Sofa
 '0x842e14fffe587bc2':
@@ -110,8 +115,10 @@
   retain: true
 '0x00158d0004850370':
   friendly_name: Kitchen Fridge Temperature
+  retain: true
 '0x00158d00048502d0':
   friendly_name: Kitchen Freezer Temperature
+  retain: true
 '0x00158d0006af76ac':
   friendly_name: Kitchen Chair 2 Occupancy
 '0x00158d0006726399':
