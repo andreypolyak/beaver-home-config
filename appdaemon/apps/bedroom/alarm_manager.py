@@ -127,8 +127,9 @@ class AlarmManager(Base):
     person_name = self.get_person_name_alarm_ringing()
     if person_name:
       self.log("Alarm snoozed")
-      alarm_time = (self.get_now() + timedelta(minutes=SNOOZE_MINUTES)).strftime("%H:%M:00")
-      self.set_time(f"input_datetime.alarm_{person_name}", alarm_time)
+      alarm_time = self.parse_datetime(self.get_state(f"input_datetime.alarm_{person_name}"), aware=True)
+      new_alarm_time = (alarm_time + timedelta(minutes=SNOOZE_MINUTES)).strftime("%H:%M:00")
+      self.set_time(f"input_datetime.alarm_{person_name}", new_alarm_time)
 
 
   def turn_off_alarm(self, kwargs):
