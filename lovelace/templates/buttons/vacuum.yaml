@@ -1,3 +1,70 @@
+vacuum_base:
+  color: auto
+  color_type: card
+  show_label: false
+  show_name: false
+  hold_action:
+    action: more-info
+    entity: vacuum.roborock
+    haptic: success
+  styles:
+    card:
+      - height: 36px
+
+vacuum_text:
+  template: vacuum_base
+  show_state: false
+  show_name: true
+  show_icon: false
+
+vacuum_control:
+  template: vacuum_base
+  color: var(--paper-card-background-color)
+  tap_action:
+    action: call-service
+    service: >
+      [[[ return "vacuum." + variables.service; ]]]
+    service_data:
+      entity_id: vacuum.roborock
+    haptic: success
+  variables:
+    service: ""
+
+vacuum_play_pause:
+  template: vacuum_base
+  color: var(--paper-card-background-color)
+  icon: >
+    [[[
+      if (["docked", "idle", "paused"].includes(states["vacuum.roborock"].state)) {
+        return "mdi:play";
+      } else {
+        return "mdi:pause";
+      }
+    ]]]
+  tap_action:
+    action: call-service
+    service: >
+      [[[
+        if (["docked", "idle", "paused"].includes(states["vacuum.roborock"].state)) {
+          return "vacuum.start";
+        } else {
+          return "vacuum.pause";
+        }
+      ]]]
+    service_data:
+      entity_id: vacuum.roborock
+    haptic: success
+
+vacuum_go_to_bin:
+  template: vacuum_base
+  color: var(--paper-card-background-color)
+  entity: script.vacuum_go_to_bin
+  icon: mdi:trash-can-outline
+  tap_action:
+    action: call-service
+    service: script.vacuum_go_to_bin
+    haptic: success
+
 vacuum_room:
   template: vacuum_base
   tap_action:
@@ -18,25 +85,10 @@ vacuum_room:
         [[[ return variables.room; ]]]
       operator: "=="
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return variables.room; ]]]
-      operator: "!="
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
-
-vacuum_base:
-  color: auto
-  color_type: card
-  show_label: false
-  show_name: false
-  hold_action:
-    action: more-info
-    entity: vacuum.rockrobo
-    haptic: success
-  styles:
-    card:
-      - height: 36px
 
 vacuum_device:
   template: base_icon
@@ -44,7 +96,7 @@ vacuum_device:
   icon: mdi:broom
   hold_action:
     action: more-info
-    entity: vacuum.rockrobo
+    entity: vacuum.roborock
     haptic: success
   tap_action:
     action: call-service
@@ -64,23 +116,7 @@ vacuum_device:
         [[[ return variables.room; ]]]
       operator: "=="
       color: var(--paper-item-icon-active-color)
-    - value: >
-        [[[ return variables.room; ]]]
-      operator: "!="
+    - operator: default
       color: var(--paper-card-background-color)
   variables:
     room: ""
-
-vacuum_auto:
-  template: base
-  color: auto
-  color_type: card
-  icon: mdi:broom
-  name: >
-    [[[
-      if (entity.state === "on") {
-        return "Auto";
-      } else {
-        return "Off";
-      }
-    ]]]

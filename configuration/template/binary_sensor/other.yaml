@@ -26,7 +26,7 @@
     - name: Vacuum Active
       state: >
         {{
-          states("vacuum.rockrobo") != "docked"
+          states("vacuum.roborock") != "docked"
           or states("input_select.vacuum_state") != "idle"
         }}
 

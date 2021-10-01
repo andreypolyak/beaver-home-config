@@ -7,11 +7,11 @@ class Vacuum(Base):
     super().initialize()
     self.listen_state(self.on_nearest_person_location_change, "input_select.nearest_person_location", immediate=True)
     self.listen_state(self.on_away_scene, "input_select.living_scene", new="away")
-    self.listen_state(self.on_vacuum_docked, "vacuum.rockrobo", new="docked")
-    self.listen_state(self.on_vacuum_error, "vacuum.rockrobo", new="error")
-    self.listen_state(self.on_vacuum_idle, "vacuum.rockrobo", new="idle")
-    self.listen_state(self.on_vacuum_returning, "vacuum.rockrobo", new="returning")
-    self.listen_state(self.on_vacuum_change, "vacuum.rockrobo")
+    self.listen_state(self.on_vacuum_docked, "vacuum.roborock", new="docked")
+    self.listen_state(self.on_vacuum_error, "vacuum.roborock", new="error")
+    self.listen_state(self.on_vacuum_idle, "vacuum.roborock", new="idle")
+    self.listen_state(self.on_vacuum_returning, "vacuum.roborock", new="returning")
+    self.listen_state(self.on_vacuum_change, "vacuum.roborock")
     self.listen_state(self.on_manual_start, "script.vacuum_clean_all", new="on")
     self.listen_event(self.on_timer_finished, "timer.finished", entity_id="timer.vacuum_disabled")
 
@@ -30,7 +30,7 @@ class Vacuum(Base):
     day = self.get_int_state("input_datetime.vacuum_last_cleaned", attribute="day")
 
     if (
-        self.get_state("vacuum.rockrobo") == "docked"
+        self.get_state("vacuum.roborock") == "docked"
         and self.get_delta_ts(timestamp) > 21600
         and day != int(self.datetime().strftime("%d"))
         and self.vacuum_state == "idle"

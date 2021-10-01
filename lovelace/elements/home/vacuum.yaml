@@ -1,71 +1,85 @@
 type: vertical-stack
 cards:
   - type: custom:valetudo-map-card
-    entity: sensor.rockrobo_map
+    entity: camera.map_data
+    vacuum_entity: vacuum.roborock
     title: false
-    rotate: 0
-    crop:
-      top: 20
-      bottom: 6
-      left: 40
-      right: 0
     min_height: 0
-  - type: custom:xiaomi-vacuum-card
-    entity: vacuum.rockrobo
-    name: false
-    vendor: valetudo
-    state:
-      area:
-        key: currentCleanArea
-        icon: mdi:texture-box
-        label: ""
-        unit: m²
-      time:
-        key: currentCleanTime
-        icon: mdi:clock-outline
-        label: ""
-        unit: min
+    crop:
+      top: 50
+      bottom: 0
+      left: 0
+      right: 0
+    show_battery_level: false
+    show_start_button: false
+    show_pause_button: false
+    show_stop_button: false
+    show_home_button: false
+    show_locate_button: false
   - type: horizontal-stack
     cards:
       - type: custom:button-card
-        template: vacuum_room
-        entity: input_select.vacuum_room_cleaning
-        icon: mdi:broom
-        variables:
-          room: all
-      - type: custom:button-card
-        template: vacuum_room
-        entity: input_select.vacuum_room_cleaning
-        icon: mdi:paper-roll
-        variables:
-          room: bathroom_entrance
-      - type: custom:button-card
-        template: vacuum_room
-        entity: input_select.vacuum_room_cleaning
-        icon: mdi:noodles
-        variables:
-          room: kitchen
-      - type: custom:button-card
-        template: vacuum_room
-        entity: input_select.vacuum_room_cleaning
-        icon: mdi:television-classic
-        variables:
-          room: living_room
-      - type: custom:button-card
-        template: vacuum_room
-        entity: input_select.vacuum_room_cleaning
-        icon: mdi:bed
-        variables:
-          room: bedroom
-      - type: custom:button-card
-        template: vacuum_base
-        entity: script.vacuum_go_to_bin
-        icon: mdi:trash-can-outline
+        template: vacuum_text
+        entity: vacuum.roborock
+        name: >
+          [[[
+            return states["vacuum.roborock"].state[0].toUpperCase() + states["vacuum.roborock"].state.substring(1);
+          ]]]
         tap_action:
-          action: call-service
-          service: script.vacuum_go_to_bin
+          action: more-info
+          entity: vacuum.roborock
           haptic: success
-  - type: entities
-    entities:
-      - entity: input_select.vacuum_state
-      - entity: input_datetime.vacuum_last_cleaned
+        state:
+          - value: cleaning
+            operator: "=="
+            color: var(--paper-item-icon-active-color)
+          - value: returning
+            operator: "=="
+            color: var(--paper-item-icon-active-color)
+          - operator: default
+            color: var(--paper-card-background-color)
+      - type: custom:button-card
+        template: vacuum_text
+        entity: input_boolean.vacuum_auto
+        tap_action:
+          action: toggle
+          haptic: success
+        state:
+          - value: "on"
+            operator: "=="
+            color: var(--paper-item-icon-active-color)
+            name: Auto
+          - operator: default
+            color: var(--paper-card-background-color)
+            name: Manual
+      - type: custom:button-card
+        template: vacuum_text
+        entity: vacuum.roborock
+        name: Settings
+        color: var(--paper-card-background-color)
+        tap_action:
+          action: navigate
+          navigation_path: /roborock_panel
+          haptic: success
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: vacuum_play_pause
+      - type: custom:button-card
+        template: vacuum_control
+        entity: vacuum.roborock
+        icon: mdi:stop
+        variables:
+          service: stop
+      - type: custom:button-card
+        template: vacuum_control
+        icon: mdi:map-marker
+        variables:
+          service: locate
+      - type: custom:button-card
+        template: vacuum_control
+        icon: mdi:home
+        variables:
+          service: return_to_base
+      - type: custom:button-card
+        template: vacuum_go_to_bin

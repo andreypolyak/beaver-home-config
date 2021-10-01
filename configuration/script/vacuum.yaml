@@ -8,13 +8,11 @@ vacuum_clean_bedroom:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Bedroom
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: 15474938-28fc-4d99-9960-82bb49f7af0e
+        entity_id: vacuum.roborock
 
 vacuum_clean_kitchen:
   sequence:
@@ -26,13 +24,11 @@ vacuum_clean_kitchen:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Kitchen
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: ebab59e2-8f06-475f-a060-438a47e90db5
+        entity_id: vacuum.roborock
 
 vacuum_clean_living_room:
   sequence:
@@ -44,13 +40,11 @@ vacuum_clean_living_room:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Living Room
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: ee62058e-8bfe-4e41-b795-ea580358d57d
+        entity_id: vacuum.roborock
 
 vacuum_clean_bathroom_entrance:
   sequence:
@@ -62,13 +56,11 @@ vacuum_clean_bathroom_entrance:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Bathroom and Entrance
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
+        entity_id: vacuum.roborock
 
 vacuum_clean_bathroom:
   sequence:
@@ -80,13 +72,11 @@ vacuum_clean_bathroom:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Bathroom and Entrance
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
+        entity_id: vacuum.roborock
 
 vacuum_clean_entrance:
   sequence:
@@ -98,13 +88,11 @@ vacuum_clean_entrance:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: zoned_cleanup
-        params:
-          zone_ids:
-            - Bathroom and Entrance
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
+        entity_id: vacuum.roborock
 
 vacuum_clean_all:
   sequence:
@@ -116,9 +104,11 @@ vacuum_clean_all:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.start
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
+        topic: valetudo/roborock/ZoneCleaningCapability/start/set
+        payload: 82f357f3-c2c6-421d-86da-c2334b254257
+        entity_id: vacuum.roborock
 
 vacuum_stop:
   sequence:
@@ -132,7 +122,7 @@ vacuum_stop:
     - delay: 00:00:03
     - service: vacuum.return_to_base
       data:
-        entity_id: vacuum.rockrobo
+        entity_id: vacuum.roborock
 
 vacuum_go_to_bin:
   sequence:
@@ -140,25 +130,11 @@ vacuum_go_to_bin:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: vacuum.send_command
+    - service: mqtt.publish
       data:
-        entity_id: vacuum.rockrobo
-        command: go_to
-        params:
-          spot_id: Bin
-
-vacuum_go_to_tv:
-  sequence:
-    - service: script.turn_on
-      data:
-        entity_id: script.vacuum_stop_if_cleaning
-    - delay: 00:00:03
-    - service: vacuum.send_command
-      data:
-        entity_id: vacuum.rockrobo
-        command: go_to
-        params:
-          spot_id: TV
+        topic: valetudo/roborock/GoToLocationCapability/go/set
+        payload: 4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09
+        entity_id: vacuum.roborock
 
 vacuum_start:
   sequence:
@@ -168,15 +144,15 @@ vacuum_start:
     - delay: 00:00:03
     - service: vacuum.start
       data:
-        entity_id: vacuum.rockrobo
+        entity_id: vacuum.roborock
 
 vacuum_stop_if_cleaning:
   sequence:
     - condition: state
-      entity_id: vacuum.rockrobo
+      entity_id: vacuum.roborock
       state:
         - cleaning
         - returning
     - service: vacuum.stop
       data:
-        entity_id: vacuum.rockrobo
+        entity_id: vacuum.roborock

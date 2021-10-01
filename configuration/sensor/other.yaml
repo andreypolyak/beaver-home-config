@@ -1,12 +1,6 @@
 - platform: uptime
   name: uptime
 
-- platform: mqtt
-  state_topic: valetudo/rockrobo/state
-  json_attributes_topic: valetudo/rockrobo/map_data_parsed
-  name: rockrobo_map
-  value_template: OK
-
 - platform: history_stats
   name: Night Scene in Living Zone 12 Hours
   entity_id: input_select.living_scene

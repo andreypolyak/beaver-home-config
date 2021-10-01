@@ -1,4 +1,1 @@
 db_url: !secret recorder_db_url
-exclude:
-  entities:
-    - sensor.rockrobo_map
