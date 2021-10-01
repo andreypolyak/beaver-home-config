@@ -13,6 +13,7 @@ class BedNightSwitch(Base):
   def on_bedroom_switch_change(self, entity, attribute, old, new, kwargs):
     if new not in ["on", "brightness_move_up"]:
       return
+    # If alarm is ringing
     if self.entity_is_on("input_boolean.alarm_ringing"):
       if self.entity_is_on("input_boolean.alarm_snooze_allowed"):
         self.fire_event("custom_event", custom_event_data="snooze_alarm")
@@ -21,24 +22,26 @@ class BedNightSwitch(Base):
         text = "Откладывать будильник больше нельзя!"
         self.fire_event("yandex_speak_text", text=text, room="bedroom")
       return
+    # If short press
     if new == "on":
-      if self.sleeping_scene != "night":
+      if self.sleeping_scene != "night" or self.entity_is_off("binary_sensor.bedroom_door"):
         self.log("Turning night mode in Bedroom")
         self.fire_event("close_bedroom_cover")
         self.set_sleeping_scene("night")
       else:
         self.turn_night_mode_everywhere()
-    elif new == "brightness_move_up":
+      return
+    # If long press
+    if new == "brightness_move_up":
       self.turn_night_mode_everywhere()
 
 
   def on_virtual_switch(self, event_name, data, kwargs):
-    entity = "light.group_bedroom_bed"
     transition = self.get_float_state("input_number.transition")
     if self.entity_is_off("light.group_bedroom_bed"):
-      self.turn_on_entity(entity, brightness=3, transition=transition)
+      self.turn_on_entity("light.group_bedroom_bed", brightness=3, transition=transition)
     else:
-      self.turn_off_entity(entity, transition=transition)
+      self.turn_off_entity("light.group_bedroom_bed", transition=transition)
 
 
   def turn_off_all_lights(self, kwargs):
