@@ -1,0 +1,88 @@
+substitutions:
+  hostname: entrance_zigbee_gateway
+  name: Entrance Zigbee Gateway
+
+esphome:
+  name: $hostname
+  platform: ESP32
+  board: esp-wrover-kit
+
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO0_IN
+  phy_addr: 1
+  power_pin: GPIO16
+  use_address: 192.168.1.143
+
+logger:
+
+api:
+
+ota:
+
+web_server:
+
+external_components:
+  - source: github://oxan/esphome-stream-server
+
+switch:
+  - platform: restart
+    name: $name Gateway Restart
+
+  - platform: gpio
+    pin: 33
+    id: zRST_gpio
+    inverted: yes
+    restore_mode: ALWAYS_OFF
+
+  - platform: template
+    name: $name Zigbee Restart
+    icon: mdi:toggle-switch
+    id: zRST
+    turn_on_action:
+      - switch.turn_on: zRST_gpio
+      - delay: 15ms
+      - switch.turn_off: zRST_gpio
+      
+  - platform: gpio
+    pin: 32
+    name: $name Zigbee BSL
+    icon: mdi:toggle-switch
+    id: zBSL
+    inverted: yes
+    restore_mode: ALWAYS_OFF
+    internal: true
+    
+  - platform: template
+    name: $name Firmware Update
+    icon: mdi:cellphone-arrow-down
+    turn_on_action:
+      - script.execute: fw_update_mode
+    turn_off_action:
+      - switch.toggle: zRST
+
+script:
+  - id: fw_update_mode
+    then:
+      - switch.turn_on: zBSL
+      - delay: 1s
+      - switch.turn_on: zRST_gpio
+      - delay: 1s
+      - switch.turn_off: zRST_gpio
+      - logger.log: "Delaying ~10 seconds for TI chip to be ready"
+      - delay: 10s
+      - switch.turn_off: zBSL
+      - logger.log: "Update with cc2538-bsl tool now!"
+      - logger.log: "Usage: cc2538-bsl.py -p socket://ip_or_hostname:6638 -evw firmware.hex"
+
+uart:
+  id: uart_bus
+  rx_pin: GPIO5
+  tx_pin: GPIO17
+  baud_rate: 115200
+
+stream_server:
+  uart_id: uart_bus
+  port: 20108
