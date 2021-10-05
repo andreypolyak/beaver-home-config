@@ -11,8 +11,8 @@ class LivingRoomLights(RoomLights):
     self.max_delay = 600
     self.min_delay = 30
     self.sensors = [
-      ("binary_sensor.living_room_front_motion", "motion_sensor"),
-      ("binary_sensor.living_room_back_motion", "back_motion_sensor"),
+      ("binary_sensor.living_room_front_motion", "front_motion_sensor"),
+      ("binary_sensor.living_room_back_motion", "motion_sensor"),
       ("binary_sensor.living_room_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "door_sensor"),
       ("binary_sensor.bedroom_door", "door_sensor")
@@ -67,15 +67,15 @@ class LivingRoomLights(RoomLights):
     self.room_init()
 
 
-  def on_day(self, scene, mode, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "away":
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
-    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["front_motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
+    elif mode == "motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new, set_cooldown=True)
@@ -87,19 +87,19 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_night(self, scene, mode, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "away":
         self.set_preset("DARK")
       else:
         self.set_preset("OFF")
-    elif mode in ["motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["front_motion_sensor", "door_sensor"] and new == "on" and self.auto_lights:
       if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
       else:
         self.set_preset_or_restore("DARK", min_delay=True)
-    elif mode == "back_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
+    elif mode == "motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
       if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
@@ -115,7 +115,7 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None):
     if mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
@@ -124,7 +124,7 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_party(self, scene, mode, new=None, old=None, entity=None):
+  def on_party(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset("OFF", min_delay=True)
     elif mode == "old_scene":
@@ -137,7 +137,7 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_light_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset("CINEMA", min_delay=True)
     elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
@@ -148,7 +148,7 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_dark_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset("OFF", min_delay=True)
     elif mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
@@ -159,7 +159,7 @@ class LivingRoomLights(RoomLights):
       return False
 
 
-  def on_away(self, scene, mode, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None):
     if mode == "virtual_switch":
       self.toggle_on_away()
     else:

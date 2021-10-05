@@ -356,20 +356,20 @@ class RoomLights(Base):
     entity = entity.replace("input_select.", "")
     mode = "old_scene"
     if callable(func):
-      res = func(old, mode, new=new, old=old, entity=entity)
+      res = func(old, mode, new=new, old=old)
       if res is not False:
         self.__write_to_log(old=old, mode=mode, entity=entity, new=new)
     func_name = f"on_{new}"
     func = getattr(self, func_name, None)
     mode = "new_scene"
     if callable(func):
-      res = func(new, mode, new=new, old=old, entity=entity)
+      res = func(new, mode, new=new, old=old)
       if res is not False:
         self.__write_to_log(new=new, mode=mode, entity=entity, old=old)
 
 
   def __on_sensor(self, entity, attribute, old, new, kwargs):
-    if self.is_invalid(new):
+    if self.is_invalid(new) or self.is_invalid(old):
       return
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
@@ -377,12 +377,14 @@ class RoomLights(Base):
     entity = entity.replace("binary_sensor.", "").replace("sensor.", "")
     mode = kwargs["mode"]
     if callable(func):
-      res = func(scene, mode, new=new, old=old, entity=entity)
+      res = func(scene, mode, new=new, old=old)
       if res is not False:
         self.__write_to_log(scene=scene, mode=mode, entity=entity, new=new, old=old)
 
 
   def __on_switch(self, entity, attribute, old, new, kwargs):
+    if self.is_invalid(new) or self.is_invalid(old):
+      return
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
@@ -397,7 +399,7 @@ class RoomLights(Base):
     entity = entity.replace("sensor.", "")
     mode = kwargs["mode"]
     if callable(func):
-      res = func(scene, mode, new=new, old=old, entity=entity)
+      res = func(scene, mode, new=new, old=old)
       if res is not False:
         self.__write_to_log(scene=scene, mode=mode, entity=entity, new=new, old=old)
 
@@ -415,7 +417,7 @@ class RoomLights(Base):
     entity = f"ha_template_{self.room}"
     mode = "virtual_switch"
     if callable(func):
-      res = func(scene, mode, new=operation, entity=entity)
+      res = func(scene, mode, new=operation)
       if res is not False:
         self.__write_to_log(scene=scene, mode=mode, entity=entity, operation=operation)
 

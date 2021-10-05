@@ -63,7 +63,7 @@ class BedroomLights(RoomLights):
     self.room_init()
 
 
-  def on_day(self, scene, mode, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "night":
         self.set_preset("BRIGHT")
@@ -89,7 +89,7 @@ class BedroomLights(RoomLights):
       return False
 
 
-  def on_night(self, scene, mode, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK", min_delay=True)
     elif (
@@ -109,7 +109,7 @@ class BedroomLights(RoomLights):
       return False
 
 
-  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None):
     if mode in ["switch", "theo_switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new)
     elif mode in ["switch", "theo_switch", "virtual_switch"] and "brightness" in new:
@@ -118,7 +118,7 @@ class BedroomLights(RoomLights):
       return False
 
 
-  def on_away(self, scene, mode, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None):
     if mode == "virtual_switch":
       self.toggle_on_away()
     else:

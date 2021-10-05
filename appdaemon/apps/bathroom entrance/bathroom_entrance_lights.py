@@ -71,7 +71,7 @@ class BathroomEntranceLights(RoomLights):
     self.room_init()
 
 
-  def on_day(self, scene, mode, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "away":
         self.set_preset("BRIGHT")
@@ -87,7 +87,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_night(self, scene, mode, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if self.bathroom_door_open and old == "away":
         self.set_preset("NIGHT")
@@ -118,7 +118,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None):
     if mode in ["switch", "virtual_switch"] and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new)
     elif mode == "switch" and "brightness" in new:
@@ -127,7 +127,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_party(self, scene, mode, new=None, old=None, entity=None):
+  def on_party(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "away":
         self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
@@ -143,7 +143,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_light_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if old == "away":
         self.set_preset("BRIGHT")
@@ -159,7 +159,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_dark_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       if self.bathroom_door_open and old == "away":
         self.set_preset("DARK", min_delay=True)
@@ -187,7 +187,7 @@ class BathroomEntranceLights(RoomLights):
       return False
 
 
-  def on_away(self, scene, mode, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None):
     if mode == "virtual_switch":
       self.toggle_on_away()
     else:

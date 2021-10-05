@@ -37,7 +37,7 @@ class BalconyLights(RoomLights):
     self.room_init()
 
 
-  def on_day(self, scene, mode, new=None, old=None, entity=None):
+  def on_day(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
@@ -50,7 +50,7 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def on_night(self, scene, mode, new=None, old=None, entity=None):
+  def on_night(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
         self.set_preset("OFF")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
@@ -63,14 +63,14 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def on_dumb(self, scene, mode, new=None, old=None, entity=None):
+  def on_dumb(self, scene, mode, new=None, old=None):
     if mode == "virtual_switch":
       self.toggle_preset("DARK", new)
     else:
       return False
 
 
-  def on_party(self, scene, mode, new=None, old=None, entity=None):
+  def on_party(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
@@ -83,7 +83,7 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def on_light_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_light_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset_if_on("BRIGHT")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
@@ -96,7 +96,7 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def on_dark_cinema(self, scene, mode, new=None, old=None, entity=None):
+  def on_dark_cinema(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
       self.set_preset_if_on("DARK")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
@@ -109,7 +109,7 @@ class BalconyLights(RoomLights):
       return False
 
 
-  def on_away(self, scene, mode, new=None, old=None, entity=None):
+  def on_away(self, scene, mode, new=None, old=None):
     if mode == "virtual_switch":
       self.toggle_on_away()
     else:
