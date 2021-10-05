@@ -1,0 +1,10 @@
+type: conditional
+conditions:
+  - entity: binary_sensor.show_second_living_zones_scenes_card
+    state: "on"
+card:
+  type: custom:swipe-card
+  start_card: 2
+  parameters:
+    spaceBetween: 8
+  cards: !include /config/lovelace/elements/home/living_scenes_raw.yaml

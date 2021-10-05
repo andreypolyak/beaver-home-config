@@ -16,3 +16,112 @@ cards:
     entity: input_select.vacuum_room_cleaning
     variables:
       room: bedroom
+  # - type: custom:button-card
+  #   template: base
+  #   show_name: false
+  #   show_icon: true
+  #   custom_fields:
+  #     add_card:
+  #       card:
+  #         type: custom:button-card
+  #         entity: light.kitchen_top_2
+  #         show_name: false
+  #         show_icon: true
+  #         hold_action:
+  #           action: more-info
+  #         styles:
+  #           card:
+  #             - background-color: red
+  #             - height: 72px
+  #         style: |
+  #           ha-card {
+  #             box-shadow: none;
+  #           }
+  #     add_card2:
+  #       card:
+  #         type: custom:button-card
+  #         entity: light.kitchen_top_2
+  #         show_name: false
+  #         show_icon: true
+  #         hold_action:
+  #           action: more-info
+  #         styles:
+  #           card:
+  #             - background-color: red
+  #             - height: 72px
+  #         style: |
+  #           ha-card {
+  #             box-shadow: none;
+  #           }
+  #   styles:
+  #     add_card:
+  #       - position: absolute
+  #       - top: 0px
+  #       - left: 0px
+  #       - height: 72px
+  #       - width: 72px
+  #     add_card2:
+  #       - position: absolute
+  #       - top: 0px
+  #       - right: 0px
+  #       - height: 72px
+  #       - width: 72px
+  #     card:
+  #       - padding-top: 0px
+  #       - padding-bottom: 0px
+  #     # grid:
+  #       # - grid-template-areas: '"add_card i add_card2"'
+  #       # - grid-template-columns: 30% 40% 30%
+  #       # - grid-template-rows: 1fr
+  #   entity: light.kitchen_top_1
+  #   hold_action:
+  #     action: more-info
+
+  # - type: custom:button-card
+  #   template: base
+  #   show_name: false
+  #   show_icon: true
+  #   custom_fields:
+  #     add_card:
+  #       card:
+  #         type: custom:button-card
+  #         entity: light.kitchen_top_2
+  #         show_name: false
+  #         show_icon: true
+  #         hold_action:
+  #           action: more-info
+  #         styles:
+  #           card:
+  #             - background-color: red
+  #             - height: 72px
+  #         style: |
+  #           ha-card {
+  #             box-shadow: none;
+  #           }
+  #     add_card2:
+  #       card:
+  #         type: custom:button-card
+  #         entity: light.kitchen_top_2
+  #         show_name: false
+  #         show_icon: true
+  #         hold_action:
+  #           action: more-info
+  #         styles:
+  #           card:
+  #             - background-color: red
+  #             - height: 72px
+  #         style: |
+  #           ha-card {
+  #             box-shadow: none;
+  #           }
+  #   styles:
+  #     card:
+  #       - padding-top: 0px
+  #       - padding-bottom: 0px
+  #     grid:
+  #       - grid-template-areas: '"add_card i add_card2"'
+  #       - grid-template-columns: 30% 40% 30%
+  #       - grid-template-rows: 1fr
+  #   entity: light.kitchen_top_1
+  #   hold_action:
+  #     action: more-info

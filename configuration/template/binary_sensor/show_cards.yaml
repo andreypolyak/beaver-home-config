@@ -31,3 +31,11 @@
           states("vacuum.roborock") != "docked"
           or states("input_select.vacuum_state") != "idle"
         }}
+
+    - name: Show First Living Zones Scenes Card
+      state: >
+        {{ states("input_select.living_scene") in ["day", "night", "dumb", "away"] }}
+
+    - name: Show Second Living Zones Scenes Card
+      state: >
+        {{ states("input_select.living_scene") in ["light_cinema", "party", "dark_cinema"] }}
