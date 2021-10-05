@@ -1,10 +1,12 @@
 window_device:
   template: base_icon
   triggers_update:
+    - sensor.kitchen_window_position
     - input_boolean.auto_window_kitchen
+    - binary_sensor.kitchen_window_active
+    - sensor.bedroom_window_position
     - input_boolean.auto_window_bedroom
-    - sensor.kitchen_window
-    - sensor.bedroom_window
+    - binary_sensor.bedroom_window_active
   icon: mdi:window-closed-variant
   hold_action:
     action: more-info
@@ -40,19 +42,17 @@ window_device:
         - font-size: 0px
   state:
     - value: >
-        [[[ return states[`sensor.${variables.room}_window`].state != "STOPPED"; ]]]
+        [[[ return states[`binary_sensor.${variables.room}_window_active`].state == "on"; ]]]
       operator: template
       color: var(--paper-item-icon-active-color)
     - operator: default
       color: var(--paper-card-background-color)
   custom_fields:
     position: >
-      [[[ return Math.round(states[`sensor.${variables.room}_window_target_position`].state) + "%"; ]]]
+      [[[ return Math.round(states[`sensor.${variables.room}_window_position`].state) + "%"; ]]]
     auto: >
       [[[
-        if (states[`input_boolean.auto_window_${variables.room}`].state == "on") {
-          return "";
-        } else {
+        if (states[`input_boolean.auto_window_${variables.room}`].state == "off") {
           return `<ha-icon icon="mdi:lock-outline"/>`;
         }
       ]]]

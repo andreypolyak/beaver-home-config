@@ -33,9 +33,9 @@ class BedroomWindow(RoomWindow):
       else:
         position = round((co2 - 400) * 0.133) + 20
 
-    if self.person_sits_near and balcony_temperature < 5:
+    if self.person_sitting_near and balcony_temperature < 5:
       position -= 10
-      reason += ", person_sits_near"
+      reason += ", person_sitting_near"
 
     if balcony_temperature < -5:
       position -= 30

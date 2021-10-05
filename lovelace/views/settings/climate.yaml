@@ -107,24 +107,19 @@ cards:
       - type: custom:button-card
         template: header
         name: Windows
+      - type: entities
+        entities:
+          - cover.kitchen_window
+          - cover.bedroom_window
+          - binary_sensor.kitchen_window_active
+          - binary_sensor.bedroom_window_active
+          - binary_sensor.kitchen_window_manual_control
+          - binary_sensor.bedroom_window_manual_control
       - type: custom:apexcharts-card
         config_templates: base
         series:
-          - entity: sensor.kitchen_window_target_position
+          - entity: sensor.kitchen_window_position
             name: Kitchen
-          - entity: sensor.bedroom_window_target_position
+          - entity: sensor.bedroom_window_position
             name: Bedroom
-      - type: custom:button-card
-        template: header
-        name: Window Settings
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            template: window_settings
-            variables:
-              room: kitchen
-          - type: custom:button-card
-            template: window_settings
-            variables:
-              room: bedroom
       - !include /config/lovelace/elements/other/footer.yaml

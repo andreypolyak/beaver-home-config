@@ -202,17 +202,17 @@ home_page_climate:
       ]]]
     window: >
       [[[
-        if ("sensor." + variables.room + "_window_target_position" in states) {
+        if (`sensor.${variables.room}_window_position` in states) {
           const icon = `<ha-icon icon="mdi:window-closed-variant" style="width: 12px; height: 12px;"></ha-icon>`;
-          const position = Math.round(states["sensor." + variables.room + "_window_target_position"].state);
+          const position = Math.round(states[`sensor.${variables.room}_window_position`].state);
           return `${icon} ${position}%`;
         }
       ]]]
     co2: >
       [[[
-        if ("sensor." + variables.room + "_co2" in states) {
+        if (`sensor.${variables.room}_co2` in states) {
           const icon = `<ha-icon icon="mdi:molecule-co2" style="width: 12px; height: 12px;"></ha-icon>`;
-          const co2 = Math.round(states["sensor." + variables.room + "_co2"].state);
+          const co2 = Math.round(states[`sensor.${variables.room}_co2`].state);
           return `${icon} ${co2}ppm`;
         }
       ]]]

@@ -35,9 +35,9 @@ class KitchenWindow(RoomWindow):
       else:
         position = round((co2 - 400) * 0.133) + 20
 
-    if self.person_sits_near and balcony_temperature < 5:
+    if self.person_sitting_near and balcony_temperature < 5:
       position -= 10
-      reason += ", person_sits_near"
+      reason += ", person_sitting_near"
 
     if balcony_temperature < -5:
       position -= 30
@@ -67,9 +67,9 @@ class KitchenWindow(RoomWindow):
       self.get_delta_ts(scene_last_changed) < 3600
       and self.living_scene == "day"
       and balcony_temperature < 5
-      and self.person_sits_near
+      and self.person_sitting_near
     ):
       position = 0
-      reason = "person_sits_near after night"
+      reason = "person_sitting_near after night"
 
     return (position, reason)

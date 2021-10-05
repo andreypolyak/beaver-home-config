@@ -1,0 +1,15 @@
+- binary_sensor:
+    - name: Kitchen Window Manual Control
+      state: "on"
+      auto_off: 1
+  trigger:
+    platform: mqtt
+    topic: kitchen_window/getTargetBut
+
+- binary_sensor:
+    - name: Bedroom Window Manual Control
+      state: "on"
+      auto_off: 1
+  trigger:
+    platform: mqtt
+    topic: bedroom_window/getTargetBut

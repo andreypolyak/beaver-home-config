@@ -7,22 +7,20 @@ class RoomWindow(Base):
     super().initialize()
     self.init_storage("room_window", f"{self.room}_handle_ts", 0)
     self.handle = None
-    self.set_max_speed({})
     self.listen_state(self.on_scene_change, f"input_select.{self.zone}_scene")
-    self.listen_state(self.on_window_stopped, f"sensor.{self.room}_window", new="STOPPED")
     self.listen_state(self.on_room_change, self.co2_sensor, ignore_debounce=False)
     self.listen_state(self.on_room_change, self.temperature_sensor, ignore_debounce=False)
     self.listen_state(self.on_room_change, f"timer.window_{self.room}_freeze", ignore_debounce=False)
     self.listen_state(self.on_room_change, f"input_boolean.auto_window_{self.room}", new="on", ignore_debounce=True)
-    self.listen_state(self.on_position_change, f"sensor.{self.room}_window_target_position")
     self.listen_state(self.on_light_off, f"light.ha_template_room_{self.room}", new="off", old="on")
     for action_sensor in self.action_sensors:
       self.listen_state(self.on_action_event, action_sensor)
     self.listen_event(self.on_lovelace_change, event="custom_event", custom_event_data=f"{self.room}_window")
+    self.listen_state(self.on_manual_control, f"binary_sensor.{self.room}_window_manual_control", new="on", old="off")
 
 
-  def on_window_stopped(self, entity, attribute, old, new, kwargs):
-    self.run_in(self.set_max_speed, 5)
+  def on_manual_control(self, entity, attribute, old, new, kwargs):
+    self.timer_start(f"window_{self.room}_freeze", 1200)
 
 
   def on_lovelace_change(self, event_name, data, kwargs):
@@ -37,8 +35,7 @@ class RoomWindow(Base):
         position = 0
     else:
       position = float(data["custom_event_data2"])
-    reason = "lovelace"
-    self.set_position({"position": position, "reason": reason})
+    self.set_position(position, "lovelace")
     self.timer_start(f"window_{self.room}_freeze", 1200)
 
 
@@ -80,36 +77,21 @@ class RoomWindow(Base):
     if position is None:
       return
     position = self.normalize_windows_position(position)
-    if self.check_if_change_required(position) and self.get_state(f"cover.{self.room}_window") != "unavailable":
-      self.change_position(position, reason)
+    if self.change_required(position) and self.get_state(f"cover.{self.room}_window") != "unavailable":
+      self.set_cover_position(f"{self.room}_window", position)
+      self.set_position(position, reason)
 
 
-  def check_if_change_required(self, position):
+  def change_required(self, position):
     current_position = self.get_int_state(f"cover.{self.room}_window", attribute="current_position")
     if current_position is None or abs(current_position - position) >= 5:
       return True
     return False
 
 
-  def change_position(self, position, reason):
-    self.set_min_speed()
-    self.run_in(self.set_position, 3, position=position, reason=reason)
-
-
-  def set_min_speed(self):
-    self.call_service(f"rest_command/{self.room}_window_25")
-
-
-  def set_position(self, kwargs):
-    position = kwargs["position"]
-    reason = kwargs["reason"]
+  def set_position(self, position, reason):
     self.set_cover_position(f"{self.room}_window", position)
     self.log(f"new window position is {position} because of: {reason}")
-
-
-  def set_max_speed(self, kwargs):
-    if self.get_state(f"sensor.{self.room}_window") == "STOPPED":
-      self.call_service(f"rest_command/{self.room}_window_100")
 
 
   def normalize_windows_position(self, position):
@@ -121,17 +103,8 @@ class RoomWindow(Base):
     return position
 
 
-  def on_position_change(self, entity, attribute, old, new, kwargs):
-    target_position = self.get_int_state(f"sensor.{self.room}_window_target_position")
-    set_position = self.get_int_state(f"sensor.{self.room}_window_set_position")
-    if target_position is None or set_position is None:
-      return
-    if abs(target_position - set_position) > 2:
-      self.timer_start(f"window_{self.room}_freeze", 1200)
-
-
   @property
-  def person_sits_near(self):
+  def person_sitting_near(self):
     for sensor in self.occupancy_sensors:
       if self.entity_is_on(sensor):
         return True
