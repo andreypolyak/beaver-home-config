@@ -10,7 +10,7 @@ individual_virtual_switch:
     service: script.fire_custom_event
     service_data:
       custom_event_data: >
-        [[[ return `variables.light_name${_virtual_switch_individual_toggle}`; ]]]
+        [[[ return `${variables.light_name}_virtual_switch_individual_toggle`; ]]]
     haptic: success
   variables:
     light_name: ""
