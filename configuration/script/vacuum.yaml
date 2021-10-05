@@ -11,8 +11,7 @@ vacuum_clean_bedroom:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: 15474938-28fc-4d99-9960-82bb49f7af0e
-        entity_id: vacuum.roborock
+        payload: '["15474938-28fc-4d99-9960-82bb49f7af0e"]'
 
 vacuum_clean_kitchen:
   sequence:
@@ -27,8 +26,7 @@ vacuum_clean_kitchen:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: ebab59e2-8f06-475f-a060-438a47e90db5
-        entity_id: vacuum.roborock
+        payload: '["ebab59e2-8f06-475f-a060-438a47e90db5"]'
 
 vacuum_clean_living_room:
   sequence:
@@ -43,8 +41,7 @@ vacuum_clean_living_room:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: ee62058e-8bfe-4e41-b795-ea580358d57d
-        entity_id: vacuum.roborock
+        payload: '["ee62058e-8bfe-4e41-b795-ea580358d57d"]'
 
 vacuum_clean_bathroom_entrance:
   sequence:
@@ -59,8 +56,7 @@ vacuum_clean_bathroom_entrance:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
-        entity_id: vacuum.roborock
+        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_bathroom:
   sequence:
@@ -75,8 +71,7 @@ vacuum_clean_bathroom:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
-        entity_id: vacuum.roborock
+        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_entrance:
   sequence:
@@ -91,8 +86,7 @@ vacuum_clean_entrance:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: 8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407
-        entity_id: vacuum.roborock
+        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_all:
   sequence:
@@ -107,8 +101,7 @@ vacuum_clean_all:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: 82f357f3-c2c6-421d-86da-c2334b254257
-        entity_id: vacuum.roborock
+        payload: '["82f357f3-c2c6-421d-86da-c2334b254257"]'
 
 vacuum_stop:
   sequence:
@@ -133,8 +126,7 @@ vacuum_go_to_bin:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/GoToLocationCapability/go/set
-        payload: 4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09
-        entity_id: vacuum.roborock
+        payload: '["4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09"]'
 
 vacuum_start:
   sequence:
