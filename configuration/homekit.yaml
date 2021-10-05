@@ -6,3 +6,4 @@
     camera.entrance_door_camera:
       linked_doorbell_sensor: binary_sensor.entrance_door_bell
       stream_source: !secret homekit_stream_source
+      video_codec: copy
