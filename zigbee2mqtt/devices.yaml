@@ -1,141 +1,141 @@
-'0x00124b001ed155c9':
+"0x00124b001ed155c9":
   friendly_name: Living Room CO2
   retain: true
-'0xccccccfffec378ad':
+"0xccccccfffec378ad":
   friendly_name: Storage Room 1
-'0x14b457fffe372c4e':
+"0x14b457fffe372c4e":
   friendly_name: Storage Room 2
-'0x842e14fffe5b928a':
+"0x842e14fffe5b928a":
   friendly_name: Kitchen Table
-'0x000d6f0013664b0c':
+"0x000d6f0013664b0c":
   friendly_name: Kitchen Cooler Plug
-'0x000d6f0013184434':
+"0x000d6f0013184434":
   friendly_name: Kitchen Coffee Plug
-'0x000d6f0010dd0345':
+"0x000d6f0010dd0345":
   friendly_name: Kitchen Vent Plug
-'0xccccccfffe363e1d':
+"0xccccccfffe363e1d":
   friendly_name: Balcony Window
-'0x000d6f0013679a4e':
+"0x000d6f0013679a4e":
   friendly_name: Balcony LED Plug
-'0x842e14fffefc8ecf':
+"0x842e14fffefc8ecf":
   friendly_name: Kitchen Top 2
-'0x842e14fffefebb61':
+"0x842e14fffefebb61":
   friendly_name: Kitchen Top 3
-'0x000d6f0010dd0c84':
+"0x000d6f0010dd0c84":
   friendly_name: Living Room TV Plug
   retain: true
-'0x00158d00040c6454':
+"0x00158d00040c6454":
   friendly_name: Living Room Cover
-'0x000d6f0013663a33':
+"0x000d6f0013663a33":
   friendly_name: Living Room Party Plug
-'0x000d6f001363956e':
+"0x000d6f001363956e":
   friendly_name: Living Room Party Laser Plug
-'0x00158d0005413bde':
+"0x00158d0005413bde":
   friendly_name: Living Room Back Motion
-  occupancy_timeout: 5
-'0x00158d000466004f':
+  occupancy_timeout: 1
+"0x00158d000466004f":
   friendly_name: Kitchen Temperature
   retain: true
-'0x00158d00042cbe22':
+"0x00158d00042cbe22":
   friendly_name: Kitchen Coffee Door
   retain: true
-'0x00158d00044c93df':
+"0x00158d00044c93df":
   friendly_name: Kitchen Motion
-  occupancy_timeout: 5
-'0x00158d00044b6dee':
+  occupancy_timeout: 1
+"0x00158d00044b6dee":
   friendly_name: Living Room Balcony Door
   retain: true
-'0x00158d00049ff878':
+"0x00158d00049ff878":
   friendly_name: Living Room AC Door
   retain: true
-'0x00158d00041d5dad':
+"0x00158d00041d5dad":
   friendly_name: Storage Room Door
   retain: true
-'0x00158d0004202970':
+"0x00158d0004202970":
   friendly_name: Living Room Front Motion
-  occupancy_timeout: 5
-'0x680ae2fffe80bf07':
+  occupancy_timeout: 1
+"0x680ae2fffe80bf07":
   friendly_name: Kitchen Cover
-'0x00158d000421cd77':
+"0x00158d000421cd77":
   friendly_name: Kitchen Table Motion
-  occupancy_timeout: 5
-'0x00158d0004605125':
+  occupancy_timeout: 1
+"0x00158d0004605125":
   friendly_name: Balcony Temperature
   retain: true
-'0x00158d00045c2aa6':
+"0x00158d00045c2aa6":
   friendly_name: Living Room Temperature
   retain: true
-'0xec1bbdfffe2421b5':
+"0xec1bbdfffe2421b5":
   friendly_name: Living Room Backup Switch
   debounce: 0.2
   debounce_ignore:
     - action
   legacy: false
-'0x000d6ffffe9a89f6':
+"0x000d6ffffe9a89f6":
   friendly_name: Living Room Cover Switch
   legacy: false
-'0x680ae2fffef2d251':
+"0x680ae2fffef2d251":
   friendly_name: Kitchen Cover Switch
   legacy: false
-'0x5c0272fffe856aaf':
+"0x5c0272fffe856aaf":
   friendly_name: Kitchen Music Switch
-'0x00158d0005cf13ee':
+"0x00158d0005cf13ee":
   friendly_name: Kitchen Sink Leak
-'0x14b457fffec66576':
+"0x14b457fffec66576":
   friendly_name: Kitchen Backup Switch
   debounce: 0.2
   debounce_ignore:
     - action
   legacy: false
-'0xec1bbdfffe9e6598':
+"0xec1bbdfffe9e6598":
   friendly_name: Living Room Speaker 2
-'0x680ae2fffe47e6d0':
+"0x680ae2fffe47e6d0":
   friendly_name: Living Room Speaker 1
-'0x842e14fffea336d5':
+"0x842e14fffea336d5":
   friendly_name: Kitchen Top 1
-'0x04cf8cdf3c787700':
+"0x04cf8cdf3c787700":
   friendly_name: Balcony Illuminance
   retain: true
-'0xec1bbdfffe3bd4cc':
+"0xec1bbdfffe3bd4cc":
   friendly_name: Living Room Sofa
-'0x842e14fffe587bc2':
+"0x842e14fffe587bc2":
   friendly_name: Living Room Top 4
-'0xccccccfffe9cde46':
+"0xccccccfffe9cde46":
   friendly_name: Living Room Top 1
-'0x842e14fffe77310f':
+"0x842e14fffe77310f":
   friendly_name: Living Room Top 3
-'0xccccccfffe9fe76f':
+"0xccccccfffe9fe76f":
   friendly_name: Living Room Top 2
-'0x00124b002260a037':
+"0x00124b002260a037":
   friendly_name: Living Room Plant Ficus
-'0x00124b002260a033':
+"0x00124b002260a033":
   friendly_name: Kitchen Plant Sid
-'0x00158d00045cc45b':
+"0x00158d00045cc45b":
   friendly_name: Kitchen Freezer Door
   retain: true
-'0x00158d0004850370':
+"0x00158d0004850370":
   friendly_name: Kitchen Fridge Temperature
   retain: true
-'0x00158d00048502d0':
+"0x00158d00048502d0":
   friendly_name: Kitchen Freezer Temperature
   retain: true
-'0x00158d0006af76ac':
+"0x00158d0006af76ac":
   friendly_name: Kitchen Chair 2 Occupancy
-'0x00158d0006726399':
+"0x00158d0006726399":
   friendly_name: Kitchen Chair 1 Occupancy
-'0x84fd27fffec35e3d':
+"0x84fd27fffec35e3d":
   friendly_name: Living Room Sofa LED
-'0x00124b002241f609':
+"0x00124b002241f609":
   friendly_name: Kitchen Plant Sonic
-'0x00158d0006d39420':
+"0x00158d0006d39420":
   friendly_name: Kitchen Input Leak
-'0x00158d0006ba65d9':
+"0x00158d0006ba65d9":
   friendly_name: Living Room Cover Open Door
   debounce: 1
   retain: true
-'0x00158d0006ba6332':
+"0x00158d0006ba6332":
   friendly_name: Living Room Cover Closed Door
   debounce: 1
   retain: true
-'0x04cf8cdf3c8a85e8':
+"0x04cf8cdf3c8a85e8":
   friendly_name: Living Room Center Motion
