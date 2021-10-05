@@ -102,7 +102,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - 2x Ikea Fyrtur Roller Blinds
 - Aqara Curtain Motor (ZNCLDJ11LM)
 - 2x Drivent — [window opener](https://www.youtube.com/watch?v=j29n-o0UPzY) device created by enthusiasts
-- Xiaomi Roborock S5 Vacuum — used with [Valetudo RE](https://github.com/rand256/valetudo) firmware (removes cloud)
+- Xiaomi Roborock S5 Vacuum — used with [Valetudo](https://github.com/hypfer/valetudo) firmware (removes cloud)
 - 2x [Saures](https://www.saures.ru) controllers — used to meter water and electricity usage
 - DIY [air freshener](https://jcallaghan.com/2020/03/can-you-iot-an-airwick-air-freshener/) — AirWick freshener with integrated ESP8266, ESPHome firmware
 - Xiaomi Mi Smart Scale 2 (XMTZC04HM) — used with ESP32 to track weight
