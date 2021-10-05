@@ -96,7 +96,7 @@ class Cinema(Base):
     elif (
       apple_tv["state"] == "playing"
       and "app_id" in apple_tv["attributes"] and "cncrt" in apple_tv["attributes"]["app_id"]
-      and "media_duration" in apple_tv["attributes"] and float(apple_tv["attributes"]["media_duration"]) > 3600
+      and "media_duration" in apple_tv["attributes"] and float(apple_tv["attributes"]["media_duration"]) > 4800
       and self.living_scene == "light_cinema"
       and not auto_cinema_session_disabled
     ):
