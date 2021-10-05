@@ -42,7 +42,7 @@
         custom_fields:
           arrow:
             - position: absolute
-            - right: 0px
+            - left: 0px
             - top: 24px
             - width: 18px
             - height: 18px
