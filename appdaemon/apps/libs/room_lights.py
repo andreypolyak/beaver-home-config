@@ -90,9 +90,9 @@ class RoomLights(Base):
     if set_day:
       self.set_scene(self.zone, "day")
       self.set_preset("BRIGHT")
-    elif command == "brightness_up":
+    elif command == "brightness_move_down":
       self.__toggle_max_brightness()
-    elif command == "brightness_down":
+    elif command == "brightness_move_up":
       self.__toggle_min_brightness()
     self.handle = self.run_in(self.__allow_button_hold, 3)
 
@@ -369,7 +369,7 @@ class RoomLights(Base):
 
 
   def __on_sensor(self, entity, attribute, old, new, kwargs):
-    if self.is_invalid(new) or self.is_invalid(old):
+    if self.is_invalid(new):
       return
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
@@ -383,19 +383,13 @@ class RoomLights(Base):
 
 
   def __on_switch(self, entity, attribute, old, new, kwargs):
-    if self.is_invalid(new) or self.is_invalid(old):
+    if self.is_invalid(new):
       return
     scene = self.get_scene(self.zone)
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
     if new in ["on", "off"]:
       new = "toggle"
-    elif new == "rotate_left":
-      new = "brightness_up"
-    elif new == "rotate_right":
-      new = "brightness_down"
-    elif new == "rotate_stop":
-      new = "brightness_stop"
     entity = entity.replace("sensor.", "")
     mode = kwargs["mode"]
     if callable(func):
