@@ -69,7 +69,7 @@ class LivingRoomLights(RoomLights):
 
   def on_day(self, scene, mode, new=None, old=None):
     if mode == "new_scene":
-      if old == "away":
+      if old in ["away", "dark_cinema"]:
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
