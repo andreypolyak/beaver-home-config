@@ -8,7 +8,8 @@ cards:
       - type: custom:button-card
         template: header
         name: Living Zone Scenes
-      - !include /config/lovelace/elements/home/living_scenes.yaml
+      - !include /config/lovelace/elements/home/living_scenes_first.yaml
+      - !include /config/lovelace/elements/home/living_scenes_second.yaml
       - type: custom:button-card
         template: header
         name: Sleeping Zone Scenes
