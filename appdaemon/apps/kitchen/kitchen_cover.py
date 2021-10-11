@@ -17,9 +17,13 @@ class KitchenCover(Base):
 
 
   def on_cover_change(self, entity, attribute, old, new, kwargs):
+    self.make_cover_active()
+
+
+  def make_cover_active(self):
     self.cancel_handle(self.handle)
     self.turn_on_entity("input_boolean.kitchen_cover_active")
-    self.handle = self.run_in(self.turn_off_cover_active, 3)
+    self.handle = self.run_in(self.turn_off_cover_active, 10)
 
 
   def turn_off_cover_active(self, kwargs):
@@ -61,16 +65,19 @@ class KitchenCover(Base):
 
   def close_cover(self):
     if self.cover_position != 0:
+      self.make_cover_active()
       self.set_cover_position("kitchen_cover", 0)
 
 
   def open_cover(self):
     if self.cover_position != 100:
+      self.make_cover_active()
       self.set_cover_position("kitchen_cover", 100)
 
 
   def partly_open_cover(self):
     if self.cover_position != 15:
+      self.make_cover_active()
       self.set_cover_position("kitchen_cover", 15)
 
 

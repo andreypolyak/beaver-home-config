@@ -5,8 +5,7 @@ class LivingRoomCover(Base):
 
   def initialize(self):
     super().initialize()
-    self.check_handle = None
-    self.turn_off_handle = None
+    self.handle = None
     self.init_storage("living_room_cover", "was_closed", False)
     self.listen_state(self.on_scene_change, "input_select.living_scene")
     self.listen_state(self.on_balcony_door_open, "binary_sensor.living_room_balcony_door", new="on", old="off")
@@ -20,6 +19,20 @@ class LivingRoomCover(Base):
       self.turn_on_entity("input_boolean.living_room_cover_active")
     else:
       self.turn_off_entity("input_boolean.living_room_cover_active")
+
+
+  def make_cover_active(self):
+    self.cancel_handle(self.handle)
+    self.turn_on_entity("input_boolean.living_room_cover_active")
+    self.handle = self.run_in(self.turn_off_cover_active, 10)
+
+
+  def turn_off_cover_active(self, kwargs):
+    if self.get_state("cover.living_room_template_cover") in ["opening", "closing"]:
+      return
+    if self.entity_is_off("input_boolean.living_room_cover_active"):
+      return
+    self.turn_off_entity("input_boolean.living_room_cover_active")
 
 
   def on_close_living_room_cover(self, event_name, data, kwargs):
@@ -55,6 +68,7 @@ class LivingRoomCover(Base):
   def close_living_room_cover(self):
     if self.entity_is_off("binary_sensor.living_room_balcony_door"):
       self.log("Close cover")
+      self.make_cover_active()
       self.close_cover("living_room_template_cover")
     else:
       self.log("Cover will not close because balcony door is open")
@@ -62,4 +76,5 @@ class LivingRoomCover(Base):
 
   def open_living_room_cover(self):
     self.log("Open cover")
+    self.make_cover_active()
     self.open_cover("living_room_template_cover")
