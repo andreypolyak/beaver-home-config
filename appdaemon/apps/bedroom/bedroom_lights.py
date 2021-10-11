@@ -17,7 +17,8 @@ class BedroomLights(RoomLights):
       ("binary_sensor.bedroom_floor_bottom_motion", "floor_motion_sensor"),
       ("binary_sensor.bedroom_door", "door_sensor"),
       ("binary_sensor.bedroom_chair_occupancy", "chair_sensor"),
-      ("binary_sensor.bedroom_bed_occupancy", "bed_sensor"),
+      ("binary_sensor.bedroom_bed_top_occupancy", "bed_sensor"),
+      ("binary_sensor.bedroom_bed_bottom_occupancy", "bed_sensor"),
       ("binary_sensor.bedroom_theo_bed_occupancy", "bed_sensor")
     ]
     self.switches = [
@@ -141,7 +142,10 @@ class BedroomLights(RoomLights):
     ):
       return "wardrobe_open"
     if (
-      self.entity_is_on("binary_sensor.bedroom_bed_occupied")
+      (
+        self.entity_is_on("binary_sensor.bedroom_bed_top_occupancy")
+        or self.entity_is_on("binary_sensor.bedroom_bed_bottom_occupancy")
+      )
       and self.sleeping_scene != "night"
     ):
       return "bed_occupied"

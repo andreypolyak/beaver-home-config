@@ -14,7 +14,8 @@ ROOMS = {
       "bedroom_table_motion",
       "bedroom_floor_top_motion",
       "bedroom_floor_bottom_motion",
-      "bedroom_bed_occupancy",
+      "bedroom_bed_top_occupancy",
+      "bedroom_bed_bottom_occupancy",
       "bedroom_theo_bed_occupancy",
       "bedroom_chair_occupancy"
     ],

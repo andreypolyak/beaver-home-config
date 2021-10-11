@@ -1,6 +1,6 @@
 from base import Base
 
-SENSORS = ["bedroom_bed_occupancy", "bedroom_theo_bed_occupancy"]
+SENSORS = ["bedroom_bed_top_occupancy", "bedroom_theo_bed_occupancy"]
 
 
 class BedOccupancy(Base):

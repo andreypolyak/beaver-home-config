@@ -49,8 +49,8 @@ class AlarmManager(Base):
     if (
       self.get_delta_ts(self.sleeping_zone_motion_ts) < 10
       and self.entity_is_on("binary_sensor.bedroom_door")
-      and self.entity_is_off("binary_sensor.bedroom_bed_occupancy_real_time")
-      and self.entity_is_off("binary_sensor.bedroom_theo_bed_occupancy_real_time")
+      and self.entity_is_off("binary_sensor.bedroom_bed_top_occupancy")
+      and self.entity_is_off("binary_sensor.bedroom_theo_bed_occupancy")
     ):
       self.stop_alarm()
 
