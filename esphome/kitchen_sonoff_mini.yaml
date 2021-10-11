@@ -1,5 +1,5 @@
 substitutions:
-  hostname: kitchen_sonoff_mini
+  hostname: kitchen-sonoff-mini
   name: Kitchen Sonoff Mini
 
 esphome:

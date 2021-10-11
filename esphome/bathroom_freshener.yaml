@@ -1,5 +1,5 @@
 substitutions:
-  hostname: bathroom_freshener
+  hostname: bathroom-freshener
   name: Bathroom Freshener
 
 esphome:

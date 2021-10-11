@@ -1,5 +1,5 @@
 substitutions:
-  hostname: living_room_sonoff_mini
+  hostname: living-room-sonoff-mini
   name: Living Room Sonoff Mini
 
 esphome:

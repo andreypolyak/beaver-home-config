@@ -1,5 +1,5 @@
 substitutions:
-  hostname: bedroom_bed_occupancy
+  hostname: bedroom-bed-occupancy
   name: Bedroom Bed Occupancy
 
 esphome:
@@ -25,83 +25,96 @@ ota:
 
 sensor:
   - platform: adc
-    pin: GPIO35
-    id: left_top_sensor
-    update_interval: 1s
-    attenuation: 11db
-
-  - platform: adc
-    pin: GPIO34
-    id: right_top_sensor
-    update_interval: 1s
-    attenuation: 11db
-
-  - platform: adc
+    name: Bedroom Bed Left Sensor
     pin: GPIO33
-    id: left_bottom_sensor
-    update_interval: 1s
+    id: bedroom_bed_left_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
     attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
 
   - platform: adc
-    pin: GPIO32
-    id: right_bottom_sensor
-    update_interval: 1s
+    name: Bedroom Bed Center Sensor
+    pin: GPIO34
+    id: bedroom_bed_center_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
     attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
+
+  - platform: adc
+    name: Bedroom Bed Right Sensor
+    pin: GPIO32
+    id: bedroom_bed_right_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
+    attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
+
+  - platform: adc
+    name: Bedroom Bed Bottom Sensor
+    pin: GPIO35
+    id: bedroom_bed_bottom_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
+    attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
 
 binary_sensor:
   - platform: template
-    name: $name Left Person
-    id: bed_occupancy_left_person
+    name: Bedroom Bed Top Occupancy
+    id: bedroom_bed_top_occupancy
+    device_class: occupancy
     lambda: |-
       if (
-        id(left_top_sensor).state <= 3
-        or id(left_bottom_sensor).state <= 3
+        id(bedroom_bed_left_sensor).state > 30
+        or id(bedroom_bed_center_sensor).state > 30
+        or id(bedroom_bed_right_sensor).state > 30
+        or (
+          id(bedroom_bed_left_sensor).state
+          + id(bedroom_bed_center_sensor).state
+          + id(bedroom_bed_right_sensor).state
+        ) > 40
       ) {
         return true;
       } else {
         return false;
       }
-    filters:
-      - delayed_off: 5s
 
   - platform: template
-    name: $name Right Person
-    id: bed_occupancy_right_person
+    name: Bedroom Bed Bottom Occupancy
+    id: bedroom_bed_bottom_occupancy
+    device_class: occupancy
     lambda: |-
-      if (
-        id(right_top_sensor).state <= 3
-        or id(right_bottom_sensor).state <= 3
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    filters:
-      - delayed_off: 5s
-
-  - platform: template
-    name: $name
-    id: bed_occupancy_any_person
-    lambda: |-
-      if (
-        id(bed_occupancy_left_person).state
-        or id(bed_occupancy_right_person).state
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    filters:
-      - delayed_off: 10s
-
-  - platform: template
-    name: $name Real Time
-    id: bed_occupancy_real_time
-    lambda: |-
-      if (
-        id(left_top_sensor).state <= 3 or id(left_bottom_sensor).state <= 3
-        or id(right_top_sensor).state <= 3 or id(right_bottom_sensor).state <= 3
-      ) {
+      if (id(bedroom_bed_bottom_sensor).state > 10) {
         return true;
       } else {
         return false;

@@ -1,5 +1,5 @@
 substitutions:
-  hostname: living_room_ir_blaster
+  hostname: living-room-ir-blaster
   name: Living Room Ir Blaster
 
 esphome:

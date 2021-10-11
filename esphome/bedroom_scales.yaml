@@ -1,5 +1,5 @@
 substitutions:
-  hostname: bedroom_scales
+  hostname: bedroom-scales
   name: Bedroom Scales
 
 esphome:

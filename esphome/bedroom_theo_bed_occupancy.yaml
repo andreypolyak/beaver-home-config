@@ -1,5 +1,5 @@
 substitutions:
-  hostname: bedroom_theo_bed_occupancy
+  hostname: bedroom-theo-bed-occupancy
   name: Bedroom Theo Bed Occupancy
 
 esphome:
@@ -25,35 +25,51 @@ ota:
 
 sensor:
   - platform: adc
+    name: Bedroom Theo Bed Top Sensor
     pin: GPIO34
-    id: top_sensor
-    update_interval: 1s
+    id: bedroom_theo_bed_top_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
     attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
 
   - platform: adc
+    name: Bedroom Theo Bed Bottom Sensor
     pin: GPIO35
-    id: bottom_sensor
-    update_interval: 1s
+    id: bedroom_theo_bed_bottom_sensor
+    unit_of_measurement: "%"
+    device_class: ""
+    state_class: ""
+    update_interval: 0.1s
     attenuation: 11db
+    filters:
+      - lambda: return abs(100 - (x / 3.9 * 100));
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 20
 
 binary_sensor:
   - platform: template
-    name: $name
-    id: bed_occupancy
+    name: Bedroom Theo Bed Occupancy
+    id: bedroom_theo_bed_occupancy
+    device_class: occupancy
     lambda: |-
-      if (id(top_sensor).state <= 3 or id(bottom_sensor).state <= 3) {
-        return true;
-      } else {
-        return false;
-      }
-    filters:
-      - delayed_off: 10s
-
-  - platform: template
-    name: $name Real Time
-    id: bed_occupancy_real_time
-    lambda: |-
-      if (id(top_sensor).state <= 3 or id(bottom_sensor).state <= 3) {
+      if (
+        id(bedroom_theo_bed_top_sensor).state > 20
+        or id(bedroom_theo_bed_bottom_sensor).state > 20
+        or (
+          id(bedroom_theo_bed_top_sensor).state
+          + id(bedroom_theo_bed_bottom_sensor).state
+        ) > 30
+      ) {
         return true;
       } else {
         return false;
