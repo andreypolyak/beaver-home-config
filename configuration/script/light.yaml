@@ -2,7 +2,11 @@ update_light_state:
   sequence:
     - service: mqtt.publish
       data:
-        topic: zigbee2mqtt/Group Main All/get
+        topic: zigbee2mqtt_living_room/Group Living Room All/get
+        payload: '{"state": ""}'
+    - service: mqtt.publish
+      data:
+        topic: zigbee2mqtt_kitchen/Group Kitchen All/get
         payload: '{"state": ""}'
     - service: mqtt.publish
       data:
