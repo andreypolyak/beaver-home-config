@@ -15,13 +15,13 @@ filter:
     - media_player.kitchen_sonos
     - media_player.bedroom_sonos
     - media_player.sonos_move
-    - script.snapshot_send
     - input_boolean.scene_sleeping_day
     - input_boolean.scene_sleeping_night
     - input_boolean.scene_sleeping_dumb
     - input_boolean.scene_living_day
     - input_boolean.scene_living_night
     - input_boolean.scene_living_dumb
+    - input_boolean.scene_living_light_cinema
     - input_boolean.scene_living_dark_cinema
     - input_boolean.scene_living_party
     - cover.living_room_template_cover
@@ -92,9 +92,13 @@ entity_config:
     room: Гостинная
     name: Глупый режим
 
-  input_boolean.scene_living_dark_cinema:
+  input_boolean.scene_living_light_cinema:
     room: Гостинная
     name: Режим кино
+
+  input_boolean.scene_living_dark_cinema:
+    room: Гостинная
+    name: Режим темного кино
 
   input_boolean.scene_living_party:
     room: Гостинная
@@ -139,10 +143,6 @@ entity_config:
   switch.bathroom_fan:
     room: Ванная
     name: Вентилятор
-
-  script.snapshot_send:
-    room: Гостинная
-    name: Сделай фоточку
 
   cover.living_room_template_cover:
     room: Гостинная
