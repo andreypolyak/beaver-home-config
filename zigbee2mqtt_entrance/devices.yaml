@@ -50,6 +50,10 @@
   friendly_name: Bathroom Top
 "0xccccccfffe4e9295":
   friendly_name: Bathroom Entrance Backup Switch
+  debounce: 0.2
+  debounce_ignore:
+    - action
+  legacy: false
 "0xec1bbdfffe7291e4":
   friendly_name: Bathroom Cabinet
 "0xec1bbdfffead41a5":

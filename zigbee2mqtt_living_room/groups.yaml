@@ -1,0 +1,91 @@
+"24":
+  friendly_name: Group Living Room
+  retain: true
+  optimistic: true
+  devices:
+    - "0xec1bbdfffe3bd4cc"
+    - "0x842e14fffe77310f"
+    - "0x842e14fffe587bc2"
+    - "0xccccccfffe9cde46"
+    - "0xccccccfffe9fe76f"
+    - "0x680ae2fffe47e6d0"
+    - "0xec1bbdfffe9e6598"
+    - "0x84fd27fffec35e3d"
+"25":
+  friendly_name: Group Living Room Top
+  retain: true
+  optimistic: true
+  devices:
+    - "0xccccccfffe9cde46"
+    - "0x842e14fffe77310f"
+    - "0x842e14fffe587bc2"
+    - "0xccccccfffe9fe76f"
+"26":
+  friendly_name: Group Living Room Light Cinema On
+  retain: true
+  optimistic: true
+  devices:
+    - "0x842e14fffe77310f"
+    - "0x842e14fffe587bc2"
+    - "0xccccccfffe9cde46"
+    - "0xccccccfffe9fe76f"
+    - "0x84fd27fffec35e3d"
+"27":
+  friendly_name: Group Living Room Light Cinema Off
+  retain: true
+  optimistic: true
+  devices:
+    - "0xec1bbdfffe3bd4cc"
+    - "0x680ae2fffe47e6d0"
+    - "0xec1bbdfffe9e6598"
+"28":
+  friendly_name: Group Living Room Dark On
+  retain: true
+  optimistic: true
+  devices:
+    - "0xec1bbdfffe3bd4cc"
+    - "0x84fd27fffec35e3d"
+"29":
+  friendly_name: Group Living Room Dark Off
+  retain: true
+  optimistic: true
+  devices:
+    - "0xccccccfffe9cde46"
+    - "0x842e14fffe77310f"
+    - "0x842e14fffe587bc2"
+    - "0xccccccfffe9fe76f"
+    - "0x680ae2fffe47e6d0"
+    - "0xec1bbdfffe9e6598"
+"30":
+  friendly_name: Group Living Room All
+  retain: true
+  optimistic: false
+  devices:
+    - "0xec1bbdfffe3bd4cc"
+    - "0x842e14fffe77310f"
+    - "0x842e14fffe587bc2"
+    - "0xccccccfffe9cde46"
+    - "0xccccccfffe9fe76f"
+    - "0x680ae2fffe47e6d0"
+    - "0xec1bbdfffe9e6598"
+    - "0x84fd27fffec35e3d"
+"31":
+  friendly_name: Group Living Room Cover
+  retain: true
+  optimistic: true
+  devices:
+    - "0x00158d00040c6454"
+"32":
+  friendly_name: Group Storage Room
+  retain: true
+  optimistic: true
+  devices:
+    - "0xccccccfffec378ad"
+    - "0x14b457fffe372c4e"
+"43":
+  friendly_name: Group Living Room Speakers
+  retain: true
+  optimistic: true
+  devices:
+    - "0x680ae2fffe47e6d0"
+    - "0xec1bbdfffe9e6598"

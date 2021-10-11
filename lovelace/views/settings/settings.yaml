@@ -113,14 +113,6 @@ cards:
         cards:
           - type: custom:button-card
             template: restart_z2m
-            entity: binary_sensor.zigbee2mqtt_state
-            name: Main
-            variables:
-              name: Zigbee2mqtt
-              addon_item: 45df7312_zigbee2mqtt
-              addon_short_name: zigbee2mqtt
-          - type: custom:button-card
-            template: restart_z2m
             entity: binary_sensor.zigbee2mqtt_entrance_state
             name: Entrance
             variables:
@@ -129,20 +121,28 @@ cards:
               addon_short_name: zigbee2mqtt_entrance
           - type: custom:button-card
             template: restart_z2m
+            entity: binary_sensor.zigbee2mqtt_living_room_state
+            name: Living Room
+            variables:
+              name: Zigbee2mqtt Living Room
+              addon_item: 1fd3ccdf_zigbee2mqtt_living_room
+              addon_short_name: zigbee2mqtt_living_room
+          - type: custom:button-card
+            template: restart_z2m
+            entity: binary_sensor.zigbee2mqtt_kitchen_state
+            name: Kitchen
+            variables:
+              name: Zigbee2mqtt Kitchen
+              addon_item: 1fd3ccdf_zigbee2mqtt_kitchen
+              addon_short_name: zigbee2mqtt_kitchen
+          - type: custom:button-card
+            template: restart_z2m
             entity: binary_sensor.zigbee2mqtt_bedroom_state
             name: Bedroom
             variables:
               name: Zigbee2mqtt Bedroom
               addon_item: 1fd3ccdf_zigbee2mqtt_bedroom
               addon_short_name: zigbee2mqtt_bedroom
-          - type: custom:button-card
-            template: restart_z2m
-            entity: binary_sensor.zigbee2mqtt_switches_state
-            name: Switches
-            variables:
-              name: Zigbee2mqtt Switches
-              addon_item: 1fd3ccdf_zigbee2mqtt_switches
-              addon_short_name: zigbee2mqtt_switches
       - type: horizontal-stack
         cards:
           - type: custom:button-card
@@ -184,28 +184,28 @@ cards:
         cards:
           - type: custom:button-card
             template: config
-            name: Main
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/45df7312_zigbee2mqtt
-          - type: custom:button-card
-            template: config
             name: Entrance
             icon: mdi:zigbee
             variables:
               url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_entrance
           - type: custom:button-card
             template: config
+            name: Living Room
+            icon: mdi:zigbee
+            variables:
+              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_living_room
+          - type: custom:button-card
+            template: config
+            name: Kitchen
+            icon: mdi:zigbee
+            variables:
+              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_kitchen
+          - type: custom:button-card
+            template: config
             name: Bedroom
             icon: mdi:zigbee
             variables:
               url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_bedroom
-          - type: custom:button-card
-            template: config
-            name: Switches
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_switches
       - type: horizontal-stack
         cards:
           - type: custom:button-card

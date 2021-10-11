@@ -2,53 +2,41 @@ from base import Base
 import mqttapi as mqtt
 import json
 
-Z2M_INSTANCES = [
-  {"short_name": "zigbee2mqtt", "url_name": "45df7312_zigbee2mqtt"},
-  {"short_name": "zigbee2mqtt_entrance", "url_name": "1fd3ccdf_zigbee2mqtt_entrance"},
-  {"short_name": "zigbee2mqtt_switches", "url_name": "1fd3ccdf_zigbee2mqtt_switches"},
-  {"short_name": "zigbee2mqtt_bedroom", "url_name": "1fd3ccdf_zigbee2mqtt_bedroom"}
-]
+Z2M_ROOMS = ["entrance", "living_room", "kitchen", "bedroom"]
 
-ZIGBEE_PI_RESTART_COMMANDS = ["restart_rpi_living_room", "restart_rpi_entrance", "restart_rpi_bedroom"]
+Z2M_SLUG = "1fd3ccdf"
 
 
 class NotifyZ2mState(Base, mqtt.Mqtt):
 
   def initialize(self):
     super().initialize()
-    for z2m_instance in Z2M_INSTANCES:
-      short_name = z2m_instance["short_name"]
-      url_name = z2m_instance["url_name"]
-      entity = f"binary_sensor.{short_name}_state"
-      self.listen_state(self.on_z2m_change, entity, short_name=short_name, url_name=url_name)
-      self.mqtt_subscribe(f"{short_name}/bridge/log", namespace="mqtt")
-      topic = f"{short_name}/bridge/log"
+    for room in Z2M_ROOMS:
+      entity = f"binary_sensor.zigbee2mqtt_{room}_state"
+      self.listen_state(self.on_z2m_change, entity, room=room)
+      self.mqtt_subscribe(f"zigbee2mqtt_{room}/bridge/log", namespace="mqtt")
       kwargs = {
-        "topic": topic,
+        "topic": f"zigbee2mqtt_{room}/bridge/log",
         "namespace": "mqtt",
-        "short_name": short_name,
-        "url_name": url_name
+        "room": room
       }
       self.listen_event(self.on_mqtt_change, "MQTT_MESSAGE", **kwargs)
-    self.listen_event(self.on_pi_restart, event="mobile_app_notification_action", action="PI_RESTART")
 
 
   def on_z2m_change(self, entity, attribute, old, new, kwargs):
-    full_name = kwargs["short_name"].replace("_", " ").title()
-    url_name = kwargs["url_name"]
-    url = f"/hassio/addon/{url_name}/logs"
+    room = kwargs["room"]
+    url = f"/hassio/addon/{Z2M_SLUG}_zigbee2mqtt_{room}/logs"
     if new == "on":
-      self.on_z2m_on(full_name, url)
+      self.on_z2m_on(room, url)
     elif new == "off":
-      self.on_z2m_off(full_name, url)
+      self.on_z2m_off(room, url)
 
 
   def on_mqtt_change(self, event_name, data, kwargs):
-    short_name = kwargs["short_name"]
-    url_name = kwargs["url_name"]
+    room = kwargs["room"]
     payload = json.loads(data["payload"])
-    category = f"{short_name}_state"
-    url = f"/{url_name}"
+    category = f"zigbee2mqtt_{room}_state"
+    url = f"/{Z2M_SLUG}_zigbee2mqtt_{room}"
     if "type" not in payload:
       return
     if payload["type"] == "device_connected":
@@ -60,18 +48,20 @@ class NotifyZ2mState(Base, mqtt.Mqtt):
     elif payload["type"] == "device_removed":
       self.on_device_removed(payload, category, url)
     elif payload["type"] == "zigbee_publish_error" and "MEM_ERROR" in payload["message"]:
-      self.on_mem_error(payload, category, url)
+      self.on_mem_error(payload, category, url, room)
     if "error" in payload["type"]:
       self.fire_event("zigbee_log", text=payload)
 
 
-  def on_z2m_on(self, full_name, url):
-    message = f"📡 {full_name} was successfully restarted"
+  def on_z2m_on(self, room, url):
+    name = f"{room} zigbee2mqtt".replace("_", " ").title()
+    message = f"📡 {name} was successfully restarted"
     self.send_push("admin", message, "z2m_state", sound="Ladder.caf", url=url)
 
 
-  def on_z2m_off(self, full_name, url):
-    message = f"📡 {full_name} is down"
+  def on_z2m_off(self, room, url):
+    name = f"{room} zigbee2mqtt".replace("_", " ").title()
+    message = f"📡 {name} is down"
     self.send_push("admin", message, "z2m_state", sound="Ladder.caf", url=url)
 
 
@@ -103,12 +93,7 @@ class NotifyZ2mState(Base, mqtt.Mqtt):
     self.send_push("admin", message, category, sound="Ladder.caf", url=url)
 
 
-  def on_mem_error(self, payload, category, url):
-    actions = [{"action": "PI_RESTART", "title": "📌 Restart Zigbee Pis", "destructive": True}]
-    message = "👎 Memory error on Zigbee stick. Do you want to restart Zigbee Pis?"
-    self.send_push("admin", message, category, sound="Ladder.caf", actions=actions, url=url)
-
-
-  def on_pi_restart(self, event_name, data, kwargs):
-    for restart_command in ZIGBEE_PI_RESTART_COMMANDS:
-      self.call_service(f"shell_command/{restart_command}")
+  def on_mem_error(self, payload, category, url, room):
+    message = "👎 Memory error on Zigbee stick. It will be restarted in a second"
+    self.send_push("admin", message, category, sound="Ladder.caf", url=url)
+    self.turn_on_entity(f"switch.{room}zigbee_gateway_zigbee_restart")

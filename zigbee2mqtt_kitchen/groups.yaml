@@ -1,0 +1,33 @@
+"20":
+  friendly_name: Group Kitchen Top
+  retain: true
+  optimistic: true
+  devices:
+    - "0x842e14fffea336d5"
+    - "0x842e14fffefc8ecf"
+    - "0x842e14fffefebb61"
+"21":
+  friendly_name: Group Kitchen Color
+  retain: true
+  optimistic: true
+  devices:
+    - "0x842e14fffea336d5"
+    - "0x842e14fffefc8ecf"
+    - "0x842e14fffefebb61"
+    - "0x842e14fffe5b928a"
+"22":
+  friendly_name: Group Kitchen All
+  retain: true
+  optimistic: false
+  devices:
+    - "0x000d6f0010dd0345"
+    - "0x842e14fffea336d5"
+    - "0x842e14fffefc8ecf"
+    - "0x842e14fffefebb61"
+    - "0x842e14fffe5b928a"
+"23":
+  friendly_name: Group Kitchen Cover
+  retain: true
+  optimistic: true
+  devices:
+    - "0x680ae2fffe80bf07"

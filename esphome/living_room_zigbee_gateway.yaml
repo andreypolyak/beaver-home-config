@@ -1,6 +1,6 @@
 substitutions:
-  hostname: entrance-zigbee-gateway
-  name: Entrance Zigbee Gateway
+  hostname: living-room-zigbee-gateway
+  name: Living Room Zigbee Gateway
 
 esphome:
   name: $hostname
@@ -14,7 +14,7 @@ ethernet:
   clk_mode: GPIO0_IN
   phy_addr: 1
   power_pin: GPIO16
-  use_address: 192.168.1.143
+  use_address: 192.168.1.43
 
 logger:
 

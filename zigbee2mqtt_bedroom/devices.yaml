@@ -51,14 +51,12 @@
   friendly_name: Bedroom Top 1
 "0xec1bbdfffe729352":
   friendly_name: Bedroom Top 3
-"0xccccccfffe275012":
-  friendly_name: Bedroom Backup Switch
-  debounce: 0.2
-  debounce_ignore:
-    - action
-  legacy: false
 "0x84fd27fffec23e73":
   friendly_name: Bedroom Bed LED
 "0x00158d00040c40e6":
   friendly_name: Bedroom Floor Bottom Motion
   occupancy_timeout: 1
+"0x000d6ffffe681714":
+  friendly_name: Bedroom Backup Switch
+"0xccccccfffe275012":
+  friendly_name: "0xccccccfffe275012"

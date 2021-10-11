@@ -1,6 +1,6 @@
 - platform: mqtt
-  name: Zigbee2mqtt State
-  state_topic: zigbee2mqtt/bridge/state
+  name: Zigbee2mqtt Kitchen State
+  state_topic: zigbee2mqtt_kitchen/bridge/state
   payload_on: online
   payload_off: offline
   icon: mdi:zigbee
@@ -20,8 +20,8 @@
   icon: mdi:zigbee
 
 - platform: mqtt
-  name: Zigbee2mqtt Switches State
-  state_topic: zigbee2mqtt_switches/bridge/state
+  name: Zigbee2mqtt Living Room State
+  state_topic: zigbee2mqtt_living_room/bridge/state
   payload_on: online
   payload_off: offline
   icon: mdi:zigbee

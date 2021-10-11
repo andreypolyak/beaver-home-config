@@ -5,9 +5,10 @@
         {{
           states("input_number.unavailable_entities")|int == 0
           and states("input_number.low_battery_devices")|int == 0
-          and states("binary_sensor.zigbee2mqtt_state") == "on"
           and states("binary_sensor.zigbee2mqtt_entrance_state") == "on"
-          and states("binary_sensor.zigbee2mqtt_switches_state") == "on"
+          and states("binary_sensor.zigbee2mqtt_bedroom_state") == "on"
+          and states("binary_sensor.zigbee2mqtt_kitchen_state") == "on"
+          and states("binary_sensor.zigbee2mqtt_living_room_state") == "on"
           and states("sensor.rpi_temp_rpi_living_room") != "unknown"
           and states("sensor.rpi_temp_rpi_entrance") != "unknown"
         }}

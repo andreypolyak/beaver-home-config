@@ -1,45 +1,45 @@
-'210':
+"210":
   friendly_name: Group Entrance Mirror
   retain: true
   optimistic: true
   devices:
-    - '0xccccccfffef35593'
-    - '0xec1bbdfffe1ad9e5'
-'211':
+    - "0xccccccfffef35593"
+    - "0xec1bbdfffe1ad9e5"
+"211":
   friendly_name: Group Bathroom Entrance Color
   retain: true
   optimistic: true
   devices:
-    - '0xccccccfffef35593'
-    - '0xec1bbdfffe1ad9e5'
-    - '0x680ae2fffe68f801'
-    - '0xec1bbdfffe6da5c4'
-    - '0xec1bbdfffe7291e4'
-    - '0xec1bbdfffead41a5'
-'212':
+    - "0xccccccfffef35593"
+    - "0xec1bbdfffe1ad9e5"
+    - "0x680ae2fffe68f801"
+    - "0xec1bbdfffe6da5c4"
+    - "0xec1bbdfffe7291e4"
+    - "0xec1bbdfffead41a5"
+"212":
   friendly_name: Group Bathroom Entrance All
   retain: true
   optimistic: false
   devices:
-    - '0x00124b001cd6084d'
-    - '0x680ae2fffe68f801'
-    - '0xec1bbdfffe1ad9e5'
-    - '0xccccccfffef35593'
-    - '0xec1bbdfffe6da5c4'
-    - '0x00124b001cd5fe26'
-    - '0xec1bbdfffe7291e4'
-    - '0xec1bbdfffead41a5'
-'213':
+    - "0x00124b001cd6084d"
+    - "0x680ae2fffe68f801"
+    - "0xec1bbdfffe1ad9e5"
+    - "0xccccccfffef35593"
+    - "0xec1bbdfffe6da5c4"
+    - "0x00124b001cd5fe26"
+    - "0xec1bbdfffe7291e4"
+    - "0xec1bbdfffead41a5"
+"213":
   friendly_name: Group Bathroom Top
   retain: true
   optimistic: true
   devices:
-    - '0xec1bbdfffe6da5c4'
-    - '0xec1bbdfffe7291e4'
-'214':
+    - "0xec1bbdfffe6da5c4"
+    - "0xec1bbdfffe7291e4"
+"214":
   friendly_name: Group Entrance Top
   retain: true
   optimistic: true
   devices:
-    - '0x680ae2fffe68f801'
-    - '0xec1bbdfffead41a5'
+    - "0x680ae2fffe68f801"
+    - "0xec1bbdfffead41a5"
