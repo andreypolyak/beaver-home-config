@@ -126,7 +126,7 @@ vacuum_go_to_bin:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/GoToLocationCapability/go/set
-        payload: '["4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09"]'
+        payload: "4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09"
 
 vacuum_start:
   sequence:
