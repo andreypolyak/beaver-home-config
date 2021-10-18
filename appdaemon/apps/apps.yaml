@@ -524,14 +524,6 @@ notify_persistent:
   global_dependencies: base
   dependencies: push
 
-notify_pi_state:
-  module: notify_pi_state
-  class: NotifyPiState
-  global_dependencies: base
-  dependencies:
-    - push
-    - storage
-
 notify_plant:
   module: notify_plant
   class: NotifyPlant

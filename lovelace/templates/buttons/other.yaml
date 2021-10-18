@@ -32,18 +32,6 @@ alarm:
   variables:
     name: ""
 
-config:
-  template: base
-  color_type: card
-  tap_action:
-    action: navigate
-    navigation_path: >
-        [[[ return variables.url; ]]]
-    haptic: success
-  color: var(--paper-card-background-color)
-  variables:
-    url: ""
-
 christmas:
   template: base
   color: red

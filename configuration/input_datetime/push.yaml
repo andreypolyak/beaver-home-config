@@ -118,12 +118,6 @@ persistent_last_push:
   has_time: true
   icon: mdi:clock-outline
 
-pi_state_last_push:
-  name: Pi State Last Push
-  has_date: true
-  has_time: true
-  icon: mdi:clock-outline
-
 plant_last_push:
   name: Plant Last Push
   has_date: true

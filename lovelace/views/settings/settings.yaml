@@ -38,7 +38,7 @@ cards:
             entity: input_number.zigbee_ota_updates
             variables:
               entity: input_number.zigbee_ota_updates
-              path: /hassio/ingress/45df7312_zigbee2mqtt
+              path: /lovelace/settings_entities
       - type: custom:button-card
         template: header
         name: Attention
@@ -116,120 +116,31 @@ cards:
             entity: binary_sensor.zigbee2mqtt_entrance_state
             name: Entrance
             variables:
-              name: Zigbee2mqtt Entrance
-              addon_item: 1fd3ccdf_zigbee2mqtt_entrance
-              addon_short_name: zigbee2mqtt_entrance
+              addon_name: 1fd3ccdf_zigbee2mqtt_entrance
+              room: entrance
+              room_name: Entrance
           - type: custom:button-card
             template: restart_z2m
             entity: binary_sensor.zigbee2mqtt_living_room_state
-            name: Living Room
+            name: Liv. Room
             variables:
-              name: Zigbee2mqtt Living Room
-              addon_item: 1fd3ccdf_zigbee2mqtt_living_room
-              addon_short_name: zigbee2mqtt_living_room
+              addon_name: 1fd3ccdf_zigbee2mqtt_living_room
+              room: living_room
+              room_name: Living Room
           - type: custom:button-card
             template: restart_z2m
             entity: binary_sensor.zigbee2mqtt_kitchen_state
             name: Kitchen
             variables:
-              name: Zigbee2mqtt Kitchen
-              addon_item: 1fd3ccdf_zigbee2mqtt_kitchen
-              addon_short_name: zigbee2mqtt_kitchen
+              addon_name: 1fd3ccdf_zigbee2mqtt_kitchen
+              room: kitchen
+              room_name: Kitchen
           - type: custom:button-card
             template: restart_z2m
             entity: binary_sensor.zigbee2mqtt_bedroom_state
             name: Bedroom
             variables:
-              name: Zigbee2mqtt Bedroom
-              addon_item: 1fd3ccdf_zigbee2mqtt_bedroom
-              addon_short_name: zigbee2mqtt_bedroom
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            template: restart_pi
-            triggers_update:
-              - sensor.rpi_temp_rpi_living_room
-            name: Living Room
-            variables:
-              name: Raspberry Pi Living Room
-              pi_item: living_room
-          - type: custom:button-card
-            template: restart_pi
-            triggers_update:
-              - sensor.rpi_temp_rpi_entrance
-            name: Entrance
-            variables:
-              name: Raspberry Pi Entrance
-              pi_item: entrance
-          - type: custom:button-card
-            template: restart_pi
-            triggers_update:
-              - sensor.rpi_temp_rpi_bedroom
-            name: Bedroom
-            variables:
-              name: Raspberry Pi Bedroom
-              pi_item: bedroom
-          - type: custom:button-card
-            template: restart_pi
-            triggers_update:
-              - sensor.rpi_temp_rpi_kitchen
-            name: Kitchen
-            variables:
-              name: Raspberry Pi Kitchen
-              pi_item: kitchen
-      - type: custom:button-card
-        template: header
-        name: Config
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            template: config
-            name: Entrance
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_entrance
-          - type: custom:button-card
-            template: config
-            name: Living Room
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_living_room
-          - type: custom:button-card
-            template: config
-            name: Kitchen
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_kitchen
-          - type: custom:button-card
-            template: config
-            name: Bedroom
-            icon: mdi:zigbee
-            variables:
-              url: /hassio/ingress/1fd3ccdf_zigbee2mqtt_bedroom
-      - type: horizontal-stack
-        cards:
-          - type: custom:button-card
-            template: config
-            name: ESPHome
-            icon: mdi:car-esp
-            variables:
-              url: /hassio/ingress/a0d7b954_esphome
-          - type: custom:button-card
-            template: config
-            name: Roborock
-            icon: mdi:robot-vacuum
-            variables:
-              url: /roborock_panel
-          - type: custom:button-card
-            template: config
-            name: Terminal
-            icon: mdi:console
-            variables:
-              url: /hassio/ingress/a0d7b954_ssh
-          - type: custom:button-card
-            template: config
-            name: Portainer
-            icon: mdi:docker
-            variables:
-              url: /hassio/ingress/a0d7b954_portainer
+              addon_name: 1fd3ccdf_zigbee2mqtt_bedroom
+              room: bedroom
+              room_name: Bedroom
       - !include /config/lovelace/elements/other/footer.yaml

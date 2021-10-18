@@ -43,7 +43,7 @@ class NotifyZ2mState(Base, mqtt.Mqtt):
       self.on_device_connected(payload, category, url)
     elif payload["type"] == "pairing" and payload["message"] == "interview_started":
       self.on_device_pairing_started(payload, category, url)
-    elif payload["type"] == "pairing" and "interview_successful":
+    elif payload["type"] == "pairing" and payload["message"] == "interview_successful":
       self.on_device_pairing_finished(payload, category, url)
     elif payload["type"] == "device_removed":
       self.on_device_removed(payload, category, url)

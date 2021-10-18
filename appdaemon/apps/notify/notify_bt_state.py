@@ -1,14 +1,15 @@
 from base import Base
 
-ROOMS = ["kitchen", "entrance"]
-
 
 class NotifyBtState(Base):
 
   def initialize(self):
     super().initialize()
-    for room in ROOMS:
-      self.listen_state(self.on_change, f"sensor.bt_{room}_discrepancy_3_hours", room=room)
+    for sensor in self.get_state("sensor"):
+      if not sensor.endswith("_discrepancy_3_hours") or not sensor.startswith("sensor.bt_"):
+        continue
+      room = sensor.replace("_discrepancy_3_hours", "").replace("sensor.bt_", "")
+      self.listen_state(self.on_change, sensor, room=room)
       action = f"PI_{room.upper()}_RESTART"
       self.listen_event(self.on_pi_restart, event="mobile_app_notification_action", action=action, room=room)
 

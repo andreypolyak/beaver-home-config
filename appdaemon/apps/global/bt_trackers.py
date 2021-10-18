@@ -1,7 +1,5 @@
 from base import Base
 
-ROOMS = ["entrance", "kitchen"]
-
 
 class BtTrackers(Base):
 
@@ -9,8 +7,14 @@ class BtTrackers(Base):
     super().initialize()
     for person in self.get_persons(with_phone=True):
       person_phone = person["phone"]
-      for room in ROOMS:
-        self.listen_state(self.on_room_confidence_change, f"sensor.bt_{room}_{person_phone}_confidence", immediate=True)
+      for sensor in self.get_state("sensor"):
+        room = sensor.replace(f"_{person_phone}_confidence", "").replace("sensor.bt_", "")
+        if sensor == f"sensor.bt_{person_phone}_confidence":
+          continue
+        if not sensor.endswith(f"_{person_phone}_confidence") or not sensor.startswith("sensor.bt_"):
+          continue
+        self.log_var(room, sensor)
+        self.listen_state(self.on_room_confidence_change, sensor, immediate=True, room=room)
       self.listen_state(self.on_confidence_change, f"sensor.bt_{person_phone}_confidence", immediate=True)
 
 
@@ -18,7 +22,7 @@ class BtTrackers(Base):
     confidence = self.get_float_state(new)
     if confidence is None:
       return
-    room = self.get_room_from_entity(entity)
+    room = kwargs["room"]
     person = self.get_persons(entity=entity)[0]
     person_phone = person["phone"]
     state = "home"
@@ -39,9 +43,3 @@ class BtTrackers(Base):
       state = "not_home"
     dev_id = f"bt_{person_phone}"
     self.call_service("device_tracker/see", dev_id=dev_id, location_name=state, source_type="bluetooth")
-
-
-  def get_room_from_entity(self, entity):
-    for room in ROOMS:
-      if room in entity:
-        return room

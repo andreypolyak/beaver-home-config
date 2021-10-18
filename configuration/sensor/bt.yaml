@@ -1,27 +1,49 @@
 - platform: mqtt
+  name: Entrance Raspberry Pi
+  state_topic: rpi-reporter/sensor/rpi-entrance/status
+  value_template: >
+    {% if value == "offline" %}
+      unavailable
+    {% else %}
+      ok
+    {% endif %}
+  icon: mdi:raspberry-pi
+
+- platform: mqtt
+  name: Kitchen Raspberry Pi
+  state_topic: rpi-reporter/sensor/rpi-kitchen/status
+  value_template: >
+    {% if value == "offline" %}
+      unavailable
+    {% else %}
+      ok
+    {% endif %}
+  icon: mdi:raspberry-pi
+
+- platform: mqtt
   name: BT Kitchen Andrey iPhone 11 Pro Max Confidence
-  state_topic: monitor_kitchen/rpi-kitchen/bt_andrey_iphone_11_pro_max
+  state_topic: monitor/rpi-kitchen/bt_andrey_iphone_11_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
   icon: mdi:bluetooth
 
 - platform: mqtt
   name: BT Kitchen Katya iPhone 12 Pro Max Confidence
-  state_topic: monitor_kitchen/rpi-kitchen/bt_katya_iphone_12_pro_max
+  state_topic: monitor/rpi-kitchen/bt_katya_iphone_12_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
   icon: mdi:bluetooth
 
 - platform: mqtt
   name: BT Entrance Andrey iPhone 11 Pro Max Confidence
-  state_topic: monitor_entrance/rpi-entrance/bt_andrey_iphone_11_pro_max
+  state_topic: monitor/rpi-entrance/bt_andrey_iphone_11_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
   icon: mdi:bluetooth
 
 - platform: mqtt
   name: BT Entrance Katya iPhone 12 Pro Max Confidence
-  state_topic: monitor_entrance/rpi-entrance/bt_katya_iphone_12_pro_max
+  state_topic: monitor/rpi-entrance/bt_katya_iphone_12_pro_max
   value_template: "{{ value_json.confidence }}"
   unit_of_measurement: "%"
   icon: mdi:bluetooth

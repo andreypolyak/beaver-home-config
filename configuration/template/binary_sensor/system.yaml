@@ -8,8 +8,6 @@
           and states("binary_sensor.zigbee2mqtt_bedroom_state") == "on"
           and states("binary_sensor.zigbee2mqtt_kitchen_state") == "on"
           and states("binary_sensor.zigbee2mqtt_living_room_state") == "on"
-          and states("sensor.rpi_temp_rpi_living_room") != "unknown"
-          and states("sensor.rpi_temp_rpi_entrance") != "unknown"
         }}
 
     - name: System Up-To-Date

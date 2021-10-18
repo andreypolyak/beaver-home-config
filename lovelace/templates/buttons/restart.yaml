@@ -1,34 +1,5 @@
-restart:
-  template: base
-  confirmation:
-    text: >
-      [[[ return `❗ Are you sure you want to restart ${variables.name}?`; ]]]
-  variables:
-    name: ""
-
-restart_pi:
-  template: restart
-  color: auto
-  color_type: card
-  icon: mdi:raspberry-pi
-  tap_action:
-    action: call-service
-    service: >
-        [[[ return `shell_command.restart_rpi_${variables.pi_item}`; ]]]
-    haptic: success
-  state:
-    - value: >
-        [[[ return states[`sensor.rpi_temp_rpi_${variables.pi_item}`].state == "unavailable"; ]]]
-      operator: template
-      color: var(--paper-item-icon-active-color)
-    - operator: default
-      color: var(--paper-card-background-color)
-  variables:
-    name: ""
-    pi_item: ""
-
 restart_z2m:
-  template: restart
+  template: base
   color: auto
   color_type: card
   icon: mdi:zigbee
@@ -37,8 +8,31 @@ restart_z2m:
     service: hassio.addon_restart
     service_data:
       addon: >
-        [[[ return variables.addon_item; ]]]
+        [[[ return variables.addon_name; ]]]
     haptic: success
+    confirmation:
+      text: >
+        [[[ return `❗ Are you sure you want to restart ${variables.room_name} Zigbee2mqtt?`; ]]]
+  hold_action:
+    action: call-service
+    service: switch.turn_on
+    service_data:
+      entity_id: >
+        [[[ return `switch.${variables.room}_zigbee_gateway_zigbee_restart`; ]]]
+    haptic: success
+    confirmation:
+      text: >
+        [[[ return `❗ Are you sure you want to restart ${variables.room_name} Zigbee Gateway?`; ]]]
+  double_tap_action:
+    action: call-service
+    service: switch.turn_on
+    service_data:
+      entity_id: >
+        [[[ return `switch.${variables.room}_zigbee_gateway_zigbee_restart`; ]]]
+    haptic: success
+    confirmation:
+      text: >
+        [[[ return `❗ Are you sure you want to restart ${variables.room_name} Zigbee Gateway?`; ]]]
   state:
     - value: "on"
       operator: "!="
@@ -46,14 +40,17 @@ restart_z2m:
     - operator: default
       color: var(--paper-card-background-color)
   variables:
-    name: ""
-    addon_item: ""
-    addon_short_name: ""
+    addon_name: ""
+    room: ""
+    room_name: ""
 
 restart_system:
-  template: restart
+  template: base
   color: auto
   color_type: card
+  confirmation:
+    text: >
+      [[[ return `❗ Are you sure you want to restart ${variables.name}?`; ]]]
   state:
     - value: "on"
       operator: "!="
@@ -61,6 +58,16 @@ restart_system:
     - operator: default
       color: var(--paper-card-background-color)
   tap_action:
+    action: call-service
+    service: >
+      [[[ return `script.restart_${variables.short_name}`; ]]]
+    haptic: success
+  double_tap_action:
+    action: call-service
+    service: >
+      [[[ return `script.restart_${variables.short_name}`; ]]]
+    haptic: success
+  hold_action:
     action: call-service
     service: >
       [[[ return `script.restart_${variables.short_name}`; ]]]

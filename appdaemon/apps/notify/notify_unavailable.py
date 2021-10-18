@@ -8,10 +8,7 @@ BLACKLIST = [
   "macbook",
   "ipad",
   "playstation",
-  "new_entities",
-  "sonos_move",
-  ".rpi_",
-  "_rpi_"
+  "new_entities"
 ]
 
 
@@ -47,7 +44,8 @@ class NotifyUnavailable(Base):
     self.process_saved_entities()
     if len(self.notify_entities) > 0:
       self.send_unavailable_notifications()
-    self.set_value("input_number.unavailable_entities", self.unavailable_entities_len)
+    if self.get_int_state("input_number.unavailable_entities") != self.unavailable_entities_len:
+      self.set_value("input_number.unavailable_entities", self.unavailable_entities_len)
     if len(self.available_entities) > 0:
       self.send_available_notifications()
     self.write_storage("entities", self.saved_entities, attribute="all")

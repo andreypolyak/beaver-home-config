@@ -38,4 +38,18 @@ cards:
         sort:
           method: last_updated
           reverse: true
+      - type: custom:button-card
+        template: header
+        name: Zigbee Updates
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: binary_sensor.*_update_available
+              state: "on"
+        sort:
+          method: last_updated
+          reverse: true
       - !include /config/lovelace/elements/other/footer.yaml

@@ -78,10 +78,6 @@ persistent_mute_push:
   name: Persistent Mute Push
   icon: mdi:bell-off
 
-pi_state_mute_push:
-  name: Pi State Mute Push
-  icon: mdi:bell-off
-
 plant_mute_push:
   name: Plant Mute Push
   icon: mdi:bell-off
