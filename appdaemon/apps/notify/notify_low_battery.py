@@ -40,7 +40,8 @@ class NotifyLowBattery(Base):
         old_entities.append(entity)
       entity_low_battery_states[entity] = True
     num_devices = len(new_entities + old_entities)
-    self.set_value("input_number.low_battery_devices", num_devices)
+    if self.get_int_state("input_number.low_battery_devices") != num_devices:
+      self.set_value("input_number.low_battery_devices", num_devices)
     if len(new_entities) > 0:
       message = self.build_message(new_entities + old_entities)
       self.send_push("admin", message, "low_battery", sound="Aurora.caf", url=url)

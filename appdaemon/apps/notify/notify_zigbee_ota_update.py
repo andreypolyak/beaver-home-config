@@ -25,7 +25,8 @@ class NotifyZigbeeOtaUpdate(Base):
         old_entities.append(entity)
       entity_update_states[entity] = True
     num_updates = len(new_entities + old_entities)
-    self.set_value("input_number.zigbee_ota_updates", num_updates)
+    if self.get_int_state("input_number.zigbee_ota_updates") != num_updates:
+      self.set_value("input_number.zigbee_ota_updates", num_updates)
     if len(new_entities) > 0:
       message = self.build_message(new_entities + old_entities)
       self.send_push("admin", message, "zigbee_update", url="/hassio/ingress/45df7312_zigbee2mqtt")

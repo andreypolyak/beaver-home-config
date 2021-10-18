@@ -6,9 +6,8 @@ class NotifyAirQuality(Base):
   def initialize(self):
     super().initialize()
     for sensor in self.get_state("sensor"):
-      if "_co2" not in sensor:
-        continue
-      self.listen_state(self.on_change, sensor)
+      if "_co2" in sensor:
+        self.listen_state(self.on_change, sensor)
 
 
   def on_change(self, entity, attribute, old, new, kwargs):

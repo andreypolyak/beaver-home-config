@@ -1,7 +1,6 @@
 from base import Base
 from datetime import date, datetime, time, timedelta
 
-ROOMS = ["bedroom", "living_room"]
 ACTIVATION_COMMAND = "Скажи Афоне арбуз"
 
 

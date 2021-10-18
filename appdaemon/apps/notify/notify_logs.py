@@ -61,7 +61,9 @@ HA_BLACKLIST = [
   "https://yandex.ru/pogoda/maps/nowcast",
   "homeassistant.components.command_line.sensor",
   "is taking over 10 seconds",
-  "frontend.js.latest"
+  "frontend.js.latest",
+  "Can't connect to ESPHome API for ",
+  "rebooted or lost network connectivity, reconnecting with <SoCo object at ip"
 ]
 
 
@@ -111,6 +113,7 @@ class NotifyLogs(Base):
     message = html.escape(text[:3500])
     chat_id = self.args["chat_id"]
     try:
+      self.log(f"Send logs to telegram: {message}")
       self.call_service("telegram_bot/send_message", message=message, target=chat_id, disable_notification=True)
     except:
       pass

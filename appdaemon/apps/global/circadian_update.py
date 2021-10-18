@@ -1,8 +1,8 @@
 from base import Base
 import math
 
-DELAY = 90
-SAT_STEP = 1
+DELAY = 180
+SAT_STEP = 2
 MAX_LUX = 200
 MIN_LUX = 0
 # From 06:00 to 12:00 decrease saturation by maximum 20% (100% max saturation at 6, 80% at 9, 100% at 12)
@@ -24,7 +24,7 @@ class CircadianUpdate(Base):
     new_saturation = self.saturation
     if new_saturation is None:
       self.log("Balcony illuminance sensor is unavailable. Using saturation values from adaptive lighting integration")
-      new_saturation = self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1]
+      new_saturation = round(self.get_state("switch.adaptive_lighting_default", attribute="hs_color")[1])
     old_saturation = self.get_int_state("input_number.circadian_saturation")
     if self.entity_is_on("light.ha_group_all"):
       if abs(new_saturation - old_saturation) > SAT_STEP:

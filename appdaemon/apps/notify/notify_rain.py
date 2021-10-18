@@ -6,9 +6,8 @@ class NotifyRain(Base):
   def initialize(self):
     super().initialize()
     for sensor in self.get_state("sensor"):
-      if not sensor.endswith("_yandex_rain"):
-        continue
-      self.listen_state(self.on_change, sensor)
+      if sensor.endswith("_yandex_rain"):
+        self.listen_state(self.on_change, sensor)
 
 
   def on_change(self, entity, attribute, old, new, kwargs):

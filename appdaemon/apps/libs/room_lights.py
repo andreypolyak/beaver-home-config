@@ -34,7 +34,7 @@ class RoomLights(Base):
     custom_event_data = f"{self.room}_toggle_max_brightness"
     self.listen_event(self.__on_toggle_max_brightness, "custom_event", custom_event_data=custom_event_data)
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
-    self.listen_state(self.__on_set_auto_lights, f"input_boolean.auto_lights_{self.room}")
+    self.listen_state(self.__on_set_lock_lights, f"input_boolean.lock_lights_{self.room}")
 
 # Public room light control
 
@@ -299,7 +299,8 @@ class RoomLights(Base):
 
 
   def __cancel_light_timer(self):
-    self.timer_cancel(f"light_{self.room}")
+    if self.timer_is_active(f"light_{self.room}"):
+      self.timer_cancel(f"light_{self.room}")
     self.__cancel_faded_timer()
 
 
@@ -309,7 +310,8 @@ class RoomLights(Base):
 
 
   def __cancel_faded_timer(self):
-    self.timer_cancel(f"light_faded_{self.room}")
+    if self.timer_is_active(f"light_faded_{self.room}"):
+      self.timer_cancel(f"light_faded_{self.room}")
     self.write_storage("state", False, attribute="faded")
 
 
@@ -319,7 +321,8 @@ class RoomLights(Base):
 
 
   def __cancel_cooldown_timer(self):
-    self.timer_cancel(f"light_cooldown_{self.room}")
+    if self.timer_is_active(f"light_cooldown_{self.room}"):
+      self.timer_cancel(f"light_cooldown_{self.room}")
     self.write_storage("state", False, attribute="cooldown")
 
 # Timer callbacks
@@ -443,11 +446,11 @@ class RoomLights(Base):
     self.__set_features(brightness=brightness)
 
 
-  def __on_set_auto_lights(self, entity, attribute, old, new, kwargs):
+  def __on_set_lock_lights(self, entity, attribute, old, new, kwargs):
     if new == "on":
-      self.write_storage("state", True, attribute="auto_lights")
+      self.write_storage("state", True, attribute="lock_lights")
     else:
-      self.write_storage("state", False, attribute="auto_lights")
+      self.write_storage("state", False, attribute="lock_lights")
 
 
   def __on_toggle_max_brightness(self, event_name, data, kwargs):
@@ -483,8 +486,8 @@ class RoomLights(Base):
 
 
   @property
-  def auto_lights(self):
-    return self.read_storage("state", attribute="auto_lights")
+  def lock_lights(self):
+    return self.read_storage("state", attribute="lock_lights")
 
 # Helpers
 
@@ -599,6 +602,8 @@ class RoomLights(Base):
   def __set_default_params(self):
     self.write_storage("state", "auto", attribute="color")
     self.write_storage("state", False, attribute="max_delay")
+    if self.entity_is_on(f"input_boolean.lock_lights_{self.room}"):
+      self.turn_off_entity(f"input_boolean.lock_lights_{self.room}")
 
 
   def __build_initial_state(self):
@@ -608,7 +613,7 @@ class RoomLights(Base):
       "faded": self.timer_is_active(f"light_faded_{self.room}"),
       "cooldown": self.timer_is_active(f"light_cooldown_{self.room}"),
       "color": "auto",
-      "auto_lights": self.entity_is_on(f"input_boolean.auto_lights_{self.room}"),
+      "lock_lights": self.entity_is_on(f"input_boolean.lock_lights_{self.room}"),
       "max_delay": False
     }
     state["lights"] = self.__build_light_set_from_preset("BRIGHT")
@@ -622,10 +627,10 @@ class RoomLights(Base):
       self.__set_light_timer()
     if self.read_storage("state", attribute="cooldown") and not self.timer_is_active(f"light_cooldown_{self.room}"):
       self.__set_cooldown_timer()
-    if self.read_storage("state", attribute="auto_lights"):
-      self.turn_on_entity(f"input_boolean.auto_lights_{self.room}")
+    if self.read_storage("state", attribute="lock_lights"):
+      self.turn_on_entity(f"input_boolean.lock_lights_{self.room}")
     else:
-      self.turn_off_entity(f"input_boolean.auto_lights_{self.room}")
+      self.turn_off_entity(f"input_boolean.lock_lights_{self.room}")
 
 
   def __write_to_log(self, **kwargs):

@@ -5,7 +5,7 @@ class Location(Base):
 
   def initialize(self):
     super().initialize()
-    self.init_storage("location", "lock_unlocked_ts", 0)
+    self.init_storage("location", "door_open_ts", 0)
     self.restart_ts = self.get_now_ts()
     for person in self.get_persons(with_phone=True):
       person_name = person["name"]
@@ -19,19 +19,24 @@ class Location(Base):
     self.listen_state(self.on_lock_unlock, "lock.entrance_lock", new="unlocked")
     service_data = {"entity_id": "lock.entrance_lock", "service": "unlock"}
     self.listen_event(self.on_lock_unlock_service_call, "call_service", domain="lock", service_data=service_data)
+    self.listen_state(self.on_door_open, "binary_sensor.entrance_door", new="on", old="off")
     self.set_nearest_person_location()
 
 
+  def on_door_open(self, entity, attribute, old, new, kwargs):
+    self.update_open_door_ts()
+
+
   def on_lock_unlock(self, entity, attribute, old, new, kwargs):
-    self.update_unlocked_ts()
+    self.update_open_door_ts()
 
 
   def on_lock_unlock_service_call(self, event_name, data, kwargs):
-    self.update_unlocked_ts()
+    self.update_open_door_ts()
 
 
-  def update_unlocked_ts(self):
-    self.write_storage("lock_unlocked_ts", self.get_now_ts())
+  def update_open_door_ts(self):
+    self.write_storage("door_open_ts", self.get_now_ts())
     persons = self.get_persons(with_location=True)
     for person in persons:
       self.update_person_location(person)
@@ -57,7 +62,7 @@ class Location(Base):
     ha_home = self.get_state(f"device_tracker.ha_{person_phone}") == "home"
     proximity = self.get_float_state(f"proximity.ha_{person_name}_home")
     location = self.get_state(f"input_select.{person_name}_location")
-    lock_unlocked_ts = self.read_storage("lock_unlocked_ts")
+    door_open_ts = self.read_storage("door_open_ts")
 
     if (
       not wifi_home
@@ -83,7 +88,7 @@ class Location(Base):
     elif (
       location in ["not_home", "district", "yard", "downstairs"]
       and (wifi_home or bt_home)
-      and self.get_delta_ts(lock_unlocked_ts) > 300
+      and self.get_delta_ts(door_open_ts) > 300
       and self.get_delta_ts(self.restart_ts) > 120
     ):
       return "downstairs"
