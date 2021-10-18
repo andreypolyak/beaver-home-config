@@ -38,8 +38,12 @@
     - name: Price Monthly Water
       state: >
         {{
-          (states("sensor.meter_monthly_water_cold")|float * states("input_number.tariff_water_cold")|float
-          + states("sensor.meter_monthly_water_hot")|float * states("input_number.tariff_water_hot")|float)|round(2)
+          (
+            states("sensor.meter_monthly_water_cold")|float *
+              states("input_number.tariff_water_cold")|float
+            + states("sensor.meter_monthly_water_hot")|float *
+              states("input_number.tariff_water_hot")|float
+          )|round(2)
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -47,8 +51,12 @@
     - name: Price Daily Water
       state: >
         {{
-          (states("sensor.meter_daily_water_cold")|float * states("input_number.tariff_water_cold")|float
-          + states("sensor.meter_daily_water_hot")|float * states("input_number.tariff_water_hot")|float)|round(2)
+          (
+            states("sensor.meter_daily_water_cold")|float *
+              states("input_number.tariff_water_cold")|float
+            + states("sensor.meter_daily_water_hot")|float *
+              states("input_number.tariff_water_hot")|float
+          )|round(2)
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -111,9 +119,12 @@
       state: >
         {{
           (
-            states("sensor.meter_monthly_electricity_t1")|float * states("input_number.tariff_electricity_t1")|float
-            + states("sensor.meter_monthly_electricity_t2")|float * states("input_number.tariff_electricity_t2")|float
-            + states("sensor.meter_monthly_electricity_t3")|float * states("input_number.tariff_electricity_t3")|float
+            states("sensor.meter_monthly_electricity_t1")|float
+              * states("input_number.tariff_electricity_t1")|float
+            + states("sensor.meter_monthly_electricity_t2")|float
+              * states("input_number.tariff_electricity_t2")|float
+            + states("sensor.meter_monthly_electricity_t3")|float
+              * states("input_number.tariff_electricity_t3")|float
           )|round(2)
         }}
       icon: mdi:flash
@@ -123,9 +134,12 @@
       state: >
         {{
           (
-            states("sensor.meter_daily_electricity_t1")|float * states("input_number.tariff_electricity_t1")|float
-            + states("sensor.meter_daily_electricity_t2")|float * states("input_number.tariff_electricity_t2")|float
-            + states("sensor.meter_daily_electricity_t3")|float * states("input_number.tariff_electricity_t3")|float
+            states("sensor.meter_daily_electricity_t1")|float
+              * states("input_number.tariff_electricity_t1")|float
+            + states("sensor.meter_daily_electricity_t2")|float
+              * states("input_number.tariff_electricity_t2")|float
+            + states("sensor.meter_daily_electricity_t3")|float
+              * states("input_number.tariff_electricity_t3")|float
           )|round(2)
         }}
       icon: mdi:flash
