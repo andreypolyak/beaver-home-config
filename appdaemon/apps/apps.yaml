@@ -168,11 +168,6 @@ bed_night_switch:
   class: BedNightSwitch
   global_dependencies: base
 
-bed_occupancy:
-  module: bed_occupancy
-  class: BedOccupancy
-  global_dependencies: base
-
 bedroom_cover:
   module: bedroom_cover
   class: BedroomCover
@@ -199,6 +194,11 @@ bedroom_window:
 table:
   module: table
   class: Table
+  global_dependencies: base
+
+wake_up:
+  module: wake_up
+  class: WakeUp
   global_dependencies: base
 
 wardrobe:

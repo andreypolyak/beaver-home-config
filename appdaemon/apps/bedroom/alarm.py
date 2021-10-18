@@ -31,7 +31,6 @@ class Alarm(Base):
     self.turn_off_entity(f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handles()
     self.media_pause("bedroom_sonos")
-    self.sonos_restore("bedroom_sonos")
     self.turn_off_entity("light.group_bedroom_bri", transition=transition)
     self.turn_off_entity("light.group_bedroom_bed", transition=transition)
     self.close_cover("bedroom_cover")
@@ -43,7 +42,6 @@ class Alarm(Base):
     self.turn_off_entity(f"input_boolean.alarm_{self.person_name}_ringing")
     self.cancel_all_handles()
     self.media_pause("bedroom_sonos")
-    self.sonos_restore("bedroom_sonos")
     self.turn_on_entity("light.group_bedroom_color", brightness=254, transition=transition, hs_color=self.hs_color)
     self.turn_on_entity("light.bedroom_wardrobe", brightness=254, transition=transition)
     self.run_in(self.turn_on_day_scene, 1)
@@ -54,7 +52,6 @@ class Alarm(Base):
 
   def action_1(self, kwargs):
     self.log("Alarm action 1")
-    self.sonos_snapshot("bedroom_sonos")
     self.media_pause("bedroom_sonos")
     self.sonos_unjoin("bedroom_sonos")
     self.turn_on_entity("light.bedroom_bed_led", brightness=254, hs_color=self.hs_color)

@@ -1,3 +1,7 @@
+alarm_mute_push:
+  name: Alarm Mute Push
+  icon: mdi:bell-off
+
 bell_mute_push:
   name: Bell Mute Push
   icon: mdi:bell-off
