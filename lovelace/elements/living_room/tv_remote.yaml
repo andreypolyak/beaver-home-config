@@ -9,13 +9,16 @@ cards:
           action: call-service
           service: script.tv_restart
           haptic: success
+          confirmation:
+            text: >
+              [[[ return "❗ Are you sure you want to restart the TV?" ]]]
         double_tap_action:
           action: call-service
           service: script.tv_restart
           haptic: success
-        confirmation:
-          text: >
-            [[[ return "❗ Are you sure you want to power off or restart the TV?" ]]]
+          confirmation:
+            text: >
+              [[[ return "❗ Are you sure you want to restart the TV?" ]]]
         variables:
           command: toggle
       - type: custom:button-card
