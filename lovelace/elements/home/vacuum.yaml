@@ -40,18 +40,79 @@ cards:
             color: var(--paper-card-background-color)
       - type: custom:button-card
         template: vacuum_text
+        entity: input_select.vacuum_state
+        name: >
+          [[[
+            const vacuum_state = states["input_select.vacuum_state"].state.replace("_", " ");
+            return vacuum_state.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+          ]]]
+        tap_action:
+          action: more-info
+          entity: input_select.vacuum_state
+          haptic: success
+        state:
+          - value: idle
+            operator: "!="
+            color: var(--paper-item-icon-active-color)
+          - operator: default
+            color: var(--paper-card-background-color)
+      - type: custom:button-card
+        template: vacuum_text
+        entity: vacuum.roborock
+        name: >
+          [[[
+            return states["vacuum.roborock"].attributes.battery_level + "%";
+          ]]]
+        tap_action:
+          action: more-info
+          entity: vacuum.roborock
+          haptic: success
+        state:
+          - value: >
+              [[[ return parseInt(states["vacuum.roborock"].attributes.battery_level) < 20 ]]]
+            operator: template
+            color: var(--paper-item-icon-active-color)
+          - operator: default
+            color: var(--paper-card-background-color)
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: vacuum_text
         entity: input_boolean.vacuum_auto
         tap_action:
           action: toggle
           haptic: success
         state:
-          - value: "on"
+          - value: "off"
             operator: "=="
             color: var(--paper-item-icon-active-color)
-            name: Auto
+            name: Manual
           - operator: default
             color: var(--paper-card-background-color)
-            name: Manual
+            name: Auto
+      - type: custom:button-card
+        template: vacuum_text
+        entity: input_datetime.vacuum_last_cleaned
+        name: >
+          [[[
+            const lastCleaned = new Date(states["input_datetime.vacuum_last_cleaned"].attributes.timestamp * 1000);
+            const currentDate = new Date(); 
+            const delta = Math.round((currentDate - lastCleaned) / 60000);
+            if (delta < 60) {
+              return `${delta} min. ago`;
+            } else if (delta < 1440) {
+              return `${Math.round(delta / 60)} hours ago`;
+            } else {
+              return `${Math.round(delta / 60 / 24)} days ago`;
+            }
+          ]]]
+        tap_action:
+          action: more-info
+          entity: input_datetime.vacuum_last_cleaned
+          haptic: success
+        state:
+          - operator: default
+            color: var(--paper-card-background-color)
       - type: custom:button-card
         template: vacuum_text
         entity: vacuum.roborock
