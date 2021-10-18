@@ -55,7 +55,7 @@
     turn_on:
       service: script.turn_on
       data:
-        entity_id: script.playstation_turn_on
+        entity_id: script.playstation_4_turn_on
     turn_off:
       service: script.turn_on
       data:
