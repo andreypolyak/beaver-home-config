@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Saures Water Counter Battery
       state: >
         {{ state_attr("sensor.sauresha_contr_saures_water", "battery_level") }}

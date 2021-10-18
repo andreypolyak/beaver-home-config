@@ -1,5 +1,4 @@
 - binary_sensor:
-
     - name: Living Room TV
       state: >
         {% if states("sensor.living_room_tv_plug_power") not in ["unavailable", "unknown"] %}

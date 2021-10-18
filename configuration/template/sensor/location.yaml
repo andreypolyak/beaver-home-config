@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Andrey Geocoded Location
       state: >
         {% set admin_area = state_attr("sensor.andrey_iphone_11_pro_max_geocoded_location", "Administrative Area") %}

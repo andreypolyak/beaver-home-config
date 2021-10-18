@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Sun Elevation
       state: >
         {{ state_attr("sun.sun", "elevation") }}

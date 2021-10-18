@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Price Monthly Water Cold
       state: >
         {{

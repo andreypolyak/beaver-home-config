@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Supervisor Updates
       state: >
         {%
