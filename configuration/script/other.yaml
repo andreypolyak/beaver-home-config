@@ -1,4 +1,6 @@
 fire_custom_event:
+  alias: Fire Custom Event
+  icon: mdi:email-fast
   fields:
     custom_event_data:
       description: custom_event_data

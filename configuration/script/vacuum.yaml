@@ -1,4 +1,6 @@
 vacuum_clean_bedroom:
+  alias: Vacuum Clean Bedroom
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -14,6 +16,8 @@ vacuum_clean_bedroom:
         payload: '["15474938-28fc-4d99-9960-82bb49f7af0e"]'
 
 vacuum_clean_kitchen:
+  alias: Vacuum Clean Kitchen
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -29,6 +33,8 @@ vacuum_clean_kitchen:
         payload: '["ebab59e2-8f06-475f-a060-438a47e90db5"]'
 
 vacuum_clean_living_room:
+  alias: Vacuum Clean Living Room
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -44,6 +50,8 @@ vacuum_clean_living_room:
         payload: '["ee62058e-8bfe-4e41-b795-ea580358d57d"]'
 
 vacuum_clean_bathroom_entrance:
+  alias: Vacuum Clean Bathroom Entrance
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -59,6 +67,8 @@ vacuum_clean_bathroom_entrance:
         payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_bathroom:
+  alias: Vacuum Clean Bathroom
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -74,6 +84,8 @@ vacuum_clean_bathroom:
         payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_entrance:
+  alias: Vacuum Clean Entrance
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -89,6 +101,8 @@ vacuum_clean_entrance:
         payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
 
 vacuum_clean_all:
+  alias: Vacuum Clean All
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -104,6 +118,8 @@ vacuum_clean_all:
         payload: '["82f357f3-c2c6-421d-86da-c2334b254257"]'
 
 vacuum_stop:
+  alias: Vacuum Stop
+  icon: mdi:robot-vacuum
   sequence:
     - service: input_select.select_option
       data:
@@ -118,6 +134,8 @@ vacuum_stop:
         entity_id: vacuum.roborock
 
 vacuum_go_to_bin:
+  alias: Vacuum Go To Bin
+  icon: mdi:robot-vacuum
   sequence:
     - service: script.turn_on
       data:
@@ -129,6 +147,8 @@ vacuum_go_to_bin:
         payload: "4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09"
 
 vacuum_start:
+  alias: Vacuum Start
+  icon: mdi:robot-vacuum
   sequence:
     - service: script.turn_on
       data:
@@ -139,6 +159,8 @@ vacuum_start:
         entity_id: vacuum.roborock
 
 vacuum_stop_if_cleaning:
+  alias: Vacuum Stop If Cleaning
+  icon: mdi:robot-vacuum
   sequence:
     - condition: state
       entity_id: vacuum.roborock

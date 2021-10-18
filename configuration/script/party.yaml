@@ -1,4 +1,6 @@
 party_lights:
+  alias: Party Lights
+  icon: mdi:party-popper
   sequence:
     - repeat:
         while:
@@ -18,6 +20,8 @@ party_lights:
             milliseconds: 1000
 
 set_random_light_color:
+  alias: Set Random Colors
+  icon: mdi:party-popper
   sequence:
     - condition: state
       entity_id: input_boolean.party_lights
@@ -31,6 +35,8 @@ set_random_light_color:
         brightness: 127
 
 party_tv_start:
+  alias: Party TV Start
+  icon: mdi:party-popper
   sequence:
     - service: switch.turn_on
       data:
@@ -63,6 +69,8 @@ party_tv_start:
     - service: rest_command.party_tv_start
 
 party_tv_stop:
+  alias: Party TV Stop
+  icon: mdi:party-popper
   sequence:
     - service: script.turn_on
       data:
@@ -81,6 +89,8 @@ party_tv_stop:
     - service: rest_command.party_tv_stop
 
 party_tv_start_and_turn_on_tv:
+  alias: Party TV Start and Turn On TV
+  icon: mdi:party-popper
   sequence:
     - service: script.tv_turn_on
     - delay:
@@ -88,6 +98,8 @@ party_tv_start_and_turn_on_tv:
     - service: script.party_tv_start
 
 party_tv_stop_and_turn_off_tv:
+  alias: Party TV Stop and Turn Off TV
+  icon: mdi:party-popper
   sequence:
     - service: script.party_tv_stop
     - delay:

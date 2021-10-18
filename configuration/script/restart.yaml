@@ -1,4 +1,6 @@
 restart_ui:
+  alias: Restart UI
+  icon: mdi:restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -13,6 +15,8 @@ restart_ui:
         entity_id: input_boolean.ui_running
 
 restart_ad:
+  alias: Restart AppDaemon
+  icon: mdi:restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -22,6 +26,8 @@ restart_ad:
         addon: a0d7b954_appdaemon
 
 restart_ha:
+  alias: Restart Home Assistant
+  icon: mdi:restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -29,6 +35,8 @@ restart_ha:
     - service: homeassistant.restart
 
 restart_os:
+  alias: Restart Home Assistant OS
+  icon: mdi:restart
   sequence:
     - service: input_boolean.turn_off
       data:
