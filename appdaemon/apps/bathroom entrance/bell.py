@@ -20,7 +20,7 @@ class Bell(Base):
       return
     if new not in ["single", "double", "hold"]:
       return
-    if not self.check_code(new) and self.get_delta_ts(self.last_ringed_ts) > 5:
+    if not self.check_code(new) and self.get_delta_ts(self.last_ringed_ts) > 15:
       self.ring_bell()
 
 
@@ -32,7 +32,7 @@ class Bell(Base):
     elif new == "hold":
       button_code = "0"
     if self.step > len(code) - 1 or code[self.step] != button_code:
-      self.log(f"Incorrect code (button_code). Step {self.step}")
+      self.log(f"Incorrect code ({button_code}). Step {self.step}")
       self.step_update_ts = 0
       self.step = 0
       return False
