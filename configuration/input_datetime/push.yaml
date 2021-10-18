@@ -52,12 +52,6 @@ fridge_last_push:
   has_time: true
   icon: mdi:clock-outline
 
-cinema_last_push:
-  name: Cinema Last Push
-  has_date: true
-  has_time: true
-  icon: mdi:clock-outline
-
 addon_update_last_push:
   name: Addon Update Last Push
   has_date: true

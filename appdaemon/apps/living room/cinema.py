@@ -13,7 +13,6 @@ class Cinema(Base):
       "auto_cinema_session_disabled": False
     }
     self.init_storage("cinema", "data", default)
-    self.listen_event(self.on_dark_cinema_action, event="mobile_app_notification_action", action="DARK_CINEMA_TURN_ON")
     self.listen_state(self.on_tv_turned_on, "binary_sensor.living_room_tv", new="on", old="off")
     self.listen_state(self.on_tv_turned_off, "binary_sensor.living_room_tv", new="off", old="on")
     self.listen_state(self.on_cinema_session_turned_off, "input_boolean.cinema_session", new="off", old="on")
@@ -106,17 +105,10 @@ class Cinema(Base):
       self.write_storage("data", True, attribute="media_played_ever_in_session")
 
 
-  def on_dark_cinema_action(self, event_name, data, kwargs):
-    self.turn_on_scene("dark_cinema")
-
-
   def on_tv_turned_on(self, entity, attribute, old, new, kwargs):
     if self.living_scene in ["dark_cinema", "party"]:
       return
     self.turn_on_scene("light_cinema")
-    actions = [{"action": "DARK_CINEMA_TURN_ON", "title": "🌑 Turn on dark cinema scene", "destructive": True}]
-    message = "🎦 Do you want to turn on dark cinema scene?"
-    self.send_push("home_or_none", message, "cinema", actions=actions)
 
 
   def on_tv_turned_off(self, entity, attribute, old, new, kwargs):

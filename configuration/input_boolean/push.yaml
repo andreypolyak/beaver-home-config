@@ -34,10 +34,6 @@ fridge_mute_push:
   name: Fridge Mute Push
   icon: mdi:bell-off
 
-cinema_mute_push:
-  name: Cinema Mute Push
-  icon: mdi:bell-off
-
 addon_update_mute_push:
   name: Addon Update Mute Push
   icon: mdi:bell-off
