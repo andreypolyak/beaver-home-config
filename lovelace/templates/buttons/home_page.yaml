@@ -112,7 +112,7 @@ home_page_light:
     service: input_boolean.toggle
     service_data:
       entity_id: >
-        [[[ return `input_boolean.auto_lights_${variables.room}` ]]]
+        [[[ return `input_boolean.lock_lights_${variables.room}` ]]]
   styles:
     card:
       - border: >
@@ -134,7 +134,7 @@ home_page_light:
   custom_fields:
     lock: >
       [[[
-        if (states[`input_boolean.auto_lights_${variables.room}`].state === "off") {
+        if (states[`input_boolean.lock_lights_${variables.room}`].state === "on") {
           return `<ha-icon icon="mdi:lock-outline"/>`;
         }
       ]]]

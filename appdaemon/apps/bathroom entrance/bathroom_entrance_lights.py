@@ -77,9 +77,9 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
-    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
-    elif mode in ["bathroom_door_sensor"] and new in ["on", "off"] and self.auto_lights:
+    elif mode in ["bathroom_door_sensor"] and new in ["on", "off"] and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -97,7 +97,7 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset("OFF")
       elif not self.bathroom_door_open:
         self.set_preset_if_on("NIGHT", min_delay=True)
-    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and not self.lock_lights:
       if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")
@@ -105,9 +105,9 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset_or_restore("NIGHT", min_delay=True)
       else:
         self.set_preset_or_restore("NIGHT_ENTRANCE_BRIGHT_BATHROOM")
-    elif mode == "bathroom_door_sensor" and new == "off" and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new == "off" and not self.lock_lights:
       self.set_preset_if_on("NIGHT_ENTRANCE_BRIGHT_BATHROOM")
-    elif mode == "bathroom_door_sensor" and new == "on" and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new == "on" and not self.lock_lights:
       self.set_preset_if_on("NIGHT", min_delay=True)
     elif mode == "virtual_switch":
       if self.bathroom_door_open:
@@ -133,9 +133,9 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
       else:
         self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and not self.lock_lights:
       self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
-    elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new in ["on", "off"] and not self.lock_lights:
       self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM", min_delay=True)
     elif mode == "virtual_switch":
       self.toggle_preset("DARK_ENTRANCE_BRIGHT_BATHROOM", new, min_delay=True)
@@ -149,9 +149,9 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
-    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "bathroom_door_sensor" and new in ["on", "off"] and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new in ["on", "off"] and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -169,14 +169,14 @@ class BathroomEntranceLights(RoomLights):
         self.set_preset_if_on("DARK", min_delay=True)
       elif not self.bathroom_door_open:
         self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM")
-    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and self.auto_lights:
+    elif mode in ["motion_sensor", "entrance_door_sensor"] and new == "on" and not self.lock_lights:
       if self.bathroom_door_open:
         self.set_preset_or_restore("DARK", min_delay=True)
       else:
         self.set_preset_or_restore("DARK_ENTRANCE_BRIGHT_BATHROOM")
-    elif mode == "bathroom_door_sensor" and new == "off" and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new == "off" and not self.lock_lights:
       self.set_preset_if_on("DARK_ENTRANCE_BRIGHT_BATHROOM")
-    elif mode == "bathroom_door_sensor" and new == "on" and self.auto_lights:
+    elif mode == "bathroom_door_sensor" and new == "on" and not self.lock_lights:
       self.set_preset_if_on("DARK", min_delay=True)
     elif mode == "virtual_switch":
       if self.bathroom_door_open:
@@ -200,8 +200,8 @@ class BathroomEntranceLights(RoomLights):
       return "dumb_scene"
     if self.person_inside:
       return "person_inside"
-    if not self.auto_lights:
-      return "auto_lights_off"
+    if self.lock_lights:
+      return "lock_lights_on"
     humidity = self.get_float_state("sensor.bathroom_humidity")
     if not self.bathroom_door_open and humidity is not None and humidity > 60:
       return "humidity"

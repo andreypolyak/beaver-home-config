@@ -28,8 +28,8 @@ cards:
         variables:
           room: kitchen
       - type: custom:button-card
-        template: auto_lights
-        entity: input_boolean.auto_lights_kitchen
+        template: lock_lights
+        entity: input_boolean.lock_lights_kitchen
         variables:
           room: kitchen
   - type: horizontal-stack

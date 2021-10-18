@@ -28,8 +28,8 @@ cards:
         variables:
           room: balcony
       - type: custom:button-card
-        template: auto_lights
-        entity: input_boolean.auto_lights_balcony
+        template: lock_lights
+        entity: input_boolean.lock_lights_balcony
         variables:
           room: balcony
   - type: horizontal-stack

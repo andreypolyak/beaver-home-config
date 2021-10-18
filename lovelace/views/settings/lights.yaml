@@ -17,7 +17,7 @@ cards:
           - input_boolean.christmas_season
       - type: custom:button-card
         template: header
-        name: Disable Motion
+        name: Lock Lights
       - type: custom:auto-entities
         show_empty: false
         card:
@@ -25,7 +25,7 @@ cards:
           show_header_toggle: false
         filter:
           include:
-            - entity_id: input_boolean.auto_lights_*
+            - entity_id: input_boolean.lock_lights_*
         sort:
           method: entity_id
       - type: custom:button-card

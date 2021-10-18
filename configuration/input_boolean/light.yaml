@@ -1,24 +1,24 @@
-# Auto Lights
+# Lock Lights
 
-auto_lights_bathroom_entrance:
-  name: Bathroom and Entrance Auto Lights
-  icon: mdi:motion-sensor
+lock_lights_bathroom_entrance:
+  name: Bathroom and Entrance Lock Lights
+  icon: mdi:lock-outline
 
-auto_lights_kitchen:
-  name: Kitchen Auto Lights
-  icon: mdi:motion-sensor
+lock_lights_kitchen:
+  name: Kitchen Lock Lights
+  icon: mdi:lock-outline
 
-auto_lights_living_room:
-  name: Living Room Auto Lights
-  icon: mdi:motion-sensor
+lock_lights_living_room:
+  name: Living Room Lock Lights
+  icon: mdi:lock-outline
 
-auto_lights_bedroom:
-  name: Bedroom Auto Lights
-  icon: mdi:motion-sensor
+lock_lights_bedroom:
+  name: Bedroom Lock Lights
+  icon: mdi:lock-outline
 
-auto_lights_balcony:
-  name: Balcony Auto Lights
-  icon: mdi:motion-sensor
+lock_lights_balcony:
+  name: Balcony Lock Lights
+  icon: mdi:lock-outline
 
 # Auto Colors
 

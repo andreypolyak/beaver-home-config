@@ -218,17 +218,17 @@ light_color_auto:
   variables:
     room: ""
 
-auto_lights:
+lock_lights:
   color_type: card
   show_label: false
   show_name: false
   show_icon: true
   icon: >
     [[[
-      if (states[`input_boolean.auto_lights_${variables.room}`].state == "on") {
-        return "mdi:motion-sensor";
+      if (states[`input_boolean.lock_lights_${variables.room}`].state == "on") {
+        return "mdi:lock-outline";
       } else {
-        return "mdi:motion-sensor-off";
+        return "mdi:lock-open-outline";
       }
     ]]]
   tap_action:

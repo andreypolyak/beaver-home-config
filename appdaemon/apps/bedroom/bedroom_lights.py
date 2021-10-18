@@ -73,10 +73,10 @@ class BedroomLights(RoomLights):
     elif (
       mode in ["motion_sensor", "floor_motion_sensor", "door_sensor", "bed_sensor", "chair_sensor"]
       and new == "on"
-      and self.auto_lights
+      and not self.lock_lights
     ):
       self.set_preset_or_restore("BRIGHT")
-    elif mode == "table_motion_sensor" and new == "on" and not self.cover_active and self.auto_lights:
+    elif mode == "table_motion_sensor" and new == "on" and not self.cover_active and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "switch" and new in ["toggle", "on", "off"]:
       self.toggle_preset("BRIGHT", new, set_cooldown=True)
@@ -97,7 +97,7 @@ class BedroomLights(RoomLights):
       mode == "floor_motion_sensor"
       and new == "on"
       and self.entity_is_off("input_boolean.alarm_ringing")
-      and self.auto_lights
+      and not self.lock_lights
     ):
       self.set_preset("DARK", min_delay=True)
     elif mode in ["switch", "theo_switch"] and new in ["toggle", "on", "off"]:
@@ -134,8 +134,8 @@ class BedroomLights(RoomLights):
       return "alarm_ringing"
     if self.person_inside and self.sleeping_scene != "night":
       return "person_inside"
-    if not self.auto_lights:
-      return "auto_lights_off"
+    if self.lock_lights:
+      return "lock_lights_on"
     if (
       self.sleeping_scene == "night"
       and self.entity_is_on("binary_sensor.bedroom_wardrobe_door")

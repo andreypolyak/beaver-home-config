@@ -42,7 +42,7 @@ class BalconyLights(RoomLights):
       self.set_preset_if_on("BRIGHT")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("BRIGHT")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and not self.lock_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -55,7 +55,7 @@ class BalconyLights(RoomLights):
         self.set_preset("OFF")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and not self.lock_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -75,7 +75,7 @@ class BalconyLights(RoomLights):
       self.set_preset_if_on("DARK")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and not self.lock_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -88,7 +88,7 @@ class BalconyLights(RoomLights):
       self.set_preset_if_on("BRIGHT")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("BRIGHT")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and not self.lock_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("BRIGHT", new)
@@ -101,7 +101,7 @@ class BalconyLights(RoomLights):
       self.set_preset_if_on("DARK")
     elif mode in ["door_sensor", "illuminance_sensor"] and new == "on" and self.should_turn_on:
       self.set_preset("DARK")
-    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and self.auto_lights:
+    elif mode in ["door_sensor", "illuminance_sensor"] and new == "off" and not self.lock_lights:
       self.set_preset("OFF")
     elif mode == "virtual_switch":
       self.toggle_preset("DARK", new)
@@ -133,4 +133,4 @@ class BalconyLights(RoomLights):
 
   @property
   def should_turn_on(self):
-    return self.auto_lights and self.balcony_dark and self.balcony_door_open
+    return not self.lock_lights and self.balcony_dark and self.balcony_door_open
