@@ -24,21 +24,6 @@ cards:
             variables:
               person: katya
               phone: katya_iphone_12_pro_max
-          - type: custom:button-card
-            template: base_icon
-            entity: script.update_location
-            styles:
-              card:
-                - height: 100px
-            icon: mdi:update
-            hold_action:
-              action: more-info
-              entity: script.update_location
-              haptic: success
-            tap_action:
-              action: call-service
-              service: script.update_location
-              haptic: success
       - type: map
         entities:
           - person.andrey
