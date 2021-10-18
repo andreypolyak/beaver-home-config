@@ -10,6 +10,14 @@ SENSORS = [
     "en": "bath",
     "ru": "в ванной комнате под ванной"
   }, {
+    "name": "bathroom_sink_floor",
+    "en": "bathroom sink on floor",
+    "ru": "в ванной комнате под раковиной"
+  }, {
+    "name": "bathroom_sink_meter",
+    "en": "bathroom meter",
+    "ru": "в ванной комнате под счетчиками"
+  }, {
     "name": "bathroom_toilet",
     "en": "toilet",
     "ru": "в ванной комнате под туалетом"
@@ -17,6 +25,10 @@ SENSORS = [
     "name": "kitchen_sink",
     "en": "kitchen sink",
     "ru": "на кухне под раковиной"
+  }, {
+    "name": "kitchen_input",
+    "en": "kitchen input",
+    "ru": "на кухне под входными трубами"
   }
 ]
 
