@@ -35,11 +35,11 @@ cards:
                 entity: hash
                 default: hide_light_details
                 states:
-                  show_bathroom_entrance_light_details: !include /config/lovelace/elements/bathroom_entrance/light_details.yaml
-                  show_living_room_light_details: !include /config/lovelace/elements/living_room/light_details.yaml
-                  show_kitchen_light_details: !include /config/lovelace/elements/kitchen/light_details.yaml
-                  show_bedroom_light_details: !include /config/lovelace/elements/bedroom/light_details.yaml
-                  show_balcony_light_details: !include /config/lovelace/elements/balcony/light_details.yaml
+                  show_bathroom_entrance_light_details: !include /config/lovelace/elements/bathroom_entrance/light_devices_details.yaml
+                  show_living_room_light_details: !include /config/lovelace/elements/living_room/light_devices_details.yaml
+                  show_kitchen_light_details: !include /config/lovelace/elements/kitchen/light_devices_details.yaml
+                  show_bedroom_light_details: !include /config/lovelace/elements/bedroom/light_devices_details.yaml
+                  show_balcony_light_details: !include /config/lovelace/elements/balcony/light_devices_details.yaml
                   hide_light_details: !include /config/lovelace/elements/other/empty.yaml
               - type: custom:state-switch
                 entity: hash

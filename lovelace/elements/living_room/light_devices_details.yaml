@@ -1,0 +1,4 @@
+type: vertical-stack
+cards:
+  - !include /config/lovelace/elements/living_room/light_devices.yaml
+  - !include /config/lovelace/elements/living_room/light_details.yaml

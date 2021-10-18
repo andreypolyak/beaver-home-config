@@ -1,0 +1,4 @@
+type: vertical-stack
+cards:
+  - !include /config/lovelace/elements/kitchen/light_devices.yaml
+  - !include /config/lovelace/elements/kitchen/light_details.yaml

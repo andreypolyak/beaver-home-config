@@ -1,0 +1,4 @@
+type: vertical-stack
+cards:
+  - !include /config/lovelace/elements/bathroom_entrance/light_devices.yaml
+  - !include /config/lovelace/elements/bathroom_entrance/light_details.yaml
