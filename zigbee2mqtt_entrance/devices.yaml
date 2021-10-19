@@ -13,12 +13,6 @@
   legacy: false
 '0x000b57fffe59cfd6':
   friendly_name: Entrance Lock
-'0x00158d0004467eba':
-  friendly_name: Entrance Back Motion
-  occupancy_timeout: 1
-'0x00158d0004110af9':
-  friendly_name: Entrance Front Motion
-  occupancy_timeout: 1
 '0x00158d00041d0cd1':
   friendly_name: Bathroom Door
   retain: true

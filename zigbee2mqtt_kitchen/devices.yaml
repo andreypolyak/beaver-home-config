@@ -19,14 +19,11 @@
 '0x00158d000466004f':
   friendly_name: Kitchen Temperature
 '0x00158d000421cd77':
-  friendly_name: Kitchen Table Motion
+  friendly_name: Kitchen Back Motion
   occupancy_timeout: 1
 '0x00158d00042cbe22':
   friendly_name: Kitchen Coffee Door
   retain: true
-'0x00158d00044c93df':
-  friendly_name: Kitchen Motion
-  occupancy_timeout: 1
 '0x00158d0004850370':
   friendly_name: Kitchen Fridge Temperature
 '0x00158d00045cc45b':

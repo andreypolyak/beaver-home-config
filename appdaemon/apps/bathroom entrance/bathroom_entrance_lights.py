@@ -12,8 +12,7 @@ class BathroomEntranceLights(RoomLights):
     self.min_delay = 30
     self.sensors = [
       ("binary_sensor.bathroom_shower_motion", "motion_sensor"),
-      ("binary_sensor.entrance_front_motion", "motion_sensor"),
-      ("binary_sensor.entrance_back_motion", "motion_sensor"),
+      ("binary_sensor.entrance_center_motion", "motion_sensor"),
       ("binary_sensor.bathroom_toilet_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "entrance_door_sensor"),
       ("binary_sensor.bathroom_door", "bathroom_door_sensor")

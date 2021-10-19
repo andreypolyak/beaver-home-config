@@ -11,9 +11,11 @@ class LivingRoomLights(RoomLights):
     self.max_delay = 600
     self.min_delay = 30
     self.sensors = [
-      ("binary_sensor.living_room_front_motion", "front_motion_sensor"),
-      ("binary_sensor.living_room_back_motion", "motion_sensor"),
+      ("binary_sensor.living_room_front_motion", "add_motion_sensor"),
+      ("binary_sensor.living_room_back_motion", "add_motion_sensor"),
       ("binary_sensor.living_room_center_motion", "motion_sensor"),
+      ("binary_sensor.kitchen_center_motion", "motion_sensor"),
+      ("binary_sensor.entrance_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "door_sensor"),
       ("binary_sensor.bedroom_door", "door_sensor")
     ]
@@ -73,7 +75,7 @@ class LivingRoomLights(RoomLights):
         self.set_preset("BRIGHT")
       else:
         self.set_preset_if_on("BRIGHT")
-    elif mode in ["front_motion_sensor", "door_sensor"] and new == "on" and not self.lock_lights:
+    elif mode in ["add_motion_sensor", "door_sensor"] and new == "on" and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
     elif mode == "motion_sensor" and new == "on" and not self.cover_active and not self.lock_lights:
       self.set_preset_or_restore("BRIGHT")
@@ -93,7 +95,7 @@ class LivingRoomLights(RoomLights):
         self.set_preset("DARK")
       else:
         self.set_preset("OFF")
-    elif mode in ["front_motion_sensor", "door_sensor"] and new == "on" and not self.lock_lights:
+    elif mode in ["add_motion_sensor", "door_sensor"] and new == "on" and not self.lock_lights:
       if self.entity_is_on("binary_sensor.night_scene_enough"):
         self.set_preset("BRIGHT")
         self.set_living_scene("day")

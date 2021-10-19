@@ -68,8 +68,8 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - 2x ZigBee DIYRuz [CO2 Sensors](https://diyruz.github.io/posts/airsense/) — uses SenseAir S8 for measuring
 - 4x ZigBee DIYRuz [Plant Sensors](https://diyruz.github.io/posts/flower/)
 - 2x DIY [bed occupancy sensor](https://github.com/eoncire/HA_bed_presence) — uses ESP32 and film pressure sensors, ESPHome firmware
-- 12x Aqara human body movement and illuminance sensor (RTCGQ11LM) — [hacked](https://community.smartthings.com/t/making-xiaomi-motion-sensor-a-super-motion-sensor/139806) to have 5 seconds occupancy timeout
-- Aqara high precision motion sensor (RTCGQ13LM)
+- 9x Aqara human body movement and illuminance sensor (RTCGQ11LM) — [hacked](https://community.smartthings.com/t/making-xiaomi-motion-sensor-a-super-motion-sensor/139806) to have 5 seconds occupancy timeout
+- 3x Aqara high precision motion sensor (RTCGQ13LM)
 - 7x Aqara temperature, humidity and pressure sensor (WSDCGQ11LM)
 - 12x Aqara door & window contact sensor (MCCGQ11LM)
 - 10x Aqara water leak sensor (SJCGQ11LM) — 7 of which I'm using as actual water leak sensors and 3 as a chair occupancy sensor together with [this](https://aliexpress.com/item/4000151259805.html) pressure sensor

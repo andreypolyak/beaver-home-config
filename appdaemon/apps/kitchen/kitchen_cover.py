@@ -36,7 +36,11 @@ class KitchenCover(Base):
 
 
   def on_motion(self, entity, attribute, old, new, kwargs):
-    if self.living_scene == "night" and self.cover_position == 0:
+    if (
+      self.living_scene == "night"
+      and self.cover_position == 0
+      and self.entity_is_off("input_boolean.kitchen_cover_active")
+    ):
       self.partly_open_cover()
 
 
