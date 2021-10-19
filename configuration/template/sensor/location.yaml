@@ -29,7 +29,7 @@
       state: >
         {% set location = states("input_select.andrey_location") %}
         {% set zone = states("device_tracker.ha_andrey_iphone_11_pro_max") %}
-        {% set proximity = states("proximity.ha_andrey_home")|int %}
+        {% set proximity = states("proximity.ha_andrey_home")|int(0) %}
 
         {% if location != "not_home" %}
           {{ location|title }}
@@ -38,14 +38,14 @@
         {% elif proximity < 1000 %}
           {{ proximity }} m
         {% else %}
-          {{ (proximity / 1000)|int }} km
+          {{ (proximity / 1000)|int(0) }} km
         {% endif %}
 
     - name: Katya Display Location
       state: >
         {% set location = states("input_select.katya_location") %}
         {% set zone = states("device_tracker.ha_katya_iphone_12_pro_max") %}
-        {% set proximity = states("proximity.ha_katya_home")|int %}
+        {% set proximity = states("proximity.ha_katya_home")|int(0) %}
 
         {% if location != "not_home" %}
           {{ location|title }}
@@ -54,5 +54,5 @@
         {% elif proximity < 1000 %}
           {{ proximity }} m
         {% else %}
-          {{ (proximity / 1000)|int }} km
+          {{ (proximity / 1000)|int(0) }} km
         {% endif %}

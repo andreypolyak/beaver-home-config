@@ -2,19 +2,24 @@
     - name: System Healthy
       state: >
         {{
-          states("input_number.unavailable_entities")|int == 0
-          and states("input_number.low_battery_devices")|int == 0
+          states("input_number.unavailable_entities")|int(0) == 0
+          and states("input_number.low_battery_devices")|int(0) == 0
           and states("binary_sensor.zigbee2mqtt_entrance_state") == "on"
           and states("binary_sensor.zigbee2mqtt_bedroom_state") == "on"
           and states("binary_sensor.zigbee2mqtt_kitchen_state") == "on"
           and states("binary_sensor.zigbee2mqtt_living_room_state") == "on"
         }}
+      availability: >
+        {{
+          is_number(states("input_number.unavailable_entities"))
+          and is_number(states("input_number.low_battery_devices"))
+        }}
 
     - name: System Up-To-Date
       state: >
         {{
-          states("input_number.ha_core_updates")|int == 0
-          and states("sensor.addons_supervisor_os_updates")|int == 0
-          and states("sensor.hacs_updates")|int == 0
-          and states("input_number.zigbee_ota_updates")|int == 0
+          states("input_number.ha_core_updates")|int(0) == 0
+          and states("sensor.addons_supervisor_os_updates")|int(0) == 0
+          and states("sensor.hacs_updates")|int(0) == 0
+          and states("input_number.zigbee_ota_updates")|int(0) == 0
         }}

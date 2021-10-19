@@ -1,27 +1,36 @@
 - binary_sensor:
     - name: Living Room TV
       state: >
-        {% if states("sensor.living_room_tv_plug_power") not in ["unavailable", "unknown"] %}
-          {{ states("sensor.living_room_tv_plug_power")|float > 25 }}
-        {% else %}
-          unavailable
-        {% endif %}
+        {{ states("sensor.living_room_tv_plug_power")|float(0) > 25 }}
+      availability: >
+        {{ is_number(states("sensor.living_room_tv_plug_power")) }}
 
     - name: Balcony Dark
       state: >
-        {{ states("sensor.balcony_illuminance")|float < 100 }}
+        {{ states("sensor.balcony_illuminance")|float(0) < 100 }}
+      availability: >
+        {{ is_number(states("sensor.balcony_illuminance")) }}
 
     - name: Night Scene Enough
       state: >
         {{
-          states("sensor.night_scene_in_living_zone_12_hours")|float >= 6
-          and states("sensor.night_scene_in_living_zone_1_hour")|float >= 0.75
+          states("sensor.night_scene_in_living_zone_12_hours")|float(0) >= 6
+          and states("sensor.night_scene_in_living_zone_1_hour")|float(0) >= 0.75
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.night_scene_in_living_zone_12_hours"))
+          and is_number(states("sensor.night_scene_in_living_zone_1_hour"))
         }}
 
     - name: Kitchen Vent
       state: >
-        {{ states("sensor.kitchen_vent_plug_power")|float > 60 }}
+        {{ states("sensor.kitchen_vent_plug_power")|float(0) > 60 }}
+      availability: >
+        {{ is_number(states("sensor.kitchen_vent_plug_power")) }}
 
     - name: Entrance Door Bell 1 Minute
       state: >
-        {{ states("sensor.entrance_door_bell_1_minute")|int > 0 }}
+        {{ states("sensor.entrance_door_bell_1_minute")|int(0) > 0 }}
+      availability: >
+        {{ is_number(states("sensor.entrance_door_bell_1_minute")) }}

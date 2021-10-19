@@ -1,5 +1,4 @@
 - binary_sensor:
-
     - name: Show Alarm Card
       state: >
         {{

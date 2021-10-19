@@ -1,5 +1,4 @@
 - sensor:
-
     - name: Washing Machine Plug Median Power
       state: >
         {{ state_attr("sensor.washing_machine_statistics", "median") }}

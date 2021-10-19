@@ -5,9 +5,9 @@
 
     - name: Circadian Saturation
       state: >
-        {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int > 100 %}
+        {% if 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float(0) * 100)|int(0) > 100 %}
           100
         {% else %}
-          {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float * 100)|int }}
+          {{ 100 - (state_attr("switch.adaptive_lighting_default", "sun_position")|float(0) * 100)|int(0) }}
         {% endif %}
       unit_of_measurement: "%"

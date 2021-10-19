@@ -2,8 +2,13 @@
     - name: Price Monthly Water Cold
       state: >
         {{
-          (states("sensor.meter_monthly_water_cold")|float
-          * states("input_number.tariff_water_cold")|float)|round(2)
+          (states("sensor.meter_monthly_water_cold")|float(0)
+          * states("input_number.tariff_water_cold")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_water_cold"))
+          and is_number(states("input_number.tariff_water_cold"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -11,8 +16,13 @@
     - name: Price Daily Water Cold
       state: >
         {{
-          (states("sensor.meter_daily_water_cold")|float
-          * states("input_number.tariff_water_cold")|float)|round(2)
+          (states("sensor.meter_daily_water_cold")|float(0)
+          * states("input_number.tariff_water_cold")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_water_cold"))
+          and is_number(states("input_number.tariff_water_cold"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -20,8 +30,13 @@
     - name: Price Monthly Water Hot
       state: >
         {{
-          (states("sensor.meter_monthly_water_hot")|float
-          * states("input_number.tariff_water_hot")|float)|round(2)
+          (states("sensor.meter_monthly_water_hot")|float(0)
+          * states("input_number.tariff_water_hot")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_water_hot"))
+          and is_number(states("input_number.tariff_water_hot"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -29,8 +44,13 @@
     - name: Price Daily Water Hot
       state: >
         {{
-          (states("sensor.meter_daily_water_hot")|float
-          * states("input_number.tariff_water_hot")|float)|round(2)
+          (states("sensor.meter_daily_water_hot")|float(0)
+          * states("input_number.tariff_water_hot")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_water_hot"))
+          and is_number(states("input_number.tariff_water_hot"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -39,11 +59,18 @@
       state: >
         {{
           (
-            states("sensor.meter_monthly_water_cold")|float *
-              states("input_number.tariff_water_cold")|float
-            + states("sensor.meter_monthly_water_hot")|float *
-              states("input_number.tariff_water_hot")|float
+            states("sensor.meter_monthly_water_cold")|float(0) *
+              states("input_number.tariff_water_cold")|float(0)
+            + states("sensor.meter_monthly_water_hot")|float(0) *
+              states("input_number.tariff_water_hot")|float(0)
           )|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_water_cold"))
+          and is_number(states("input_number.tariff_water_cold"))
+          and is_number(states("sensor.meter_monthly_water_hot"))
+          and is_number(states("input_number.tariff_water_hot"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -52,11 +79,18 @@
       state: >
         {{
           (
-            states("sensor.meter_daily_water_cold")|float *
-              states("input_number.tariff_water_cold")|float
-            + states("sensor.meter_daily_water_hot")|float *
-              states("input_number.tariff_water_hot")|float
+            states("sensor.meter_daily_water_cold")|float(0) *
+              states("input_number.tariff_water_cold")|float(0)
+            + states("sensor.meter_daily_water_hot")|float(0) *
+              states("input_number.tariff_water_hot")|float(0)
           )|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_water_cold"))
+          and is_number(states("input_number.tariff_water_cold"))
+          and is_number(states("sensor.meter_daily_water_hot"))
+          and is_number(states("input_number.tariff_water_hot"))
         }}
       icon: mdi:water-pump
       unit_of_measurement: Rub
@@ -64,8 +98,13 @@
     - name: Price Monthly Electricity T1
       state: >
         {{
-          (states("sensor.meter_monthly_electricity_t1")|float
-          * states("input_number.tariff_electricity_t1")|float)|round(2)
+          (states("sensor.meter_monthly_electricity_t1")|float(0)
+          * states("input_number.tariff_electricity_t1")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_electricity_t1"))
+          and is_number(states("input_number.tariff_electricity_t1"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -73,8 +112,13 @@
     - name: Price Daily Electricity T1
       state: >
         {{
-          (states("sensor.meter_daily_electricity_t1")|float
-          * states("input_number.tariff_electricity_t1")|float)|round(2)
+          (states("sensor.meter_daily_electricity_t1")|float(0)
+          * states("input_number.tariff_electricity_t1")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_electricity_t1"))
+          and is_number(states("input_number.tariff_electricity_t1"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -82,8 +126,13 @@
     - name: Price Monthly Electricity T2
       state: >
         {{
-          (states("sensor.meter_monthly_electricity_t2")|float
-          * states("input_number.tariff_electricity_t2")|float)|round(2)
+          (states("sensor.meter_monthly_electricity_t2")|float(0)
+          * states("input_number.tariff_electricity_t2")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_electricity_t2"))
+          and is_number(states("input_number.tariff_electricity_t2"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -91,8 +140,13 @@
     - name: Price Daily Electricity T2
       state: >
         {{
-          (states("sensor.meter_daily_electricity_t2")|float
-          * states("input_number.tariff_electricity_t2")|float)|round(2)
+          (states("sensor.meter_daily_electricity_t2")|float(0)
+          * states("input_number.tariff_electricity_t2")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_electricity_t2"))
+          and is_number(states("input_number.tariff_electricity_t2"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -100,8 +154,13 @@
     - name: Price Monthly Electricity T3
       state: >
         {{
-          (states("sensor.meter_monthly_electricity_t3")|float
-          * states("input_number.tariff_electricity_t3")|float)|round(2)
+          (states("sensor.meter_monthly_electricity_t3")|float(0)
+          * states("input_number.tariff_electricity_t3")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_electricity_t3"))
+          and is_number(states("input_number.tariff_electricity_t3"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -109,8 +168,13 @@
     - name: Price Daily Electricity T3
       state: >
         {{
-          (states("sensor.meter_daily_electricity_t2")|float
-          * states("input_number.tariff_electricity_t2")|float)|round(2)
+          (states("sensor.meter_daily_electricity_t3")|float(0)
+          * states("input_number.tariff_electricity_t3")|float(0))|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_electricity_t3"))
+          and is_number(states("input_number.tariff_electricity_t3"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -119,13 +183,22 @@
       state: >
         {{
           (
-            states("sensor.meter_monthly_electricity_t1")|float
-              * states("input_number.tariff_electricity_t1")|float
-            + states("sensor.meter_monthly_electricity_t2")|float
-              * states("input_number.tariff_electricity_t2")|float
-            + states("sensor.meter_monthly_electricity_t3")|float
-              * states("input_number.tariff_electricity_t3")|float
+            states("sensor.meter_monthly_electricity_t1")|float(0)
+              * states("input_number.tariff_electricity_t1")|float(0)
+            + states("sensor.meter_monthly_electricity_t2")|float(0)
+              * states("input_number.tariff_electricity_t2")|float(0)
+            + states("sensor.meter_monthly_electricity_t3")|float(0)
+              * states("input_number.tariff_electricity_t3")|float(0)
           )|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_monthly_electricity_t1"))
+          and is_number(states("input_number.tariff_electricity_t1"))
+          and is_number(states("sensor.meter_monthly_electricity_t2"))
+          and is_number(states("input_number.tariff_electricity_t2"))
+          and is_number(states("sensor.meter_monthly_electricity_t3"))
+          and is_number(states("input_number.tariff_electricity_t3"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
@@ -134,25 +207,44 @@
       state: >
         {{
           (
-            states("sensor.meter_daily_electricity_t1")|float
-              * states("input_number.tariff_electricity_t1")|float
-            + states("sensor.meter_daily_electricity_t2")|float
-              * states("input_number.tariff_electricity_t2")|float
-            + states("sensor.meter_daily_electricity_t3")|float
-              * states("input_number.tariff_electricity_t3")|float
+            states("sensor.meter_daily_electricity_t1")|float(0)
+              * states("input_number.tariff_electricity_t1")|float(0)
+            + states("sensor.meter_daily_electricity_t2")|float(0)
+              * states("input_number.tariff_electricity_t2")|float(0)
+            + states("sensor.meter_daily_electricity_t3")|float(0)
+              * states("input_number.tariff_electricity_t3")|float(0)
           )|round(2)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.meter_daily_electricity_t1"))
+          and is_number(states("input_number.tariff_electricity_t1"))
+          and is_number(states("sensor.meter_daily_electricity_t2"))
+          and is_number(states("input_number.tariff_electricity_t2"))
+          and is_number(states("sensor.meter_daily_electricity_t3"))
+          and is_number(states("input_number.tariff_electricity_t3"))
         }}
       icon: mdi:flash
       unit_of_measurement: Rub
 
     - name: Price Monthly Utility
       state: >
-        {{ states("sensor.price_monthly_water")|float + states("sensor.price_monthly_electricity")|float }}
+        {{ states("sensor.price_monthly_water")|float(0) + states("sensor.price_monthly_electricity")|float(0) }}
+      availability: >
+        {{
+          is_number(states("sensor.price_monthly_water"))
+          and is_number(states("sensor.price_monthly_electricity"))
+        }}
       icon: mdi:gauge
       unit_of_measurement: Rub
 
     - name: Price Daily Utility
       state: >
-        {{ states("sensor.price_daily_water")|float + states("sensor.price_daily_electricity")|float }}
+        {{ states("sensor.price_daily_water")|float(0) + states("sensor.price_daily_electricity")|float(0) }}
+      availability: >
+        {{
+          is_number(states("sensor.price_daily_water"))
+          and is_number(states("sensor.price_daily_electricity"))
+        }}
       icon: mdi:gauge
       unit_of_measurement: Rub

@@ -21,9 +21,9 @@
     - name: Addons Supervisor OS Updates
       state: >
         {{
-          states("sensor.supervisor_info")|int
-          + states("sensor.supervisor_updates")|int
-          + states("sensor.os_updates")|int
+          states("sensor.supervisor_info")|int(0)
+          + states("sensor.supervisor_updates")|int(0)
+          + states("sensor.os_updates")|int(0)
         }}
 
     - name: HACS Updates

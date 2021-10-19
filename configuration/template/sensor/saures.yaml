@@ -24,8 +24,13 @@
     - name: Saures Water
       state: >
         {{
-          states("sensor.saures_water_cold")|float
-          + states("sensor.saures_water_hot")|float
+          states("sensor.saures_water_cold")|float(0)
+          + states("sensor.saures_water_hot")|float(0)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.saures_water_cold"))
+          and is_number(states("sensor.saures_water_hot"))
         }}
       unit_of_measurement: m³
 
@@ -47,8 +52,14 @@
     - name: Saures Electricity
       state: >
         {{
-          states("sensor.saures_electricity_t1")|float
-          + states("sensor.saures_electricity_t2")|float
-          + states("sensor.saures_electricity_t3")|float
+          states("sensor.saures_electricity_t1")|float(0)
+          + states("sensor.saures_electricity_t2")|float(0)
+          + states("sensor.saures_electricity_t3")|float(0)
+        }}
+      availability: >
+        {{
+          is_number(states("sensor.saures_electricity_t1"))
+          and is_number(states("sensor.saures_electricity_t2"))
+          and is_number(states("sensor.saures_electricity_t3"))
         }}
       unit_of_measurement: kWh
