@@ -83,7 +83,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - Sony PlayStation 4
 - Sonos Beam, Sonos Sub, 2x Sonos One, 2x Ikea Symfonisk bookshelf speakers, 2x Ikea Symfonisk table lamp speakers, Sonos Move — multiroom audio all over the place
 - 2x Yandex Station Mini — voice assistant which supports the Russian language
-- KDM XM200-8GH — peephole camera
+- KDM XM200-8GH — peephole camera. [Homekit](https://www.home-assistant.io/integrations/homekit/) integration is used to send video from camera to Apple TV
 
 ### Remotes
 
