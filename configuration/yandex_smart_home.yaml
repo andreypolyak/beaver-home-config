@@ -185,11 +185,11 @@ entity_config:
     name: Уборка
 
   script.vacuum_start:
-    room: Везде
+    room: Квартира
     name: Уборка
 
   script.vacuum_stop:
-    room: Везде
+    room: Квартира
     name: Останови уборку
 
   cover.bedroom_window:
