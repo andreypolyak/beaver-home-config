@@ -1,8 +1,6 @@
 from base import Base
 
 SONOS_MIN_VOLUME = 0.11
-# Meditation playlist id
-ALARM_DIALOG_PLAYLIST_ID = "2383988"
 
 
 class YandexStation(Base):
@@ -63,11 +61,8 @@ class YandexStation(Base):
 
 
   def on_playing(self, entity, attribute, old, new, kwargs):
-    entity_picture = self.get_state(entity, attribute="entity_picture")
     self.log("Stop music from Yandex Station")
     self.media_pause(entity)
-    if ALARM_DIALOG_PLAYLIST_ID in entity_picture and not self.dialog_active:
-      self.fire_event("alarm_dialog")
 
 
   def on_living_room_alice_state(self, entity, attribute, old, new, kwargs):

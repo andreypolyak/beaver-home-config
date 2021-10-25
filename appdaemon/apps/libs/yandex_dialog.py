@@ -13,13 +13,20 @@ class YandexDialog(Base):
     self.set_inactive_dialog()
     self.room = None
     self.listen_event(self.on_yandex_intent, self.dialog_name)
+    self.listen_event(self.on_yandex_speaker_event, "yandex_speaker")
 
 
-  def start_dialog(self, step, room=None):
+  def on_yandex_speaker_event(self, event_name, data, kwargs):
+    if "value" in data and data["value"] == self.activation_phrase:
+      room = data["entity_id"].replace("media_player.", "").replace("_yandex_station", "")
+      self.start_dialog(room=room)
+
+
+  def start_dialog(self, room=None):
     if self.get_delta_ts(self.run_ts) <= 5:
       return
     self.run_ts = self.get_now_ts()
-    self.step = step
+    self.step = "initial"
     if room:
       self.select_option("last_active_yandex_station", room)
       self.room = room

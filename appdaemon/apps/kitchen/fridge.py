@@ -20,7 +20,7 @@ class Fridge(Base):
     notified_ts = self.read_storage("notified_ts")
     if self.get_delta_ts(notified_ts) > 3600:
       text = "Внимание! Повышенная температура в холодильнике!"
-      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
+      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
       self.send_push("home_or_all", f"♨️ Fridge temperature is {round(temp)}!", "fridge", critical=True)
       self.write_storage("notified_ts", self.get_now_ts())
 
@@ -32,7 +32,7 @@ class Fridge(Base):
     notified_ts = self.read_storage("notified_ts")
     if self.get_delta_ts(notified_ts) > 3600:
       text = "Внимание! Повышенная температура в морозильнике!"
-      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
+      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
       message = f"♨️ Freezer temperature is {round(temp)}!"
       self.send_push("home_or_all", message, "fridge", critical=True)
       self.write_storage("notified_ts", self.get_now_ts())
@@ -51,5 +51,5 @@ class Fridge(Base):
     self.cancel_handle(self.handle)
     if self.entity_is_on("binary_sensor.kitchen_freezer_door"):
       text = "Внимание! Дверь морозилки не закрыта!"
-      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
+      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
       self.send_push("home_or_all", "🧊 Freezer isn't closed!", "fridge", critical=True)

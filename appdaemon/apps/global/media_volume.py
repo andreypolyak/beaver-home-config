@@ -42,7 +42,7 @@ MEDIA_PLAYERS = {
     "check_if_playing": ["input_boolean.sonos_move_playing"]
   },
   "living_room_yandex_station": {
-    "default_volume": 1,
+    "default_volume": 0.9,
     "zone": "living",
     "scene_volumes": {
       "night": 0.3
@@ -50,7 +50,7 @@ MEDIA_PLAYERS = {
     "check_if_playing": ["binary_sensor.living_room_yandex_station_active"]
   },
   "bedroom_yandex_station": {
-    "default_volume": 1,
+    "default_volume": 0.9,
     "zone": "sleeping",
     "scene_volumes": {
       "night": 0.3

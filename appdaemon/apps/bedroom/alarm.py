@@ -89,7 +89,7 @@ class Alarm(Base):
     self.turn_on_entity("light.group_bedroom_bed", brightness=254, transition=60)
     current_time = self.datetime().strftime("%H:%M")
     text = f"Пора вставать! Уже {current_time}!"
-    self.fire_event("yandex_speak_text", text=text, room="bedroom", volume_level=1.0)
+    self.fire_event("yandex_speak_text", text=text, room="bedroom", volume_level=0.9)
 
 
   def increase_volume(self, kwargs):
@@ -121,4 +121,4 @@ class Alarm(Base):
 
   def speak_morning_info(self, kwargs):
     text = self.get_forecast(current_time=True)[0]
-    self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
+    self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)

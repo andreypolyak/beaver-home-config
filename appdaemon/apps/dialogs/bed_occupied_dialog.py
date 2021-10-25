@@ -6,6 +6,7 @@ class BedOccupiedDialog(YandexDialog):
   def initialize(self):
     self.occupied_ts = 0
     self.dialog_name = "bed_occupied"
+    self.activation_phrase = None
     self.dialog_init()
     self.dialog_allowed = True
     entity = "binary_sensor.bedroom_bed_top_occupancy"
@@ -31,12 +32,12 @@ class BedOccupiedDialog(YandexDialog):
       self.dialog_allowed = False
       self.occupied_ts = self.get_now_ts()
       self.volume_set("bedroom_yandex_station", 0.3)
-      self.start_dialog("night_mode", room="bedroom")
+      self.start_dialog(room="bedroom")
 
 
   def on_yandex_intent(self, event_name, data, kwargs):
     self.log(f"Intent: {data}, mode: {self.step}")
-    if self.step == "night_mode":
+    if self.step == "initial":
       self.step_night_mode(data)
     elif self.step == "alarm_turn_on":
       self.step_alarm_question(data)

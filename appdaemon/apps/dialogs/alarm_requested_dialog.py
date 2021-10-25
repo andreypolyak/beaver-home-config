@@ -5,21 +5,24 @@ class AlarmRequestedDialog(YandexDialog):
 
   def initialize(self):
     self.dialog_name = "alarm_requested"
+    self.activation_phrase = "Сделай громче на 0"
     self.dialog_init()
     self.listen_event(self.on_alarm_dialog, "alarm_dialog")
 
 
   def on_alarm_dialog(self, event_name, data, kwargs):
     self.log("Alarm dialog was initiated")
-    self.start_dialog("initial_alarm")
+    self.start_dialog()
 
 
   def on_yandex_intent(self, event_name, data, kwargs):
     self.log(f"Intent: {data}, mode: {self.step}")
-    if self.step == "initial_alarm":
+    if self.step == "initial":
       self.step_initial_alarm(data)
     elif self.step == "alarm_finish":
       self.step_alarm_finish(data)
+    elif self.step == "night_mode":
+      self.step_night_mode(data)
     else:
       self.cancel_dialog()
 
@@ -41,12 +44,22 @@ class AlarmRequestedDialog(YandexDialog):
     parsed_time = self.parse_time(data)
     if parsed_time:
       str_parsed_time = parsed_time.strftime("%H:%M")
-      text = f"Устанавливаю будильник на {str_parsed_time}. Спокойной ночи!"
+      text = f"Устанавливаю будильник на {str_parsed_time}. Вы хотите включить ночной режим?"
       alarm_time = f"{str_parsed_time}:00"
       self.set_time("input_datetime.alarm_andrey", alarm_time)
       self.turn_on_entity("input_boolean.alarm_andrey")
     else:
-      text = "Не удалось разобрать время, установите будильник через приложение. Спокойной ночи!"
+      text = "Не удалось разобрать время, установите будильник через приложение."
+    self.continue_dialog(text, "night_mode")
+
+
+  def step_night_mode(self, data):
+    nlu = data["data"]["nlu"]
+    if "YANDEX.CONFIRM" not in nlu["intents"]:
+      self.cancel_dialog()
+      return
+    self.set_sleeping_scene("night")
+    text = "Включаю ночной режим! Спокойной ночи!"
     self.finish_dialog(text)
 
 

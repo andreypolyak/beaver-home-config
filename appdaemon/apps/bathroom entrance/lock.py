@@ -45,7 +45,7 @@ class Lock(Base):
     self.cancel_handle(self.handle)
     if self.get_state("lock.entrance_lock", attribute="lock_state") == "not_fully_locked":
       text = "Внимание! Дверь не закрыта до конца!"
-      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=1.0)
+      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
       actions = [
         {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
         {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
