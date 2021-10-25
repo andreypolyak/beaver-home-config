@@ -18,7 +18,10 @@ class ElectricityStats(Base):
       return
     indications = []
     last_indications_date = self.get_state(meter_entity, attribute="last_indications_date")
-    last_indications_month = datetime.strptime(last_indications_date, "%Y-%m-%d").strftime("%m")
+    try:
+      last_indications_month = datetime.strptime(last_indications_date, "%Y-%m-%d").strftime("%m")
+    except:
+      return
     current_month = self.get_now().strftime("%m")
     if last_indications_month == current_month:
       return
