@@ -22,6 +22,7 @@ class AlarmManager(Base):
     self.listen_event(self.on_snooze_alarm, event="snooze_alarm")
     self.listen_event(self.on_snooze_alarm, event="mobile_app_notification_action", action="SNOOZE_ALARM")
     self.run_daily(self.on_evening, "23:00:00")
+    self.listen_state(self.on_tv_turn_off, "binary_sensor.living_room_tv", old="on", new="off")
     for action in ["ALARM_0730", "ALARM_0800", "ALARM_0830", "ALARM_0845", "ALARM_0900", "ALARM_0930"]:
       self.listen_event(self.on_set_alarm_time, event="mobile_app_notification_action", action=action)
     self.allow_snooze_if_alarms_off()
@@ -108,6 +109,11 @@ class AlarmManager(Base):
 
   def on_evening(self, kwargs):
     self.send_alarm_setup_notifications()
+
+
+  def on_tv_turn_off(self, entity, attribute, old, new, kwargs):
+    if self.now_is_between("21:00:00", "04:00:00"):
+      self.send_alarm_setup_notifications()
 
 
   def send_alarm_setup_notifications(self):
