@@ -2,6 +2,7 @@ meter_monthly_water_cold:
   name: Meter Monthly Water Cold
   source: sensor.saures_water_cold
   cycle: monthly
+  net_consumption: true
   offset:
     days: 16
     hours: 8
@@ -10,6 +11,7 @@ meter_daily_water_cold:
   name: Meter Daily Water Cold
   source: sensor.saures_water_cold
   cycle: daily
+  net_consumption: true
   offset:
     hours: 8
 
@@ -17,6 +19,7 @@ meter_monthly_water_hot:
   name: Meter Monthly Water Hot
   source: sensor.saures_water_hot
   cycle: monthly
+  net_consumption: true
   offset:
     days: 16
     hours: 8
@@ -25,6 +28,7 @@ meter_daily_water_hot:
   name: Meter Daily Water Hot
   source: sensor.saures_water_hot
   cycle: daily
+  net_consumption: true
   offset:
     hours: 8
 
@@ -32,6 +36,7 @@ meter_monthly_water:
   name: Meter Monthly Water
   source: sensor.saures_water
   cycle: monthly
+  net_consumption: true
   offset:
     days: 16
     hours: 8
@@ -40,5 +45,6 @@ meter_daily_water:
   name: Meter Daily Water
   source: sensor.saures_water
   cycle: daily
+  net_consumption: true
   offset:
     hours: 8
