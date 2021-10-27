@@ -13,7 +13,7 @@ vacuum_clean_bedroom:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["15474938-28fc-4d99-9960-82bb49f7af0e"]'
+        payload: !secret script_vacuum_bedroom_zone
 
 vacuum_clean_kitchen:
   alias: Vacuum Clean Kitchen
@@ -30,7 +30,7 @@ vacuum_clean_kitchen:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["ebab59e2-8f06-475f-a060-438a47e90db5"]'
+        payload: !secret script_vacuum_kitchen_zone
 
 vacuum_clean_living_room:
   alias: Vacuum Clean Living Room
@@ -47,7 +47,7 @@ vacuum_clean_living_room:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["ee62058e-8bfe-4e41-b795-ea580358d57d"]'
+        payload: !secret script_vacuum_living_room_zone
 
 vacuum_clean_bathroom_entrance:
   alias: Vacuum Clean Bathroom Entrance
@@ -64,7 +64,7 @@ vacuum_clean_bathroom_entrance:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
+        payload: !secret script_vacuum_bathroom_entrance_zone
 
 vacuum_clean_bathroom:
   alias: Vacuum Clean Bathroom
@@ -81,7 +81,7 @@ vacuum_clean_bathroom:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
+        payload: !secret script_vacuum_bathroom_entrance_zone
 
 vacuum_clean_entrance:
   alias: Vacuum Clean Entrance
@@ -98,7 +98,7 @@ vacuum_clean_entrance:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["8bfbe599-b0b6-42f3-8ebc-1d8c6f6b7407"]'
+        payload: !secret script_vacuum_bathroom_entrance_zone
 
 vacuum_clean_all:
   alias: Vacuum Clean All
@@ -115,7 +115,7 @@ vacuum_clean_all:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: '["82f357f3-c2c6-421d-86da-c2334b254257"]'
+        payload: !secret script_vacuum_all_zone
 
 vacuum_stop:
   alias: Vacuum Stop
@@ -144,7 +144,7 @@ vacuum_go_to_bin:
     - service: mqtt.publish
       data:
         topic: valetudo/roborock/GoToLocationCapability/go/set
-        payload: "4a29ccbc-d0fb-42ba-a2d4-6dcc1a39ca09"
+        payload: !secret script_vacuum_go_to_bin
 
 vacuum_start:
   alias: Vacuum Start

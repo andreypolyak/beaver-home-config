@@ -27,7 +27,7 @@
     - name: Show Vacuum Card
       state: >
         {{
-          states("vacuum.roborock") != "docked"
+          states("vacuum.roborock") not in ["docked", "unavailable"]
           or states("input_select.vacuum_state") != "idle"
         }}
 
