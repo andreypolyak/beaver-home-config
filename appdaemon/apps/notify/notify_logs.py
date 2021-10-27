@@ -11,59 +11,19 @@ APPDAEMON_BLACKLIST = [
 ]
 
 HA_BLACKLIST = [
-  "evaluating 't._leaflet_pos'",
-  "Error getting new camera image from",
-  "telegram",
-  "swipe-navigation",
-  "socket.send() raised exception.",
-  "components/stream",
-  "components/generic/camera",
-  "image_processing",
-  "Could not find data in region",
-  "Disconnected: Did not receive auth message within 10 seconds",
-  "Update of switch.living_room_christmas_tree is taking over 10 seconds",
-  "PS4 could not be reached",
-  "mset?motor_speed",
-  "using 'value_template' for 'position_topic'",
-  "Authentication required for Account. (421)",
-  "Client unable to keep up with pending messages.",
-  "BrokenPipeError",
-  "ConnectionResetError",
-  "Template variable warning: 'dict object' has no attribute",
-  "Flood control exceeded.",
-  "Erroneous JSON",
-  "Template variable error: 'value_json' is undefined",
-  "Error parsing value: 'value_json' is undefined",
-  "Can't connect to ESPHome API",
-  "GitHub returned 502 for",
-  "MosenergosbytException",
-  "Update of sensor.mes_",
-  "Connection reset by peer",
-  "Broken pipe",
-  "/ingress/validate_session return code 401",
-  "Failed to to call /ingress/validate_session - ",
-  "Timeout while waiting for API response!",
-  "Disconnected from Broadlink",
-  "Connected to Broadlink",
-  "Error fetching Broadlink",
-  "We found a custom integration",
-  ":0:0 Script error.",
-  "Timeout call http://192.168.1.78:8080/start",
-  "Cannot connect to host quasar.yandex.ru",
-  "TypeError: forward_push_notification()",
-  "Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ",
-  "took longer than the scheduled update interval 0:00:10",
-  "Timeout sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification",
-  "Error retrieving proxied image from",
-  "File \"/config/custom_components/sauresha/sensor.py\", line 266, in current_controller_info",
-  "custom_components.hacs",
-  "<class 'homeassistant.components.mqtt.light.schema_json.MqttLightJson'>) took ",
-  "https://yandex.ru/pogoda/maps/nowcast",
-  "homeassistant.components.command_line.sensor",
-  "is taking over 10 seconds",
-  "frontend.js.latest",
-  "Can't connect to ESPHome API for ",
-  "rebooted or lost network connectivity, reconnecting with <SoCo object at ip"
+  "We found a custom integration ",  # [homeassistant.loader]
+  " is taking over 10 seconds.",  # [homeassistant.setup]
+  "The bridge Home Assistant Bridge has entity ",  # [homeassistant.components.homekit]
+  "has no attribute 'update_available'",  # [homeassistant.helpers.template]
+  "UnboundLocalError: local variable 'controllers' referenced before assignment",  # [homeassistant] (sauresha)
+  "Can't connect to ESPHome API",  # [homeassistant.components.esphome]
+  "Error getting initial data for",  # [homeassistant.components.esphome]
+  "Authentication required for Account. (421)",  # [pyicloud.base]
+  "Error sending message: Flood control exceeded.",  # [homeassistant.components.telegram_bot]
+  "Error sending message: Timed out.",  # [homeassistant.components.telegram_bot]
+  "NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection",  # [telegram.vendor.ptb_urllib3.urllib3.connectionpool]
+  "BrokenPipeError: [Errno 32] Broken pipe",  # [aiohttp.server]
+  "ConnectionResetError: Cannot write to closing transport"  # [homeassistant]
 ]
 
 
