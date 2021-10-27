@@ -5,6 +5,7 @@ binary_sensor: !include configuration/binary_sensor.yaml
 camera: !include configuration/camera.yaml
 config:
 cover: !include configuration/cover.yaml
+custom_event:
 dhcp:
 favicon: !include configuration/favicon.yaml
 ffmpeg:

@@ -23,16 +23,13 @@ class RoomLights(Base):
     self.listen_event(self.__on_faded_timer_finish, "timer.finished", entity_id=f"timer.light_faded_{self.room}")
     self.listen_event(self.__on_cooldown_timer_finish, "timer.finished", entity_id=f"timer.light_cooldown_{self.room}")
     for operation in ["on", "off", "toggle"]:
-      custom_event_data = f"{self.room}_virtual_switch_room_{operation}"
-      self.listen_event(self.__on_virtual_switch, "custom_event", custom_event_data=custom_event_data)
+      self.listen_event(self.__on_virtual_switch, f"{self.room}_virtual_switch_room_{operation}")
       for light_name in self.lights.keys():
-        custom_event_data = f"{light_name}_virtual_switch_individual_{operation}"
-        self.listen_event(self.__on_individual_virtual_switch, "custom_event", custom_event_data=custom_event_data)
-    self.listen_event(self.__on_set_manual_color, "custom_event", custom_event_data=f"{self.room}_set_manual_color")
-    self.listen_event(self.__on_set_auto_color, "custom_event", custom_event_data=f"{self.room}_set_auto_color")
-    self.listen_event(self.__on_set_brightness, "custom_event", custom_event_data=f"{self.room}_set_brightness")
-    custom_event_data = f"{self.room}_toggle_max_brightness"
-    self.listen_event(self.__on_toggle_max_brightness, "custom_event", custom_event_data=custom_event_data)
+        self.listen_event(self.__on_individual_virtual_switch, f"{light_name}_virtual_switch_individual_{operation}")
+    self.listen_event(self.__on_set_manual_color, f"{self.room}_set_manual_color")
+    self.listen_event(self.__on_set_auto_color, f"{self.room}_set_auto_color")
+    self.listen_event(self.__on_set_brightness, f"{self.room}_set_brightness")
+    self.listen_event(self.__on_toggle_max_brightness, f"{self.room}_toggle_max_brightness")
     self.listen_state(self.__on_circadian_change, "input_number.circadian_saturation")
     self.listen_state(self.__on_set_lock_lights, f"input_boolean.lock_lights_{self.room}")
 
@@ -403,13 +400,12 @@ class RoomLights(Base):
 
   def __on_virtual_switch(self, event_name, data, kwargs):
     scene = self.get_scene(self.zone)
-    event_data = data["custom_event_data"]
     func_name = f"on_{scene}"
     func = getattr(self, func_name, None)
     operation = "toggle"
-    if "_virtual_switch_room_on" in event_data:
+    if "_virtual_switch_room_on" in event_name:
       operation = "on"
-    elif "_virtual_switch_room_off" in event_data:
+    elif "_virtual_switch_room_off" in event_name:
       operation = "off"
     entity = f"ha_template_{self.room}"
     mode = "virtual_switch"
@@ -420,19 +416,21 @@ class RoomLights(Base):
 
 
   def __on_individual_virtual_switch(self, event_name, data, kwargs):
-    event_data = data["custom_event_data"]
     command = "toggle"
-    if "_virtual_switch_individual_on" in event_data:
+    if "_virtual_switch_individual_on" in event_name:
       command = "on"
-    elif "_virtual_switch_individual_off" in event_data:
+    elif "_virtual_switch_individual_off" in event_name:
       command = "off"
-    light_name = event_data.replace(f"_virtual_switch_individual_{command}", "")
+    light_name = event_name.replace(f"_virtual_switch_individual_{command}", "")
     self.__individual_virtual_switch(light_name, command)
 
 
   def __on_set_manual_color(self, event_name, data, kwargs):
     self.turn_off_entity(f"input_boolean.auto_colors_{self.room}")
-    color = data["custom_event_data2"]
+    color = data["color"]
+    if isinstance(color, str) and "(" in color and "(" in color:
+      color = color.replace("(", "").replace(")", "").replace(" ", "")
+      color = color.split(",")
     self.__set_features(color=color)
 
 
@@ -442,7 +440,7 @@ class RoomLights(Base):
 
 
   def __on_set_brightness(self, event_name, data, kwargs):
-    brightness = int(data["custom_event_data2"])
+    brightness = int(data["brightness"])
     self.__set_features(brightness=brightness)
 
 

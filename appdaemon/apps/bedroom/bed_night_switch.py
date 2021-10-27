@@ -6,8 +6,7 @@ class BedNightSwitch(Base):
   def initialize(self):
     super().initialize()
     self.listen_state(self.on_bedroom_switch_change, "sensor.bedroom_bed_night_switch")
-    event_data = "bedroom_bed_virtual_switch_individual_toggle"
-    self.listen_event(self.on_virtual_switch, "custom_event", custom_event_data=event_data)
+    self.listen_event(self.on_virtual_switch, "bedroom_bed_virtual_switch_individual_toggle")
 
 
   def on_bedroom_switch_change(self, entity, attribute, old, new, kwargs):
@@ -16,7 +15,7 @@ class BedNightSwitch(Base):
     # If alarm is ringing
     if self.entity_is_on("input_boolean.alarm_ringing"):
       if self.entity_is_on("input_boolean.alarm_snooze_allowed"):
-        self.fire_event("custom_event", custom_event_data="snooze_alarm")
+        self.fire_event("snooze_alarm")
         self.turn_off_entity("input_boolean.alarm_snooze_allowed")
       else:
         text = "Откладывать будильник больше нельзя!"

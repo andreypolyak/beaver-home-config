@@ -22,23 +22,25 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_virtual_switch_room_on
+          event_type: bedroom_virtual_switch_room_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_virtual_switch_room_off
+          event_type: bedroom_virtual_switch_room_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_set_brightness
-          custom_event_data2: "{{ brightness }}"
+          event_type: bedroom_set_brightness
+          event_data:
+            brightness: "{{ brightness }}"
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_set_manual_color
-          custom_event_data2: "({{ h }},{{ s }})"
+          event_type: bedroom_set_manual_color
+          event_data:
+            color: "({{ h }},{{ s }})"
 
 - platform: template
   lights:
@@ -55,21 +57,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_bedroom_adult_top_virtual_switch_individual_on
+          event_type: group_bedroom_adult_top_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_bedroom_adult_top_virtual_switch_individual_off
+          event_type: group_bedroom_adult_top_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -86,21 +88,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_bedroom_theo_top_virtual_switch_individual_on
+          event_type: group_bedroom_theo_top_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_bedroom_theo_top_virtual_switch_individual_off
+          event_type: group_bedroom_theo_top_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -117,21 +119,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_bed_led_virtual_switch_individual_on
+          event_type: bedroom_bed_led_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_bed_led_virtual_switch_individual_off
+          event_type: bedroom_bed_led_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -142,17 +144,17 @@
       value_template: >
         {{ is_state("light.bedroom_wardrobe", "on") }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_wardrobe_virtual_switch_individual_on
+          event_type: bedroom_wardrobe_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_wardrobe_virtual_switch_individual_off
+          event_type: bedroom_wardrobe_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -161,13 +163,13 @@
       value_template: >
         {{ is_state("light.bedroom_table", "on") }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_table_virtual_switch_individual_on
+          event_type: bedroom_table_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: bedroom_table_virtual_switch_individual_off
+          event_type: bedroom_table_virtual_switch_individual_off
 
 - platform: template
   lights:
@@ -176,10 +178,10 @@
       value_template: >
         {{ is_state("input_boolean.bedroom_table_lamp", "on") }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: turn_on_bedroom_table_switch
+          event_type: turn_on_bedroom_table_switch
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: turn_off_bedroom_table_switch
+          event_type: turn_off_bedroom_table_switch

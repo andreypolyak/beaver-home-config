@@ -163,6 +163,7 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 ### Custom Integrations
 
 - [adaptive_lighting](https://github.com/basnijholt/adaptive-lighting) — get circadian light sensor which shows color temperature for cureent time of a day based on the sun position. I use this sensor in automations as a backup if MiJia light intensity sensor (GZCGQ01LM) will be unavailable
+- [custom_event](https://github.com/andreypolyak/hass_custom_event) — create Home Assistant service to fire events
 - [Favicon changer](https://github.com/thomasloven/hass-favicon) — change Home Assistant favicon
 - [HACS](https://github.com/hacs/integration) — install custom integrations and cards
 - [Integration Saures controllers with HA](https://github.com/volshebniks/sauresha) — get consumption data from [Saures](https://www.saures.ru) cloud

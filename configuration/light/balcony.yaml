@@ -23,23 +23,25 @@
           else 153
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_virtual_switch_room_on
+          event_type: balcony_virtual_switch_room_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_virtual_switch_room_off
+          event_type: balcony_virtual_switch_room_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_set_brightness
-          custom_event_data2: "{{ brightness }}"
+          event_type: balcony_set_brightness
+          event_data:
+            brightness: "{{ brightness }}"
       set_temperature:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_set_manual_color
-          custom_event_data2: "{{ (153000000 / color_temp)|int }}"
+          event_type: balcony_set_manual_color
+          event_data:
+            color: "{{ (153000000 / color_temp)|int }}"
 
 - platform: template
   lights:
@@ -56,21 +58,21 @@
           else 153
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_window_virtual_switch_individual_on
+          event_type: balcony_window_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_window_virtual_switch_individual_off
+          event_type: balcony_window_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_temperature:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -79,10 +81,10 @@
       value_template: >
         {{ is_state("light.balcony_led", "on") }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_led_virtual_switch_individual_on
+          event_type: balcony_led_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: balcony_led_virtual_switch_individual_off
+          event_type: balcony_led_virtual_switch_individual_off

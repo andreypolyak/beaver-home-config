@@ -28,19 +28,21 @@ cards:
             label: Add
             tap_action:
               action: call-service
-              service: script.fire_custom_event
+              service: custom_event.fire
               service_data:
-                custom_event_data: logged_entity_add
-                custom_event_data2: entities
+                event_type: add_logged_entity
+                event_data:
+                  mode: entities
           - type: custom:button-card
             template: base_label
             label: Add with Attributes
             tap_action:
               action: call-service
-              service: script.fire_custom_event
+              service: custom_event.fire
               service_data:
-                custom_event_data: logged_entity_add
-                custom_event_data2: entities_with_attr
+                event_type: add_logged_entity
+                event_data:
+                  mode: entities_with_attr
       - type: custom:button-card
         template: header
         name: Logged Entities
@@ -52,10 +54,11 @@ cards:
         label: Remove
         tap_action:
           action: call-service
-          service: script.fire_custom_event
+          service: custom_event.fire
           service_data:
-            custom_event_data: logged_entity_remove
-            custom_event_data2: entities
+            event_type: remove_logged_entity
+            event_data:
+              mode: entities
       - type: custom:button-card
         template: header
         name: Logged Entities with Attributes
@@ -67,10 +70,10 @@ cards:
         label: Remove
         tap_action:
           action: call-service
-          service: script.fire_custom_event
+          service: custom_event.fire
           service_data:
-            custom_event_data: logged_entity_remove
-            custom_event_data2: entities_with_attr
+            event_type: remove_logged_entity
+            event_data: entities_with_attr
       - type: custom:button-card
         template: header
         name: Mute Notifications

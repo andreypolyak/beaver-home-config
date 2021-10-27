@@ -16,9 +16,9 @@ class AC(Base):
     self.listen_state(self.on_change, "sensor.living_room_humidity")
     self.listen_state(self.on_change, "timer.ac_turn_off_disabled")
     self.listen_state(self.on_change, "timer.ac_turn_on_disabled")
-    self.listen_event(self.on_manual_toggle, "custom_event", custom_event_data="manual_ac_toggle")
-    self.listen_event(self.on_manual_on, "custom_event", custom_event_data="manual_ac_on")
-    self.listen_event(self.on_manual_off, "custom_event", custom_event_data="manual_ac_off")
+    self.listen_event(self.on_manual_toggle, "manual_ac_toggle")
+    self.listen_event(self.on_manual_on, "manual_ac_on")
+    self.listen_event(self.on_manual_off, "manual_ac_off")
 
 
   def on_change(self, entity, attribute, old, new, kwargs):

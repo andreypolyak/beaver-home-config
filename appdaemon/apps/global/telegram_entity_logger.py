@@ -15,13 +15,13 @@ class TelegramEntityLogger(Base):
     self.listen_event(self.on_entities_change, "entity_registry_updated")
     self.listen_event(self.on_entities_change, "new_entity")
     self.listen_event(self.on_entities_change, "call_service", domain="input_select", service="reload")
-    self.listen_event(self.on_logged_entity_add, "custom_event", custom_event_data="logged_entity_add")
-    self.listen_event(self.on_logged_entity_remove, "custom_event", custom_event_data="logged_entity_remove")
+    self.listen_event(self.on_add_logged_entity, "add_logged_entity")
+    self.listen_event(self.on_remove_logged_entity, "remove_logged_entity")
     self.update_entities_lists({})
 
 
-  def on_logged_entity_add(self, event_name, data, kwargs):
-    mode = data["custom_event_data2"]
+  def on_add_logged_entity(self, event_name, data, kwargs):
+    mode = data["mode"]
     added_entity = self.get_state("input_select.all_entities")
     logged_entities = self.read_storage(mode)
     logged_entities.insert(0, added_entity)
@@ -29,8 +29,8 @@ class TelegramEntityLogger(Base):
     self.update_entities_lists({})
 
 
-  def on_logged_entity_remove(self, event_name, data, kwargs):
-    mode = data["custom_event_data2"]
+  def on_remove_logged_entity(self, event_name, data, kwargs):
+    mode = data["mode"]
     removed_entity = self.get_state(f"input_select.logged_{mode}")
     if removed_entity != "":
       logged_entities = self.read_storage(mode)

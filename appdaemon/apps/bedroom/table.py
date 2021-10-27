@@ -8,8 +8,8 @@ class Table(Base):
     self.handle = None
     self.turned_off_ts = 0
     self.listen_state(self.on_power_change, "sensor.bedroom_table_plug_power")
-    self.listen_event(self.on_fake_light_on, "custom_event", custom_event_data="turn_on_bedroom_table_switch")
-    self.listen_event(self.on_fake_light_off, "custom_event", custom_event_data="turn_off_bedroom_table_switch")
+    self.listen_event(self.on_fake_light_on, "turn_on_bedroom_table_switch")
+    self.listen_event(self.on_fake_light_off, "turn_off_bedroom_table_switch")
     self.listen_state(self.on_switch_off, "switch.bedroom_table_plug", new="off", old="on")
     self.listen_state(self.on_light_change, "input_boolean.bedroom_table_lamp")
 

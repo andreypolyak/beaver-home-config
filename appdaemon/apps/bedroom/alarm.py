@@ -7,9 +7,9 @@ class Alarm(Base):
     super().initialize()
     self.person_name = self.args["person_name"]
     self.handles = []
-    self.listen_event(self.cancel_alarm, event="custom_event", custom_event_data=f"cancel_alarm_{self.person_name}")
-    self.listen_event(self.finish_alarm, event="custom_event", custom_event_data=f"finish_alarm_{self.person_name}")
-    self.listen_event(self.start_alarm, event="custom_event", custom_event_data=f"start_alarm_{self.person_name}")
+    self.listen_event(self.cancel_alarm, event=f"cancel_alarm_{self.person_name}")
+    self.listen_event(self.finish_alarm, event=f"finish_alarm_{self.person_name}")
+    self.listen_event(self.start_alarm, event=f"start_alarm_{self.person_name}")
 
 
   def start_alarm(self, event_name, data, kwargs):

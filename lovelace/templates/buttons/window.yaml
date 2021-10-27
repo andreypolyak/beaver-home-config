@@ -13,11 +13,12 @@ window_device:
     haptic: success
   tap_action:
     action: call-service
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_window`; ]]]
-      custom_event_data2: toggle
+      event_data:
+        position: toggle
     haptic: success
   double_tap_action:
     action: call-service

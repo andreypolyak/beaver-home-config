@@ -25,23 +25,25 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_virtual_switch_room_on
+          event_type: living_room_virtual_switch_room_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_virtual_switch_room_off
+          event_type: living_room_virtual_switch_room_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_set_brightness
-          custom_event_data2: "{{ brightness }}"
+          event_type: living_room_set_brightness
+          event_data:
+            brightness: "{{ brightness }}"
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_set_manual_color
-          custom_event_data2: "({{ h }},{{ s }})"
+          event_type: living_room_set_manual_color
+          event_data:
+            color: "({{ h }},{{ s }})"
 
 - platform: template
   lights:
@@ -58,21 +60,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_living_room_top_virtual_switch_individual_on
+          event_type: group_living_room_top_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_living_room_top_virtual_switch_individual_off
+          event_type: group_living_room_top_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -89,21 +91,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_living_room_speakers_virtual_switch_individual_on
+          event_type: group_living_room_speakers_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_living_room_speakers_virtual_switch_individual_off
+          event_type: group_living_room_speakers_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -120,21 +122,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_sofa_virtual_switch_individual_on
+          event_type: living_room_sofa_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_sofa_virtual_switch_individual_off
+          event_type: living_room_sofa_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -151,18 +153,18 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_sofa_led_virtual_switch_individual_on
+          event_type: living_room_sofa_led_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: living_room_sofa_led_virtual_switch_individual_off
+          event_type: living_room_sofa_led_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""

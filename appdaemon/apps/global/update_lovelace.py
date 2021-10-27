@@ -6,7 +6,7 @@ class UpdateLovelace(Base):
 
   def initialize(self):
     super().initialize()
-    self.listen_event(self.on_update, "custom_event", custom_event_data="update_lovelace")
+    self.listen_event(self.on_update, "update_lovelace")
 
 
   def on_update(self, event_name, data, kwargs):

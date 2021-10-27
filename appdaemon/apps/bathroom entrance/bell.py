@@ -91,4 +91,4 @@ class Bell(Base):
 
 
   def restore_light(self, kwargs):
-    self.call_service("script/fire_custom_event", custom_event_data="bathroom_entrance_virtual_switch_room_on")
+    self.fire_event("bathroom_entrance_virtual_switch_room_on")

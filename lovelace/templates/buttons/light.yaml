@@ -7,9 +7,9 @@ individual_virtual_switch:
     haptic: success
   tap_action:
     action: call-service
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.light_name}_virtual_switch_individual_toggle`; ]]]
     haptic: success
   variables:
@@ -46,12 +46,13 @@ brightness:
   tap_action:
     action: call-service
     haptic: success
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return variables.room + "_set_brightness"; ]]]
-      custom_event_data2: >
-        [[[ return variables.brightness; ]]]
+      event_data:
+        brightness: >
+          [[[ return variables.brightness; ]]]
   styles:
     card:
       - height: 48px
@@ -160,12 +161,13 @@ light_color_rgb:
   tap_action:
     action: call-service
     haptic: success
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_set_manual_color`; ]]]
-      custom_event_data2: >
-        [[[ return variables.rgb; ]]]
+      event_data:
+        color: >
+          [[[ return variables.rgb; ]]]
   variables:
     rgb: ""
     room: ""
@@ -177,12 +179,13 @@ light_color_hs:
   tap_action:
     action: call-service
     haptic: success
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_set_manual_color`; ]]]
-      custom_event_data2: >
-        [[[ return `(30,${variables.saturation})`; ]]]
+      event_data:
+        color: >
+          [[[ return `(30,${variables.saturation})`; ]]]
   variables:
     saturation: ""
     room: ""
@@ -192,12 +195,13 @@ light_color_kelvin:
   tap_action:
     action: call-service
     haptic: success
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_set_manual_color`; ]]]
-      custom_event_data2: >
-        [[[ return variables.kelvin; ]]]
+      event_data:
+        color: >
+          [[[ return variables.kelvin; ]]]
   variables:
     kelvin: ""
     room: ""
@@ -208,9 +212,9 @@ light_color_auto:
   tap_action:
     action: call-service
     haptic: success
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_set_auto_color`; ]]]
   styles:
     card:

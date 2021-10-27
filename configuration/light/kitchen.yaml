@@ -24,23 +24,25 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_virtual_switch_room_on
+          event_type: kitchen_virtual_switch_room_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_virtual_switch_room_off
+          event_type: kitchen_virtual_switch_room_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_set_brightness
-          custom_event_data2: "{{ brightness }}"
+          event_type: kitchen_set_brightness
+          event_data:
+            brightness: "{{ brightness }}"
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_set_manual_color
-          custom_event_data2: "({{ h }},{{ s }})"
+          event_type: kitchen_set_manual_color
+          event_data:
+            color: "({{ h }},{{ s }})"
 
 - platform: template
   lights:
@@ -57,21 +59,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_kitchen_top_virtual_switch_individual_on
+          event_type: group_kitchen_top_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: group_kitchen_top_virtual_switch_individual_off
+          event_type: group_kitchen_top_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -88,21 +90,21 @@
           else [0,0]
         }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_table_virtual_switch_individual_on
+          event_type: kitchen_table_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_table_virtual_switch_individual_off
+          event_type: kitchen_table_virtual_switch_individual_off
       set_level:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
       set_color:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: ""
+          event_type: ""
 
 - platform: template
   lights:
@@ -111,10 +113,10 @@
       value_template: >
         {{ is_state("light.kitchen_vent", "on") }}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_vent_virtual_switch_individual_on
+          event_type: kitchen_vent_virtual_switch_individual_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data:
-          custom_event_data: kitchen_vent_virtual_switch_individual_off
+          event_type: kitchen_vent_virtual_switch_individual_off

@@ -15,7 +15,7 @@ class RoomWindow(Base):
     self.listen_state(self.on_light_off, f"light.ha_template_room_{self.room}", new="off", old="on")
     for action_sensor in self.action_sensors:
       self.listen_state(self.on_action_event, action_sensor)
-    self.listen_event(self.on_lovelace_change, event="custom_event", custom_event_data=f"{self.room}_window")
+    self.listen_event(self.on_lovelace_change, event=f"{self.room}_window")
     self.listen_state(self.on_manual_control, f"binary_sensor.{self.room}_window_manual_control", new="on", old="off")
 
 
@@ -24,8 +24,8 @@ class RoomWindow(Base):
 
 
   def on_lovelace_change(self, event_name, data, kwargs):
-    command = data["custom_event_data2"]
-    if command == "toggle":
+    position = data["position"]
+    if position == "toggle":
       current_position = self.get_int_state(f"cover.{self.room}_window", attribute="current_position")
       if current_position is None:
         return
@@ -34,7 +34,7 @@ class RoomWindow(Base):
       else:
         position = 0
     else:
-      position = float(data["custom_event_data2"])
+      position = int(position)
     self.set_position(position, "lovelace")
     self.timer_start(f"window_{self.room}_freeze", 1200)
 

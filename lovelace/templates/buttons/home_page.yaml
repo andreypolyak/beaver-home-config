@@ -91,9 +91,9 @@ home_page_light:
   triggers_update: all
   tap_action:
     action: call-service
-    service: script.fire_custom_event
+    service: custom_event.fire
     service_data:
-      custom_event_data: >
+      event_type: >
         [[[ return `${variables.room}_virtual_switch_room_toggle`; ]]]
     haptic: success
   hold_action:

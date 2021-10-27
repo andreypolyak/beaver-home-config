@@ -9,10 +9,10 @@
           on
         {% endif %}
       turn_on:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data_template:
-          custom_event_data: manual_ac_on
+          event_type: manual_ac_on
       turn_off:
-        service: script.fire_custom_event
+        service: custom_event.fire
         data_template:
-          custom_event_data: manual_ac_off
+          event_type: manual_ac_off

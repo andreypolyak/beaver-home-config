@@ -18,8 +18,8 @@ class AlarmManager(Base):
     self.listen_state(self.on_night_scene, "input_select.sleeping_scene", new="night")
     self.listen_state(self.on_day_scene, "input_select.sleeping_scene", new="day", old="night")
     self.listen_event(self.on_finish_alarm, event="mobile_app_notification_action", action="FINISH_ALARM")
-    self.listen_event(self.on_finish_alarm, event="custom_event", custom_event_data="finish_alarm")
-    self.listen_event(self.on_snooze_alarm, event="custom_event", custom_event_data="snooze_alarm")
+    self.listen_event(self.on_finish_alarm, event="finish_alarm")
+    self.listen_event(self.on_snooze_alarm, event="snooze_alarm")
     self.listen_event(self.on_snooze_alarm, event="mobile_app_notification_action", action="SNOOZE_ALARM")
     self.run_daily(self.on_evening, "23:00:00")
     for action in ["ALARM_0730", "ALARM_0800", "ALARM_0830", "ALARM_0845", "ALARM_0900", "ALARM_0930"]:
@@ -39,11 +39,11 @@ class AlarmManager(Base):
     if self.alarms_turned_on_count > 1:
       self.log(f"Activity occured when {person_name.capitalize()}'s alarm was ringing. "
                "Cancelling it because different alarm is turned on")
-      self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
+      self.fire_event(f"cancel_alarm_{person_name}")
     else:
       self.log(f"Activity occured when {person_name.capitalize()}'s alarm was ringing. "
                "Finishing it because no other alarms are turned on")
-      self.fire_event("custom_event", custom_event_data=f"finish_alarm_{person_name}")
+      self.fire_event(f"finish_alarm_{person_name}")
     self.run_in(self.turn_off_alarm, 1, person_name=person_name)
 
 
@@ -53,7 +53,7 @@ class AlarmManager(Base):
     if self.entity_is_on(f"input_boolean.alarm_{person_name}_ringing"):
       self.log(f"{person_name.capitalize()}'s alarm is ringing and will be cancelled because alarm was turned off")
       self.turn_off_entity("input_boolean.alarm_ringing")
-      self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
+      self.fire_event(f"cancel_alarm_{person_name}")
     self.cancel_handle(self.handles[person_name])
     self.allow_snooze_if_alarms_off()
 
@@ -75,7 +75,7 @@ class AlarmManager(Base):
       if self.entity_is_on(f"input_boolean.alarm_{person_name}_ringing"):
         self.log(f"{person_name.capitalize()}'s alarm is ringing and will be cancelled because new alarm time was set")
         self.turn_off_entity("input_boolean.alarm_ringing")
-        self.fire_event("custom_event", custom_event_data=f"cancel_alarm_{person_name}")
+        self.fire_event(f"cancel_alarm_{person_name}")
       self.set_alarm_on_time(person_name)
 
 
@@ -84,7 +84,7 @@ class AlarmManager(Base):
     if not self.ringing_alarm_person_name and self.sleeping_scene == "night":
       self.log(f"{person_name.capitalize()}'s alarm is ringing")
       self.turn_on_entity("input_boolean.alarm_ringing")
-      self.fire_event("custom_event", custom_event_data=f"start_alarm_{person_name}")
+      self.fire_event(f"start_alarm_{person_name}")
       self.send_ringing_notification(person_name)
     elif self.sleeping_scene != "night":
       self.log(f"{person_name.capitalize()}'s alarm is not ringing because night scene is not turned on")

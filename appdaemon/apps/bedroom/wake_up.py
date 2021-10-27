@@ -57,7 +57,7 @@ class WakeUp(Base):
     ):
       if self.entity_is_on("input_boolean.alarm_ringing"):
         self.log("Wake process -> finish alarm")
-        self.fire_event("custom_event", custom_event_data="finish_alarm")
+        self.fire_event("finish_alarm")
       else:
         self.log("Wake process -> turn on day scene")
         self.set_sleeping_scene("day")
