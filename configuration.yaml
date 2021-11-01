@@ -11,6 +11,7 @@ favicon: !include configuration/favicon.yaml
 ffmpeg:
 frontend: !include configuration/frontend.yaml
 group: !include configuration/group.yaml
+hacs: !include configuration/hacs.yaml
 history:
 homeassistant: !include configuration/homeassistant.yaml
 homekit: !include configuration/homekit.yaml
