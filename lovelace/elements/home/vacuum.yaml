@@ -1,15 +1,11 @@
 type: vertical-stack
 cards:
-  - type: custom:valetudo-map-card
-    entity: sensor.roborock_map
-    title: false
-    rotate: 0
-    crop:
-      top: 55
-      bottom: 80
-      left: 0
-      right: 0
-    min_height: 0
+  - type: custom:button-card
+    entity: camera.roborock_map
+    show_name: false
+    show_live_stream: true
+    tap_action:
+      action: none
   - type: horizontal-stack
     cards:
       - type: custom:button-card
@@ -41,6 +37,10 @@ cards:
             return vacuum_state.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
           ]]]
         tap_action:
+          action: more-info
+          entity: input_select.vacuum_state
+          haptic: success
+        hold_action:
           action: more-info
           entity: input_select.vacuum_state
           haptic: success

@@ -8,8 +8,7 @@ BLACKLIST = [
   "macbook",
   "ipad",
   "playstation",
-  "new_entities",
-  "roborock_map"
+  "new_entities"
 ]
 
 

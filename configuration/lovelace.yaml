@@ -11,8 +11,6 @@ resources:
     type: module
   - url: /hacsfiles/lovelace-card-mod/card-mod.js
     type: module
-  - url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js
-    type: module
   - url: /hacsfiles/custom-sidebar/custom-sidebar.js
     type: module
   - url: /hacsfiles/lovelace-state-switch/state-switch.js
