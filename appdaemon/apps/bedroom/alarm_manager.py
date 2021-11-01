@@ -23,7 +23,7 @@ class AlarmManager(Base):
     self.listen_event(self.on_snooze_alarm, event="mobile_app_notification_action", action="SNOOZE_ALARM")
     self.run_daily(self.on_evening, "23:00:00")
     self.listen_state(self.on_tv_turn_off, "binary_sensor.living_room_tv", old="on", new="off")
-    for action in ["ALARM_0730", "ALARM_0800", "ALARM_0830", "ALARM_0845", "ALARM_0900", "ALARM_0930"]:
+    for action in ["ALARM_0730", "ALARM_0800", "ALARM_0830", "ALARM_0900", "ALARM_0930"]:
       self.listen_event(self.on_set_alarm_time, event="mobile_app_notification_action", action=action)
     self.allow_snooze_if_alarms_off()
 
@@ -126,7 +126,6 @@ class AlarmManager(Base):
         {"action": "ALARM_0730", "title": "🕢 07:30"},
         {"action": "ALARM_0800", "title": "🕗 08:00"},
         {"action": "ALARM_0830", "title": "🕣 08:30"},
-        {"action": "ALARM_0845", "title": "💩 08:45"},
         {"action": "ALARM_0900", "title": "🕘 09:00"},
         {"action": "ALARM_0930", "title": "🕤 09:30"}
       ]
