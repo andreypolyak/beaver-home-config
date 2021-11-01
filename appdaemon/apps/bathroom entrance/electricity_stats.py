@@ -10,6 +10,16 @@ class ElectricityStats(Base):
     super().initialize()
     for time in TIMES:
       self.run_daily(self.send_stats, time)
+    self.listen_event(self.on_push_indications, "lkcomu_interrao_push_indications")
+
+
+  def on_push_indications(self, event_name, data, kwargs):
+    success = data["success"]
+    if success:
+      text = "🔌 Successfully sent electricity stats to Mosenergosbyt"
+    else:
+      text = "🔌 Error occured while sending electricity stats to Mosenergosbyt"
+    self.send_push("admin", text, "electricity_stats")
 
 
   def send_stats(self, kwargs):
@@ -32,7 +42,6 @@ class ElectricityStats(Base):
       indications.append(indication)
     kwargs = {
       "indications": indications,
-      "notification": True,
       "entity_id": meter_entity
     }
     self.call_service("lkcomu_interrao/push_indications", **kwargs)

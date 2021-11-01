@@ -177,3 +177,9 @@ forecast_last_push:
   has_date: true
   has_time: true
   icon: mdi:clock-outline
+
+electricity_stats_last_push:
+  name: Electricity Stats Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline

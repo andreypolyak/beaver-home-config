@@ -117,3 +117,7 @@ zigbee_update_mute_push:
 forecast_mute_push:
   name: Forecast Mute Push
   icon: mdi:bell-off
+
+electricity_stats_mute_push:
+  name: Electricity Stats Mute Push
+  icon: mdi:bell-off

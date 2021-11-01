@@ -92,6 +92,7 @@ electricity_stats:
   module: electricity_stats
   class: ElectricityStats
   global_dependencies: base
+  dependencies: push
 
 fix_lock:
   module: fix_lock
