@@ -15,15 +15,21 @@ HA_BLACKLIST = [
   " is taking over 10 seconds.",  # [homeassistant.setup]
   "The bridge Home Assistant Bridge has entity ",  # [homeassistant.components.homekit]
   "has no attribute 'update_available'",  # [homeassistant.helpers.template]
-  "UnboundLocalError: local variable 'controllers' referenced before assignment",  # [homeassistant] (sauresha)
+  "UnboundLocalError: local variable \\'controllers\\' referenced before assignment",  # [homeassistant] (sauresha)
   "Can't connect to ESPHome API",  # [homeassistant.components.esphome]
   "Error getting initial data for",  # [homeassistant.components.esphome]
   "Authentication required for Account. (421)",  # [pyicloud.base]
   "Error sending message: Flood control exceeded.",  # [homeassistant.components.telegram_bot]
   "Error sending message: Timed out.",  # [homeassistant.components.telegram_bot]
-  "NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection",  # [telegram.vendor.ptb_urllib3.urllib3.connectionpool]
+  "NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection",  # [telegram.vendor.ptb_urllib3.urllib3.connectionpool]  # noqa: 501
   "BrokenPipeError: [Errno 32] Broken pipe",  # [aiohttp.server]
-  "ConnectionResetError: Cannot write to closing transport"  # [homeassistant]
+  "ConnectionResetError: Cannot write to closing transport",  # [homeassistant]
+  "InvalidStateError: The object is in an invalid state.",  # [frontend.js.latest.********]
+  "Disconnected: Did not receive auth message within 10 seconds",  # [homeassistant.components.websocket_api.http.connection]  # noqa: 501
+  "custom_components.hacs",  # [custom_components.hacs].
+  "homeassistant.components.stream.worker",  # [homeassistant.components.stream.worker]
+  "Failed to to call /ingress/validate_session -",  # [homeassistant.components.hassio]
+  "/ingress/validate_session return code 401",  # [homeassistant.components.hassio.handler]
 ]
 
 
