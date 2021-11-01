@@ -1,21 +1,15 @@
 type: vertical-stack
 cards:
   - type: custom:valetudo-map-card
-    entity: camera.map_data
-    vacuum_entity: vacuum.roborock
+    entity: sensor.roborock_map
     title: false
-    min_height: 0
+    rotate: 0
     crop:
-      top: 0
-      bottom: 0
+      top: 55
+      bottom: 80
       left: 0
       right: 0
-    show_battery_level: false
-    show_start_button: false
-    show_pause_button: false
-    show_stop_button: false
-    show_home_button: false
-    show_locate_button: false
+    min_height: 0
   - type: horizontal-stack
     cards:
       - type: custom:button-card

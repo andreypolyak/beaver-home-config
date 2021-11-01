@@ -102,7 +102,7 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - 2x Ikea Fyrtur Roller Blinds
 - Aqara Curtain Motor (ZNCLDJ11LM)
 - 2x Drivent — [window opener](https://www.youtube.com/watch?v=j29n-o0UPzY) device created by enthusiasts
-- Xiaomi Roborock S5 Vacuum — used with [Valetudo](https://github.com/hypfer/valetudo) firmware (removes cloud)
+- Xiaomi Roborock S5 Vacuum — used with [Valetudo RE](https://github.com/rand256/valetudo) firmware (removes cloud)
 - 2x [Saures](https://www.saures.ru) controllers — used to meter water and electricity usage
 - DIY [air freshener](https://jcallaghan.com/2020/03/can-you-iot-an-airwick-air-freshener/) — AirWick freshener with integrated ESP8266, ESPHome firmware
 - Xiaomi Mi Smart Scale 2 (XMTZC04HM) — used with ESP32 to track weight
@@ -188,7 +188,7 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 - [MariaDB](https://github.com/home-assistant/hassio-addons/tree/master/mariadb) — SQL database for Home Assistant recorder
 - [Mosquitto broker](https://github.com/home-assistant/hassio-addons/tree/master/mosquitto) — MQTT broker
 - [motionEye](https://github.com/hassio-addons/addon-motioneye) — network video recorder
-- [NGINX Home Assistant SSL proxy](https://github.com/home-assistant/hassio-addons/tree/master/nginx_proxy) — proxy HTTP config pages for Roborock and Drivent into Home Assistant
+- [NGINX Home Assistant SSL proxy](https://github.com/home-assistant/hassio-addons/tree/master/nginx_proxy) — proxy Home Assistant to get remote access to it and proxy HTTP config pages for Roborock and Drivent into Home Assistant
 - [phpMyAdmin](https://github.com/hassio-addons/addon-phpmyadmin) — UI for MariaDB
 - [Portainer](https://github.com/hassio-addons/addon-portainer) — run and control Docker containers
 - [Promtail](https://github.com/mdegat01/addon-promtail) — gather Docker logs from all add-ons and containers and store them in Loki to later view in Grafana

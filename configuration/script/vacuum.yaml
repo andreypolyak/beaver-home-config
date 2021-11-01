@@ -10,10 +10,13 @@ vacuum_clean_bedroom:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_bedroom_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bedroom
 
 vacuum_clean_kitchen:
   alias: Vacuum Clean Kitchen
@@ -27,10 +30,13 @@ vacuum_clean_kitchen:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_kitchen_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Kitchen
 
 vacuum_clean_living_room:
   alias: Vacuum Clean Living Room
@@ -44,10 +50,13 @@ vacuum_clean_living_room:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_living_room_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Living Room
 
 vacuum_clean_bathroom_entrance:
   alias: Vacuum Clean Bathroom Entrance
@@ -61,10 +70,13 @@ vacuum_clean_bathroom_entrance:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_bathroom_entrance_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
 
 vacuum_clean_bathroom:
   alias: Vacuum Clean Bathroom
@@ -78,10 +90,13 @@ vacuum_clean_bathroom:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_bathroom_entrance_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
 
 vacuum_clean_entrance:
   alias: Vacuum Clean Entrance
@@ -95,10 +110,13 @@ vacuum_clean_entrance:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_bathroom_entrance_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - Bathroom and Entrance
 
 vacuum_clean_all:
   alias: Vacuum Clean All
@@ -112,10 +130,13 @@ vacuum_clean_all:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/ZoneCleaningCapability/start/set
-        payload: !secret script_vacuum_all_zone
+        entity_id: vacuum.roborock
+        command: zoned_cleanup
+        params:
+          zone_ids:
+            - All
 
 vacuum_stop:
   alias: Vacuum Stop
@@ -141,10 +162,12 @@ vacuum_go_to_bin:
       data:
         entity_id: script.vacuum_stop_if_cleaning
     - delay: 00:00:03
-    - service: mqtt.publish
+    - service: vacuum.send_command
       data:
-        topic: valetudo/roborock/GoToLocationCapability/go/set
-        payload: !secret script_vacuum_go_to_bin
+        entity_id: vacuum.roborock
+        command: go_to
+        params:
+          spot_id: Bin
 
 vacuum_start:
   alias: Vacuum Start
