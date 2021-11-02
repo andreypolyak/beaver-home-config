@@ -30,6 +30,7 @@ HA_BLACKLIST = [
   "homeassistant.components.stream.worker",  # [homeassistant.components.stream.worker]
   "Failed to to call /ingress/validate_session -",  # [homeassistant.components.hassio]
   "/ingress/validate_session return code 401",  # [homeassistant.components.hassio.handler]
+  "seconds. Please create a bug report at",  # [homeassistant.helpers.entity]
 ]
 
 
