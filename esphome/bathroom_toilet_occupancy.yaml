@@ -28,6 +28,11 @@ sensor:
     trigger_pin: D1
     echo_pin: D2
     update_interval: 1s
+    filters:
+      - filter_out: nan
+      - sliding_window_moving_average:
+          window_size: 4
+          send_every: 4
 
 binary_sensor:
   - platform: template
