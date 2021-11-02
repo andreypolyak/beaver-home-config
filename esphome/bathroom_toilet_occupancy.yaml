@@ -1,0 +1,45 @@
+substitutions:
+  hostname: bathroom-toilet-occupancy
+  name: Bathroom Toilet Occupancy
+
+esphome:
+  name: $hostname
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret esphome_wifi_ssid
+  password: !secret esphome_wifi_password
+  use_address: 192.168.1.123
+  fast_connect: true
+  ap:
+    ssid: $hostname
+    password: ""
+
+logger:
+
+api:
+
+ota:
+
+sensor:
+  - platform: ultrasonic
+    id: ultrasonic_sensor
+    trigger_pin: D1
+    echo_pin: D2
+    update_interval: 1s
+
+binary_sensor:
+  - platform: template
+    name: Bathroom Toilet Occupancy
+    id: bathroom_toilet_occupancy
+    device_class: occupancy
+    lambda: |-
+      if (
+        id(ultrasonic_sensor).state > 0.01
+        and id(ultrasonic_sensor).state < 0.3
+      ) {
+        return true;
+      } else {
+        return false;
+      }
