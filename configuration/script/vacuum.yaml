@@ -169,6 +169,18 @@ vacuum_go_to_bin:
         params:
           spot_id: Bin
 
+vacuum_go_home:
+  alias: Vacuum Go Home
+  icon: mdi:robot-vacuum
+  sequence:
+    - service: script.turn_on
+      data:
+        entity_id: script.vacuum_stop_if_cleaning
+    - delay: 00:00:03
+    - service: vacuum.return_to_base
+      data:
+        entity_id: vacuum.roborock
+
 vacuum_start:
   alias: Vacuum Start
   icon: mdi:robot-vacuum

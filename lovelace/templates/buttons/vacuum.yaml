@@ -65,6 +65,16 @@ vacuum_go_to_bin:
     service: script.vacuum_go_to_bin
     haptic: success
 
+vacuum_go_home:
+  template: vacuum_base
+  color: var(--paper-card-background-color)
+  entity: script.vacuum_go_home
+  icon: mdi:home
+  tap_action:
+    action: call-service
+    service: script.vacuum_go_home
+    haptic: success
+
 vacuum_room:
   template: vacuum_base
   tap_action:

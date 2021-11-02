@@ -132,9 +132,6 @@ cards:
         variables:
           service: locate
       - type: custom:button-card
-        template: vacuum_control
-        icon: mdi:home
-        variables:
-          service: return_to_base
+        template: vacuum_go_home
       - type: custom:button-card
         template: vacuum_go_to_bin
