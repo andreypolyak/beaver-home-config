@@ -14,7 +14,7 @@ HA_BLACKLIST = [
   "We found a custom integration ",  # [homeassistant.loader]
   " is taking over 10 seconds.",  # [homeassistant.setup]
   "The bridge Home Assistant Bridge has entity ",  # [homeassistant.components.homekit]
-  "has no attribute 'update_available'",  # [homeassistant.helpers.template]
+  "has no attribute ",  # [homeassistant.helpers.template] (zigbee2mqtt)
   "UnboundLocalError: local variable \\'controllers\\' referenced before assignment",  # [homeassistant] (sauresha)
   "Can't connect to ESPHome API",  # [homeassistant.components.esphome]
   "Error getting initial data for",  # [homeassistant.components.esphome]
