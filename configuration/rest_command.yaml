@@ -1,11 +1,3 @@
-party_tv_start:
-  url: !secret rest_command_party_tv_start
-  timeout: 3
-
-party_tv_stop:
-  url: !secret rest_command_party_tv_stop
-  timeout: 3
-
 camera_snapshot:
   url: !secret rest_command_camera_snapshot_url
   method: POST

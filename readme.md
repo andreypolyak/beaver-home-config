@@ -47,8 +47,7 @@ My main (highly subjective!) principles for choosing the hardware:
 
 ### Main
 
-- Mac Mini (Late 2012, Intel i5, 16GB RAM, SSD) — main server with macOS installed on it. Home Assistant OS is launched as a Virtual Box virtual machine on it
-- Apple Time Machine — backup all Macs in the house
+- Mac Mini (Late 2012, Intel i5, 16GB RAM, SSD) — Home Assistant Operating System virtual machine installed in [Proxmox](https://www.proxmox.com/en/) 
 - Unifi Dream Machine — router and WiFi access point
 - 4x ESP32 based [Zigbee Gateways](https://github.com/mercenaruss/zigstar_gateways) with TI CC2652 chips to run 4 independent Zigbee networks
 - 2x Raspberry PI Zero W — track iPhones with Bluetooth using [Monitor](https://github.com/andrewjfreyer/monitor)

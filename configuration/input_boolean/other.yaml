@@ -18,10 +18,6 @@ party_lights:
   name: Party Lights
   icon: mdi:party-popper
 
-party_tv:
-  name: Party TV
-  icon: mdi:party-popper
-
 # Other
 
 vacuum_auto:

@@ -49,16 +49,6 @@ cards:
           haptic: success
           service_data:
             entity_id: input_boolean.party_lights
-      - type: custom:button-card
-        template: base_icon
-        entity: input_boolean.party_tv
-        icon: mdi:television-ambient-light
-        tap_action:
-          action: call-service
-          service: input_boolean.toggle
-          haptic: success
-          service_data:
-            entity_id: input_boolean.party_tv
   - !include /config/lovelace/elements/living_room/sonos.yaml
   - type: horizontal-stack
     cards:
