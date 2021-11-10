@@ -1,16 +1,31 @@
 substitutions:
   hostname: kitchen-sonoff-mini
   name: Kitchen Sonoff Mini
+  ip: 192.168.1.102
 
 esphome:
   name: $hostname
   platform: ESP8266
   board: esp8285
+  on_boot:
+    priority: -100
+    then:
+      - wait_until:
+          time.has_time:
+      - delay: 1s
+      - sensor.template.publish:
+          id: uptime
+          state: !lambda "return id(sntp_time).now().timestamp;"
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: UTC-3
 
 wifi:
   ssid: !secret esphome_wifi_ssid
   password: !secret esphome_wifi_password
-  use_address: 192.168.1.102
+  use_address: $ip
   fast_connect: true
   ap:
     ssid: $hostname
@@ -21,6 +36,13 @@ logger:
 api:
 
 ota:
+
+sensor:
+  - platform: template
+    name: $name Uptime
+    update_interval: never
+    device_class: timestamp
+    id: uptime
 
 web_server:
 
