@@ -35,8 +35,3 @@ cards:
         name: PlayStation 4
         variables:
           command: tv_source_playstation_4
-      - type: custom:button-card
-        template: tv_remote_compact
-        name: Mac Mini
-        variables:
-          command: tv_source_mac_mini
