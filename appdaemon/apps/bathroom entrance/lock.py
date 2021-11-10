@@ -34,24 +34,32 @@ class Lock(Base):
     self.log("Lock was unlocked")
     self.cancel_handle(self.handle)
     self.handle = self.run_in(self.lock_door, 60)
-    if self.get_delta_ts(self.unlocked_ts) < 15 and self.unlocked_by:
-      actions = [{"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}]
-      self.send_push(self.unlocked_by, "🔓 Lock was unlocked", "lock", sound="Calypso.caf", actions=actions)
-      self.unlocked_ts = 0
-      self.unlocked_by = None
+    if self.get_delta_ts(self.unlocked_ts) > 15 or not self.unlocked_by:
+      return
+    actions = [{"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}]
+    person_names = self.get_person_names(location=["home", "downstairs", "yard"])
+    for person_name in person_names:
+      if person_name == self.unlocked_by:
+        text = "🔓 Lock was unlocked"
+      else:
+        text = f"🔓 Lock was unlocked by {self.unlocked_by.title()}"
+      self.send_push(person_name, text, "lock", sound="Calypso.caf", actions=actions)
+    self.unlocked_ts = 0
+    self.unlocked_by = None
 
 
   def on_lock_change(self, entity, attribute, old, new, kwargs):
     self.cancel_handle(self.handle)
-    if self.get_state("lock.entrance_lock", attribute="lock_state") == "not_fully_locked":
-      text = "Внимание! Дверь не закрыта до конца!"
-      self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
-      actions = [
-        {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
-        {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
-      ]
-      message = "🔓 Lock not fully closed!"
-      self.send_push("home_or_all", message, "lock", critical=True, actions=actions)
+    if self.get_state("lock.entrance_lock", attribute="lock_state") != "not_fully_locked":
+      return
+    text = "Внимание! Дверь не закрыта до конца!"
+    self.fire_event("yandex_speak_text", text=text, room="living_room", volume_level=0.9)
+    actions = [
+      {"action": "LOCK_UNLOCK", "title": "🔓 Unlock the door", "destructive": True},
+      {"action": "LOCK_LOCK", "title": "🔒 Lock the door", "destructive": True}
+    ]
+    message = "🔓 Lock not fully closed!"
+    self.send_push("home_or_all", message, "lock", critical=True, actions=actions)
 
 
   def on_ios_lock(self, event_name, data, kwargs):

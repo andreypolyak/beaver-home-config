@@ -49,10 +49,15 @@ class Persons(Base):
         if current_person["admin"]:
           persons.append(current_person)
     elif location is not None:
+      if isinstance(location, str):
+        location_list = [location]
+      else:
+        location_list = location
       for current_person_name, current_person in PERSONS.items():
         entity = f"input_select.{current_person_name}_location"
-        if self.entity_exists(entity) and self.get_state(entity) == location:
-          persons.append(current_person)
+        for specific_location in location_list:
+          if self.entity_exists(entity) and self.get_state(entity) == specific_location:
+            persons.append(current_person)
     else:
       for current_person_name, current_person in PERSONS.items():
         persons.append(current_person)
