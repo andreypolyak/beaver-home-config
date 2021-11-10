@@ -15,7 +15,7 @@
     ha_template_room_living_room:
       friendly_name: HA Template Room Living Room
       level_template: >
-        {{ state_attr("light.ha_group_living_room", "brightness")|int }}
+        {{ state_attr("light.ha_group_living_room", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.ha_group_living_room", "on") }}
       color_template: >
@@ -50,7 +50,7 @@
     ha_template_individual_group_living_room_top:
       friendly_name: HA Template Individual Group Living Room Top
       level_template: >
-        {{ state_attr("light.group_living_room_top", "brightness")|int }}
+        {{ state_attr("light.group_living_room_top", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.group_living_room_top", "on") }}
       color_template: >
@@ -81,7 +81,7 @@
     ha_template_individual_group_living_room_speakers:
       friendly_name: HA Template Individual Group Living Room Speakers
       level_template: >
-        {{ state_attr("light.group_living_room_speakers", "brightness")|int }}
+        {{ state_attr("light.group_living_room_speakers", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.group_living_room_speakers", "on") }}
       color_template: >
@@ -112,7 +112,7 @@
     ha_template_individual_living_room_sofa:
       friendly_name: HA Template Individual Living Room Sofa
       level_template: >
-        {{ state_attr("light.living_room_sofa", "brightness")|int }}
+        {{ state_attr("light.living_room_sofa", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.living_room_sofa", "on") }}
       color_template: >
@@ -143,7 +143,7 @@
     ha_template_individual_living_room_sofa_led:
       friendly_name: HA Template Individual Living Room Sofa LED
       level_template: >
-        {{ state_attr("light.living_room_sofa_led", "brightness")|int }}
+        {{ state_attr("light.living_room_sofa_led", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.living_room_sofa_led", "on") }}
       color_template: >

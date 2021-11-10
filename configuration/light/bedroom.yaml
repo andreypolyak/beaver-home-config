@@ -12,7 +12,7 @@
     ha_template_room_bedroom:
       friendly_name: HA Template Room Bedroom
       level_template: >
-        {{ state_attr("light.ha_group_bedroom", "brightness")|int }}
+        {{ state_attr("light.ha_group_bedroom", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.ha_group_bedroom", "on") }}
       color_template: >
@@ -47,7 +47,7 @@
     ha_template_individual_group_bedroom_adult_top:
       friendly_name: HA Template Individual Group Bedroom Adult Top
       level_template: >
-        {{ state_attr("light.group_bedroom_adult_top", "brightness")|int }}
+        {{ state_attr("light.group_bedroom_adult_top", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.group_bedroom_adult_top", "on") }}
       color_template: >
@@ -78,7 +78,7 @@
     ha_template_individual_group_bedroom_theo_top:
       friendly_name: HA Template Individual Group Bedroom Theo Top
       level_template: >
-        {{ state_attr("light.group_bedroom_theo_top", "brightness")|int }}
+        {{ state_attr("light.group_bedroom_theo_top", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.group_bedroom_theo_top", "on") }}
       color_template: >
@@ -109,7 +109,7 @@
     ha_template_individual_bedroom_bed_led:
       friendly_name: HA Template Individual Bedroom Bed LED
       level_template: >
-        {{ state_attr("light.bedroom_bed_led", "brightness")|int }}
+        {{ state_attr("light.bedroom_bed_led", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.bedroom_bed_led", "on") }}
       color_template: >
@@ -140,7 +140,7 @@
     ha_template_individual_bedroom_wardrobe:
       friendly_name: HA Template Individual Bedroom Wardrobe
       level_template: >
-        {{ state_attr("light.bedroom_wardrobe", "brightness")|int }}
+        {{ state_attr("light.bedroom_wardrobe", "brightness")|int(0) }}
       value_template: >
         {{ is_state("light.bedroom_wardrobe", "on") }}
       turn_on:
