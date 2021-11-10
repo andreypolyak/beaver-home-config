@@ -80,7 +80,8 @@ class Location(Base):
     ):
       return "district"
     elif (
-      not wifi_home
+      location in ["not_home", "district", "yard", "downstairs"]
+      and not wifi_home
       and not bt_home
       and ha_home
     ):
