@@ -7,16 +7,23 @@
 #
 Google Dark Theme:
   card-mod-theme: "Google Dark Theme"
-  card-mod-root: |
-    app-toolbar {
-      display: none !important;
-    }
-    paper-tabs {
-      display: none !important;
-    }
-    app-header {
-      display: none !important;
-    }
+  card-mod-root-yaml: |
+    "ha-app-layout":
+      $: |
+        #contentContainer {
+          padding-top: 0px !important;
+        }
+    .: |
+      app-toolbar {
+        height: 0;
+        display: none !important;
+      }
+      paper-tabs {
+        display: none !important;
+      }
+      app-header {
+        display: none !important;
+      }
   card-mod-card: |
     .type-markdown {
       background: none !important;
