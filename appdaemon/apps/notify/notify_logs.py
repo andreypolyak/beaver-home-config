@@ -2,26 +2,24 @@ from base import Base
 import html
 
 APPDAEMON_BLACKLIST = [
-  "not found in namespace storage",
+  "not found in namespace ",
   " has now completed",
   "initialize() skipped",
   "Invalid callback handle",
   "Found stale callback",
-  "Attempt to call Home Assistant while disconnected: call_plugin_service"
+  "Attempt to call Home Assistant while disconnected: call_plugin_service",
+  "Excessive time spent in utility loop"
 ]
 
 HA_BLACKLIST = [
+  "telegram",  # [homeassistant.components.telegram_bot], [telegram.vendor.ptb_urllib3.urllib3.connectionpool], [telegram.ext.updater]  # noqa: 501
   "We found a custom integration ",  # [homeassistant.loader]
   " is taking over 10 seconds.",  # [homeassistant.setup]
   "The bridge Home Assistant Bridge has entity ",  # [homeassistant.components.homekit]
-  "has no attribute ",  # [homeassistant.helpers.template] (zigbee2mqtt)
   "UnboundLocalError: local variable \\'controllers\\' referenced before assignment",  # [homeassistant] (sauresha)
   "Can't connect to ESPHome API",  # [homeassistant.components.esphome]
   "Error getting initial data for",  # [homeassistant.components.esphome]
   "Authentication required for Account. (421)",  # [pyicloud.base]
-  "Error sending message: Flood control exceeded.",  # [homeassistant.components.telegram_bot]
-  "Error sending message: Timed out.",  # [homeassistant.components.telegram_bot]
-  "NewConnectionError('<telegram.vendor.ptb_urllib3.urllib3.connection.VerifiedHTTPSConnection",  # [telegram.vendor.ptb_urllib3.urllib3.connectionpool]  # noqa: 501
   "BrokenPipeError: [Errno 32] Broken pipe",  # [aiohttp.server]
   "ConnectionResetError: Cannot write to closing transport",  # [homeassistant]
   "InvalidStateError: The object is in an invalid state.",  # [frontend.js.latest.********]
@@ -31,6 +29,12 @@ HA_BLACKLIST = [
   "Failed to to call /ingress/validate_session -",  # [homeassistant.components.hassio]
   "/ingress/validate_session return code 401",  # [homeassistant.components.hassio.handler]
   "seconds. Please create a bug report at",  # [homeassistant.helpers.entity]
+  "no longer valid (possible options: ",  # [homeassistant.components.input_select]
+  "Timeout on /addons/",  # [homeassistant.components.hassio.handler]
+  "Can't read Supervisor data: ",  # [homeassistant.components.hassio]
+  "Received invalid command",  # homeassistant.components.websocket_api.http.connection
+  "Timeout while contacting DNS servers",  # [homeassistant.components.dnsip.sensor]
+  "Client unable to keep up with pending messages. Stayed over 512 for 5 seconds",  # [homeassistant.components.websocket_api.http.connection]  # noqa: 501
 ]
 
 
