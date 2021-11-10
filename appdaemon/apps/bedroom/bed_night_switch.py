@@ -7,6 +7,7 @@ class BedNightSwitch(Base):
     super().initialize()
     self.listen_state(self.on_bedroom_switch_change, "sensor.bedroom_bed_night_switch")
     self.listen_event(self.on_virtual_switch, "bedroom_bed_virtual_switch_individual_toggle")
+    self.listen_event(self.on_night_mode_everywhere, "night_mode_everywhere")
 
 
   def on_bedroom_switch_change(self, entity, attribute, old, new, kwargs):
@@ -41,6 +42,10 @@ class BedNightSwitch(Base):
       self.turn_on_entity("light.group_bedroom_bed", brightness=3, transition=transition)
     else:
       self.turn_off_entity("light.group_bedroom_bed", transition=transition)
+
+
+  def on_night_mode_everywhere(self, event_name, data, kwargs):
+    self.turn_night_mode_everywhere()
 
 
   def turn_off_all_lights(self, kwargs):

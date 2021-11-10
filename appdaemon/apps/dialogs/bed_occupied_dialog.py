@@ -38,9 +38,11 @@ class BedOccupiedDialog(YandexDialog):
   def on_yandex_intent(self, event_name, data, kwargs):
     self.log(f"Intent: {data}, mode: {self.step}")
     if self.step == "initial":
-      self.step_night_mode(data)
+      self.step_initial(data)
+    elif self.step == "night_living_zone":
+      self.step_night_living_zone(data)
     elif self.step == "alarm_turn_on":
-      self.step_alarm_question(data)
+      self.step_alarm_turn_on(data)
     elif self.step == "alarm_time":
       self.step_alarm_time(data)
     elif self.step == "alarm_finish":
@@ -49,26 +51,37 @@ class BedOccupiedDialog(YandexDialog):
       self.cancel_dialog()
 
 
-  def step_night_mode(self, data):
-    text = "Вы хотите включить ночной режим?"
-    self.continue_dialog(text, "alarm_turn_on")
+  def step_initial(self, data):
+    text = "Вы хотите включить ночной режим в спальне?"
+    self.continue_dialog(text, "night_living_zone")
 
 
-  def step_alarm_question(self, data):
+  def step_night_living_zone(self, data):
     nlu = data["data"]["nlu"]
     if "YANDEX.CONFIRM" not in nlu["intents"]:
       self.cancel_dialog()
       return
     self.set_sleeping_scene("night")
+    text = "А в гостинной включить ночной режим?"
+    self.continue_dialog(text, "alarm_turn_on")
+
+
+  def step_alarm_turn_on(self, data):
+    nlu = data["data"]["nlu"]
+    text = ""
+    if "YANDEX.CONFIRM" in nlu["intents"]:
+      # todo
+      self.set_living_scene("night")
+      text += "Включаю ночной режим в гостинной! "
     alarms = self.alarms
     if len(alarms) == 0:
-      text = "Включаю ночной режим! Вы хотите установить будильник?"
+      text += "Вы хотите установить будильник?"
       self.continue_dialog(text, "alarm_time")
     elif len(alarms) == 1:
-      text = f"Включаю ночной режим! Будильник установлен на {alarms[0]}! Спокойной ночи!"
+      text += f"Будильник установлен на {alarms[0]}! Спокойной ночи!"
       self.finish_dialog(text)
     else:
-      text = f"Включаю ночной режим! Будильник установлен на {alarms[0]} и на {alarms[1]}! Спокойной ночи!"
+      text += f"Будильник установлен на {alarms[0]} и на {alarms[1]}! Спокойной ночи!"
       self.finish_dialog(text)
 
 
