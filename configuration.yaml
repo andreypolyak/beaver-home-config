@@ -1,7 +1,7 @@
 adaptive_lighting: !include configuration/adaptive_lighting.yaml
 api:
 automation: !include configuration/automation.yaml
-binary_sensor: !include configuration/binary_sensor.yaml
+binary_sensor: !include_dir_merge_list configuration/binary_sensor
 camera: !include configuration/camera.yaml
 config:
 cover: !include configuration/cover.yaml

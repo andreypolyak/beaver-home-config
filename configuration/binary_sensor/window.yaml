@@ -1,0 +1,21 @@
+- platform: mqtt
+  name: Kitchen Window Active
+  state_topic: kitchen_window/State
+  value_template: >
+    {% if value in ["INCREASING", "DECREASING"] %}
+      ON
+    {% else %}
+      OFF
+    {% endif %}
+  icon: mdi:window-closed-variant
+
+- platform: mqtt
+  name: Bedroom Window Active
+  state_topic: bedroom_window/State
+  value_template: >
+    {% if value in ["INCREASING", "DECREASING"] %}
+      ON
+    {% else %}
+      OFF
+    {% endif %}
+  icon: mdi:window-closed-variant
