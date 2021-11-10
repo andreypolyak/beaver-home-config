@@ -1,0 +1,124 @@
+path: settings_system
+title: System Settings
+icon: mdi:desktop-classic
+cards:
+  - type: vertical-stack
+    cards:
+      - !include /config/lovelace/elements/navigation/main.yaml
+      - !include /config/lovelace/elements/navigation/settings.yaml
+      - type: custom:button-card
+        template: header
+        name: Connectivity
+      - type: entities
+        entities:
+          - sensor.external_ip
+      - type: glance
+        entities:
+          - entity: binary_sensor.google_connectivity
+            name: Google
+          - entity: binary_sensor.cloudflare_connectivity
+            name: Cloudflare
+          - entity: binary_sensor.yandex_connectivity
+            name: Yandex
+          - entity: binary_sensor.internet_connectivity
+            name: Internet
+          - entity: binary_sensor.router_connectivity
+            name: Router
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - entity: binary_sensor.google_connectivity
+            name: Google
+          - entity: binary_sensor.cloudflare_connectivity
+            name: Cloudflare
+          - entity: binary_sensor.yandex_connectivity
+            name: Yandex
+          - entity: binary_sensor.internet_connectivity
+            name: Internet
+          - entity: binary_sensor.router_connectivity
+            name: Router
+      - type: custom:button-card
+        template: header
+        name: RPI Uptime
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: sensor.rpi_*_last_boot
+        sort:
+          method: entity_id
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: history-graph
+        filter:
+          include:
+            - entity_id: sensor.rpi_*_last_boot
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: RPI Connectivity
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: device_tracker.rpi*
+        sort:
+          method: entity_id
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: history-graph
+        filter:
+          include:
+            - entity_id: device_tracker.rpi*
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: ESP Uptime
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: sensor.*_uptime
+        sort:
+          method: entity_id
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: history-graph
+        filter:
+          include:
+            - entity_id: sensor.*_uptime
+        sort:
+          method: entity_id
+      - type: custom:button-card
+        template: header
+        name: ESP Connectivity
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: device_tracker.esp*
+        sort:
+          method: entity_id
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: history-graph
+        filter:
+          include:
+            - entity_id: device_tracker.esp*
+        sort:
+          method: entity_id
+      - !include /config/lovelace/elements/other/footer.yaml

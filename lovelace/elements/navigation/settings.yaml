@@ -45,6 +45,11 @@ cards:
     cards:
       - type: custom:button-card
         template: navigation
+        icon: mdi:desktop-classic
+        variables:
+          name: settings_system
+      - type: custom:button-card
+        template: navigation
         icon: mdi:crosshairs-gps
         variables:
           name: settings_trackers
@@ -53,11 +58,6 @@ cards:
         icon: mdi:washing-machine
         variables:
           name: settings_appliances
-      - type: custom:button-card
-        template: navigation
-        icon: mdi:robot-vacuum
-        variables:
-          name: settings_vacuum
       - type: custom:button-card
         template: navigation
         icon: mdi:thermometer

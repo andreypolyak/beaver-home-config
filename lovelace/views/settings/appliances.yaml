@@ -8,6 +8,47 @@ cards:
       - !include /config/lovelace/elements/navigation/settings.yaml
       - type: custom:button-card
         template: header
+        name: Vacuum
+      - !include /config/lovelace/elements/home/vacuum.yaml
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            template: vacuum_room
+            entity: input_select.vacuum_room_cleaning
+            icon: mdi:home
+            variables:
+              room: all
+          - type: custom:button-card
+            template: vacuum_room
+            entity: input_select.vacuum_room_cleaning
+            icon: mdi:paper-roll
+            variables:
+              room: bathroom_entrance
+          - type: custom:button-card
+            template: vacuum_room
+            entity: input_select.vacuum_room_cleaning
+            icon: mdi:noodles
+            variables:
+              room: kitchen
+          - type: custom:button-card
+            template: vacuum_room
+            entity: input_select.vacuum_room_cleaning
+            icon: mdi:television-classic
+            variables:
+              room: living_room
+          - type: custom:button-card
+            template: vacuum_room
+            entity: input_select.vacuum_room_cleaning
+            icon: mdi:bed
+            variables:
+              room: bedroom
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - input_select.vacuum_state
+          - vacuum.roborock
+      - type: custom:button-card
+        template: header
         name: Fridge
       - type: entities
         entities:
