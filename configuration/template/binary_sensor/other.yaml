@@ -16,6 +16,7 @@
         {{
           states("sensor.night_scene_in_living_zone_12_hours")|float(0) >= 6
           and states("sensor.night_scene_in_living_zone_1_hour")|float(0) >= 0.75
+          and now().hour >= 6
         }}
       availability: >
         {{
