@@ -34,13 +34,32 @@ class NotifyNewEntity(Base):
 
   def handle_new_entity(self, entity):
     new_entities = self.read_storage("new_entities", attribute="all")
-    if entity in new_entities or "persistent_notification." in entity:
+    if entity in new_entities or entity.startswith("persistent_notification."):
       return
     self.write_storage("new_entities", self.get_now_ts(), attribute=entity)
     self.update_group({})
-    self.new_entities.append(entity)
     self.cancel_handle(self.handle)
+    if entity.startswith("device_tracker."):
+      self.set_state(entity, state="")
+      self.check_device_tracker({"entity": entity, "i": 0})
+      return
+    self.new_entities.append(entity)
     self.handle = self.run_in(self.send_notification, 2)
+
+
+  def check_device_tracker(self, kwargs):
+    entity = kwargs["entity"]
+    i = kwargs["i"]
+    entity_state = self.get_state(entity, attribute="all")
+    entity_attributes = entity_state["attributes"]
+    if "source_type" in entity_attributes:
+      if entity_attributes["source_type"] == "router" and "is_wired" in entity_attributes:
+        self.fire_event("new_network_device", state=entity_state)
+      else:
+        self.new_entities.append(entity)
+        self.handle = self.run_in(self.send_notification, 2)
+    elif i < 20:
+      self.run_in(self.check_device_tracker, 1, entity=entity, i=i + 1)
 
 
   def update_group(self, kwargs):

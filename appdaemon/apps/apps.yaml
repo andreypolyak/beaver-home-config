@@ -503,6 +503,12 @@ notify_low_battery:
     - push
     - storage
 
+notify_network_device:
+  module: notify_network_device
+  class: NotifyNetworkDevice
+  global_dependencies: base
+  dependencies: push
+
 notify_new_entity:
   module: notify_new_entity
   class: NotifyNewEntity
