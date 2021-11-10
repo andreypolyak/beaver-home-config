@@ -10,6 +10,7 @@ class KitchenLights(RoomLights):
     self.delay = 240
     self.max_delay = 600
     self.min_delay = 30
+    self.covers = ["kitchen", "living_room"]
     self.sensors = [
       ("binary_sensor.kitchen_center_motion", "motion_sensor"),
       ("binary_sensor.kitchen_back_motion", "add_motion_sensor"),

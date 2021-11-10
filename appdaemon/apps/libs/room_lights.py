@@ -469,9 +469,11 @@ class RoomLights(Base):
 
   @property
   def cover_active(self):
-    entity = f"input_boolean.{self.room}_cover_active"
-    if self.entity_exists(entity) and self.entity_is_on(entity):
-      return True
+    if not hasattr(self, "covers"):
+      return False
+    for room in self.covers:
+      if self.entity_is_on(f"input_boolean.{room}_cover_active"):
+        return True
     return False
 
 

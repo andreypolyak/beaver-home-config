@@ -10,6 +10,7 @@ class BedroomLights(RoomLights):
     self.delay = 240
     self.max_delay = 600
     self.min_delay = 30
+    self.covers = ["bedroom"]
     self.sensors = [
       ("binary_sensor.bedroom_bed_motion", "motion_sensor"),
       ("binary_sensor.bedroom_table_motion", "table_motion_sensor"),
