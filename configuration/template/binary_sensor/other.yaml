@@ -34,3 +34,15 @@
         {{ states("sensor.entrance_door_bell_1_minute")|int(0) > 0 }}
       availability: >
         {{ is_number(states("sensor.entrance_door_bell_1_minute")) }}
+
+    - name: Internet Connectivity
+      state: >
+        {% if states("binary_sensor.google_connectivity") == "off"
+              and states("binary_sensor.cloudflare_connectivity") == "off"
+              and states("binary_sensor.yandex_connectivity") == "off"
+        %}
+          off
+        {% else %}
+          on
+        {% endif %}
+      device_class: connectivity
