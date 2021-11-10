@@ -1,3 +1,6 @@
+- platform: dnsip
+  name: External IP
+
 - platform: uptime
   name: uptime
 
