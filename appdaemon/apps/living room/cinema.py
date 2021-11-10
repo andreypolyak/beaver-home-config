@@ -13,6 +13,7 @@ class Cinema(Base):
       "auto_cinema_session_disabled": False
     }
     self.init_storage("cinema", "data", default)
+    self.handle = None
     self.listen_state(self.on_tv_turned_on, "binary_sensor.living_room_tv", new="on", old="off")
     self.listen_state(self.on_tv_turned_off, "binary_sensor.living_room_tv", new="off", old="on")
     self.listen_state(self.on_cinema_session_turned_off, "input_boolean.cinema_session", new="off", old="on")
@@ -58,10 +59,12 @@ class Cinema(Base):
       and universal_tv_source == "apple_tv"
     ):
       self.log(f"Turning light cinema scene because motion occured on {entity}")
+      self.cancel_handle(self.handle)
       self.turn_on_scene("light_cinema")
 
 
   def on_apple_tv_change(self, entity, attribute, old, new, kwargs):
+    self.cancel_handle(self.handle)
     apple_tv = self.get_state("media_player.living_room_apple_tv", attribute="all")
     dark_cinema_turned_on_ts = self.read_storage("data", attribute="dark_cinema_turned_on_ts")
     dark_cinema_turned_off_ts = self.read_storage("data", attribute="dark_cinema_turned_off_ts")
@@ -90,8 +93,7 @@ class Cinema(Base):
       and self.get_delta_ts(dark_cinema_turned_on_ts) > 5
       and universal_tv_source == "apple_tv"
     ):
-      self.log("Stopped watching, turn on light cinema scene")
-      self.turn_on_scene("light_cinema")
+      self.handle = self.run_in(self.turn_on_light_cinema, 5)
     elif (
       apple_tv["state"] == "playing"
       and "app_id" in apple_tv["attributes"] and "cncrt" in apple_tv["attributes"]["app_id"]
@@ -105,6 +107,11 @@ class Cinema(Base):
       self.write_storage("data", True, attribute="media_played_ever_in_session")
 
 
+  def turn_on_light_cinema(self, kwargs):
+      self.log("Stopped watching, turn on light cinema scene")
+      self.turn_on_scene("light_cinema")
+
+
   def on_tv_turned_on(self, entity, attribute, old, new, kwargs):
     if self.living_scene in ["dark_cinema", "party"]:
       return
@@ -112,6 +119,7 @@ class Cinema(Base):
 
 
   def on_tv_turned_off(self, entity, attribute, old, new, kwargs):
+    self.cancel_handle(self.handle)
     dark_cinema_turned_on_ts = self.read_storage("data", attribute="dark_cinema_turned_on_ts")
     self.turn_off_entity("input_boolean.cinema_session")
     self.write_storage("data", False, attribute="media_played_ever_in_session")
