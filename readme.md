@@ -180,7 +180,6 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 - [Duck DNS](https://github.com/home-assistant/hassio-addons/tree/master/duckdns) — get remote access to Home Assitant using dynamic DNS service
 - [ESPHome](https://esphome.io/) — build firmwares for ESP boards
 - [File editor](https://github.com/home-assistant/hassio-addons/tree/master/configurator) — edit configuration files on a mobile
-- [Glances](https://github.com/hassio-addons/addon-glances) — monitor system (rarely used)
 - [Grafana](https://github.com/hassio-addons/addon-grafana) — monitor entity states stored on InfluxDB and logs stored in Loki
 - [Home Assistant Google Drive Backup](https://github.com/sabeechen/hassio-google-drive-backup) — automatically backup Home Assistant configuration
 - [InfluxDB](https://github.com/hassio-addons/addon-influxdb) — long-term store entity states
