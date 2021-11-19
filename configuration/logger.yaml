@@ -1,6 +1,4 @@
 default: warning
 logs:
   homeassistant.components.shell_command: fatal
-filters:
-  homeassistant.components.mqtt.light.schema_json:
-    - Invalid color mode received
+  # custom_components.component_name_here: debug
