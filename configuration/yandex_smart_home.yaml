@@ -1,3 +1,8 @@
+notifier:
+  - oauth_token: !secret yandex_station_intents_oauth_token
+    skill_id: !secret yandex_station_intents_skill_id
+    user_id: !secret yandex_station_intents_user_id
+
 filter:
   include_entities:
     - light.ha_template_room_balcony
