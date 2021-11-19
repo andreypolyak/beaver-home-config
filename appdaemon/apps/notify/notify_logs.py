@@ -35,6 +35,11 @@ HA_BLACKLIST = [
   "Received invalid command",  # homeassistant.components.websocket_api.http.connection
   "Timeout while contacting DNS servers",  # [homeassistant.components.dnsip.sensor]
   "Client unable to keep up with pending messages. Stayed over 512 for 5 seconds",  # [homeassistant.components.websocket_api.http.connection]  # noqa: 501
+  "rebooted or lost network connectivity, reconnecting with ",  # [homeassistant.components.sonos.speaker]
+  "stats return code 500",  # [homeassistant.components.hassio.handler]
+  "Timeout for command: ",  # [homeassistant.components.command_line]
+  "PS4 could not be reached",  # [homeassistant.components.ps4.media_player]
+  ":0:0 Script error.",  # [frontend.js.latest.********]
 ]
 
 
