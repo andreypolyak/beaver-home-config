@@ -45,6 +45,10 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:button-card
+            template: network
+            name: Network
+            entity: binary_sensor.internet_connectivity
+          - type: custom:button-card
             template: numeric_label
             name: N/A
             entity: input_number.unavailable_entities

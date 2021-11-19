@@ -45,9 +45,9 @@ cards:
     cards:
       - type: custom:button-card
         template: navigation
-        icon: mdi:desktop-classic
+        icon: mdi:lan
         variables:
-          name: settings_system
+          name: settings_network
       - type: custom:button-card
         template: navigation
         icon: mdi:crosshairs-gps

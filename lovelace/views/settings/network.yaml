@@ -1,6 +1,6 @@
-path: settings_system
-title: System Settings
-icon: mdi:desktop-classic
+path: settings_network
+title: Network Settings
+icon: mdi:lan
 cards:
   - type: vertical-stack
     cards:

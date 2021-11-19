@@ -65,3 +65,25 @@ tv_remote_compact:
       - height: 48px
   variables:
     command: ""
+
+network:
+  template: base_label
+  color: auto
+  color_type: card
+  state:
+    - value: "off"
+      operator: "=="
+      color: var(--paper-item-icon-active-color)
+    - operator: default
+      color: var(--paper-card-background-color)
+  label: >
+    [[[
+      if (entity.state === "off")
+        return `<ha-icon icon="mdi:alert" style="width: 14px; height: 14px;"></ha-icon>`;
+      else
+        return `<ha-icon icon="mdi:checkbox-marked-circle-outline" style="width: 14px; height: 14px;"></ha-icon>`;
+    ]]]
+  tap_action:
+    action: navigate
+    navigation_path: /lovelace/settings_network
+    haptic: success

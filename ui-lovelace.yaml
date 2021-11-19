@@ -17,7 +17,7 @@ views:
   - !include /config/lovelace/views/settings/inputs.yaml
   - !include /config/lovelace/views/settings/timers.yaml
   - !include /config/lovelace/views/settings/batteries.yaml
-  - !include /config/lovelace/views/settings/system.yaml
+  - !include /config/lovelace/views/settings/network.yaml
   - !include /config/lovelace/views/settings/trackers.yaml
   - !include /config/lovelace/views/settings/appliances.yaml
   - !include /config/lovelace/views/settings/climate.yaml
@@ -25,4 +25,4 @@ views:
   - !include /config/lovelace/views/settings/consumption.yaml
   - !include /config/lovelace/views/settings/notifications.yaml
 
-# Updated at: 2021-11-09 21:58:34.145316+03:00
+# Updated at: 2021-11-19 16:01:22.482865+03:00

@@ -8,6 +8,7 @@
           and states("binary_sensor.zigbee2mqtt_bedroom_state") == "on"
           and states("binary_sensor.zigbee2mqtt_kitchen_state") == "on"
           and states("binary_sensor.zigbee2mqtt_living_room_state") == "on"
+          and states("binary_sensor.internet_connectivity") == "on"
         }}
       availability: >
         {{
