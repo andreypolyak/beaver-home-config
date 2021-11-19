@@ -5,7 +5,7 @@ class AlarmRequestedDialog(YandexDialog):
 
   def initialize(self):
     self.dialog_name = "alarm_requested"
-    self.activation_phrase = "Сделай громче на 0"
+    self.activation_phrase = "Будильник"
     self.dialog_init()
     self.listen_event(self.on_alarm_dialog, "alarm_dialog")
 

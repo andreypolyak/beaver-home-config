@@ -13,11 +13,11 @@ class YandexDialog(Base):
     self.set_inactive_dialog()
     self.room = None
     self.listen_event(self.on_yandex_intent, self.dialog_name)
-    self.listen_event(self.on_yandex_speaker_event, "yandex_speaker")
+    self.listen_event(self.on_yandex_intent_event, "yandex_intent")
 
 
-  def on_yandex_speaker_event(self, event_name, data, kwargs):
-    if "value" in data and data["value"] == self.activation_phrase:
+  def on_yandex_intent_event(self, event_name, data, kwargs):
+    if "text" in data and data["text"] == self.activation_phrase:
       room = data["entity_id"].replace("media_player.", "").replace("_yandex_station", "")
       self.start_dialog(room=room)
 

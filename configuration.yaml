@@ -59,5 +59,6 @@ weather: !include configuration/weather.yaml
 webhook:
 yandex_smart_home: !include configuration/yandex_smart_home.yaml
 yandex_station: !include configuration/yandex_station.yaml
+yandex_station_intents: !include configuration/yandex_station_intents.yaml
 zeroconf:
 zone: !include configuration/zone.yaml

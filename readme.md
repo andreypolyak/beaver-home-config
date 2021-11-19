@@ -171,6 +171,7 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 - [Yandex Dialogs](https://github.com/AlexxIT/YandexDialogs) — create conversation based scenarios for Yandex Stations
 - [Yandex Smart Home](https://github.com/dmitry-k/yandex_smart_home) — control Home Assistant from Yandex Stations
 - [Yandex.Station](https://github.com/AlexxIT/YandexStation) — control Yandex Stations from Home Assistant
+- [Yandex.Station Intents](https://github.com/dext0r/ha-yandex-station-intents) — setup intent scenarios on Yandex Stations
 - [Личный кабинет Интер РАО (Энергосбыт)](https://github.com/alryaz/hass-lkcomu-interrao) — send electricity stats to local energy supplier
 
 ### Add-ons
