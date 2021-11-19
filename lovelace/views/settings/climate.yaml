@@ -33,6 +33,13 @@ cards:
             positions:
               icon: off
           - type: custom:bar-card
+            entity: sensor.kitchen_plant_ivy_moisture
+            name: Kitchen Plant Ivy Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
             entity: sensor.living_room_plant_ficus_moisture
             name: Living Room Plant Ficus Moisture
             entity_row: true
@@ -49,6 +56,8 @@ cards:
             name: Kitchen Plant Sid Moisture
           - entity: sensor.kitchen_plant_sonic_moisture
             name: Kitchen Plant Sonic Moisture
+          - entity: sensor.kitchen_plant_ivy_moisture
+            name: Kitchen Plant Ivy Moisture
           - entity: sensor.living_room_plant_ficus_moisture
             name: Living Room Plant Ficus Moisture
       - type: custom:button-card
