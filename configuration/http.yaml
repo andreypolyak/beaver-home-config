@@ -5,4 +5,4 @@ trusted_proxies:
   - !secret http_trusted_proxies_3
   - !secret http_trusted_proxies_4
 ip_ban_enabled: true
-login_attempts_threshold: 3
+login_attempts_threshold: 10
