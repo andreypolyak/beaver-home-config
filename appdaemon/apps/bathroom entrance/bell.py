@@ -16,6 +16,7 @@ class Bell(Base):
       self.step = 0
     if new == "double" and self.step == 0 and len(self.get_person_names(location="downstairs")) > 0:
       self.log("Unlocking the door by being downstairs")
+      self.fire_event("bell_unlock")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")
       return
     if new not in ["single", "double", "hold"]:
@@ -39,6 +40,7 @@ class Bell(Base):
     self.log(f"Correct code. Step {self.step}")
     if self.step == len(code) - 1:
       self.log("Unlocking the door by code")
+      self.fire_event("bell_unlock")
       self.call_service("lock/unlock", entity_id="lock.entrance_lock")
       self.step = -1
     self.step += 1

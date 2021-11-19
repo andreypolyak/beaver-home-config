@@ -12,6 +12,7 @@ class Lock(Base):
     self.listen_state(self.on_door_open, "binary_sensor.entrance_door", new="on", old="off")
     self.listen_state(self.on_lock_unlock, "lock.entrance_lock", new="unlocked", old="locked")
     self.listen_state(self.on_lock_change, "lock.entrance_lock", attribute="all")
+    self.listen_event(self.on_bell_unlock, event="bell_unlock")
     self.listen_event(self.on_ios_unlock, event="ios.action_fired", actionName="LOCK_UNLOCK")
     self.listen_event(self.on_ios_unlock, event="mobile_app_notification_action", action="LOCK_UNLOCK")
     self.listen_event(self.on_ios_lock, event="mobile_app_notification_action", action="LOCK_LOCK")
@@ -41,6 +42,8 @@ class Lock(Base):
     for person_name in person_names:
       if person_name == self.unlocked_by:
         text = "🔓 Lock was unlocked"
+      elif self.unlocked_by == "bell_unlock":
+        text = "🔓 Lock was unlocked by door bell"
       else:
         text = f"🔓 Lock was unlocked by {self.unlocked_by.title()}"
       self.send_push(person_name, text, "lock", sound="Calypso.caf", actions=actions)
@@ -60,6 +63,11 @@ class Lock(Base):
     ]
     message = "🔓 Lock not fully closed!"
     self.send_push("home_or_all", message, "lock", critical=True, actions=actions)
+
+
+  def on_bell_unlock(self, event_name, data, kwargs):
+    self.unlocked_by = "bell_unlock"
+    self.unlocked_ts = self.get_now_ts()
 
 
   def on_ios_lock(self, event_name, data, kwargs):
