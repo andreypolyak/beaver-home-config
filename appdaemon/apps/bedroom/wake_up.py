@@ -42,6 +42,7 @@ class WakeUp(Base):
       and self.entity_is_off("binary_sensor.bedroom_theo_bed_occupancy")
       and not self.timer_running(self.handle)
       and self.sleeping_scene == "night"
+      and self.entity_is_on("binary_sensor.night_scene_enough")
     ):
       self.log(f"Living zone activity on {entity}, setting timer for wake process")
       self.handle = self.run_in(self.wake, 10)

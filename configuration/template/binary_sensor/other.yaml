@@ -14,14 +14,14 @@
     - name: Night Scene Enough
       state: >
         {{
-          states("sensor.night_scene_in_living_zone_12_hours")|float(0) >= 6
-          and states("sensor.night_scene_in_living_zone_1_hour")|float(0) >= 0.75
+          states("sensor.night_scene_12_hours")|float(0) >= 6
+          and states("sensor.night_scene_1_hour")|float(0) >= 0.75
           and now().hour >= 6
         }}
       availability: >
         {{
-          is_number(states("sensor.night_scene_in_living_zone_12_hours"))
-          and is_number(states("sensor.night_scene_in_living_zone_1_hour"))
+          is_number(states("sensor.night_scene_12_hours"))
+          and is_number(states("sensor.night_scene_1_hour"))
         }}
 
     - name: Kitchen Vent

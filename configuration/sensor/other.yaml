@@ -5,8 +5,8 @@
   name: uptime
 
 - platform: history_stats
-  name: Night Scene in Living Zone 12 Hours
-  entity_id: input_select.living_scene
+  name: Night Scene 12 Hours
+  entity_id: input_select.sleeping_scene
   state: night
   type: time
   duration:
@@ -14,8 +14,8 @@
   end: "{{ now() }}"
 
 - platform: history_stats
-  name: Night Scene in Living Zone 1 Hour
-  entity_id: input_select.living_scene
+  name: Night Scene 1 Hour
+  entity_id: input_select.sleeping_scene
   state: night
   type: time
   duration:
