@@ -1,6 +1,7 @@
 vacuum_clean_bedroom:
   alias: Vacuum Clean Bedroom
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -21,6 +22,7 @@ vacuum_clean_bedroom:
 vacuum_clean_kitchen:
   alias: Vacuum Clean Kitchen
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -41,6 +43,7 @@ vacuum_clean_kitchen:
 vacuum_clean_living_room:
   alias: Vacuum Clean Living Room
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -61,6 +64,7 @@ vacuum_clean_living_room:
 vacuum_clean_bathroom_entrance:
   alias: Vacuum Clean Bathroom Entrance
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -81,6 +85,7 @@ vacuum_clean_bathroom_entrance:
 vacuum_clean_bathroom:
   alias: Vacuum Clean Bathroom
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -101,6 +106,7 @@ vacuum_clean_bathroom:
 vacuum_clean_entrance:
   alias: Vacuum Clean Entrance
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -121,6 +127,7 @@ vacuum_clean_entrance:
 vacuum_clean_all:
   alias: Vacuum Clean All
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -141,6 +148,7 @@ vacuum_clean_all:
 vacuum_stop:
   alias: Vacuum Stop
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: input_select.select_option
       data:
@@ -157,6 +165,7 @@ vacuum_stop:
 vacuum_go_to_bin:
   alias: Vacuum Go To Bin
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: script.turn_on
       data:
@@ -172,6 +181,7 @@ vacuum_go_to_bin:
 vacuum_go_home:
   alias: Vacuum Go Home
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: script.turn_on
       data:
@@ -184,6 +194,7 @@ vacuum_go_home:
 vacuum_start:
   alias: Vacuum Start
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - service: script.turn_on
       data:
@@ -196,6 +207,7 @@ vacuum_start:
 vacuum_stop_if_cleaning:
   alias: Vacuum Stop If Cleaning
   icon: mdi:robot-vacuum
+  mode: queued
   sequence:
     - condition: state
       entity_id: vacuum.roborock

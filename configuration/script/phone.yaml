@@ -1,6 +1,7 @@
 find_iphone_andrey:
   alias: Find iPhone Andrey
   icon: mdi:cellphone-marker
+  mode: restart
   sequence:
     - service: icloud.play_sound
       data:
@@ -10,6 +11,7 @@ find_iphone_andrey:
 find_iphone_katya:
   alias: Find iPhone Katya
   icon: mdi:cellphone-marker
+  mode: restart
   sequence:
     - service: icloud.play_sound
       data:

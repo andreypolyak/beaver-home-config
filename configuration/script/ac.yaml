@@ -1,6 +1,7 @@
 ac_turn_on:
   alias: AC Turn On
   icon: mdi:air-conditioner
+  mode: restart
   sequence:
     - service: switch.turn_on
       data:
@@ -9,6 +10,7 @@ ac_turn_on:
 ac_turn_off:
   alias: AC Turn Off
   icon: mdi:air-conditioner
+  mode: restart
   sequence:
     - service: switch.turn_on
       data:

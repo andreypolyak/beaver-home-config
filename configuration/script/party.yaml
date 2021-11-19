@@ -1,6 +1,7 @@
 party_lights:
   alias: Party Lights
   icon: mdi:party-popper
+  mode: queued
   sequence:
     - repeat:
         while:
@@ -22,6 +23,7 @@ party_lights:
 set_random_light_color:
   alias: Set Random Colors
   icon: mdi:party-popper
+  mode: queued
   sequence:
     - condition: state
       entity_id: input_boolean.party_lights

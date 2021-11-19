@@ -3,6 +3,7 @@
 apple_tv_repeat:
   alias: Apple TV Repeat
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: remote.send_command
       data:
@@ -14,6 +15,7 @@ apple_tv_repeat:
 playstation_4_turn_on:
   alias: Playstation 4 Turn On
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: media_player.turn_on
       data:
@@ -24,6 +26,7 @@ playstation_4_turn_on:
 tv_turn_on:
   alias: TV Turn On
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: remote.send_command
       data:
@@ -39,6 +42,7 @@ tv_turn_on:
 tv_turn_off:
   alias: TV Turn Off
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: media_player.turn_off
       data:
@@ -55,6 +59,7 @@ tv_turn_off:
 tv_restart:
   alias: TV Restart
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: switch.turn_off
       data:
@@ -67,6 +72,7 @@ tv_restart:
 tv_source_playstation_4:
   alias: TV Source Playstation 4
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: switch.turn_on
       data:
@@ -96,6 +102,7 @@ tv_source_playstation_4:
 tv_source_apple_tv:
   alias: TV Source Apple TV
   icon: mdi:music-circle-outline
+  mode: queued
   sequence:
     - service: switch.turn_on
       data:
@@ -127,6 +134,7 @@ tv_source_apple_tv:
 yandex_play_media:
   alias: Yandex Play Media
   icon: mdi:music-circle-outline
+  mode: queued
   fields:
     media_entity_id:
       description: media_entity_id

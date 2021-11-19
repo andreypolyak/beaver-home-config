@@ -1,6 +1,7 @@
 restart_ui:
   alias: Restart UI
   icon: mdi:restart
+  mode: restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -15,6 +16,7 @@ restart_ui:
 restart_ad:
   alias: Restart AppDaemon
   icon: mdi:restart
+  mode: restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -26,6 +28,7 @@ restart_ad:
 restart_ha:
   alias: Restart Home Assistant
   icon: mdi:restart
+  mode: restart
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -35,6 +38,7 @@ restart_ha:
 restart_os:
   alias: Restart Home Assistant OS
   icon: mdi:restart
+  mode: restart
   sequence:
     - service: input_boolean.turn_off
       data:

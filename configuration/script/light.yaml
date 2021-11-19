@@ -1,6 +1,7 @@
 update_light_state:
   alias: Update Light State
   icon: mdi:lightbulb
+  mode: restart
   sequence:
     - service: mqtt.publish
       data:
