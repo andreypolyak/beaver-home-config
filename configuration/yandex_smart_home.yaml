@@ -51,6 +51,7 @@ filter:
     - sensor.balcony_temperature
     - cover.kitchen_cover
     - switch.bathroom_freshener
+    - script.snapshot_send
 
 entity_config:
   light.ha_template_room_balcony:
@@ -265,3 +266,7 @@ entity_config:
   switch.bathroom_freshener:
     room: Ванная
     name: Ароматизатор
+
+  script.snapshot_send:
+    room: Гостинная
+    name: Фото

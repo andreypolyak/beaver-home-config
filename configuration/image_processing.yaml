@@ -1,0 +1,12 @@
+- platform: doods
+  url: http://192.168.1.178:8080
+  detector: default
+  confidence: 49
+  source:
+    - entity_id: camera.living_room_camera
+  # file_out:
+  #   - "/config/www/doods/photo_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+  labels:
+    - name: person
+      area:
+        top: 0.18

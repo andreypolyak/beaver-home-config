@@ -47,3 +47,20 @@
           on
         {% endif %}
       device_class: connectivity
+
+    - name: Person Inside Living Room
+      state: >
+        {% set last_changed = as_timestamp(states.image_processing.doods_living_room_camera.last_changed) %}
+        {% set change_delta = as_timestamp(now()) - last_changed %}
+        {{ not (is_state("image_processing.doods_living_room_camera", "0") and change_delta > 30) }}
+      device_class: occupancy
+
+    - name: Person Inside Bedroom
+      state: >
+        {{ is_state("input_boolean.person_inside_bedroom", "on") }}
+      device_class: occupancy
+
+    - name: Person Inside Bathroom Entrance
+      state: >
+        {{ is_state("input_boolean.person_inside_bathroom_entrance", "on") }}
+      device_class: occupancy

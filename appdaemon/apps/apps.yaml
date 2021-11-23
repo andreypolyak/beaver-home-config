@@ -391,6 +391,11 @@ balcony_lights:
     - room_lights
   dependencies: storage
 
+camera:
+  module: camera
+  class: Camera
+  global_dependencies: base
+
 cinema:
   module: cinema
   class: Cinema

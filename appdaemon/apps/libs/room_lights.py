@@ -479,7 +479,7 @@ class RoomLights(Base):
 
   @property
   def person_inside(self):
-    entity = f"input_boolean.person_inside_{self.room}"
+    entity = f"binary_sensor.person_inside_{self.room}"
     if self.entity_exists(entity) and self.entity_is_on(entity):
       return True
     return False

@@ -21,8 +21,9 @@ cards:
         - !include /config/lovelace/elements/bathroom_entrance/lock.yaml
         - type: custom:button-card
           template: header
-          name: Camera
+          name: Cameras
         - !include /config/lovelace/elements/bathroom_entrance/camera.yaml
+        - !include /config/lovelace/elements/living_room/camera.yaml
   - type: conditional
     conditions:
       - entity: binary_sensor.show_alarm_card

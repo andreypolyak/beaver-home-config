@@ -83,7 +83,8 @@ Lights are mostly automated (motion sensors and scenes, see below), so people ra
 - Sony PlayStation 4
 - Sonos Beam, Sonos Sub, 2x Sonos One, 2x Ikea Symfonisk bookshelf speakers, 2x Ikea Symfonisk table lamp speakers, Sonos Move — multiroom audio all over the place
 - 2x Yandex Station Mini — voice assistant which supports the Russian language
-- KDM XM200-8GH — peephole camera. [Homekit](https://www.home-assistant.io/integrations/homekit/) integration is used to send video from camera to Apple TV
+- KDM XM200-8GH — peephole camera. [Homekit](https://www.home-assistant.io/integrations/homekit/) integration is used to send video from camera to Apple TV when someone rings the bell
+- Reolink E1 Zoom — IP camera with PTZ control. Used together with [DOODS](https://github.com/snowzach/hassio-addons/tree/master/doods) add-on to detect presense of persons in living room
 
 ### Remotes
 
@@ -167,7 +168,8 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 - [Favicon changer](https://github.com/thomasloven/hass-favicon) — change Home Assistant favicon
 - [HACS](https://github.com/hacs/integration) — install custom integrations and cards
 - [Integration Saures controllers with HA](https://github.com/volshebniks/sauresha) — get consumption data from [Saures](https://www.saures.ru) cloud
-- [WebRTC Camera](https://github.com/AlexxIT/WebRTC) — view camera stream almost in real-time from Lovelace
+- [Reolink IP camera](https://github.com/fwestenberg/reolink_dev) — use and control Reolink E1 Zoom camera
+- [WebRTC Camera](https://github.com/AlexxIT/WebRTC) — view camera stream almost in real-time manner from Lovelace
 - [Yandex Dialogs](https://github.com/AlexxIT/YandexDialogs) — create conversation based scenarios for Yandex Stations
 - [Yandex Smart Home](https://github.com/dmitry-k/yandex_smart_home) — control Home Assistant from Yandex Stations
 - [Yandex.Station](https://github.com/AlexxIT/YandexStation) — control Yandex Stations from Home Assistant
@@ -178,6 +180,7 @@ I'm using slightly modified [Google Dark Theme](https://github.com/JuanMTech/goo
 
 - [AdGuard Home](https://github.com/hassio-addons/addon-adguard-home) — run local DNS server to block ads and trackers
 - [AppDaemon 4](https://github.com/hassio-addons/addon-appdaemon) — run Python powered automations
+- [DOODS](https://github.com/snowzach/hassio-addons/tree/master/doods) — detect persons from camera streams
 - [Duck DNS](https://github.com/home-assistant/hassio-addons/tree/master/duckdns) — get remote access to Home Assitant using dynamic DNS service
 - [ESPHome](https://esphome.io/) — build firmwares for ESP boards
 - [File editor](https://github.com/home-assistant/hassio-addons/tree/master/configurator) — edit configuration files on a mobile

@@ -25,4 +25,8 @@ cards:
         template: header
         name: Speakers
       - !include /config/lovelace/elements/living_room/sonos.yaml
+      - type: custom:button-card
+        template: header
+        name: Camera
+      - !include /config/lovelace/elements/living_room/camera.yaml
       - !include /config/lovelace/elements/other/footer.yaml

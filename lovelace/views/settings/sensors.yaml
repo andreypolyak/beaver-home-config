@@ -36,6 +36,18 @@ cards:
           method: entity_id
       - type: custom:button-card
         template: header
+        name: Person Inside Sensors
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+        filter:
+          include:
+            - entity_id: binary_sensor.person_inside_*
+              options:
+                secondary_info: last-changed
+      - type: custom:button-card
+        template: header
         name: Occupancy Sensors
       - type: custom:auto-entities
         show_empty: false

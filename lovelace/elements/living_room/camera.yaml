@@ -1,0 +1,2 @@
+type: custom:webrtc-camera
+entity: camera.living_room_camera

@@ -154,3 +154,24 @@ yandex_play_media:
           {{ media_content_id }}
         media_content_type: >
           {{ media_content_type }}
+
+# Camera
+
+snapshot_send:
+  alias: Snapshot Send
+  icon: mdi:camera
+  mode: queued
+  sequence:
+    - service: camera.snapshot
+      data:
+        entity_id: camera.living_room_camera
+        filename: www/snapshot.jpg
+    - service: notify.beaver_stream
+      data:
+        message: ""
+        data:
+          photo:
+            - file: /config/www/snapshot.jpg
+    - service: custom_event.fire
+      data:
+        event_type: delete_snapshot

@@ -15,6 +15,7 @@ class LivingRoomLights(RoomLights):
       ("binary_sensor.living_room_front_motion", "add_motion_sensor"),
       ("binary_sensor.living_room_back_motion", "add_motion_sensor"),
       ("binary_sensor.living_room_center_motion", "motion_sensor"),
+      ("binary_sensor.living_room_camera_motion", "motion_sensor"),
       ("binary_sensor.kitchen_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "door_sensor"),
@@ -174,6 +175,8 @@ class LivingRoomLights(RoomLights):
     living_scene = self.living_scene
     if living_scene in ["dumb", "light_cinema", "dark_cinema", "party"]:
       return f"{living_scene}_scene"
+    if self.person_inside:
+      return "person_inside"
     if self.lock_lights:
       return "lock_lights_on"
     return None
