@@ -40,6 +40,10 @@ HA_BLACKLIST = [
   "Timeout for command: ",  # [homeassistant.components.command_line]
   "PS4 could not be reached",  # [homeassistant.components.ps4.media_player]
   ":0:0 Script error.",  # [frontend.js.latest.********]
+  "custom_components.yandex_smart_home.notifier",  # [custom_components.yandex_smart_home.notifier]
+  "Received message for unregistered webhook",  # [homeassistant.components.webhook]
+  "Subscription process ended with wrong HTTP status: 400: Bad Request",  # [reolink.subscription_manager]
+  "error renewing the Reolink subscription",  # [custom_components.reolink_dev.base]
 ]
 
 
