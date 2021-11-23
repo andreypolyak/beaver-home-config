@@ -183,3 +183,9 @@ electricity_stats_last_push:
   has_date: true
   has_time: true
   icon: mdi:clock-outline
+
+interent_connectivity_last_push:
+  name: Internet Connectivity Last Push
+  has_date: true
+  has_time: true
+  icon: mdi:clock-outline

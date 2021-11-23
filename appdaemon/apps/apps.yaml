@@ -495,6 +495,12 @@ notify_hacs_update:
     - push
     - storage
 
+notify_internet_connectivity:
+  module: notify_internet_connectivity
+  class: NotifyInternetConnectivity
+  global_dependencies: base
+  dependencies: push
+
 notify_low_battery:
   module: notify_low_battery
   class: NotifyLowBattery

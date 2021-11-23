@@ -121,3 +121,7 @@ forecast_mute_push:
 electricity_stats_mute_push:
   name: Electricity Stats Mute Push
   icon: mdi:bell-off
+
+interent_connectivity_mute_push:
+  name: Internet Connectivity Mute Push
+  icon: mdi:bell-off
