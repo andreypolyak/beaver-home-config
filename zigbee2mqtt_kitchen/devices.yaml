@@ -1,71 +1,133 @@
 '0x000d6f0010dd0345':
   friendly_name: Kitchen Vent Plug
+  availability:
+    timeout: 5
 '0x000d6f0013664b0c':
   friendly_name: Kitchen Cooler Plug
+  availability:
+    timeout: 5
 '0x000d6f0013184434':
   friendly_name: Kitchen Coffee Plug
+  availability:
+    timeout: 5
 '0x842e14fffefebb61':
   friendly_name: Kitchen Top 3
+  color_sync: false
+  availability:
+    timeout: 5
 '0x842e14fffea336d5':
   friendly_name: Kitchen Top 1
+  color_sync: false
+  availability:
+    timeout: 5
 '0x842e14fffefc8ecf':
   friendly_name: Kitchen Top 2
+  color_sync: false
+  availability:
+    timeout: 5
 '0x842e14fffe5b928a':
   friendly_name: Kitchen Table
+  color_sync: false
+  availability:
+    timeout: 5
 '0x00158d0006af76ac':
   friendly_name: Kitchen Chair 2 Occupancy
+  availability:
+    timeout: 120
 '0x00158d0006726399':
   friendly_name: Kitchen Chair 1 Occupancy
+  availability:
+    timeout: 120
 '0x00158d000466004f':
   friendly_name: Kitchen Temperature
+  availability:
+    timeout: 120
 '0x00158d000421cd77':
   friendly_name: Kitchen Back Motion
   occupancy_timeout: 1
+  availability:
+    timeout: 120
 '0x00158d00042cbe22':
   friendly_name: Kitchen Coffee Door
   retain: true
+  availability:
+    timeout: 120
 '0x00158d0004850370':
   friendly_name: Kitchen Fridge Temperature
+  availability:
+    timeout: 120
 '0x00158d00045cc45b':
   friendly_name: Kitchen Freezer Door
   retain: true
+  availability:
+    timeout: 120
 '0x00158d00048502d0':
   friendly_name: Kitchen Freezer Temperature
+  availability:
+    timeout: 120
 '0x5c0272fffe856aaf':
   friendly_name: Kitchen Music Switch
   legacy: false
+  availability:
+    timeout: 1500
 '0x680ae2fffef2d251':
   friendly_name: Kitchen Cover Switch
   legacy: false
+  availability:
+    timeout: 1500
 '0x14b457fffec66576':
   friendly_name: Kitchen Backup Switch
   debounce: 0.2
   debounce_ignore:
     - action
   legacy: false
+  availability:
+    timeout: 1500
 '0x680ae2fffe80bf07':
   friendly_name: Kitchen Cover
+  availability:
+    timeout: 1500
 '0x00158d0005cf13ee':
   friendly_name: Kitchen Sink Leak
+  availability:
+    timeout: 120
 '0x00158d0006d39420':
   friendly_name: Kitchen Input Leak
+  availability:
+    timeout: 120
 '0x00124b002260a033':
   friendly_name: Kitchen Plant Sid
+  availability:
+    timeout: 120
 '0x00124b002241f609':
   friendly_name: Kitchen Plant Sonic
+  availability:
+    timeout: 120
 '0x0004740000aef390':
   friendly_name: Living Room Switch
   legacy: false
+  availability: false
 '0x0004740000aef40d':
   friendly_name: Kitchen Switch
   legacy: false
+  availability: false
 '0x0004740000aca96e':
   friendly_name: Bedroom Switch
   legacy: false
+  availability: false
 '0x0004740000aef384':
   friendly_name: Bedroom Theo Switch
   legacy: false
+  availability: false
 '0x54ef4410002682a2':
   friendly_name: Kitchen Center Motion
+  availability:
+    timeout: 120
 '0x00124b002241f443':
   friendly_name: Kitchen Plant Ivy
+  availability:
+    timeout: 120
+'0x00124b002241d57a':
+  friendly_name: Kitchen Plant Fern
+'0x00124b002241f589':
+  friendly_name: Kitchen Plant Red

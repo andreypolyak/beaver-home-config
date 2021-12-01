@@ -1,82 +1,163 @@
 '0x00124b001ed155c9':
   friendly_name: Living Room CO2
   retain: true
+  availability:
+    timeout: 5
 '0xccccccfffec378ad':
   friendly_name: Storage Room 1
+  availability:
+    timeout: 5
 '0x14b457fffe372c4e':
   friendly_name: Storage Room 2
+  availability:
+    timeout: 5
 '0x000d6f0010dd0345':
   friendly_name: Kitchen Vent Plug
+  availability:
+    timeout: 5
 '0xccccccfffe363e1d':
   friendly_name: Balcony Window
+  color_sync: false
+  availability:
+    timeout: 5
 '0x000d6f0013679a4e':
   friendly_name: Balcony LED Plug
+  availability:
+    timeout: 5
 '0x000d6f0010dd0c84':
   friendly_name: Living Room TV Plug
   retain: true
+  availability:
+    timeout: 5
 '0x00158d00040c6454':
   friendly_name: Living Room Cover
+  availability:
+    timeout: 120
 '0x000d6f0013663a33':
   friendly_name: Living Room Party Plug
+  availability:
+    timeout: 5
 '0x000d6f001363956e':
   friendly_name: Living Room Party Laser Plug
+  availability:
+    timeout: 5
 '0x00158d0005413bde':
   friendly_name: Living Room Back Motion
   occupancy_timeout: 1
+  availability:
+    timeout: 120
 '0x00158d00044b6dee':
   friendly_name: Living Room Balcony Door
   retain: true
+  availability:
+    timeout: 120
 '0x00158d00049ff878':
   friendly_name: Living Room AC Door
   retain: true
+  availability:
+    timeout: 120
 '0x00158d00041d5dad':
   friendly_name: Storage Room Door
   retain: true
+  availability:
+    timeout: 120
 '0x00158d0004202970':
   friendly_name: Living Room Front Motion
   occupancy_timeout: 1
+  availability:
+    timeout: 120
 '0x00158d0004605125':
   friendly_name: Balcony Temperature
   retain: true
+  availability:
+    timeout: 120
 '0x00158d00045c2aa6':
   friendly_name: Living Room Temperature
   retain: true
+  availability:
+    timeout: 120
 '0xec1bbdfffe2421b5':
   friendly_name: Living Room Backup Switch
   debounce: 0.2
   debounce_ignore:
     - action
   legacy: false
+  availability:
+    timeout: 1500
 '0x000d6ffffe9a89f6':
   friendly_name: Living Room Cover Switch
   legacy: false
+  availability:
+    timeout: 1500
 '0xec1bbdfffe9e6598':
   friendly_name: Living Room Speaker 2
+  color_sync: false
+  availability:
+    timeout: 5
 '0x680ae2fffe47e6d0':
   friendly_name: Living Room Speaker 1
+  color_sync: false
+  availability:
+    timeout: 5
 '0xec1bbdfffe3bd4cc':
   friendly_name: Living Room Sofa
+  color_sync: false
+  availability:
+    timeout: 5
 '0x842e14fffe587bc2':
   friendly_name: Living Room Top 4
+  color_sync: false
+  availability:
+    timeout: 5
 '0xccccccfffe9cde46':
   friendly_name: Living Room Top 1
+  color_sync: false
+  availability:
+    timeout: 5
 '0x842e14fffe77310f':
   friendly_name: Living Room Top 3
+  color_sync: false
+  availability:
+    timeout: 5
 '0xccccccfffe9fe76f':
   friendly_name: Living Room Top 2
+  color_sync: false
+  availability:
+    timeout: 5
 '0x00124b002260a037':
   friendly_name: Living Room Plant Ficus
+  availability:
+    timeout: 120
 '0x84fd27fffec35e3d':
   friendly_name: Living Room Sofa LED
+  color_sync: false
+  availability:
+    timeout: 5
 '0x00158d0006ba65d9':
   friendly_name: Living Room Cover Open Door
   debounce: 1
   retain: true
+  availability:
+    timeout: 120
 '0x00158d0006ba6332':
   friendly_name: Living Room Cover Closed Door
   debounce: 1
   retain: true
+  availability:
+    timeout: 120
 '0x04cf8cdf3c8a85e8':
   friendly_name: Living Room Center Motion
+  availability:
+    timeout: 120
 '0x04cf8cdf3c787700':
   friendly_name: Balcony Illuminance
+  availability:
+    timeout: 120
+'0x00124b002241d8d0':
+  friendly_name: Living Room Plant Baby
+  availability:
+    timeout: 120
+'0x00124b002241f42c':
+  friendly_name: Living Room Plant Tropic
+  availability:
+    timeout: 120
