@@ -36,7 +36,7 @@ class RoomWindow(Base):
     else:
       position = int(position)
     self.set_position(position, "lovelace")
-    self.timer_start(f"window_{self.room}_freeze", 1200)
+    self.timer_start(f"window_{self.room}_freeze", 3600)
 
 
   def on_scene_change(self, entity, attribute, old, new, kwargs):
@@ -45,6 +45,7 @@ class RoomWindow(Base):
 
   def on_light_off(self, entity, attribute, old, new, kwargs):
     self.debounce({"ignore_debounce": True})
+    self.timer_cancel(f"window_{self.room}_freeze")
 
 
   def on_action_event(self, entity, attribute, old, new, kwargs):
