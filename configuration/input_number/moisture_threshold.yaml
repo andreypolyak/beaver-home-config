@@ -1,0 +1,71 @@
+entrance_plant_stonehenge_moisture_threshold:
+  name: Entrance Plant Stonehenge Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+kitchen_plant_sid_moisture_threshold:
+  name: Kitchen Plant Sid Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+kitchen_plant_sonic_moisture_threshold:
+  name: Kitchen Plant Sonic Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+kitchen_plant_ivy_moisture_threshold:
+  name: Kitchen Plant Ivy Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+kitchen_plant_fern_moisture_threshold:
+  name: Kitchen Plant Fern Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+kitchen_plant_red_moisture_threshold:
+  name: Kitchen Plant Red Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+living_room_plant_ficus_moisture_threshold:
+  name: Living Room Plant Ficus Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+living_room_plant_baby_moisture_threshold:
+  name: Living Room Plant Baby Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower
+
+living_room_plant_tropic_moisture_threshold:
+  name: Living Room Plant Tropic Moisture Threshold
+  min: 0
+  max: 100
+  step: 1
+  mode: slider
+  icon: mdi:flower

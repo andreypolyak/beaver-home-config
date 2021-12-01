@@ -40,8 +40,36 @@ cards:
             positions:
               icon: off
           - type: custom:bar-card
+            entity: sensor.kitchen_plant_fern_moisture
+            name: Kitchen Plant Fern Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.kitchen_plant_red_moisture
+            name: Kitchen Plant Red Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
             entity: sensor.living_room_plant_ficus_moisture
             name: Living Room Plant Ficus Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.living_room_plant_baby_moisture
+            name: Living Room Plant Baby Moisture
+            entity_row: true
+            color: var(--primary-color)
+            positions:
+              icon: off
+          - type: custom:bar-card
+            entity: sensor.living_room_plant_tropic_moisture
+            name: Living Room Plant Tropic Moisture
             entity_row: true
             color: var(--primary-color)
             positions:
@@ -58,8 +86,27 @@ cards:
             name: Kitchen Plant Sonic Moisture
           - entity: sensor.kitchen_plant_ivy_moisture
             name: Kitchen Plant Ivy Moisture
+          - entity: sensor.kitchen_plant_fern_moisture
+            name: Kitchen Plant Fern Moisture
+          - entity: sensor.kitchen_plant_red_moisture
+            name: Kitchen Plant Red Moisture
           - entity: sensor.living_room_plant_ficus_moisture
             name: Living Room Plant Ficus Moisture
+          - entity: sensor.living_room_plant_baby_moisture
+            name: Living Room Plant Baby Moisture
+          - entity: sensor.living_room_plant_tropic_moisture
+            name: Living Room Plant Tropic Moisture
+      - type: entities
+        entities:
+          - input_number.entrance_plant_stonehenge_moisture_threshold
+          - input_number.kitchen_plant_sid_moisture_threshold
+          - input_number.kitchen_plant_sonic_moisture_threshold
+          - input_number.kitchen_plant_ivy_moisture_threshold
+          - input_number.kitchen_plant_fern_moisture_threshold
+          - input_number.kitchen_plant_red_moisture_threshold
+          - input_number.living_room_plant_ficus_moisture_threshold
+          - input_number.living_room_plant_baby_moisture_threshold
+          - input_number.living_room_plant_tropic_moisture_threshold
       - type: custom:button-card
         template: header
         name: CO2
