@@ -15,7 +15,6 @@ class LivingRoomLights(RoomLights):
       ("binary_sensor.living_room_front_motion", "add_motion_sensor"),
       ("binary_sensor.living_room_back_motion", "add_motion_sensor"),
       ("binary_sensor.living_room_center_motion", "motion_sensor"),
-      ("binary_sensor.living_room_camera_motion", "motion_sensor"),
       ("binary_sensor.kitchen_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_center_motion", "motion_sensor"),
       ("binary_sensor.entrance_door", "door_sensor"),
